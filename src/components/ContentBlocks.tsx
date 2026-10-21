@@ -1,7 +1,7 @@
 import { ArrowUpRight, Check } from 'lucide-react';
 import Photo from './Photo';
 import BrandStats from './BrandStats';
-
+import StandardsShowcase from './StandardsShowcase';
 import {
   ADVANTAGES,
   COPY,
@@ -122,62 +122,24 @@ export function QuoteBand({ index }: { index: number }) {
   );
 }
 
+
+/**
+ * WHY CLIENTS STAY WITH FIRSTNOTCH
+ *
+ * Premium Multiplier-inspired 2x2 feature cards.
+ *
+ * All original marketing content comes from:
+ * src/components/content.tsx -> STANDARDS
+ *
+ * Animations and visual components are implemented in:
+ * src/components/StandardsShowcase.tsx
+ *
+ * Other ContentBlocks components remain unchanged.
+ */
 export function Standards() {
-  return (
-    <section
-      id="standards"
-      aria-labelledby="fns-standards-title"
-      className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-14 lg:py-32"
-    >
-      <div className="mx-auto max-w-[1424px]">
-        <h2
-          id="fns-standards-title"
-          className="mb-12 max-w-[900px] text-[clamp(2.5rem,4.8vw,4.5rem)] font-semibold leading-[1.1] tracking-[-0.055em]"
-        >
-          <ScrollWords text={COPY.standardsTitle} />
-        </h2>
-
-        <div
-          data-fns-bento-grid
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {STANDARDS.map(([title, body]) => (
-            <article
-              key={title}
-              data-fns-bento
-              className="rounded-3xl border border-black/10 bg-[#17191C] text-white"
-            >
-              <div
-                data-fns-card
-                className="relative h-full overflow-hidden rounded-3xl p-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] [--x:50%] [--y:50%]"
-              >
-                <div
-                  data-fns-spotlight
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 opacity-0 [background:radial-gradient(400px_circle_at_var(--x)_var(--y),rgba(177,32,37,.35),transparent_70%)]"
-                />
-
-                <Check
-                  aria-hidden="true"
-                  size={23}
-                  className="relative mb-10 text-white/70"
-                />
-
-                <h3 className="relative text-xl font-medium tracking-tight">
-                  {title}
-                </h3>
-
-                <p className="relative mt-4 text-xs font-light leading-6 text-white/65">
-                  {body}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <StandardsShowcase />;
 }
+
 
 export function Hiring() {
   return (

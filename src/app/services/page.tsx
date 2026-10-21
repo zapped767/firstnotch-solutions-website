@@ -1,7 +1,7 @@
 
 import type { Metadata } from 'next';
 
-import ServicesExperience from '@/components/firstnotch/services/ServicesExperience';
+import ServicesExperience from '@/components/services/ServicesExperience';
 
 export const metadata: Metadata = {
   title:
