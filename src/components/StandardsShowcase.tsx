@@ -423,13 +423,7 @@ function QualityPreview() {
         </div>
       </div>
 
-      <div
-        data-fns-footer
-        className="mx-3 mt-2 flex items-center gap-2 text-[10px] font-semibold text-[#B12025]"
-      >
-        <CheckCircle2 size={15} />
-        Monthly review and coaching
-      </div>
+      
     </div>
   );
 }

@@ -32,11 +32,14 @@ import {
 import Navbar from '../Navbar';
 import StoryContact from '../StoryContact';
 import ServiceRail from './ServiceRail';
+import QualityPromise from './QualityPromise';
 import { categories, questions } from './serviceData';
 
-// =====================================================
-// 01 — PAGE DATA
-// =====================================================
+// ======================================================
+// 01 — DATA
+// ======================================================
+
+const RED = '#B12025';
 
 const proofNumbers = [
   {
@@ -83,29 +86,6 @@ const proofNumbers = [
   },
 ] as const;
 
-const qualitySteps = [
-  {
-    number: '01',
-    title: 'Hiring',
-    text: 'Only 15 to 20% of applicants pass our hiring checks. We select people who can represent your business well.',
-  },
-  {
-    number: '02',
-    title: 'Training',
-    text: 'Your team learns your tools, workflows, customer expectations and tone before live work begins.',
-  },
-  {
-    number: '03',
-    title: 'QA score',
-    text: 'Every piece of work receives a quality score, from a support call to a website update.',
-  },
-  {
-    number: '04',
-    title: 'Monthly review',
-    text: 'Individual performance is reviewed every month, with coaching and clear actions for improvement.',
-  },
-];
-
 const languages = [
   'English',
   'Sinhala',
@@ -120,9 +100,9 @@ const channels = [
   { label: 'One team', icon: Users },
 ];
 
-// =====================================================
+// ======================================================
 // 02 — HELPERS
-// =====================================================
+// ======================================================
 
 function jumpTo(id: string) {
   document.getElementById(id)?.scrollIntoView({
@@ -131,15 +111,15 @@ function jumpTo(id: string) {
   });
 }
 
-function prefersReducedMotion() {
+function reducedMotion() {
   return window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
 }
 
-// =====================================================
-// 03 — ANIMATED NUMBER
-// =====================================================
+// ======================================================
+// 03 — ANIMATED NUMBERS
+// ======================================================
 
 function AnimatedNumber({
   value,
@@ -153,6 +133,7 @@ function AnimatedNumber({
 
   useEffect(() => {
     const element = ref.current;
+
     if (!element) return;
 
     let frame = 0;
@@ -163,7 +144,7 @@ function AnimatedNumber({
 
         observer.disconnect();
 
-        if (prefersReducedMotion()) {
+        if (reducedMotion()) {
           setShown(value);
           return;
         }
@@ -177,9 +158,7 @@ function AnimatedNumber({
           );
 
           setShown(
-            Math.round(
-              value * (1 - Math.pow(1 - t, 3))
-            )
+            Math.round(value * (1 - (1 - t) ** 3))
           );
 
           if (t < 1) {
@@ -200,12 +179,17 @@ function AnimatedNumber({
     };
   }, [value]);
 
-  return <span ref={ref}>{shown}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {shown}
+      {suffix}
+    </span>
+  );
 }
 
-// =====================================================
-// 04 — STATISTIC RING
-// =====================================================
+// ======================================================
+// 04 — STATISTICS RING
+// ======================================================
 
 function ProofRing({
   value,
@@ -240,7 +224,7 @@ function ProofRing({
         cy="50"
         r="40"
         fill="none"
-        stroke={inverted ? '#FFFFFF' : '#B12025'}
+        stroke={inverted ? '#FFFFFF' : RED}
         strokeWidth="5"
         strokeLinecap="round"
         strokeDasharray="251.33"
@@ -252,27 +236,20 @@ function ProofRing({
   );
 }
 
-// =====================================================
-// 05 — PREMIUM LANGUAGE CARD
-//
-// HOVER ANIMATION:
-// English -> Sinhala -> Tamil -> Hindi
-//
-// Each chip expands and changes to FirstNotch Red.
-// No automatic animation on page scroll.
-// =====================================================
+// ======================================================
+// 05 — ANIMATED LANGUAGE BENTO CARD
+// ======================================================
 
 function LanguageBentoCard() {
   const cardRef = useRef<HTMLElement>(null);
+
   const timelineRef =
     useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     const card = cardRef.current;
 
-    if (!card || prefersReducedMotion()) {
-      return;
-    }
+    if (!card || reducedMotion()) return;
 
     const chips = gsap.utils.toArray<HTMLElement>(
       card.querySelectorAll('[data-language-chip]')
@@ -285,31 +262,23 @@ function LanguageBentoCard() {
 
     const tl = gsap.timeline({
       paused: true,
-      defaults: {
-        ease: 'power3.out',
-      },
+      defaults: { ease: 'power3.out' },
     });
 
     chips.forEach((chip, index) => {
-      // ============================================
-      // MANUAL ADJUSTMENT:
-      // 0.27 = delay between language animations
-      // Increase for slower animation
-      // ============================================
-
-      const start = index * 0.27;
+      const at = index * 0.27;
 
       tl.to(
         chip,
         {
           y: -6,
           scale: 1.07,
-          backgroundColor: '#B12025',
-          borderColor: '#B12025',
+          backgroundColor: RED,
+          borderColor: RED,
           color: '#FFFFFF',
           duration: 0.35,
         },
-        start
+        at
       );
 
       tl.to(
@@ -317,19 +286,17 @@ function LanguageBentoCard() {
         {
           y: 0,
           scale: 1,
-          duration: 0.40,
+          duration: 0.4,
           ease: 'back.out(1.7)',
         },
-        start + 0.28
+        at + 0.28
       );
     });
 
     if (line) {
       tl.fromTo(
         line,
-        {
-          scaleX: 0,
-        },
+        { scaleX: 0 },
         {
           scaleX: 1,
           duration: 1.1,
@@ -346,27 +313,20 @@ function LanguageBentoCard() {
       timelineRef.current = null;
 
       gsap.set(
-        [
-          ...chips,
-          ...(line ? [line] : []),
-        ],
+        [...chips, ...(line ? [line] : [])],
         { clearProps: 'all' }
       );
     };
   }, []);
 
-  const play = () => {
-    timelineRef.current?.restart();
-  };
-
-  const reverse = () => {
-    timelineRef.current?.reverse();
-  };
+  const play = () => timelineRef.current?.restart();
+  const reverse = () => timelineRef.current?.reverse();
 
   return (
     <article
       ref={cardRef}
       tabIndex={0}
+      aria-label="Four languages. Hover, focus or tap to highlight them."
       onMouseEnter={play}
       onMouseLeave={reverse}
       onFocus={play}
@@ -381,18 +341,14 @@ function LanguageBentoCard() {
           play();
         }
       }}
-      aria-label="Four languages. Hover, focus or tap to highlight English, Sinhala, Tamil and Hindi."
       className="
-        relative
-        min-w-0
-        overflow-hidden
         rounded-[26px]
         border
         border-[#17191C]/10
         bg-white
         p-6
-        outline-none
         shadow-[0_8px_32px_rgba(23,25,28,.04)]
+        outline-none
         transition-shadow
         duration-300
         hover:shadow-[0_16px_45px_rgba(177,32,37,.10)]
@@ -401,14 +357,11 @@ function LanguageBentoCard() {
         sm:p-8
       "
     >
-      <div className="flex h-full min-h-[225px] flex-col">
-
-        {/* Heading */}
+      <div className="flex min-h-[225px] flex-col">
         <h3 className="text-[15px] font-semibold text-[#17191C]">
           Four languages. One standard.
         </h3>
 
-        {/* Animated language chips */}
         <div className="mt-7 flex flex-wrap gap-3">
           {languages.map((language) => (
             <span
@@ -435,17 +388,12 @@ function LanguageBentoCard() {
           ))}
         </div>
 
-        {/* Description */}
         <p className="mt-7 max-w-[390px] text-[13px] leading-7 text-[#17191C]/60">
           Your customer hears one consistent answer,
           regardless of language.
         </p>
 
-        {/* Animated underline */}
-        <div
-          aria-hidden="true"
-          className="mt-auto pt-7"
-        >
+        <div aria-hidden="true" className="mt-auto pt-7">
           <div className="h-[2px] overflow-hidden rounded-full bg-[#B12025]/10">
             <div
               data-language-line
@@ -458,24 +406,9 @@ function LanguageBentoCard() {
   );
 }
 
-// =====================================================
-// 06 — PREMIUM RED CHANNEL ANIMATION CARD
-//
-// Animation only on hover, keyboard focus or tap.
-//
-// 01 Call circle expands
-// 02 Connecting line grows
-// 03 Email circle expands
-// 04 Connecting line grows
-// 05 Message circle expands
-// 06 Connecting line grows
-// 07 Users circle expands
-//
-// Connector lines are separate flex elements.
-// They NEVER overlap with the icon circles.
-//
-// No Replay button.
-// =====================================================
+// ======================================================
+// 06 — ANIMATED CHANNEL FLOW CARD
+// ======================================================
 
 function AnimatedChannelFlowCard() {
   const cardRef = useRef<HTMLElement>(null);
@@ -486,9 +419,7 @@ function AnimatedChannelFlowCard() {
   useEffect(() => {
     const card = cardRef.current;
 
-    if (!card || prefersReducedMotion()) {
-      return;
-    }
+    if (!card || reducedMotion()) return;
 
     const icons = gsap.utils.toArray<HTMLElement>(
       card.querySelectorAll('[data-channel-icon]')
@@ -502,116 +433,85 @@ function AnimatedChannelFlowCard() {
       card.querySelectorAll('[data-channel-label]')
     );
 
-    const timeline = gsap.timeline({
+    const tl = gsap.timeline({
       paused: true,
-      defaults: {
-        ease: 'power3.out',
-      },
+      defaults: { ease: 'power3.out' },
     });
 
     icons.forEach((icon, index) => {
-      // ============================================
-      // MANUAL ADJUSTMENT
-      //
-      // 0.55 = delay between each icon
-      // 1.18 = icon expansion size
-      // 0.38 = expansion duration
-      // ============================================
+      const at = index * 0.55;
 
-      const start = index * 0.55;
-
-      // Circle grows and changes to white
-      timeline.to(
+      tl.to(
         icon,
         {
           scale: 1.18,
           backgroundColor: '#FFFFFF',
           borderColor: '#FFFFFF',
-          color: '#B12025',
+          color: RED,
           duration: 0.38,
-          ease: 'power3.out',
         },
-        start
+        at
       );
 
-      // Circle settles smoothly
-      timeline.to(
+      tl.to(
         icon,
         {
           scale: 1,
           duration: 0.38,
           ease: 'back.out(1.65)',
         },
-        start + 0.30
+        at + 0.3
       );
 
-      // Label subtle movement
       if (labels[index]) {
-        timeline.to(
+        tl.to(
           labels[index],
-          {
-            y: -3,
-            duration: 0.26,
-          },
-          start + 0.14
+          { y: -3, duration: 0.26 },
+          at + 0.14
         );
 
-        timeline.to(
+        tl.to(
           labels[index],
-          {
-            y: 0,
-            duration: 0.32,
-          },
-          start + 0.40
+          { y: 0, duration: 0.32 },
+          at + 0.4
         );
       }
 
-      // Draw line between icon circles
       if (lines[index]) {
-        timeline.fromTo(
+        tl.fromTo(
           lines[index],
-          {
-            scaleX: 0,
-          },
+          { scaleX: 0 },
           {
             scaleX: 1,
             duration: 0.48,
             ease: 'power2.inOut',
           },
-          start + 0.35
+          at + 0.35
         );
       }
     });
 
-    timelineRef.current = timeline;
+    timelineRef.current = tl;
 
     return () => {
-      timeline.kill();
+      tl.kill();
       timelineRef.current = null;
 
       gsap.set(
-        [
-          ...icons,
-          ...lines,
-          ...labels,
-        ],
+        [...icons, ...lines, ...labels],
         { clearProps: 'all' }
       );
     };
   }, []);
 
-  const play = () => {
-    timelineRef.current?.restart();
-  };
-
-  const reverse = () => {
-    timelineRef.current?.reverse();
-  };
+  const play = () => timelineRef.current?.restart();
+  const reverse = () => timelineRef.current?.reverse();
 
   return (
     <article
       ref={cardRef}
       tabIndex={0}
+      aria-label="Call, Email and Message connected to one team. Hover, focus or tap to animate."
       onMouseEnter={play}
       onMouseLeave={reverse}
       onFocus={play}
@@ -626,7 +526,6 @@ function AnimatedChannelFlowCard() {
           play();
         }
       }}
-      aria-label="One team, one tone of voice. Hover, focus or tap to animate Call, Email, Message and One team."
       className="
         relative
         min-w-0
@@ -635,52 +534,27 @@ function AnimatedChannelFlowCard() {
         bg-[#B12025]
         p-6
         text-white
-        outline-none
         shadow-[0_18px_48px_rgba(177,32,37,.15)]
+        outline-none
         focus-visible:ring-2
         focus-visible:ring-[#17191C]
         sm:p-8
       "
     >
-      {/* Subtle background */}
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-14
-          -top-14
-          h-52
-          w-52
-          rounded-full
-          bg-white/[.09]
-          blur-[70px]
-        "
+        className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-white/[.09] blur-[70px]"
       />
 
-      <div className="relative z-10 flex h-full min-h-[225px] flex-col">
-
-        {/* Heading */}
+      <div className="relative z-10 flex min-h-[225px] flex-col">
         <h3 className="text-[15px] font-semibold">
           One team, one tone of voice.
         </h3>
 
-        {/* Description */}
         <p className="mt-3 max-w-[440px] text-[12px] leading-6 text-white/85">
           Phone, email and chat conversations come
           together in one trained support team.
         </p>
-
-        {/* ========================================
-            PRECISE ICON + CONNECTOR ROW
-
-            Circle size:
-            Mobile = 40px
-            Desktop = 48px
-
-            Connector is a SEPARATE element.
-            No line crosses an icon.
-        ======================================== */}
 
         <div
           className="mt-8 flex w-full items-start justify-between"
@@ -691,77 +565,37 @@ function AnimatedChannelFlowCard() {
 
             return (
               <Fragment key={channel.label}>
-
-                {/* ICON AND LABEL */}
                 <div className="relative z-10 flex w-10 shrink-0 flex-col items-center sm:w-12">
-
-                  {/* Icon circle */}
                   <span
                     data-channel-icon
                     aria-hidden="true"
                     className="
-                      flex
-                      h-10
-                      w-10
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-white/35
-                      bg-white/15
-                      text-white
-                      shadow-sm
-                      sm:h-12
-                      sm:w-12
+                      flex h-10 w-10
+                      items-center justify-center
+                      rounded-full border border-white/35
+                      bg-white/15 text-white shadow-sm
+                      sm:h-12 sm:w-12
                     "
                   >
-                    <Icon
-                      size={20}
-                      strokeWidth={1.8}
-                    />
+                    <Icon size={20} strokeWidth={1.8} />
                   </span>
 
-                  {/* Icon label */}
                   <span
                     data-channel-label
-                    className="
-                      mt-3
-                      whitespace-nowrap
-                      text-[10px]
-                      font-semibold
-                      leading-4
-                      text-white
-                      sm:text-[11px]
-                    "
+                    className="mt-3 whitespace-nowrap text-[10px] font-semibold leading-4 text-white sm:text-[11px]"
                   >
                     {channel.label}
                   </span>
                 </div>
 
-                {/* CONNECTOR — AFTER EVERY ICON EXCEPT LAST */}
                 {index < channels.length - 1 && (
                   <div
                     aria-hidden="true"
-                    className="
-                      relative
-                      mt-[19px]
-                      h-[2px]
-                      min-w-[7px]
-                      flex-1
-                      bg-white/25
-                      sm:mt-[23px]
-                    "
+                    className="relative mt-[19px] h-[2px] min-w-[7px] flex-1 bg-white/25 sm:mt-[23px]"
                   >
-                    {/* Animated white line */}
                     <span
                       data-channel-line
-                      className="
-                        absolute
-                        inset-0
-                        origin-left
-                        scale-x-0
-                        bg-white
-                      "
+                      className="absolute inset-0 origin-left scale-x-0 bg-white"
                     />
                   </div>
                 )}
@@ -770,7 +604,6 @@ function AnimatedChannelFlowCard() {
           })}
         </div>
 
-        {/* Bottom confirmation */}
         <div className="mt-auto flex items-center gap-2 border-t border-white/20 pt-5 text-[11px] font-medium leading-5 text-white/90">
           <span
             aria-hidden="true"
@@ -783,9 +616,9 @@ function AnimatedChannelFlowCard() {
   );
 }
 
-// =====================================================
+// ======================================================
 // 07 — MAIN SERVICES EXPERIENCE
-// =====================================================
+// ======================================================
 
 export default function ServicesExperience() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -793,7 +626,6 @@ export default function ServicesExperience() {
   const showcaseRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const faqGridRef = useRef<HTMLDivElement>(null);
-  const qualityNumberRef = useRef<HTMLDivElement>(null);
 
   const pendingFlip = useRef<
     ReturnType<typeof Flip.getState> | null
@@ -805,7 +637,6 @@ export default function ServicesExperience() {
   const [showcaseProgress, setShowcaseProgress] =
     useState(0);
 
-  const [activeStep, setActiveStep] = useState(0);
   const [activeFaq, setActiveFaq] =
     useState<number | null>(null);
 
@@ -815,9 +646,7 @@ export default function ServicesExperience() {
   const [animatedCards, setAnimatedCards] =
     useState(false);
 
-  // ===================================================
   // RESPONSIVE MODE
-  // ===================================================
 
   useEffect(() => {
     const media = window.matchMedia(
@@ -837,9 +666,7 @@ export default function ServicesExperience() {
     };
   }, []);
 
-  // ===================================================
-  // ACTIVE CATEGORY + FLOATING CTA
-  // ===================================================
+  // ACTIVE CATEGORY + STICKY CALL BUTTON
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -848,7 +675,8 @@ export default function ServicesExperience() {
           if (entry.isIntersecting) {
             setActiveCategory(
               Number(
-                (entry.target as HTMLElement).dataset.index
+                (entry.target as HTMLElement)
+                  .dataset.index
               )
             );
           }
@@ -860,9 +688,8 @@ export default function ServicesExperience() {
     );
 
     categories.forEach((category, index) => {
-      const element = document.getElementById(
-        category.id
-      );
+      const element =
+        document.getElementById(category.id);
 
       if (element) {
         element.dataset.index = String(index);
@@ -892,76 +719,12 @@ export default function ServicesExperience() {
     };
   }, []);
 
-  // ===================================================
-  // QUALITY STEP OBSERVER
-  // ===================================================
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveStep(
-              Number(
-                (entry.target as HTMLElement).dataset.step
-              )
-            );
-          }
-        });
-      },
-      {
-        rootMargin: '-25% 0px -55% 0px',
-      }
-    );
-
-    rootRef.current
-      ?.querySelectorAll<HTMLElement>('[data-step]')
-      .forEach((element) => observer.observe(element));
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  // ===================================================
-  // ANIMATED QUALITY NUMBER
-  // ===================================================
-
-  useEffect(() => {
-    if (
-      !qualityNumberRef.current ||
-      prefersReducedMotion()
-    ) {
-      return;
-    }
-
-    const animation = gsap.fromTo(
-      qualityNumberRef.current,
-      {
-        y: 45,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.65,
-        ease: 'power3.out',
-      }
-    );
-
-    return () => {
-      animation.kill();
-    };
-  }, [activeStep]);
-
-  // ===================================================
   // FAQ GSAP FLIP
-  // ===================================================
 
   const toggleFaq = (index: number) => {
     if (
       faqGridRef.current &&
-      !prefersReducedMotion()
+      !reducedMotion()
     ) {
       gsap.registerPlugin(Flip);
 
@@ -997,16 +760,17 @@ export default function ServicesExperience() {
     };
   }, [activeFaq]);
 
-  // ===================================================
-  // GSAP SCROLL ANIMATIONS
-  // ===================================================
+  // ====================================================
+  // 08 — GSAP SCROLL ANIMATIONS
+  // ====================================================
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, Flip);
 
     const mm = gsap.matchMedia();
 
-    // DESKTOP HORIZONTAL CATEGORY SCROLL
+    // DESKTOP PINNED HORIZONTAL CATEGORIES
+
     mm.add(
       '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
       () => {
@@ -1089,6 +853,7 @@ export default function ServicesExperience() {
         const horizontalTween = gsap.to(track, {
           x: () => -distance(),
           ease: 'none',
+
           scrollTrigger: {
             trigger: section,
             pin: true,
@@ -1118,20 +883,21 @@ export default function ServicesExperience() {
           );
         }
 
-        slides.slice(1).forEach((slide, offset) => {
-          const index = offset + 1;
+        slides.slice(1).forEach(
+          (slide, offset) => {
+            revealTriggers.push(
+              ScrollTrigger.create({
+                trigger: slide,
+                containerAnimation: horizontalTween,
+                start: 'left 78%',
+                once: true,
 
-          revealTriggers.push(
-            ScrollTrigger.create({
-              trigger: slide,
-              containerAnimation: horizontalTween,
-              start: 'left 78%',
-              once: true,
-              onEnter: () =>
-                timelines[index]?.play(),
-            })
-          );
-        });
+                onEnter: () =>
+                  timelines[offset + 1]?.play(),
+              })
+            );
+          }
+        );
 
         return () => {
           revealTriggers.forEach((trigger) =>
@@ -1148,20 +914,20 @@ export default function ServicesExperience() {
       }
     );
 
-    // MOBILE CATEGORY REVEAL
+    // MOBILE CATEGORY REVEALS
+
     mm.add(
       '(max-width: 1023px) and (prefers-reduced-motion: no-preference)',
       () => {
         const track = trackRef.current;
+
         if (!track) return;
 
-        const slides = Array.from(
+        const animations = Array.from(
           track.querySelectorAll<HTMLElement>(
             '[data-category-slide]'
           )
-        );
-
-        const animations = slides.map((slide) => {
+        ).map((slide) => {
           const elements = Array.from(
             slide.querySelectorAll<HTMLElement>(
               '[data-category-number], [data-category-animate]'
@@ -1180,6 +946,7 @@ export default function ServicesExperience() {
               duration: 0.7,
               stagger: 0.1,
               ease: 'power3.out',
+
               scrollTrigger: {
                 trigger: slide,
                 start: 'top 82%',
@@ -1198,19 +965,21 @@ export default function ServicesExperience() {
       }
     );
 
-    // GENERAL SCROLL REVEAL
+    // GENERAL SCROLL REVEALS
+
     mm.add(
       '(prefers-reduced-motion: no-preference)',
       () => {
         if (!rootRef.current) return;
 
-        const nodes = gsap.utils.toArray<HTMLElement>(
-          rootRef.current.querySelectorAll(
-            '[data-reveal]'
-          )
-        );
-
         const animations: gsap.core.Tween[] = [];
+
+        const nodes =
+          gsap.utils.toArray<HTMLElement>(
+            rootRef.current.querySelectorAll(
+              '[data-reveal]'
+            )
+          );
 
         nodes.forEach((node) => {
           animations.push(
@@ -1225,6 +994,7 @@ export default function ServicesExperience() {
                 opacity: 1,
                 duration: 0.85,
                 ease: 'power3.out',
+
                 scrollTrigger: {
                   trigger: node,
                   start: 'top 88%',
@@ -1236,12 +1006,15 @@ export default function ServicesExperience() {
         });
 
         rootRef.current
-          .querySelectorAll<HTMLElement>('[data-float]')
+          .querySelectorAll<HTMLElement>(
+            '[data-float]'
+          )
           .forEach((node, index) => {
             animations.push(
               gsap.to(node, {
                 y: index % 2 === 0 ? -65 : 80,
                 ease: 'none',
+
                 scrollTrigger: {
                   trigger: heroRef.current,
                   start: 'top top',
@@ -1261,11 +1034,13 @@ export default function ServicesExperience() {
       }
     );
 
-    // MOUSE PARALLAX — NO CUSTOM RED CURSOR
+    // MOUSE PARALLAX
+
     mm.add(
       '(pointer: fine) and (prefers-reduced-motion: no-preference)',
       () => {
         const hero = heroRef.current;
+
         if (!hero) return;
 
         const layers = Array.from(
@@ -1278,10 +1053,12 @@ export default function ServicesExperience() {
           depth: Number(
             layer.dataset.mouseDepth || '1'
           ),
+
           x: gsap.quickTo(layer, 'x', {
             duration: 1,
             ease: 'power3.out',
           }),
+
           y: gsap.quickTo(layer, 'y', {
             duration: 1,
             ease: 'power3.out',
@@ -1327,9 +1104,7 @@ export default function ServicesExperience() {
     let alive = true;
 
     document.fonts?.ready.then(() => {
-      if (alive) {
-        ScrollTrigger.refresh();
-      }
+      if (alive) ScrollTrigger.refresh();
     });
 
     return () => {
@@ -1338,30 +1113,25 @@ export default function ServicesExperience() {
     };
   }, []);
 
-  // ===================================================
-  // 08 — PAGE JSX
-  // ===================================================
+  // ====================================================
+  // 09 — SERVICES PAGE JSX
+  // ====================================================
 
   return (
     <div
       ref={rootRef}
       className="min-h-screen overflow-x-clip bg-white font-sans text-[#17191C]"
     >
-      {/* EXISTING NAVBAR */}
       <Navbar />
 
       <main className="pt-[88px]">
-
-        {/* =========================================
-            HERO SECTION
-        ========================================= */}
+        {/* HERO */}
 
         <section
           ref={heroRef}
           id="services-hero"
           className="relative isolate overflow-hidden bg-gradient-to-br from-white via-[#fcfbfa] to-[#f7f5f3]"
         >
-          {/* Background shapes */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
@@ -1401,7 +1171,6 @@ export default function ServicesExperience() {
           </div>
 
           <div className="relative mx-auto max-w-[1440px] px-5 pb-24 pt-28 md:px-10 md:pb-32 md:pt-36 lg:pt-44">
-
             <p
               data-reveal
               className="mb-7 text-[13px] font-semibold tracking-[.025em] text-[#B12025]"
@@ -1445,7 +1214,6 @@ export default function ServicesExperience() {
               />
             </button>
 
-            {/* Category finder */}
             <div
               data-reveal
               className="mt-20 grid gap-3 md:grid-cols-3"
@@ -1477,9 +1245,7 @@ export default function ServicesExperience() {
           </div>
         </section>
 
-        {/* =========================================
-            STICKY CATEGORY NAVBAR
-        ========================================= */}
+        {/* STICKY CATEGORY NAVIGATION */}
 
         <nav
           aria-label="Service category navigation"
@@ -1515,16 +1281,13 @@ export default function ServicesExperience() {
           </div>
         </nav>
 
-        {/* =========================================
-            STATISTICS SECTION
-        ========================================= */}
+        {/* BENTO STATISTICS */}
 
         <section
           id="results"
           className="bg-[#f8f7f5] py-24 sm:py-32"
         >
           <div className="mx-auto max-w-[1440px] px-5 md:px-10">
-
             <p
               data-reveal
               className="text-xs font-semibold uppercase tracking-[.2em] text-[#B12025]"
@@ -1553,8 +1316,8 @@ export default function ServicesExperience() {
                       red
                         ? 'border-[#B12025] bg-[#B12025] text-white sm:col-span-2 lg:col-span-2'
                         : charcoal
-                          ? 'border-[#17191C] bg-[#17191C] text-white'
-                          : 'border-[#17191C]/10 bg-white text-[#17191C]'
+                        ? 'border-[#17191C] bg-[#17191C] text-white'
+                        : 'border-[#17191C]/10 bg-white text-[#17191C]'
                     }`}
                   >
                     {(red || index === 1) && (
@@ -1593,9 +1356,7 @@ export default function ServicesExperience() {
           </div>
         </section>
 
-        {/* =========================================
-            HORIZONTAL CATEGORY SHOWCASE
-        ========================================= */}
+        {/* HORIZONTAL CATEGORY SHOWCASE */}
 
         <section
           ref={showcaseRef}
@@ -1607,26 +1368,24 @@ export default function ServicesExperience() {
             className="relative flex flex-col lg:h-full lg:w-max lg:flex-row"
           >
             {categories.map((category, index) => {
-              const isWhiteSlide = index === 1;
+              const white = index === 1;
 
               return (
                 <div
                   key={category.id}
                   data-category-slide
                   className={`relative flex min-h-[520px] w-full shrink-0 items-center border-b px-5 py-24 md:px-10 lg:h-[calc(100vh-150px)] lg:w-screen lg:border-b-0 lg:py-10 ${
-                    isWhiteSlide
+                    white
                       ? 'border-[#B12025]/10 bg-white text-[#B12025]'
                       : 'border-white/15 bg-[#B12025] text-white'
                   }`}
                 >
                   <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-12 lg:grid-cols-[.45fr_1fr]">
-
-                    {/* Large category number */}
                     <div
                       data-category-number
                       aria-hidden="true"
                       className={`select-none text-[clamp(8rem,21vw,20rem)] font-bold leading-none tracking-[-.14em] ${
-                        isWhiteSlide
+                        white
                           ? 'text-[#B12025]'
                           : 'text-white'
                       }`}
@@ -1635,11 +1394,10 @@ export default function ServicesExperience() {
                     </div>
 
                     <div className="relative">
-
                       <p
                         data-category-animate
                         className={`text-xs font-semibold uppercase tracking-[.22em] ${
-                          isWhiteSlide
+                          white
                             ? 'text-[#B12025]'
                             : 'text-white/85'
                         }`}
@@ -1650,7 +1408,7 @@ export default function ServicesExperience() {
                       <h2
                         data-category-animate
                         className={`mt-5 text-[clamp(3rem,5.6vw,6rem)] font-semibold leading-[1.05] tracking-[-.06em] ${
-                          isWhiteSlide
+                          white
                             ? 'text-[#B12025]'
                             : 'text-white'
                         }`}
@@ -1661,7 +1419,7 @@ export default function ServicesExperience() {
                       <p
                         data-category-animate
                         className={`mt-7 max-w-[620px] text-[16px] leading-8 ${
-                          isWhiteSlide
+                          white
                             ? 'text-[#B12025]/85'
                             : 'text-white/85'
                         }`}
@@ -1672,7 +1430,7 @@ export default function ServicesExperience() {
                       <p
                         data-category-animate
                         className={`mt-8 text-[clamp(2rem,3vw,3.1rem)] font-semibold tracking-tight ${
-                          isWhiteSlide
+                          white
                             ? 'text-[#B12025]'
                             : 'text-white'
                         }`}
@@ -1685,7 +1443,7 @@ export default function ServicesExperience() {
                         type="button"
                         onClick={() => jumpTo(category.id)}
                         className={`group mt-8 inline-flex items-center gap-3 text-sm font-semibold transition-opacity hover:opacity-70 ${
-                          isWhiteSlide
+                          white
                             ? 'text-[#B12025]'
                             : 'text-white'
                         }`}
@@ -1704,7 +1462,6 @@ export default function ServicesExperience() {
             })}
           </div>
 
-          {/* Horizontal progress bar */}
           <div
             aria-hidden="true"
             className={`pointer-events-none absolute inset-x-0 bottom-0 z-20 hidden h-[3px] lg:block ${
@@ -1728,9 +1485,7 @@ export default function ServicesExperience() {
           </div>
         </section>
 
-        {/* =========================================
-            SERVICE SECTIONS
-        ========================================= */}
+        {/* CUSTOMER SUPPORT, BACK OFFICE AND IT SERVICE RAILS */}
 
         {categories.map((category, index) => (
           <section
@@ -1743,8 +1498,6 @@ export default function ServicesExperience() {
             }`}
           >
             <div className="mx-auto max-w-[1440px] px-5 md:px-10">
-
-              {/* Category heading */}
               <div
                 data-reveal
                 className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end"
@@ -1756,9 +1509,7 @@ export default function ServicesExperience() {
 
                   <h2 className="mt-4 text-[clamp(2.6rem,5vw,5rem)] font-semibold tracking-[-.06em]">
                     {category.label}
-                    <span className="text-[#B12025]">
-                      .
-                    </span>
+                    <span className="text-[#B12025]">.</span>
                   </h2>
 
                   <p className="mt-4 max-w-[740px] text-sm leading-8 text-[#17191C]/60 sm:text-base">
@@ -1771,33 +1522,13 @@ export default function ServicesExperience() {
                 </div>
               </div>
 
-              {/* ===================================
-                  CUSTOMER SUPPORT BENTO CARDS
-
-                  Exactly TWO cards.
-
-                  LEFT:
-                  Animated languages
-
-                  RIGHT:
-                  Animated channel icons
-
-                  No data-reveal on these cards:
-                  internal animations are hover-only.
-              =================================== */}
-
               {category.id === 'customer-support' && (
                 <div className="mb-12 grid items-stretch gap-4 lg:grid-cols-2">
-
-                  {/* WHITE LANGUAGE CARD */}
                   <LanguageBentoCard />
-
-                  {/* RED CHANNEL FLOW CARD */}
                   <AnimatedChannelFlowCard />
                 </div>
               )}
 
-              {/* Existing side-scrolling service cards */}
               <ServiceRail
                 category={category}
                 animateFlip={animatedCards}
@@ -1806,78 +1537,20 @@ export default function ServicesExperience() {
           </section>
         ))}
 
-        {/* =========================================
-            QUALITY SECTION
-        ========================================= */}
+        {/* =====================================================
+            QUALITY PROMISE — YOUR FINISHED COMPONENT
+            No duplicate code or states
+        ===================================================== */}
 
-        <section
-          id="quality"
-          className="scroll-mt-28 bg-[#fbfaf9] py-28 sm:py-36"
-        >
-          <div className="mx-auto grid max-w-[1440px] gap-10 px-5 md:px-10 lg:grid-cols-[.78fr_1fr] lg:gap-20">
+        <QualityPromise />
 
-            {/* Sticky left */}
-            <div className="lg:sticky lg:top-[185px] lg:self-start">
-
-              <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B12025]">
-                Our quality promise
-              </p>
-
-              <h2 className="mt-5 text-[clamp(2.7rem,4.6vw,5rem)] font-semibold leading-[1.08] tracking-[-.06em]">
-                How we keep quality high.
-              </h2>
-
-              <div className="mt-8 flex h-[155px] items-end overflow-hidden">
-                <div
-                  ref={qualityNumberRef}
-                  key={qualitySteps[activeStep].number}
-                  className="text-[clamp(7rem,14vw,13rem)] font-semibold leading-none tracking-[-.12em] text-[#B12025]"
-                >
-                  {qualitySteps[activeStep].number}
-                </div>
-              </div>
-
-              <p className="mt-4 text-lg font-semibold">
-                {qualitySteps[activeStep].title}
-              </p>
-            </div>
-
-            {/* Scrollable steps */}
-            <div className="space-y-5">
-              {qualitySteps.map((step, index) => (
-                <article
-                  key={step.number}
-                  data-step={index}
-                  data-reveal
-                  className="min-h-[265px] rounded-[28px] border border-[#17191C]/10 bg-white p-9 shadow-[0_12px_40px_rgba(23,25,28,.035)]"
-                >
-                  <span className="text-xs font-semibold tracking-[.2em] text-[#B12025]">
-                    STEP {step.number}
-                  </span>
-
-                  <h3 className="mt-7 text-3xl font-semibold tracking-tight">
-                    {step.title}
-                  </h3>
-
-                  <p className="mt-5 max-w-xl text-[15px] leading-8 text-[#17191C]/60">
-                    {step.text}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================
-            FAQ SECTION
-        ========================================= */}
+        {/* PREMIUM FAQ */}
 
         <section
           id="faq"
           className="bg-white py-28 sm:py-36"
         >
           <div className="mx-auto max-w-[1440px] px-5 md:px-10">
-
             <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B12025]">
               Straight answers
             </p>
@@ -1904,7 +1577,6 @@ export default function ServicesExperience() {
                   }`}
                 >
                   <span className="flex items-start justify-between gap-5">
-
                     <span className="max-w-xl text-[19px] font-semibold tracking-tight">
                       {question.q}
                     </span>
@@ -1934,18 +1606,17 @@ export default function ServicesExperience() {
           </div>
         </section>
 
-        {/* EXISTING CONTACT FORM */}
+        {/* CONTACT SECTION */}
+
         <StoryContact />
       </main>
 
-      {/* =========================================
+      {/* =====================================================
           FOOTER
-      ========================================= */}
+      ===================================================== */}
 
       <footer className="border-t border-[#17191C]/10 bg-[#faf9f7] py-16 text-[#17191C]">
         <div className="mx-auto grid max-w-[1440px] gap-11 px-5 md:grid-cols-4 md:px-10">
-
-          {/* Logo */}
           <div>
             <Link
               href="/"
@@ -1967,7 +1638,6 @@ export default function ServicesExperience() {
             </p>
           </div>
 
-          {/* Services */}
           <div>
             <p className="mb-5 text-sm font-semibold">
               Services
@@ -1985,7 +1655,6 @@ export default function ServicesExperience() {
             ))}
           </div>
 
-          {/* Company */}
           <div>
             <p className="mb-5 text-sm font-semibold">
               Company
@@ -2009,11 +1678,10 @@ export default function ServicesExperience() {
               href="/#careers"
               className="mb-3 block text-[13px] text-[#17191C]/60 hover:text-[#B12025]"
             >
-              Work with us
+              Career
             </Link>
           </div>
 
-          {/* Contact */}
           <div>
             <p className="mb-5 text-sm font-semibold">
               Contact
@@ -2042,7 +1710,8 @@ export default function ServicesExperience() {
         </p>
       </footer>
 
-      {/* Floating booking CTA */}
+      {/* STICKY DISCOVERY CTA */}
+
       {showStickyCall && (
         <button
           type="button"

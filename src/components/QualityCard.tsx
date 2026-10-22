@@ -6,29 +6,44 @@ import gsap from 'gsap';
 
 import {
   ArrowUpRight,
-  ChartNoAxesCombined,
   CheckCircle2,
   ClipboardCheck,
   TrendingUp,
 } from 'lucide-react';
 
 // ==========================================
-// MANUAL ANIMATION SETTINGS
+// MANUAL ANIMATION & HEIGHT SETTINGS
 // ==========================================
 
 const SETTINGS = {
+  // Closed white dashboard height
   closedHeight: 82,
-  openHeight: 340,
+
+  // EXPANDED WHITE DASHBOARD HEIGHT
+  // OLD: 340
+  // NEW: 410
+  //
+  // Increase this value for more height.
+  // Example: 430 / 450
+  //
+  // IMPORTANT:
+  // Also update the panel stage height below.
+  openHeight: 410,
+
+  // Dashboard expansion animation speed
   expansionSpeed: 0.68,
+
+  // Closing animation speed
   reverseSpeed: 1.45,
 
-  // 94% is an illustrative UI score.
+  // Illustrative QA score
   sampleScore: 94,
 };
 
+// Seven chart bars
 const BARS = [37, 56, 46, 72, 64, 88, 94];
 
-// SVG ring circumference: radius 36
+// SVG ring circumference
 const RING_LENGTH = 2 * Math.PI * 36;
 
 type Props = {
@@ -44,6 +59,10 @@ export default function QualityCard({
   const panelRef = useRef<HTMLDivElement>(null);
   const scoreRef = useRef<HTMLSpanElement>(null);
   const ringRef = useRef<SVGCircleElement>(null);
+
+  // ==========================================
+  // GSAP ANIMATION
+  // ==========================================
 
   useEffect(() => {
     const card = cardRef.current;
@@ -76,7 +95,10 @@ export default function QualityCard({
       () => {
         const counter = { value: 0 };
 
+        // ==================================
         // INITIAL COMPACT DASHBOARD
+        // ==================================
+
         gsap.set(panel, {
           height: SETTINGS.closedHeight,
         });
@@ -110,7 +132,7 @@ export default function QualityCard({
         score.textContent = '0%';
 
         // ==================================
-        // HOVER TIMELINE
+        // HOVER ANIMATION TIMELINE
         // ==================================
 
         const tl = gsap.timeline({
@@ -120,18 +142,29 @@ export default function QualityCard({
           },
         });
 
+        // ==================================
         // 01 — EXPAND WHITE DASHBOARD
-        tl.to(
-          panel,
-          {
-            height: SETTINGS.openHeight,
-            duration: SETTINGS.expansionSpeed,
-            ease: 'power3.inOut',
-          },
-          0
-        );
+        //
+        // EXPANDS FROM 82px TO 410px
+        // ==================================
 
+     
+{/* Expand to fit ALL dashboard content */}
+tl.to(
+  panel,
+  {
+    height: 'auto',
+    duration: SETTINGS.expansionSpeed,
+    ease: 'power3.inOut',
+  },
+  0
+);
+
+
+        // ==================================
         // 02 — REVEAL QA CONTENT
+        // ==================================
+
         tl.to(
           reveals,
           {
@@ -143,13 +176,17 @@ export default function QualityCard({
           0.5
         );
 
+        // ==================================
         // 03 — COUNT FROM 0 TO 94
+        // ==================================
+
         tl.to(
           counter,
           {
             value: SETTINGS.sampleScore,
             duration: 0.95,
             ease: 'power2.out',
+
             onUpdate: () => {
               score.textContent =
                 `${Math.round(counter.value)}%`;
@@ -158,20 +195,27 @@ export default function QualityCard({
           0.68
         );
 
-        // 04 — DRAW THE CIRCULAR QA RING
+        // ==================================
+        // 04 — ANIMATE CIRCULAR QA RING
+        // ==================================
+
         tl.to(
           ring,
           {
             strokeDashoffset:
               RING_LENGTH *
               (1 - SETTINGS.sampleScore / 100),
+
             duration: 0.95,
             ease: 'power2.out',
           },
           0.68
         );
 
-        // 05 — CHART BARS ONE-BY-ONE
+        // ==================================
+        // 05 — ANIMATE CHART BARS
+        // ==================================
+
         tl.to(
           bars,
           {
@@ -183,7 +227,10 @@ export default function QualityCard({
           1.04
         );
 
-        // 06 — PROGRESS METER
+        // ==================================
+        // 06 — ANIMATE PROGRESS LINE
+        // ==================================
+
         if (progress) {
           tl.to(
             progress,
@@ -195,7 +242,13 @@ export default function QualityCard({
           );
         }
 
-        // 07 — FINAL REVIEW CONFIRMATION
+        // ==================================
+        // 07 — MONTHLY REVIEW CONFIRMATION
+        //
+        // Increased container height ensures
+        // the final status is fully visible.
+        // ==================================
+
         if (footer) {
           tl.to(
             footer,
@@ -208,12 +261,22 @@ export default function QualityCard({
           );
         }
 
+        // ==================================
+        // OPEN ANIMATION
+        // ==================================
+
         const open = () => {
           tl.timeScale(1).play();
         };
 
+        // ==================================
+        // CLOSE ANIMATION
+        // ==================================
+
         const close = () => {
-          tl.timeScale(SETTINGS.reverseSpeed).reverse();
+          tl.timeScale(
+            SETTINGS.reverseSpeed
+          ).reverse();
         };
 
         const onFocusOut = (event: FocusEvent) => {
@@ -233,20 +296,42 @@ export default function QualityCard({
         card.addEventListener('focusout', onFocusOut);
 
         return () => {
-          card.removeEventListener('mouseenter', open);
-          card.removeEventListener('mouseleave', close);
-          card.removeEventListener('focusin', open);
-          card.removeEventListener('focusout', onFocusOut);
+          card.removeEventListener(
+            'mouseenter',
+            open
+          );
+
+          card.removeEventListener(
+            'mouseleave',
+            close
+          );
+
+          card.removeEventListener(
+            'focusin',
+            open
+          );
+
+          card.removeEventListener(
+            'focusout',
+            onFocusOut
+          );
 
           tl.kill();
+
           score.textContent =
             `${SETTINGS.sampleScore}%`;
         };
       }
     );
 
-    return () => mm.revert();
+    return () => {
+      mm.revert();
+    };
   }, []);
+
+  // ==========================================
+  // COMPONENT DESIGN
+  // ==========================================
 
   return (
     <article
@@ -255,20 +340,38 @@ export default function QualityCard({
       tabIndex={0}
       aria-label={`${title}. Focus to preview the quality dashboard.`}
       className="
-        group relative flex min-h-[650px] flex-col
-        overflow-hidden rounded-[32px]
-        border border-[#17191C]/10
-        bg-[#F7F6F4] p-6 text-[#17191C]
-        outline-none transition-shadow duration-300
+        group
+        relative
+        flex
+        min-h-[650px]
+        flex-col
+        overflow-hidden
+        rounded-[32px]
+        border
+        border-[#17191C]/10
+        bg-[#F7F6F4]
+        p-6
+        text-[#17191C]
+        outline-none
+        transition-shadow
+        duration-300
         hover:shadow-[0_24px_65px_rgba(23,25,28,0.10)]
         focus-visible:ring-2
         focus-visible:ring-[#B12025]
-        sm:p-9 lg:p-10
+        sm:p-9
+        lg:p-10
       "
     >
-      {/* OUTER CARD CONTENT — UNCHANGED */}
+
+      {/* ==================================
+          OUTER CARD CONTENT
+      ================================== */}
+
       <div className="relative z-10">
+
+        {/* CARD TOP ROW */}
         <div className="mb-9 flex items-center justify-between gap-4">
+
           <span className="text-[10px] font-semibold tracking-[0.17em] text-[#B12025]">
             03 / QUALITY ASSURANCE
           </span>
@@ -277,12 +380,20 @@ export default function QualityCard({
             href="#contact"
             aria-label="Discuss quality assurance"
             className="
-              flex h-10 w-10 shrink-0 items-center
-              justify-center rounded-full
-              border border-[#17191C]/15 bg-white
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#17191C]/15
+              bg-white
               transition-colors
               hover:border-[#B12025]
-              hover:bg-[#B12025] hover:text-white
+              hover:bg-[#B12025]
+              hover:text-white
               focus-visible:outline-2
               focus-visible:outline-offset-4
               focus-visible:outline-[#B12025]
@@ -292,36 +403,47 @@ export default function QualityCard({
           </a>
         </div>
 
+        {/* CARD HEADING */}
         <h3 className="max-w-[510px] text-[clamp(1.8rem,2.7vw,2.7rem)] font-semibold leading-[1.13] tracking-[-0.05em]">
           {title}
         </h3>
 
+        {/* CARD DESCRIPTION */}
         <p className="mt-5 max-w-[485px] text-[13px] font-light leading-[1.8] text-[#17191C]/65 sm:text-[14px]">
           {description}
         </p>
       </div>
 
       {/* ==================================
-          PANEL STAGE
+          DASHBOARD STAGE HEIGHT
 
-          Positioned directly after text.
-          No justify-between / large blank gap.
+          OLD: h-[355px]
+          NEW: h-[430px]
 
-          MANUAL VERTICAL ADJUSTMENT:
-          mt-8 = 32px gap
+          The stage must be taller than
+          the expanded white dashboard.
+
+          MANUAL ADJUSTMENT:
+          Dashboard 410px -> Stage 430px
+          Dashboard 430px -> Stage 450px
+          Dashboard 450px -> Stage 470px
+
+          VERTICAL POSITION:
+          mt-8 = 32px gap after text
           mt-5 = 20px gap
-          mt-12 = 48px gap
       ================================== */}
 
-      <div className="relative z-10 mt-8 h-[355px] w-full shrink-0">
+      <div className="relative z-10 mt-8 h-[430px] w-full shrink-0">
 
         {/* ==================================
-            MANUAL WHITE CONTAINER WIDTH
+            WHITE DASHBOARD
 
-            Default:
-            Mobile = 100%
-            Desktop = 82%
-            Large desktop = 70%
+            EXPANDED HEIGHT: 410px
+
+            MANUAL WIDTH:
+            Mobile: 100%
+            Desktop: 82%
+            XL Desktop: 70%
 
             Smaller: xl:w-[62%]
             Wider: xl:w-[78%]
@@ -330,23 +452,39 @@ export default function QualityCard({
         <div
           ref={panelRef}
           className="
-            absolute right-0 top-0
-            h-[340px] w-full
-            overflow-hidden rounded-[23px]
-            border border-black/[0.05]
-            bg-white text-[#17191C]
+            absolute
+            right-0
+            top-0
+            h-[410px]
+            w-full
+            overflow-hidden
+            rounded-[23px]
+            border
+            border-black/[0.05]
+            bg-white
+            text-[#17191C]
             shadow-[0_20px_55px_rgba(23,25,28,0.10)]
-            lg:w-[82%] xl:w-[70%]
+            lg:w-[82%]
+            xl:w-[70%]
           "
         >
-          {/* FIXED TOP HEADER */}
+
+          {/* ==================================
+              FIXED TOP HEADER
+          ================================== */}
+
           <div className="flex h-[82px] items-center justify-between gap-3 border-b border-black/10 px-4 sm:px-5">
+
             <div className="flex min-w-0 items-center gap-3">
+
+              {/* Header Icon */}
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B12025]/10 text-[#B12025]">
                 <ClipboardCheck size={20} />
               </span>
 
+              {/* Header Text */}
               <div className="min-w-0">
+
                 <p className="truncate text-[12px] font-semibold sm:text-[13px]">
                   Quality dashboard
                 </p>
@@ -357,20 +495,25 @@ export default function QualityCard({
               </div>
             </div>
 
+            {/* QA Badge */}
             <span className="shrink-0 rounded-full bg-[#B12025]/10 px-2.5 py-1.5 text-[10px] font-semibold text-[#B12025]">
               QA
             </span>
           </div>
 
           {/* ==================================
-              QUALITY SCORE + CIRCULAR METER
+              QUALITY SCORE
+              AND CIRCULAR INDICATOR
           ================================== */}
 
           <div
             data-qa-reveal
             className="flex items-center justify-between gap-2 px-5 pb-2 pt-4"
           >
+
+            {/* SCORE */}
             <div>
+
               <p className="text-[10px] font-medium text-[#17191C]/45">
                 Example score
               </p>
@@ -388,7 +531,7 @@ export default function QualityCard({
               </span>
             </div>
 
-            {/* ANIMATED SVG SCORE RING */}
+            {/* SVG SCORE RING */}
             <svg
               viewBox="0 0 100 100"
               width="86"
@@ -397,6 +540,8 @@ export default function QualityCard({
               aria-label="Illustrative 94 percent score"
               className="h-[76px] w-[76px] shrink-0"
             >
+
+              {/* Background Ring */}
               <circle
                 cx="50"
                 cy="50"
@@ -407,6 +552,7 @@ export default function QualityCard({
                 strokeWidth="8"
               />
 
+              {/* Animated Progress Ring */}
               <circle
                 ref={ringRef}
                 cx="50"
@@ -423,10 +569,7 @@ export default function QualityCard({
                 transform="rotate(-90 50 50)"
               />
 
-              <ChartNoAxesCombined
-                className="hidden"
-                aria-hidden="true"
-              />
+              {/* Check Icon */}
               <path
                 d="M36 57 L46 47 L53 53 L66 39"
                 fill="none"
@@ -439,14 +582,17 @@ export default function QualityCard({
           </div>
 
           {/* ==================================
-              SEVEN ANIMATED CHART BARS
+              ANIMATED QUALITY CHART
           ================================== */}
 
           <div
             data-qa-reveal
             className="mx-5 mt-1 rounded-xl bg-[#F8F8F8] px-4 py-3"
           >
+
+            {/* Chart Heading */}
             <div className="mb-2 flex items-center justify-between">
+
               <span className="text-[10px] font-semibold">
                 QA trend
               </span>
@@ -456,7 +602,9 @@ export default function QualityCard({
               </span>
             </div>
 
+            {/* Animated Bars */}
             <div className="flex h-[55px] items-end gap-2">
+
               {BARS.map((height, index) => (
                 <span
                   key={index}
@@ -474,28 +622,20 @@ export default function QualityCard({
             </div>
           </div>
 
-          {/* FINAL REVIEW STATUS */}
-          <div
-            data-qa-footer
-            className="mx-5 mt-3 flex items-center justify-between gap-2 border-t border-black/10 pt-3"
-          >
-            <span className="flex items-center gap-2 text-[10px] font-semibold text-[#B12025]">
-              <CheckCircle2 size={16} />
-              Monthly review
-            </span>
+          
 
-            <span className="text-[10px] text-[#17191C]/55">
-              Coaching included
-            </span>
-          </div>
+          {/* ==================================
+              BOTTOM PROGRESS LINE
+          ================================== */}
 
-          {/* THIN ANIMATED PROGRESS LINE */}
           <div className="absolute bottom-0 left-0 h-[3px] w-full bg-[#B12025]/10">
+
             <div
               data-qa-progress
               className="h-full w-full origin-left bg-[#B12025]"
             />
           </div>
+
         </div>
       </div>
     </article>

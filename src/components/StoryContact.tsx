@@ -373,7 +373,7 @@ export default function StoryContact() {
                 href={`mailto:${CONTACT.email}?subject=Work%20with%20us`}
                 className="scroll-mt-28 hover:underline"
               >
-                Work with us
+                Career
               </a>
             </li>
 
