@@ -218,17 +218,17 @@ const serviceGroups = [
 
 const navigationLinks = [
   {
-    label: 'How We Hire',
-    href: '/#hiring',
-  },
-  {
-    label: 'About',
-    href: '/#about',
-  },
-  {
-    label: 'Work With Us',
-    href: '/#careers',
-  },
+  label: 'How We Hire',
+  href: '/how-we-hire',
+},
+{
+  label: 'About',
+  href: '/about',
+},
+{
+  label: 'Work With Us',
+  href: '/work-with-us',
+},
 ];
 
 // =====================================================
