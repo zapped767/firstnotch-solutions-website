@@ -120,7 +120,7 @@ const STATS = [
     label: 'the year FirstNotch was founded',
   },
   {
-    number: '30+',
+    number: '70+',
     label: 'staff working from Colombo',
   },
   {
@@ -566,11 +566,9 @@ function AboutHero() {
           FIRSTNOTCH SOLUTIONS · EST. 2022
         </p>
 
-        <h1 className="mt-6 max-w-[960px] text-[clamp(2.95rem,6.4vw,7.4rem)] font-semibold leading-[1.03] tracking-[-.08em]">
-          <RiseWords
-            text="About FirstNotch"
-          />
-        </h1>
+       <h1 className="mt-6 max-w-[960px] text-[clamp(2.95rem,6.4vw,7.4rem)] font-semibold leading-[1.03] tracking-[-.08em] text-[#B12025]">
+  <RiseWords text="About FirstNotch" />
+</h1>
 
         <p
           data-orbit-hero-in

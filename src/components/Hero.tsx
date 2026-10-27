@@ -11,18 +11,22 @@ import {
 } from 'lucide-react';
 import { COPY } from './content';
 
+gsap.registerPlugin(ScrollTrigger);
+
 // ======================================================
-// FIRSTNOTCH — CENTRED 3D HERO
+// FIRSTNOTCH — RESPONSIVE 3D HERO
 //
-// White background
-// FirstNotch red heading
-// Centred image tunnel
-// GSAP ScrollTrigger
-// Existing HomeMotion heading animation
+// Desktop: Pinned 3D perspective tunnel
+// Mobile: Background cards move with normal scrolling
+//
+// Background: #FFFFFF
+// Heading:    #B12025
+//
+// Existing HomeMotion text animations preserved
 // ======================================================
 
-// Temporary online photos.
-// Replace with real FirstNotch images later.
+// Temporary images. Replace with real FirstNotch
+// images later without modifying the animation.
 
 const PHOTOS = [
   {
@@ -66,18 +70,35 @@ const PHOTOS = [
 const GOLDEN_ANGLE =
   Math.PI * (3 - Math.sqrt(5));
 
+// Mobile background card positions.
+// Percentages relative to the hero area.
+
+const MOBILE_SPOTS = [
+  { x: 0.14, y: 0.13 },
+  { x: 0.85, y: 0.20 },
+  { x: 0.08, y: 0.36 },
+  { x: 0.91, y: 0.42 },
+  { x: 0.10, y: 0.62 },
+  { x: 0.88, y: 0.67 },
+  { x: 0.22, y: 0.86 },
+  { x: 0.77, y: 0.89 },
+  { x: 0.49, y: 0.96 },
+] as const;
+
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+
+  const stageRef =
+    useRef<HTMLDivElement>(null);
+
+  const progressRef =
+    useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hero = heroRef.current;
     const stage = stageRef.current;
 
     if (!hero || !stage) return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     const cards = Array.from(
       stage.querySelectorAll<HTMLElement>(
@@ -88,7 +109,8 @@ export default function Hero() {
     const mm = gsap.matchMedia();
 
     // ==================================================
-    // DESKTOP — CENTRED 3D TUNNEL
+    // DESKTOP ANIMATION
+    // Keeps the existing pinned perspective tunnel
     // ==================================================
 
     mm.add(
@@ -100,8 +122,7 @@ export default function Hero() {
           pointerY: 0,
         };
 
-        const clamp =
-          gsap.utils.clamp(0, 1);
+        const clamp = gsap.utils.clamp(0, 1);
 
         gsap.set(cards, {
           xPercent: -50,
@@ -119,9 +140,6 @@ export default function Hero() {
             const angle =
               index * GOLDEN_ANGLE;
 
-            // Images start around the centre,
-            // then move inward as you scroll.
-
             const closing =
               1 - camera.progress * 0.28;
 
@@ -137,8 +155,6 @@ export default function Hero() {
               (0.30 + (index % 3) * 0.035) *
               closing;
 
-            // Perspective tunnel depth.
-
             const phase =
               0.28 +
               (index / cards.length) * 0.5 +
@@ -146,9 +162,6 @@ export default function Hero() {
 
             const z =
               -1450 + phase * 1900;
-
-            // Fade images as they leave
-            // the visible 3D area.
 
             const opacity = clamp(
               Math.min(
@@ -183,10 +196,6 @@ export default function Hero() {
 
         render();
 
-        // ==============================================
-        // NORMAL PAGE SCROLL CONTROLS THE TUNNEL
-        // ==============================================
-
         const travel = gsap.to(camera, {
           progress: 1,
           ease: 'none',
@@ -210,9 +219,7 @@ export default function Hero() {
           },
         });
 
-        // ==============================================
-        // SUBTLE MOUSE PARALLAX
-        // ==============================================
+        // Desktop mouse parallax
 
         const pointerX = gsap.quickTo(
           camera,
@@ -234,9 +241,7 @@ export default function Hero() {
           }
         );
 
-        const move = (
-          event: PointerEvent
-        ) => {
+        const move = (event: PointerEvent) => {
           pointerX(
             (event.clientX /
               window.innerWidth -
@@ -278,48 +283,198 @@ export default function Hero() {
     );
 
     // ==================================================
-    // REDUCED MOTION — STATIC IMAGES
+    // MOBILE / TABLET 3D SCROLL ANIMATION
+    //
+    // Important:
+    // - No pin
+    // - No scroll blocking
+    // - Images stay behind heading
+    // - Normal vertical scrolling works
     // ==================================================
 
     mm.add(
-      '(min-width: 1024px) and (prefers-reduced-motion: reduce)',
+      '(max-width: 1023px) and (prefers-reduced-motion: no-preference)',
       () => {
-        const layout = () => {
+        const state = {
+          progress: 0,
+        };
+
+        gsap.set(cards, {
+          xPercent: -50,
+          yPercent: -50,
+          transformOrigin: 'center center',
+        });
+
+        const render = () => {
+          const width = stage.clientWidth;
+          const height = stage.clientHeight;
+
+          if (!width || !height) return;
+
+          const narrow = width < 375;
+
           cards.forEach((card, index) => {
-            const angle =
-              index * GOLDEN_ANGLE;
+            const spot = MOBILE_SPOTS[index];
+
+            const progress = state.progress;
+
+            // Gentle horizontal drifting as you scroll
+
+            const driftX =
+              Math.sin(
+                progress * Math.PI * 1.45 +
+                  index * 0.9
+              ) * (narrow ? 7 : 12);
+
+            // Cards move vertically in opposite
+            // directions for a perspective effect.
+
+            const driftY =
+              (progress - 0.5) *
+              (index % 2 ? -95 : 85);
+
+            // Camera depth changes on scroll.
+
+            const z =
+              -260 +
+              progress * 330 -
+              (index % 3) * 48;
 
             gsap.set(card, {
-              xPercent: -50,
-              yPercent: -50,
-
               x:
-                Math.cos(angle) *
-                stage.clientWidth *
-                0.39,
+                (spot.x - 0.5) * width +
+                driftX,
 
               y:
-                Math.sin(angle) *
-                stage.clientHeight *
-                0.31,
+                (spot.y - 0.5) * height +
+                driftY,
 
-              z: -500,
+              z,
 
-              opacity: 1,
+              rotation:
+                (index % 2 ? -5 : 5) +
+                progress *
+                  (index % 2 ? 4 : -4),
+
+              opacity:
+                index === 8 && narrow
+                  ? 0.5
+                  : 0.94,
+
               visibility: 'visible',
             });
           });
+
+          if (progressRef.current) {
+            gsap.set(progressRef.current, {
+              scaleX: state.progress,
+            });
+          }
         };
 
-        layout();
+        render();
+
+        // Mobile animation follows page scroll.
+        // Does NOT pin the hero or block the screen.
+
+        const travel = gsap.to(state, {
+          progress: 1,
+          ease: 'none',
+          onUpdate: render,
+
+          scrollTrigger: {
+            trigger: hero,
+            start: 'top top',
+            end: 'bottom top',
+
+            scrub: 0.7,
+
+            invalidateOnRefresh: true,
+            onRefresh: render,
+          },
+        });
 
         const observer =
-          new ResizeObserver(layout);
+          new ResizeObserver(render);
 
         observer.observe(stage);
 
-        return () =>
+        return () => {
           observer.disconnect();
+
+          travel.scrollTrigger?.kill();
+          travel.kill();
+        };
+      }
+    );
+
+    // ==================================================
+    // REDUCED MOTION FALLBACK
+    // Static images for people who disable animations
+    // ==================================================
+
+    mm.add(
+      '(prefers-reduced-motion: reduce)',
+      () => {
+        gsap.set(cards, {
+          xPercent: -50,
+          yPercent: -50,
+        });
+
+        const render = () => {
+          const width = stage.clientWidth;
+          const height = stage.clientHeight;
+
+          cards.forEach((card, index) => {
+            if (width < 1024) {
+              const spot = MOBILE_SPOTS[index];
+
+              gsap.set(card, {
+                x:
+                  (spot.x - 0.5) * width,
+
+                y:
+                  (spot.y - 0.5) * height,
+
+                z: -180,
+                rotation:
+                  index % 2 ? -4 : 4,
+
+                opacity: 0.85,
+                visibility: 'visible',
+              });
+            } else {
+              const angle =
+                index * GOLDEN_ANGLE;
+
+              gsap.set(card, {
+                x:
+                  Math.cos(angle) *
+                  width *
+                  0.39,
+
+                y:
+                  Math.sin(angle) *
+                  height *
+                  0.31,
+
+                z: -500,
+                rotation: 0,
+                opacity: 1,
+                visibility: 'visible',
+              });
+            }
+          });
+        };
+
+        render();
+
+        const observer =
+          new ResizeObserver(render);
+
+        observer.observe(stage);
+
+        return () => observer.disconnect();
       }
     );
 
@@ -344,14 +499,15 @@ export default function Hero() {
         className="
           relative
           mx-auto
-          min-h-[790px]
+          min-h-[740px]
           max-w-[1680px]
+          sm:min-h-[800px]
           lg:min-h-[calc(100svh-88px)]
         "
       >
         {/* =============================================
-            CENTRED IMAGE TUNNEL
-            NO LEFT / RIGHT SPLIT
+            3D BACKGROUND — ALL SCREEN SIZES
+            Removed hidden lg:block
         ============================================= */}
 
         <div
@@ -361,28 +517,32 @@ export default function Hero() {
             pointer-events-none
             absolute
             inset-0
-            hidden
-            lg:block
+            z-0
+            block
+            overflow-hidden
             [perspective:1150px]
           "
           style={{
             transformStyle: 'preserve-3d',
           }}
         >
-          {/* SUBTLE RED DOT PATTERN */}
+          {/* SUBTLE RED DOTS */}
 
           <div
             className="
               absolute
               inset-0
-              opacity-45
+              opacity-35
               [background-image:radial-gradient(rgba(177,32,37,.14)_1px,transparent_1px)]
               [background-size:29px_29px]
-              [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_90%)]
+              [mask-image:radial-gradient(ellipse_at_center,transparent_18%,black_90%)]
             "
           />
 
-          {/* FLOATING PHOTO CARDS */}
+          {/* ===========================================
+              PHOTO CARDS
+              RESPONSIVE FOR MOBILE
+          =========================================== */}
 
           {PHOTOS.map((photo, index) => (
             <div
@@ -393,9 +553,12 @@ export default function Hero() {
                 left-1/2
                 top-1/2
                 aspect-[4/5]
-                w-[clamp(145px,12vw,200px)]
+                w-[70px]
                 opacity-0
                 [transform-style:preserve-3d]
+                min-[380px]:w-[87px]
+                sm:w-[115px]
+                lg:w-[clamp(145px,12vw,200px)]
               "
             >
               <div
@@ -404,11 +567,14 @@ export default function Hero() {
                   h-full
                   w-full
                   overflow-hidden
-                  rounded-[21px]
+                  rounded-[12px]
                   border
                   border-[#B12025]/10
                   bg-[#fff5f5]
-                  shadow-[0_24px_65px_rgba(23,25,28,.18)]
+                  shadow-[0_16px_35px_rgba(23,25,28,.18)]
+                  sm:rounded-[19px]
+                  lg:rounded-[21px]
+                  lg:shadow-[0_24px_65px_rgba(23,25,28,.18)]
                 "
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -418,9 +584,7 @@ export default function Hero() {
                   alt=""
                   draggable={false}
                   loading={
-                    index < 5
-                      ? 'eager'
-                      : 'lazy'
+                    index < 5 ? 'eager' : 'lazy'
                   }
                   className="
                     h-full
@@ -428,6 +592,8 @@ export default function Hero() {
                     object-cover
                   "
                 />
+
+                {/* PHOTO LABEL */}
 
                 <span
                   className="
@@ -437,14 +603,19 @@ export default function Hero() {
                     bg-gradient-to-t
                     from-[#17191C]/80
                     to-transparent
-                    px-3
-                    pb-3
-                    pt-12
-                    text-[10px]
+                    px-1.5
+                    pb-1.5
+                    pt-5
+                    text-[7px]
                     font-semibold
                     uppercase
-                    tracking-[.13em]
+                    tracking-[.08em]
                     text-white
+                    sm:px-3
+                    sm:pb-3
+                    sm:pt-12
+                    sm:text-[9px]
+                    lg:text-[10px]
                   "
                 >
                   {photo.title}
@@ -456,7 +627,7 @@ export default function Hero() {
 
         {/* =============================================
             SOFT WHITE CENTRE
-            KEEPS HEADING CLEAR
+            Text remains readable over the photos
         ============================================= */}
 
         <div
@@ -467,21 +638,21 @@ export default function Hero() {
             left-1/2
             top-1/2
             z-10
-            hidden
-            h-[700px]
-            w-[1050px]
+            h-[540px]
+            w-[min(96vw,780px)]
             -translate-x-1/2
             -translate-y-1/2
-            lg:block
+            lg:h-[700px]
+            lg:w-[1050px]
           "
           style={{
             background:
-              'radial-gradient(ellipse at center, #ffffff 0%, rgba(255,255,255,.98) 33%, rgba(255,255,255,.86) 51%, rgba(255,255,255,.1) 72%, transparent 82%)',
+              'radial-gradient(ellipse at center, #fff 0%, rgba(255,255,255,.97) 31%, rgba(255,255,255,.84) 50%, rgba(255,255,255,.18) 73%, transparent 85%)',
           }}
         />
 
         {/* =============================================
-            CENTRED TEXT HEADING
+            CENTRE HEADING AND CONTENT
         ============================================= */}
 
         <div
@@ -490,15 +661,16 @@ export default function Hero() {
             z-20
             mx-auto
             flex
-            min-h-[610px]
+            min-h-[740px]
             max-w-[1100px]
             flex-col
             items-center
             justify-center
             px-5
-            pb-9
+            pb-[75px]
             pt-[95px]
             text-center
+            sm:min-h-[800px]
             sm:px-8
             lg:min-h-[calc(100svh-88px)]
             lg:pb-[40px]
@@ -510,29 +682,34 @@ export default function Hero() {
           <p
             data-fns-intro
             className="
-              mb-[26px]
-              text-[11px]
+              mb-[22px]
+              text-[9px]
               font-semibold
               uppercase
-              tracking-[.25em]
+              tracking-[.21em]
               text-[#B12025]
+              sm:text-[11px]
+              sm:tracking-[.25em]
             "
           >
             {COPY.eyebrow}
           </p>
 
-          {/* RISING TEXT ANIMATION
-              CONTROLLED BY HomeMotion.tsx */}
+          {/* ===========================================
+              HEADING — EXISTING RISE ANIMATION
+          =========================================== */}
 
           <h1
             id="fns-hero-title"
             className="
               max-w-[1060px]
-              text-[clamp(3.2rem,6.9vw,7.2rem)]
+              text-[clamp(2.05rem,9.4vw,4rem)]
               font-semibold
-              leading-[1.035]
+              leading-[1.08]
               tracking-[-.075em]
               text-[#B12025]
+              lg:text-[clamp(3.2rem,6.9vw,7.2rem)]
+              lg:leading-[1.035]
             "
           >
             {[
@@ -564,27 +741,30 @@ export default function Hero() {
             data-fns-intro
             className="
               mt-5
-              max-w-[660px]
-              text-[14px]
+              max-w-[305px]
+              text-[13px]
               leading-[1.85]
               text-[#5D3437]
+              sm:max-w-[660px]
               sm:text-[16px]
             "
           >
             {COPY.intro}
           </p>
 
-          {/* BUTTONS */}
+          {/* CTA BUTTONS */}
 
           <div
             data-fns-intro
             className="
-              mt-8
+              mt-7
               flex
               flex-wrap
               items-center
               justify-center
-              gap-4
+              gap-3
+              sm:mt-8
+              sm:gap-4
             "
           >
             <a
@@ -592,13 +772,13 @@ export default function Hero() {
               href="#contact"
               className="
                 inline-flex
-                min-h-[54px]
+                min-h-[50px]
                 items-center
-                gap-3
+                gap-2
                 rounded-full
                 bg-[#B12025]
-                px-6
-                text-[12px]
+                px-5
+                text-[11px]
                 font-semibold
                 text-white
                 transition
@@ -607,13 +787,17 @@ export default function Hero() {
                 focus-visible:outline-2
                 focus-visible:outline-offset-4
                 focus-visible:outline-[#B12025]
+                sm:min-h-[54px]
+                sm:gap-3
+                sm:px-6
+                sm:text-[12px]
               "
             >
               {COPY.cta}
 
               <ArrowUpRight
                 aria-hidden="true"
-                size={17}
+                size={16}
               />
             </a>
 
@@ -621,19 +805,22 @@ export default function Hero() {
               href="#services"
               className="
                 inline-flex
-                min-h-[54px]
+                min-h-[48px]
                 items-center
                 gap-2
                 rounded-full
                 border
                 border-[#B12025]/30
-                bg-white
-                px-6
-                text-[12px]
+                bg-white/90
+                px-5
+                text-[11px]
                 font-semibold
                 text-[#B12025]
                 transition
                 hover:bg-[#fff5f5]
+                sm:min-h-[54px]
+                sm:px-6
+                sm:text-[12px]
               "
             >
               See what we do
@@ -650,15 +837,18 @@ export default function Hero() {
           <p
             data-fns-intro
             className="
-              mt-12
+              mt-10
               flex
               items-center
               gap-2
-              text-[10px]
+              text-[9px]
               font-semibold
               uppercase
-              tracking-[.18em]
+              tracking-[.17em]
               text-[#B12025]/65
+              sm:mt-12
+              sm:text-[10px]
+              sm:tracking-[.18em]
             "
           >
             <MousePointer2
@@ -668,82 +858,6 @@ export default function Hero() {
 
             Scroll to explore our work
           </p>
-        </div>
-
-        {/* =============================================
-            MOBILE IMAGE CARDS
-            NO 3D PINNING ON MOBILE
-        ============================================= */}
-
-        <div
-          aria-label="FirstNotch services photo gallery"
-          className="
-            relative
-            z-20
-            flex
-            gap-3
-            overflow-x-auto
-            px-5
-            pb-12
-            [scrollbar-width:none]
-            [&::-webkit-scrollbar]:hidden
-            sm:px-8
-            lg:hidden
-          "
-        >
-          {PHOTOS.slice(0, 6).map(
-            (photo) => (
-              <div
-                key={photo.src}
-                className="
-                  relative
-                  aspect-[4/5]
-                  w-[155px]
-                  shrink-0
-                  overflow-hidden
-                  rounded-[18px]
-                  border
-                  border-[#B12025]/10
-                  bg-[#fff5f5]
-                  shadow-md
-                "
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-
-                <img
-                  src={photo.src}
-                  alt={photo.title}
-                  loading="lazy"
-                  className="
-                    h-full
-                    w-full
-                    object-cover
-                  "
-                />
-
-                <span
-                  className="
-                    absolute
-                    inset-x-0
-                    bottom-0
-                    bg-gradient-to-t
-                    from-[#17191C]/80
-                    to-transparent
-                    px-3
-                    pb-3
-                    pt-8
-                    text-[10px]
-                    font-semibold
-                    uppercase
-                    tracking-[.1em]
-                    text-white
-                  "
-                >
-                  {photo.title}
-                </span>
-              </div>
-            )
-          )}
         </div>
       </div>
 

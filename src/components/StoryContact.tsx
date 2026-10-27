@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import Image from 'next/image';
 import { ArrowUpRight, Check, Clock, Copy, Mail, MapPin, Phone } from 'lucide-react';
-import { CONTACT, COPY, LOGOS, SERVICES } from './content';
+import { CONTACT, COPY } from './content';
+import FirstNotchFooter from './FirstNotchFooter';
 const field =
   'mt-2 w-full rounded-none border-b border-black/25 bg-transparent py-3 text-sm outline-none transition-colors focus:border-[#B12025]';
 const serviceOptions = [
@@ -284,139 +284,9 @@ export default function StoryContact() {
             )}
           </form>
         </div>
+        
       </section>
-      <footer className="overflow-hidden bg-[#B12025] px-5 pb-7 pt-14 font-normal text-white sm:px-8 lg:px-14">
-  <div className="mx-auto max-w-[1424px]">
-    <div className="grid gap-10 border-b border-white/20 pb-12 lg:grid-cols-12 lg:gap-8">
-      {/* Logo, description and navigation */}
-      <div className="grid min-w-0 gap-8 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-[1.4fr_1fr_1fr]">
-        <div className="min-w-0">
-          <a
-            href="#top"
-            aria-label="FirstNotch home"
-            className="inline-block max-w-full"
-          >
-            <Image
-              src={LOGOS.white}
-              alt="FirstNotch"
-              width={202}
-              height={71}
-              className="h-auto w-[202px] max-w-full"
-            />
-          </a>
-
-          <p className="mt-6 max-w-[320px] text-xs font-normal leading-6 text-white/85">
-            {COPY.footer}
-          </p>
-
-          <div className="mt-7">
-            <h2 className="mb-4 text-xs font-semibold">
-              Follow FirstNotch
-            </h2>
-
-            <div className="flex flex-wrap gap-x-4 gap-y-3 text-[11px] text-white/85">
-              <a
-                href={CONTACT.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline"
-              >
-                LinkedIn
-              </a>
-
-              <span>Facebook</span>
-              <span>Instagram</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h2 className="mb-5 text-xs font-semibold">
-            Services
-          </h2>
-
-          <ul className="space-y-3 text-[11px] leading-5 text-white/85">
-            {SERVICES.map((service) => (
-              <li key={service.title}>
-                <a
-                  href="#services"
-                  className="hover:underline"
-                >
-                  {service.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h2 className="mb-5 text-xs font-semibold">
-            Company
-          </h2>
-
-          <ul className="space-y-3 text-[11px] leading-5 text-white/85">
-            <li>
-              <a href="#about" className="hover:underline">
-                About us
-              </a>
-            </li>
-
-            <li>
-              <a href="#hiring" className="hover:underline">
-                How we hire
-              </a>
-            </li>
-
-            <li>
-              <a
-                id="careers"
-                href={`mailto:${CONTACT.email}?subject=Work%20with%20us`}
-                className="scroll-mt-28 hover:underline"
-              >
-                Career
-              </a>
-            </li>
-
-            <li>
-              <a href="#top" className="hover:underline">
-                Resources
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Google Map — right side on desktop */}
-      <div className="min-w-0 lg:col-span-4">
-        <div className="overflow-hidden rounded-3xl border border-white/25 bg-white">
-          <iframe
-            title="FirstNotch Solutions office location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.029244598203!2d79.85696747476996!3d6.887100493111926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25b5a49fe2ca5%3A0xaa2a26ad6ec270a6!2sFirstNotch%20Solutions%20(Pvt)%20Ltd!5e0!3m2!1sen!2slk!4v1792139723326!5m2!1sen!2slk"
-            width={400}
-            height={300}
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            className="block h-[300px] w-full"
-          />
-        </div>
-      </div>
-    </div>
-
-    {/* Large decorative wordmark */}
-    <p
-      aria-hidden="true"
-      className="select-none py-10 text-[clamp(4rem,15.5vw,15rem)] font-semibold leading-[0.85] tracking-[-0.075em] text-white/[0.07]"
-    >
-      FirstNotch
-    </p>
-
-    <p className="border-t border-white/20 pt-6 text-[10px] text-white/85">
-      © 2026 FirstNotch Solutions (Pvt) Ltd. All rights reserved.
-    </p>
-  </div>
-</footer>
+     <FirstNotchFooter />
     </>
   );
 }
