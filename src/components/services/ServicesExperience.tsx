@@ -616,6 +616,346 @@ function AnimatedChannelFlowCard() {
   );
 }
 
+
+/* =====================================================
+   FIRSTNOTCH FAQ ROLLER
+   21ST.DEV STYLE
+   WHITE BACKGROUND / RED ACCENTS
+===================================================== */
+
+type FaqItem = (typeof questions)[number];
+
+type ScrollDirection = 'left' | 'right';
+
+/* =====================================================
+   FAQ CARD
+===================================================== */
+
+function FaqCard({
+  item,
+  duplicate = false,
+}: {
+  item: FaqItem;
+  duplicate?: boolean;
+}) {
+  return (
+    <article
+      tabIndex={duplicate ? -1 : 0}
+      className="
+        flex
+        h-[275px]
+        w-[min(85vw,405px)]
+        shrink-0
+        flex-col
+        rounded-[26px]
+        border
+        border-[#17191C]/[.08]
+        bg-white
+        p-6
+        shadow-[0_14px_35px_rgba(23,25,28,.06)]
+        outline-none
+        transition-colors
+        duration-300
+        hover:border-[#B12025]/50
+        focus-visible:ring-2
+        focus-visible:ring-[#B12025]
+        sm:h-[290px]
+        sm:p-8
+      "
+    >
+      {/* TOP LABEL */}
+
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#B12025]">
+          FIRSTNOTCH / FAQ
+        </span>
+
+        <MessageCircle
+          size={18}
+          strokeWidth={1.7}
+          className="shrink-0 text-[#B12025]"
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* QUESTION */}
+
+      <h3 className="mt-6 text-[19px] font-semibold leading-[1.33] tracking-[-.03em] text-[#17191C] sm:text-[21px]">
+        {item.q}
+      </h3>
+
+      {/* ANSWER */}
+
+      <p className="mt-4 text-[13px] leading-[1.75] text-[#17191C]/65 sm:text-[14px]">
+        {item.a}
+      </p>
+
+      {/* BOTTOM TAG */}
+
+      <span className="mt-auto inline-flex w-fit rounded-full bg-[#B12025]/[.07] px-3 py-1.5 text-[10px] font-semibold text-[#B12025]">
+        {item.tag}
+      </span>
+    </article>
+  );
+}
+
+/* =====================================================
+   HORIZONTAL SCROLLER
+   TWO IDENTICAL COPIES FOR SEAMLESS LOOP
+===================================================== */
+
+function HorizontalScroller({
+  items,
+  speed,
+  direction,
+  paused,
+  label,
+}: {
+  items: FaqItem[];
+  speed: number;
+  direction: ScrollDirection;
+  paused: boolean;
+  label: string;
+}) {
+  return (
+    <div
+      role="region"
+      aria-label={label}
+      tabIndex={0}
+      className="
+        fn-faq-roller
+        relative
+        w-full
+        overflow-x-hidden
+        py-2
+        focus-visible:outline
+        focus-visible:outline-2
+        focus-visible:outline-[#B12025]
+      "
+    >
+      <div
+        className="fn-faq-track flex w-max"
+        style={{
+          animation: `fnFaqMarquee ${speed}s linear infinite`,
+
+          animationDirection:
+            direction === 'right'
+              ? 'reverse'
+              : 'normal',
+
+          animationPlayState:
+            paused ? 'paused' : 'running',
+        }}
+      >
+        {[0, 1].map((copy) => (
+          <div
+            key={copy}
+            aria-hidden={
+              copy === 1 ? true : undefined
+            }
+            className="
+              flex
+              shrink-0
+              items-stretch
+              gap-4
+              pr-4
+              sm:gap-5
+              sm:pr-5
+            "
+          >
+            {items.map((item, index) => (
+              <FaqCard
+                key={`${copy}-${index}-${item.q}`}
+                item={item}
+                duplicate={copy === 1}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================
+   FAQ SECTION
+===================================================== */
+
+function FaqRollerSection() {
+  const [paused, setPaused] = useState(false);
+
+  const rows: {
+    id: string;
+    direction: ScrollDirection;
+    speed: number;
+    items: FaqItem[];
+  }[] = [
+    {
+      id: 'upper',
+      direction: 'left',
+      speed: 48,
+      items: [...questions],
+    },
+    {
+      id: 'lower',
+      direction: 'right',
+      speed: 57,
+      items: [...questions].reverse(),
+    },
+  ];
+
+  return (
+    <section
+      id="faq"
+      aria-labelledby="services-faq-title"
+      className="
+        scroll-mt-[140px]
+        overflow-hidden
+        bg-[#FAF9F8]
+        py-[100px]
+        sm:py-[135px]
+      "
+    >
+      {/* TITLE */}
+
+      <div className="mx-auto max-w-[1440px] px-5 text-center md:px-10">
+        <p
+          data-reveal
+          className="text-[11px] font-semibold uppercase tracking-[.23em] text-[#B12025]"
+        >
+          STRAIGHT ANSWERS / FIRSTNOTCH
+        </p>
+
+        <h2
+          id="services-faq-title"
+          data-reveal
+          className="
+            mx-auto
+            mt-5
+            max-w-[900px]
+            text-[clamp(2.8rem,5.4vw,5.6rem)]
+            font-semibold
+            leading-[1.07]
+            tracking-[-.065em]
+            text-[#17191C]
+          "
+        >
+          Common questions
+          <span className="text-[#B12025]">
+            .
+          </span>
+        </h2>
+
+        <p
+          data-reveal
+          className="mx-auto mt-5 max-w-[650px] text-[14px] leading-7 text-[#17191C]/60"
+        >
+          Clear answers about quality,
+          timelines, contracts, pricing and
+          data protection.
+        </p>
+
+        {/* PAUSE / RESUME */}
+
+        <button
+          type="button"
+          aria-pressed={paused}
+          onClick={() =>
+            setPaused((previous) => !previous)
+          }
+          className="
+            mt-7
+            inline-flex
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#B12025]/25
+            bg-white
+            px-5
+            py-2.5
+            text-[12px]
+            font-semibold
+            text-[#B12025]
+            transition-colors
+            hover:border-[#B12025]
+            focus-visible:outline
+            focus-visible:outline-2
+            focus-visible:outline-[#B12025]
+          "
+        >
+          {paused
+            ? 'Resume cards'
+            : 'Pause cards'}
+        </button>
+      </div>
+
+      {/* TWO CONTINUOUS FAQ ROWS */}
+
+      <div className="mt-12 flex flex-col gap-5 sm:mt-16 sm:gap-7">
+        {rows.map((row) => (
+          <HorizontalScroller
+            key={row.id}
+            items={row.items}
+            speed={row.speed}
+            direction={row.direction}
+            label={
+              `${
+                row.direction === 'left'
+                  ? 'Left-moving'
+                  : 'Right-moving'
+              } FAQ cards`
+            }
+            paused={paused}
+          />
+        ))}
+      </div>
+
+      <p className="mt-7 px-5 text-center text-[11px] text-[#17191C]/45 sm:hidden">
+        Swipe horizontally to explore the FAQs
+      </p>
+
+      {/* LOCAL ANIMATION STYLES */}
+
+
+<style>{`
+  @keyframes fnFaqMarquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  .fn-faq-roller:hover .fn-faq-track,
+  .fn-faq-roller:focus-within .fn-faq-track {
+    animation-play-state: paused !important;
+  }
+
+  @media (max-width: 767px),
+    (prefers-reduced-motion: reduce) {
+    .fn-faq-roller {
+      overflow-x: auto !important;
+      scrollbar-width: none;
+    }
+
+    .fn-faq-roller::-webkit-scrollbar {
+      display: none;
+    }
+
+    .fn-faq-track {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+`}</style>
+
+    </section>
+  );
+}
+
 // ======================================================
 // 07 — MAIN SERVICES EXPERIENCE
 // ======================================================
@@ -625,11 +965,9 @@ export default function ServicesExperience() {
   const heroRef = useRef<HTMLElement>(null);
   const showcaseRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const faqGridRef = useRef<HTMLDivElement>(null);
+ 
 
-  const pendingFlip = useRef<
-    ReturnType<typeof Flip.getState> | null
-  >(null);
+  
 
   const [activeCategory, setActiveCategory] =
     useState(0);
@@ -637,8 +975,7 @@ export default function ServicesExperience() {
   const [showcaseProgress, setShowcaseProgress] =
     useState(0);
 
-  const [activeFaq, setActiveFaq] =
-    useState<number | null>(null);
+
 
   const [showStickyCall, setShowStickyCall] =
     useState(true);
@@ -719,46 +1056,7 @@ export default function ServicesExperience() {
     };
   }, []);
 
-  // FAQ GSAP FLIP
 
-  const toggleFaq = (index: number) => {
-    if (
-      faqGridRef.current &&
-      !reducedMotion()
-    ) {
-      gsap.registerPlugin(Flip);
-
-      pendingFlip.current = Flip.getState(
-        faqGridRef.current.querySelectorAll(
-          '[data-faq-item]'
-        )
-      );
-    }
-
-    setActiveFaq((previous) =>
-      previous === index ? null : index
-    );
-  };
-
-  useLayoutEffect(() => {
-    if (!pendingFlip.current) return;
-
-    gsap.registerPlugin(Flip);
-
-    const state = pendingFlip.current;
-    pendingFlip.current = null;
-
-    const animation = Flip.from(state, {
-      duration: 0.65,
-      ease: 'power3.out',
-      absolute: false,
-      nested: true,
-    });
-
-    return () => {
-      animation.kill();
-    };
-  }, [activeFaq]);
 
   // ====================================================
   // 08 — GSAP SCROLL ANIMATIONS
@@ -1544,67 +1842,7 @@ export default function ServicesExperience() {
 
         <QualityPromise />
 
-        {/* PREMIUM FAQ */}
-
-        <section
-          id="faq"
-          className="bg-white py-28 sm:py-36"
-        >
-          <div className="mx-auto max-w-[1440px] px-5 md:px-10">
-            <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B12025]">
-              Straight answers
-            </p>
-
-            <h2 className="mb-12 mt-4 text-[clamp(2.6rem,4.8vw,5rem)] font-semibold tracking-[-.06em]">
-              Common questions.
-            </h2>
-
-            <div
-              ref={faqGridRef}
-              className="grid gap-4 md:grid-cols-2"
-            >
-              {questions.map((question, index) => (
-                <button
-                  data-faq-item
-                  key={question.q}
-                  type="button"
-                  aria-expanded={activeFaq === index}
-                  onClick={() => toggleFaq(index)}
-                  className={`relative min-h-[165px] rounded-[25px] border border-[#17191C]/10 bg-[#fbfaf9] p-7 text-left shadow-sm transition-colors hover:border-[#B12025]/40 focus-visible:outline-[#B12025] ${
-                    activeFaq === index
-                      ? 'border-t-[3px] border-t-[#B12025] md:col-span-2'
-                      : ''
-                  }`}
-                >
-                  <span className="flex items-start justify-between gap-5">
-                    <span className="max-w-xl text-[19px] font-semibold tracking-tight">
-                      {question.q}
-                    </span>
-
-                    <ChevronDown
-                      size={21}
-                      className={`shrink-0 transition-all duration-300 ${
-                        activeFaq === index
-                          ? 'rotate-180 text-[#B12025]'
-                          : 'text-[#17191C]/45'
-                      }`}
-                    />
-                  </span>
-
-                  {activeFaq === index ? (
-                    <span className="mt-6 block max-w-3xl text-sm leading-8 text-[#17191C]/65">
-                      {question.a}
-                    </span>
-                  ) : (
-                    <span className="mt-8 inline-flex rounded-full bg-[#B12025]/[.08] px-3 py-1.5 text-[11px] font-semibold text-[#B12025]">
-                      {question.tag}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
+       <FaqRollerSection />
 
         {/* CONTACT SECTION */}
 
