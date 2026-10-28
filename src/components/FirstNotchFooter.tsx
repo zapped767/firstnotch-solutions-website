@@ -5,11 +5,11 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUp } from 'lucide-react';
-import { CONTACT, COPY, LOGOS } from './content';
+import { CONTACT, COPY } from './content';
 
 // ======================================================
 // FIRSTNOTCH PREMIUM HALFTONE FOOTER
-// Brand Red: #B12025
+// Midnight Charcoal: #17191C
 // Pure White: #FFFFFF
 // ======================================================
 
@@ -99,10 +99,10 @@ function HalftoneWordmark() {
     const WORDMARK_TEXT = 'FirstNotch Solutions';
 
     // Change 0.88 to 0.80 to make text smaller.
-    const TEXT_WIDTH_RATIO = 0.88;
+    const TEXT_WIDTH_RATIO = 0.98;
 
     // Maximum font size relative to canvas height.
-    const TEXT_HEIGHT_RATIO = 0.62;
+    const TEXT_HEIGHT_RATIO = 1.9;
 
     // White dot brightness: 0 to 1
     const DOT_OPACITY = 0.85;
@@ -568,7 +568,7 @@ export default function FirstNotchFooter() {
         relative
         isolate
         overflow-hidden
-        bg-[#B12025]
+        bg-[#17191C]
         font-normal
         text-[#FFFFFF]
       "
@@ -619,7 +619,7 @@ export default function FirstNotchFooter() {
               aria-label="FirstNotch Solutions home"
             >
               <Image
-                src={LOGOS.white}
+                src="/images/logo-white.svg"
                 alt="FirstNotch Solutions"
                 width={210}
                 height={76}
@@ -638,7 +638,7 @@ export default function FirstNotchFooter() {
                 max-w-[300px]
                 text-[13px]
                 leading-[1.9]
-                text-white/85
+                text-white
               "
             >
               {COPY.footer}
@@ -665,7 +665,7 @@ export default function FirstNotchFooter() {
                   gap-x-4
                   gap-y-3
                   text-[12px]
-                  text-white/85
+                  text-white
                 "
               >
                 <a
@@ -711,7 +711,7 @@ export default function FirstNotchFooter() {
                     className="
                       text-[12px]
                       leading-6
-                      text-white/80
+                      text-white
                       transition
                       hover:text-white
                       hover:underline
@@ -751,7 +751,7 @@ export default function FirstNotchFooter() {
                     className="
                       text-[12px]
                       leading-6
-                      text-white/80
+                      text-white
                       transition
                       hover:text-white
                       hover:underline
@@ -786,7 +786,7 @@ export default function FirstNotchFooter() {
                 border
                 border-white/30
                 bg-white
-                shadow-[0_18px_45px_rgba(94,0,0,.16)]
+                shadow-[0_18px_45px_rgba(0,0,0,.25)]
               "
             >
               <iframe
@@ -836,7 +836,7 @@ export default function FirstNotchFooter() {
             py-6
             text-[11px]
             leading-6
-            text-white/85
+            text-white
             sm:flex-row
             sm:items-center
             sm:justify-between

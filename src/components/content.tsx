@@ -53,7 +53,7 @@ export const COPY = {
 } as const;
 
 export const STATS = [
-  ['30+', 'people on our team in Colombo'],
+  ['70+', 'people on our team in Colombo'],
   ['85%', 'of our clients stay with us'],
   ['98%', 'accuracy rate'],
   ['4', 'languages: English, Sinhala, Tamil and Hindi'],
