@@ -125,7 +125,7 @@ export default function Journey() {
       id="process"
       ref={root}
       aria-labelledby="fns-process-title"
-      className="relative scroll-mt-24 overflow-hidden bg-white pb-14 pt-28 font-normal text-[#B12025] lg:flex lg:h-[100svh] lg:min-h-[760px] lg:flex-col lg:justify-center lg:pb-10 lg:pt-28"
+      className="relative scroll-mt-24 overflow-hidden bg-white pb-8 pt-6 font-normal text-[#B12025] sm:pb-14 sm:pt-28 lg:flex lg:h-[100svh] lg:min-h-[760px] lg:flex-col lg:justify-center lg:pb-10 lg:pt-28"
     >
       {/* Heading and navigation */}
       <div className="mx-auto mb-9 flex w-full max-w-[1536px] flex-col gap-6 px-5 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-14">

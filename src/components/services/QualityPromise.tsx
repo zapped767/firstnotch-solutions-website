@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -11,7 +10,6 @@ const QUALITY_STEPS = [
     title: 'Hiring',
     description:
       'Only 15 to 20% of applicants pass our hiring checks. We select people who can represent your business well.',
-    image: '/images/quality-promise/step-01.png',
   },
   {
     number: '02',
@@ -19,7 +17,6 @@ const QUALITY_STEPS = [
     title: 'Training',
     description:
       'Your team learns your tools, workflows, customer expectations and tone before live work begins.',
-    image: '/images/quality-promise/step-02.png',
   },
   {
     number: '03',
@@ -27,7 +24,6 @@ const QUALITY_STEPS = [
     title: 'QA score',
     description:
       'Every piece of work receives a quality score, from a support call to a website update.',
-    image: '/images/quality-promise/step-03.png',
   },
   {
     number: '04',
@@ -35,7 +31,6 @@ const QUALITY_STEPS = [
     title: 'Monthly review',
     description:
       'Individual performance is reviewed every month, with coaching and clear actions for improvement.',
-    image: '/images/quality-promise/step-04.png',
   },
 ] as const;
 
@@ -44,51 +39,336 @@ export default function QualityPromise() {
 
   const sectionRef = useRef<HTMLElement>(null);
   const numberRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
-  // Update active step during scrolling
+  const activeIndexRef = useRef(0);
+  const pausedUntilRef = useRef(0);
+
+  // ==========================================
+  // KEEP ACTIVE INDEX SYNCHRONISED
+  // ==========================================
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  // ==========================================
+  // DESKTOP: ORIGINAL VERTICAL SCROLL DETECTION
+  // ==========================================
+
   useEffect(() => {
     const section = sectionRef.current;
 
     if (!section) return;
 
-    const cards =
-      section.querySelectorAll<HTMLElement>(
-        '[data-quality-step]'
-      );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const target =
-              entry.target as HTMLElement;
-
-            const index = Number(
-              target.dataset.index
-            );
-
-            if (
-              Number.isInteger(index) &&
-              index >= 0 &&
-              index < QUALITY_STEPS.length
-            ) {
-              setActiveIndex(index);
-            }
-          }
-        });
-      },
-      {
-        rootMargin: '-20% 0px -40% 0px',
-        threshold: 0,
-      }
+    const desktopMedia = window.matchMedia(
+      '(min-width: 1024px)'
     );
 
-    cards.forEach((card) => observer.observe(card));
+    let observer: IntersectionObserver | null = null;
 
-    return () => observer.disconnect();
+    const setupObserver = () => {
+      observer?.disconnect();
+      observer = null;
+
+      // Desktop only.
+      // Mobile uses horizontal slider detection.
+      if (!desktopMedia.matches) return;
+
+      const cards =
+        section.querySelectorAll<HTMLElement>(
+          '[data-quality-step]'
+        );
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const target = entry.target as HTMLElement;
+
+              const index = Number(
+                target.dataset.index
+              );
+
+              if (
+                Number.isInteger(index) &&
+                index >= 0 &&
+                index < QUALITY_STEPS.length
+              ) {
+                setActiveIndex(index);
+              }
+            }
+          });
+        },
+        {
+          rootMargin: '-20% 0px -40% 0px',
+          threshold: 0,
+        }
+      );
+
+      cards.forEach((card) => {
+        observer?.observe(card);
+      });
+    };
+
+    setupObserver();
+
+    desktopMedia.addEventListener(
+      'change',
+      setupObserver
+    );
+
+    return () => {
+      observer?.disconnect();
+
+      desktopMedia.removeEventListener(
+        'change',
+        setupObserver
+      );
+    };
   }, []);
 
-  // GSAP animated number
+  // ==========================================
+  // MOBILE ONLY: AUTOMATIC SIDE SCROLL
+  // ==========================================
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    const section = sectionRef.current;
+
+    if (!slider || !section) return;
+
+    const mobileMedia = window.matchMedia(
+      '(max-width: 1023px)'
+    );
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    let interval: ReturnType<typeof setInterval> | null =
+      null;
+
+    let scrollTimeout: ReturnType<typeof setTimeout> | null =
+      null;
+
+    let isVisible = false;
+    let programmaticScroll = false;
+
+    const getCards = () =>
+      Array.from(
+        slider.querySelectorAll<HTMLElement>(
+          '[data-quality-step]'
+        )
+      );
+
+    const updateActiveCard = () => {
+      if (!mobileMedia.matches) return;
+
+      const cards = getCards();
+
+      if (!cards.length) return;
+
+      const sliderCenter =
+        slider.getBoundingClientRect().left +
+        slider.clientWidth / 2;
+
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+
+        const cardCenter =
+          rect.left + rect.width / 2;
+
+        const distance = Math.abs(
+          cardCenter - sliderCenter
+        );
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      if (activeIndexRef.current !== closestIndex) {
+        activeIndexRef.current = closestIndex;
+        setActiveIndex(closestIndex);
+      }
+    };
+
+    const scrollToCard = (index: number) => {
+      if (!mobileMedia.matches) return;
+
+      const cards = getCards();
+
+      const card = cards[index];
+
+      if (!card) return;
+
+      programmaticScroll = true;
+
+      // Calculate position relative to the scroll container.
+      const targetLeft =
+        card.offsetLeft -
+        slider.offsetLeft -
+        (slider.clientWidth - card.clientWidth) / 2;
+
+      slider.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: 'smooth',
+      });
+
+      activeIndexRef.current = index;
+      setActiveIndex(index);
+
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      scrollTimeout = setTimeout(() => {
+        programmaticScroll = false;
+      }, 900);
+    };
+
+    const pauseAutoScroll = () => {
+      if (!mobileMedia.matches) return;
+
+      if (programmaticScroll) return;
+
+      pausedUntilRef.current =
+        Date.now() + 5000;
+    };
+
+    const stopAutoScroll = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
+
+    const startAutoScroll = () => {
+      stopAutoScroll();
+
+      // Absolutely no auto-scrolling on desktop.
+      if (!mobileMedia.matches) return;
+
+      if (reducedMotion.matches) return;
+
+      interval = setInterval(() => {
+        if (!isVisible) return;
+
+        if (document.hidden) return;
+
+        if (
+          Date.now() <
+          pausedUntilRef.current
+        ) {
+          return;
+        }
+
+        const nextIndex =
+          (activeIndexRef.current + 1) %
+          QUALITY_STEPS.length;
+
+        scrollToCard(nextIndex);
+      }, 3500);
+    };
+
+    const visibilityObserver =
+      new IntersectionObserver(
+        (entries) => {
+          isVisible =
+            entries[0]?.isIntersecting ?? false;
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+
+    visibilityObserver.observe(section);
+
+    slider.addEventListener(
+      'scroll',
+      updateActiveCard,
+      { passive: true }
+    );
+
+    slider.addEventListener(
+      'touchstart',
+      pauseAutoScroll,
+      { passive: true }
+    );
+
+    slider.addEventListener(
+      'pointerdown',
+      pauseAutoScroll
+    );
+
+    slider.addEventListener(
+      'wheel',
+      pauseAutoScroll,
+      { passive: true }
+    );
+
+    mobileMedia.addEventListener(
+      'change',
+      startAutoScroll
+    );
+
+    reducedMotion.addEventListener(
+      'change',
+      startAutoScroll
+    );
+
+    startAutoScroll();
+
+    return () => {
+      stopAutoScroll();
+
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      visibilityObserver.disconnect();
+
+      slider.removeEventListener(
+        'scroll',
+        updateActiveCard
+      );
+
+      slider.removeEventListener(
+        'touchstart',
+        pauseAutoScroll
+      );
+
+      slider.removeEventListener(
+        'pointerdown',
+        pauseAutoScroll
+      );
+
+      slider.removeEventListener(
+        'wheel',
+        pauseAutoScroll
+      );
+
+      mobileMedia.removeEventListener(
+        'change',
+        startAutoScroll
+      );
+
+      reducedMotion.removeEventListener(
+        'change',
+        startAutoScroll
+      );
+    };
+  }, []);
+
+  // ==========================================
+  // ORIGINAL GSAP NUMBER ANIMATION
+  // ==========================================
+
   useEffect(() => {
     const element = numberRef.current;
 
@@ -129,11 +409,13 @@ export default function QualityPromise() {
       ref={sectionRef}
       className="
         scroll-mt-[150px]
+        overflow-hidden
         bg-white
         px-[16px]
-        py-[70px]
+        py-[40px]
         sm:px-[24px]
-        sm:py-[90px]
+        sm:py-[70px]
+        lg:overflow-visible
         lg:px-[40px]
         lg:py-[110px]
       "
@@ -144,211 +426,403 @@ export default function QualityPromise() {
           grid
           max-w-[1440px]
           items-start
-          gap-[38px]
+          gap-[24px]
           lg:grid-cols-[minmax(320px,390px)_minmax(0,1fr)]
           lg:gap-[45px]
         "
       >
-        {/* LEFT — STICKY HEADING */}
+        {/* =====================================
+            LEFT: ORIGINAL STICKY HEADING
+        ===================================== */}
 
         <div className="lg:sticky lg:top-[180px]">
-          <p className="text-[12px] font-bold uppercase tracking-[0.26em] text-[#B12025]">
+          <p
+            className="
+              text-[11px]
+              font-bold
+              uppercase
+              tracking-[0.24em]
+              text-[#B12025]
+              lg:text-[12px]
+              lg:tracking-[0.26em]
+            "
+          >
             OUR QUALITY PROMISE
           </p>
 
           <h2
             className="
-              mt-[20px]
+              mt-[14px]
               max-w-[420px]
-              text-[clamp(2.8rem,4.5vw,4.8rem)]
+              text-[clamp(2rem,7vw,2.5rem)]
               font-bold
-              leading-[1.06]
-              tracking-[-0.06em]
+              leading-[1.08]
+              tracking-[-0.055em]
               text-[#17191C]
+              lg:mt-[20px]
+              lg:text-[clamp(2.8rem,4.5vw,4.8rem)]
+              lg:leading-[1.06]
+              lg:tracking-[-0.06em]
             "
           >
             How we keep quality high.
           </h2>
 
-          {/* ANIMATED RED NUMBER */}
+          {/* ORIGINAL ANIMATED NUMBER */}
 
-          <div className="mt-[28px] overflow-hidden">
+          <div
+            className="
+              mt-[18px]
+              overflow-hidden
+              lg:mt-[28px]
+            "
+          >
             <div
               ref={numberRef}
               className="
-                text-[clamp(7rem,13vw,11rem)]
+                text-[90px]
                 font-bold
                 leading-[0.95]
                 tracking-[-0.09em]
                 text-[#B12025]
+                lg:text-[clamp(7rem,13vw,11rem)]
               "
             >
               {active.number}
             </div>
           </div>
 
-          <p className="mt-[12px] text-[23px] font-bold text-[#17191C]">
+          <p
+            className="
+              mt-[8px]
+              text-[19px]
+              font-bold
+              text-[#17191C]
+              lg:mt-[12px]
+              lg:text-[23px]
+            "
+          >
             {active.title}
           </p>
         </div>
 
-        {/* RIGHT — FOUR CARDS */}
+        {/* =====================================
+            RIGHT: QUALITY CARDS
+        ===================================== */}
 
-        <div className="space-y-[20px]">
-          {QUALITY_STEPS.map((item, index) => {
-            const isActive = activeIndex === index;
+        <div className="min-w-0">
+          <div
+            ref={sliderRef}
+            aria-label="FirstNotch quality promise steps"
+            className="
+              relative
+              flex
+              w-full
+              snap-x
+              snap-mandatory
+              gap-[12px]
+              overflow-x-auto
+              overscroll-x-contain
+              scroll-smooth
+              pb-[12px]
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
 
-            return (
-              <article
-                key={item.number}
-                data-quality-step
-                data-index={index}
-                onMouseEnter={() =>
-                  setActiveIndex(index)
-                }
-                className={`
-                  group
-                  relative
-                  isolate
-                  w-full
-                  min-h-[310px]
-                  overflow-hidden
-                  rounded-[28px]
-                  bg-[#B12025]
-                  transition-shadow
-                  duration-500
-                  sm:min-h-[340px]
-                  ${
-                    isActive
-                      ? 'shadow-[0_22px_55px_rgba(0,0,0,0.13)]'
-                      : 'shadow-[0_10px_30px_rgba(0,0,0,0.06)]'
-                  }
-                `}
-              >
-                {/* FULL BACKGROUND IMAGE
-                    NO RED/WHITE OVERLAY
-                    NO GRADIENT */}
+              sm:gap-[16px]
 
-                <div
-                  aria-hidden="true"
-                  className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    z-0
-                    scale-[1.35]
-                    bg-cover
-                    bg-center
-                    bg-no-repeat
-                    transition-transform
-                    duration-700
-                    ease-out
-                    group-hover:scale-[1.39]
-                    motion-reduce:transform-none
-                  "
-                  style={{
-                    backgroundImage: `url("${item.image}")`,
+              lg:block
+              lg:space-y-[20px]
+              lg:overflow-visible
+              lg:pb-0
+              lg:snap-none
+            "
+          >
+            {QUALITY_STEPS.map((item, index) => {
+              const isActive =
+                activeIndex === index;
+
+              return (
+                <article
+                  key={item.number}
+                  data-quality-step
+                  data-index={index}
+                  onMouseEnter={() => {
+                    if (
+                      window.matchMedia(
+                        '(min-width: 1024px)'
+                      ).matches
+                    ) {
+                      setActiveIndex(index);
+                    }
                   }}
-                />
-
-                {/* ALL BLACK, BOLD TEXT */}
-
-                <div
-                  className="
+                  className={`
+                    group
                     relative
-                    z-10
-                    flex
-                    min-h-[310px]
-                    flex-col
-                    justify-between
-                    px-[28px]
-                    py-[30px]
-                    sm:min-h-[340px]
-                    sm:px-[35px]
-                    sm:py-[35px]
-                  "
+                    isolate
+                    w-[88%]
+                    shrink-0
+                    snap-center
+                    overflow-hidden
+                    rounded-[20px]
+                    border
+                    bg-white
+                    transition-shadow
+                    duration-500
+
+                    sm:w-[75%]
+                    sm:rounded-[24px]
+
+                    lg:w-full
+                    lg:rounded-[28px]
+
+                    ${
+                      isActive
+                        ? 'border-[#B12025]/35 shadow-[0_22px_55px_rgba(0,0,0,0.13)]'
+                        : 'border-[#B12025]/15 shadow-[0_10px_30px_rgba(0,0,0,0.06)]'
+                    }
+                  `}
                 >
-                  <div>
-                    {/* STEP */}
+                  {/* =====================================
+                      WHITE BACKGROUND
+                      NO IMAGES
+                      RED TEXT
+                  ===================================== */}
 
-                    <p className="text-[12px] font-bold uppercase tracking-[0.24em] text-black">
-                      {item.step}
-                    </p>
+                  <div
+                    className="
+                      relative
+                      z-10
+                      flex
+                      min-h-[245px]
+                      flex-col
+                      justify-between
+                      px-[20px]
+                      py-[22px]
 
-                    {/* TITLE */}
+                      sm:min-h-[280px]
+                      sm:px-[26px]
+                      sm:py-[28px]
 
-                    <h3
-                      className="
-                        mt-[22px]
-                        text-[35px]
-                        font-bold
-                        leading-[1.12]
-                        tracking-[-0.045em]
-                        text-black
-                        sm:text-[40px]
-                      "
-                    >
-                      {item.title}
-                    </h3>
+                      lg:min-h-[340px]
+                      lg:px-[35px]
+                      lg:py-[35px]
+                    "
+                  >
+                    <div>
+                      {/* STEP LABEL */}
 
-                    {/* DESCRIPTION */}
+                      <p
+                        className="
+                          text-[10px]
+                          font-bold
+                          uppercase
+                          tracking-[0.20em]
+                          text-[#B12025]
+                          lg:text-[12px]
+                          lg:tracking-[0.24em]
+                        "
+                      >
+                        {item.step}
+                      </p>
 
-                    <p
+                      {/* TITLE */}
+
+                      <h3
+                        className="
+                          mt-[14px]
+                          text-[25px]
+                          font-bold
+                          leading-[1.12]
+                          tracking-[-0.045em]
+                          text-[#B12025]
+
+                          sm:text-[30px]
+
+                          lg:mt-[22px]
+                          lg:text-[35px]
+
+                          xl:text-[40px]
+                        "
+                      >
+                        {item.title}
+                      </h3>
+
+                      {/* DESCRIPTION */}
+
+                      <p
+                        className="
+                          mt-[12px]
+                          max-w-[580px]
+                          text-[12px]
+                          font-medium
+                          leading-[1.65]
+                          text-[#B12025]
+
+                          sm:text-[14px]
+
+                          lg:mt-[18px]
+                          lg:text-[15px]
+                          lg:font-bold
+                          lg:leading-[1.8]
+
+                          xl:text-[16px]
+                        "
+                      >
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {/* CARD FOOTER */}
+
+                    <div
                       className="
                         mt-[18px]
-                        max-w-[580px]
-                        text-[15px]
-                        font-bold
-                        leading-[1.8]
-                        text-black
-                        sm:text-[16px]
-                      "
-                    >
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* CARD FOOTER */}
-
-                  <div className="mt-[25px] flex items-center justify-between">
-                    <span
-                      className="
                         flex
-                        h-[42px]
-                        w-[42px]
                         items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-[12px]
-                        font-bold
-                        text-black
-                        shadow-sm
+                        justify-between
+                        lg:mt-[25px]
                       "
                     >
-                      {item.number}
-                    </span>
+                      <span
+                        className="
+                          flex
+                          h-[36px]
+                          w-[36px]
+                          items-center
+                          justify-center
+                          rounded-full
+                          border
+                          border-[#B12025]/20
+                          bg-[#B12025]/[0.06]
+                          text-[11px]
+                          font-bold
+                          text-[#B12025]
 
-                    <span
-                      className={`
-                        h-[10px]
-                        w-[10px]
-                        rounded-full
-                        bg-black
-                        transition-transform
-                        duration-300
-                        ${
-                          isActive
-                            ? 'scale-[1.35]'
-                            : 'scale-100'
-                        }
-                      `}
-                    />
+                          lg:h-[42px]
+                          lg:w-[42px]
+                          lg:text-[12px]
+                        "
+                      >
+                        {item.number}
+                      </span>
+
+                      <span
+                        aria-hidden="true"
+                        className={`
+                          h-[10px]
+                          w-[10px]
+                          rounded-full
+                          bg-[#B12025]
+                          transition-transform
+                          duration-300
+
+                          ${
+                            isActive
+                              ? 'scale-[1.35]'
+                              : 'scale-100'
+                          }
+                        `}
+                      />
+                    </div>
                   </div>
-                </div>
-              </article>
-            );
-          })}
+                </article>
+              );
+            })}
+          </div>
+
+          {/* =====================================
+              MOBILE ONLY: SLIDER DOTS
+          ===================================== */}
+
+          <div
+            className="
+              mt-[12px]
+              flex
+              items-center
+              justify-center
+              gap-[8px]
+              lg:hidden
+            "
+          >
+            {QUALITY_STEPS.map((item, index) => (
+              <button
+                key={item.number}
+                type="button"
+                aria-label={`Go to ${item.title}`}
+                aria-current={
+                  activeIndex === index
+                    ? 'step'
+                    : undefined
+                }
+                onClick={() => {
+                  const slider =
+                    sliderRef.current;
+
+                  if (!slider) return;
+
+                  const cards =
+                    slider.querySelectorAll<HTMLElement>(
+                      '[data-quality-step]'
+                    );
+
+                  const card = cards[index];
+
+                  if (!card) return;
+
+                  pausedUntilRef.current =
+                    Date.now() + 5000;
+
+                  const targetLeft =
+                    card.offsetLeft -
+                    slider.offsetLeft -
+                    (slider.clientWidth -
+                      card.clientWidth) /
+                      2;
+
+                  slider.scrollTo({
+                    left: Math.max(
+                      0,
+                      targetLeft
+                    ),
+                    behavior: 'smooth',
+                  });
+
+                  activeIndexRef.current =
+                    index;
+
+                  setActiveIndex(index);
+                }}
+                className={`
+                  h-[7px]
+                  rounded-full
+                  transition-all
+                  duration-300
+
+                  ${
+                    activeIndex === index
+                      ? 'w-[24px] bg-[#B12025]'
+                      : 'w-[7px] bg-[#B12025]/25'
+                  }
+                `}
+              />
+            ))}
+          </div>
+
+          {/* MOBILE ONLY: HELPER TEXT */}
+
+          <p
+            className="
+              mt-[10px]
+              text-center
+              text-[10px]
+              font-medium
+              tracking-[0.03em]
+              text-[#17191C]/50
+              lg:hidden
+            "
+          >
+            Swipe to explore our quality process
+          </p>
         </div>
       </div>
     </section>

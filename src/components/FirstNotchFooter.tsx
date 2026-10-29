@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -98,13 +97,8 @@ function HalftoneWordmark() {
 
     const WORDMARK_TEXT = 'FirstNotch Solutions';
 
-    // Change 0.88 to 0.80 to make text smaller.
     const TEXT_WIDTH_RATIO = 0.98;
-
-    // Maximum font size relative to canvas height.
     const TEXT_HEIGHT_RATIO = 1.9;
-
-    // White dot brightness: 0 to 1
     const DOT_OPACITY = 0.85;
 
     // ================================================
@@ -141,14 +135,11 @@ function HalftoneWordmark() {
       const fontStack =
         'Arial, Helvetica, sans-serif';
 
-      // Measure the COMPLETE company name.
       m.font = `900 100px ${fontStack}`;
 
       const measured =
         m.measureText(WORDMARK_TEXT).width || 1;
 
-      // Responsive text sizing.
-      // Both width and height limit the text size.
       const size = Math.max(
         1,
         Math.min(
@@ -163,7 +154,6 @@ function HalftoneWordmark() {
       m.textBaseline = 'middle';
       m.fillStyle = '#FFFFFF';
 
-      // Draw entire text in centre.
       m.fillText(
         WORDMARK_TEXT,
         width / 2,
@@ -178,7 +168,6 @@ function HalftoneWordmark() {
         height
       ).data;
 
-      // Smaller mobile dots for better readability.
       const gap =
         width < 480 ? 3 :
         width < 768 ? 4 :
@@ -281,7 +270,6 @@ function HalftoneWordmark() {
         const dotR = dots[j + 6];
 
         if (!reducedMotion) {
-          // Mouse repulsion
           const dx = x - pointerX;
           const dy = y - pointerY;
 
@@ -297,7 +285,6 @@ function HalftoneWordmark() {
             vy += (dy / dist) * force;
           }
 
-          // Click ripple effect
           if (
             elapsed >= 0 &&
             elapsed < 850
@@ -332,7 +319,6 @@ function HalftoneWordmark() {
               force;
           }
 
-          // Spring movement back to original position
           vx =
             (vx + (hx - x) * 0.055) *
             0.82;
@@ -364,7 +350,6 @@ function HalftoneWordmark() {
         const displacement =
           Math.hypot(x - hx, y - hy);
 
-        // Bright white dots
         ctx.fillStyle = '#FFFFFF';
 
         ctx.globalAlpha = Math.min(
@@ -564,24 +549,25 @@ function HalftoneWordmark() {
 export default function FirstNotchFooter() {
   return (
     <footer
-      className="
-        relative
-        isolate
-        overflow-hidden
-        bg-[#17191C]
-        font-normal
-        text-[#FFFFFF]
-      "
-      aria-label="FirstNotch footer"
-    >
+  className="
+    relative
+    isolate
+    overflow-hidden
+    bg-[#B12025]
+    font-normal
+    text-[#FFFFFF]
+  "
+  aria-label="FirstNotch footer"
+>
       <div
         className="
           relative
           mx-auto
           max-w-[1536px]
           px-5
-          pt-[58px]
+          pt-[30px]
           sm:px-8
+          sm:pt-[58px]
           lg:px-14
           lg:pt-[70px]
         "
@@ -593,12 +579,15 @@ export default function FirstNotchFooter() {
         <div
           className="
             grid
-            gap-x-8
-            gap-y-12
+            grid-cols-2
+            gap-x-4
+            gap-y-8
             border-b
             border-white/25
-            pb-[54px]
-            sm:grid-cols-2
+            pb-[28px]
+            sm:gap-x-8
+            sm:gap-y-12
+            sm:pb-[54px]
             lg:grid-cols-[1.15fr_.72fr_.72fr_1.35fr]
             lg:gap-x-10
             lg:pb-[65px]
@@ -608,8 +597,8 @@ export default function FirstNotchFooter() {
 
           <div
             className="
+              col-span-2
               min-w-0
-              sm:col-span-2
               lg:col-span-1
             "
           >
@@ -625,7 +614,7 @@ export default function FirstNotchFooter() {
                 height={76}
                 className="
                   h-auto
-                  w-[185px]
+                  w-[140px]
                   object-contain
                   sm:w-[205px]
                 "
@@ -634,19 +623,22 @@ export default function FirstNotchFooter() {
 
             <p
               className="
-                mt-6
+                mt-4
                 max-w-[300px]
-                text-[13px]
-                leading-[1.9]
+                text-[11px]
+                leading-[1.7]
                 text-white
+                sm:mt-6
+                sm:text-[13px]
+                sm:leading-[1.9]
               "
             >
               {COPY.footer}
             </p>
 
-            {/* SOCIAL LINKS */}
+            {/* DESKTOP / TABLET SOCIAL LINKS */}
 
-            <div className="mt-7">
+            <div className="mt-7 hidden sm:block">
               <h3
                 className="
                   text-[12px]
@@ -694,23 +686,25 @@ export default function FirstNotchFooter() {
           <nav aria-label="Footer services">
             <h3
               className="
-                mb-6
-                text-[13px]
+                mb-4
+                text-[12px]
                 font-semibold
                 text-white
+                sm:mb-6
+                sm:text-[13px]
               "
             >
               Services
             </h3>
 
-            <ul className="space-y-4">
+            <ul className="space-y-3 sm:space-y-4">
               {FOOTER_SERVICES.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
                     className="
-                      text-[12px]
-                      leading-6
+                      text-[11px]
+                      leading-5
                       text-white
                       transition
                       hover:text-white
@@ -718,6 +712,8 @@ export default function FirstNotchFooter() {
                       focus-visible:outline
                       focus-visible:outline-2
                       focus-visible:outline-white
+                      sm:text-[12px]
+                      sm:leading-6
                     "
                   >
                     {item.label}
@@ -734,23 +730,25 @@ export default function FirstNotchFooter() {
           <nav aria-label="Footer company">
             <h3
               className="
-                mb-6
-                text-[13px]
+                mb-4
+                text-[12px]
                 font-semibold
                 text-white
+                sm:mb-6
+                sm:text-[13px]
               "
             >
               Company
             </h3>
 
-            <ul className="space-y-4">
+            <ul className="space-y-3 sm:space-y-4">
               {COMPANY_LINKS.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
                     className="
-                      text-[12px]
-                      leading-6
+                      text-[11px]
+                      leading-5
                       text-white
                       transition
                       hover:text-white
@@ -758,6 +756,8 @@ export default function FirstNotchFooter() {
                       focus-visible:outline
                       focus-visible:outline-2
                       focus-visible:outline-white
+                      sm:text-[12px]
+                      sm:leading-6
                     "
                   >
                     {item.label}
@@ -768,13 +768,15 @@ export default function FirstNotchFooter() {
           </nav>
 
           {/* ========================================
-              GOOGLE MAP
+              GOOGLE MAP — HIDDEN ON MOBILE
           ======================================== */}
 
           <div
             className="
+              hidden
               min-w-0
               sm:col-span-2
+              sm:block
               lg:col-span-1
             "
           >
@@ -811,14 +813,58 @@ export default function FirstNotchFooter() {
         </div>
 
         {/* ==========================================
-            HALFTONE FIRSTNOTCH SOLUTIONS
+            MOBILE SOCIAL LINKS — BEFORE CREDITS
         ========================================== */}
 
         <div
           className="
             border-b
             border-white/20
+            py-5
+            sm:hidden
+          "
+        >
+          <h3 className="text-[11px] font-semibold text-white">
+            Follow FirstNotch
+          </h3>
+
+          <div
+            className="
+              mt-3
+              flex
+              flex-wrap
+              gap-x-5
+              gap-y-2
+              text-[11px]
+              text-white
+            "
+          >
+            <a
+              href={CONTACT.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              LinkedIn
+            </a>
+
+            <span>Facebook</span>
+            <span>Instagram</span>
+          </div>
+        </div>
+
+        {/* ==========================================
+            HALFTONE FIRSTNOTCH SOLUTIONS
+            HIDDEN ON MOBILE
+        ========================================== */}
+
+        <div
+          className="
+            hidden
+            border-b
+            border-white/20
             pt-2
+            sm:block
           "
         >
           <HalftoneWordmark />
@@ -833,13 +879,16 @@ export default function FirstNotchFooter() {
             flex
             flex-col
             gap-4
-            py-6
-            text-[11px]
-            leading-6
+            py-4
+            text-[10px]
+            leading-5
             text-white
             sm:flex-row
             sm:items-center
             sm:justify-between
+            sm:py-6
+            sm:text-[11px]
+            sm:leading-6
           "
         >
           <p>
@@ -847,6 +896,7 @@ export default function FirstNotchFooter() {
             All rights reserved.
           </p>
 
+          {/* HIDDEN ON MOBILE */}
           <button
             type="button"
             onClick={() =>
@@ -856,7 +906,7 @@ export default function FirstNotchFooter() {
               })
             }
             className="
-              inline-flex
+              hidden
               w-fit
               items-center
               gap-2
@@ -872,6 +922,7 @@ export default function FirstNotchFooter() {
               focus-visible:outline
               focus-visible:outline-2
               focus-visible:outline-white
+              sm:inline-flex
             "
           >
             Back to top

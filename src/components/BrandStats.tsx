@@ -183,9 +183,10 @@ export default function BrandStats() {
 
   return (
     <div ref={root}>
+      {/* BRAND WORDMARK */}
       <section
         aria-label="FirstNotch Solutions"
-        className="overflow-hidden bg-white px-5 py-8 sm:px-8 sm:py-10 lg:px-14"
+        className="overflow-hidden bg-white px-5 py-5 sm:px-8 sm:py-10 lg:px-14"
       >
         <div className="mx-auto max-w-[1536px]">
           <p
@@ -210,15 +211,17 @@ export default function BrandStats() {
         </div>
       </section>
 
+      {/* STATISTICS SECTION */}
       <section
         ref={statsSection}
         aria-label="FirstNotch in numbers"
-        className="bg-[#B12025] px-5 py-12 text-white sm:px-8 lg:px-14 lg:py-16"
+        className="bg-[#B12025] px-5 py-7 text-white sm:px-8 sm:py-12 lg:px-14 lg:py-16"
       >
-        <div className="mx-auto grid max-w-[1424px] grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-10">
+        <div className="mx-auto grid max-w-[1424px] grid-cols-2 gap-x-5 gap-y-6 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-10">
           {items.map((item) => (
-            <div key={item.display}>
-              <p className="text-[clamp(2.75rem,5vw,4.75rem)] font-semibold leading-none tracking-[-0.06em] text-white tabular-nums">
+            <div key={item.display} className="min-w-0">
+              {/* NUMBER */}
+              <p className="text-[28px] font-semibold leading-none tracking-[-0.06em] text-white tabular-nums sm:text-[clamp(2.75rem,5vw,4.75rem)]">
                 <span
                   data-fns-stat-number
                   data-target={item.target}
@@ -233,7 +236,8 @@ export default function BrandStats() {
                 </span>
               </p>
 
-              <p className="mt-4 max-w-[250px] text-xs font-normal leading-[1.7] text-white sm:text-[13px]">
+              {/* DESCRIPTION */}
+              <p className="mt-2 max-w-[250px] text-[10px] font-normal leading-[1.5] text-white sm:mt-4 sm:text-[13px] sm:leading-[1.7]">
                 {item.label}
               </p>
             </div>

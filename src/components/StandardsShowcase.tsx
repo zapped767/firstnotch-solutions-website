@@ -1005,108 +1005,88 @@ function FeatureCard({
   // ========================================
 
   return (
-    <article
-      ref={cardRef}
-      data-standards-card
-      tabIndex={0}
-      aria-label={`${title}. Focus to preview the animated example.`}
-      className={`
-        group relative flex min-h-[520px] flex-col
-        overflow-hidden rounded-[28px] border
-        p-5 outline-none transition-shadow
-        duration-300
+  <article
+    ref={cardRef}
+    data-standards-card
+    tabIndex={0}
+    aria-label={`${title}. Focus to preview the animated example.`}
+    className={`
+      group relative flex
+      h-[440px] min-h-0 flex-col
+      overflow-hidden rounded-[22px] border
+      p-4 outline-none transition-shadow
+      duration-300
 
-        sm:min-h-[530px] sm:p-7
-        lg:min-h-[535px] lg:p-8
+      sm:h-auto sm:min-h-[530px] sm:rounded-[28px] sm:p-7
+      lg:min-h-[535px] lg:p-8
 
-        ${
-          red
-            ? 'border-[#B12025] bg-[#B12025] text-white'
-            : 'border-[#17191C]/10 bg-[#F7F6F4] text-[#17191C]'
-        }
+      ${
+        red
+          ? 'border-[#B12025] bg-[#B12025] text-white'
+          : 'border-[#17191C]/10 bg-[#F7F6F4] text-[#17191C]'
+      }
 
-        hover:shadow-[0_18px_45px_rgba(23,25,28,0.10)]
-        focus-visible:ring-2
-        focus-visible:ring-[#B12025]
-        focus-visible:ring-offset-4
-      `}
-    >
-      {/* ==================================
-          ORIGINAL TITLE + DESCRIPTION
-      ================================== */}
-
-      <div className="relative z-10">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <span
-            className={`text-[10px] font-semibold uppercase tracking-[0.15em] ${
-              red
-                ? 'text-white/85'
-                : 'text-[#B12025]'
-            }`}
-          >
-            {config.label}
-          </span>
-
-          <a
-            href="#contact"
-            aria-label={`Discuss ${title} with FirstNotch`}
-            className={`
-              flex h-9 w-9 shrink-0 items-center
-              justify-center rounded-full border
-              transition-colors
-              focus-visible:outline-2
-              focus-visible:outline-offset-4
-
-              ${
-                red
-                  ? 'border-white/35 bg-white/10 hover:bg-white hover:text-[#B12025] focus-visible:outline-white'
-                  : 'border-[#17191C]/15 bg-white hover:border-[#B12025] hover:bg-[#B12025] hover:text-white focus-visible:outline-[#B12025]'
-              }
-            `}
-          >
-            <ArrowUpRight size={17} />
-          </a>
-        </div>
-
-        <h3 className="max-w-[470px] text-[clamp(1.65rem,2.5vw,2.15rem)] font-semibold leading-[1.13] tracking-[-0.05em]">
-          {title}
-        </h3>
-
-        <p
-          className={`mt-4 max-w-[450px] text-[12px] font-light leading-[1.75] sm:text-[13px] ${
-            red
-              ? 'text-white/85'
-              : 'text-[#17191C]/65'
+      hover:shadow-[0_18px_45px_rgba(23,25,28,0.10)]
+      focus-visible:ring-2
+      focus-visible:ring-[#B12025]
+      focus-visible:ring-offset-4
+    `}
+  >
+    {/* CARD HEADER */}
+    <div className="relative z-10 shrink-0">
+      <div className="mb-3 flex items-center justify-between gap-3 sm:mb-6 sm:gap-4">
+        <span
+          className={`text-[9px] font-semibold uppercase tracking-[0.12em] sm:text-[10px] sm:tracking-[0.15em] ${
+            red ? 'text-white/85' : 'text-[#B12025]'
           }`}
         >
-          {description}
-        </p>
+          {config.label}
+        </span>
+
+        <a
+          href="#contact"
+          aria-label={`Discuss ${title} with FirstNotch`}
+          className={`
+            flex h-8 w-8 shrink-0 items-center
+            justify-center rounded-full border
+            transition-colors
+            sm:h-9 sm:w-9
+
+            ${
+              red
+                ? 'border-white/35 bg-white/10 hover:bg-white hover:text-[#B12025]'
+                : 'border-[#17191C]/15 bg-white hover:border-[#B12025] hover:bg-[#B12025] hover:text-white'
+            }
+          `}
+        >
+          <ArrowUpRight size={16} />
+        </a>
       </div>
 
-      {/* ==================================
-          COMPACT ANIMATION STAGE
+      <h3 className="max-w-[470px] text-[23px] font-semibold leading-[1.12] tracking-[-0.05em] sm:text-[clamp(1.65rem,2.5vw,2.15rem)] sm:leading-[1.13]">
+        {title}
+      </h3>
 
-          h-[264px] = reserved space
-          mt-6 = 24px below description
+      <p
+        className={`mt-2.5 max-w-[450px] text-[11px] font-light leading-[1.55] sm:mt-4 sm:text-[13px] sm:leading-[1.75] ${
+          red ? 'text-white/85' : 'text-[#17191C]/65'
+        }`}
+      >
+        {description}
+      </p>
+    </div>
 
-          White panels are right-aligned.
-          They will NOT push the outer card.
-      ================================== */}
-
-      <div className="relative z-10 mt-6 h-[264px] w-full shrink-0">
-
-        <div className="ml-auto w-full max-w-[350px]">
-          {index === 0 && <WorkflowPreview />}
-
-          {index === 1 && <ResolutionPreview />}
-
-          {index === 2 && <QualityPreview />}
-
-          {index === 3 && <SecurityPreview />}
-        </div>
+    {/* ANIMATED PREVIEW */}
+    <div className="relative z-10 mt-auto h-[264px] w-full shrink-0 pt-3 sm:mt-6 sm:pt-0">
+      <div className="ml-auto w-full max-w-[350px]">
+        {index === 0 && <WorkflowPreview />}
+        {index === 1 && <ResolutionPreview />}
+        {index === 2 && <QualityPreview />}
+        {index === 3 && <SecurityPreview />}
       </div>
-    </article>
-  );
+    </div>
+  </article>
+);
 }
 
 // ==========================================
@@ -1173,7 +1153,7 @@ export default function StandardsShowcase() {
       ref={sectionRef}
       id="standards"
       aria-labelledby="fns-standards-title"
-      className="relative scroll-mt-28 overflow-hidden bg-white px-5 py-20 text-[#17191C] sm:px-8 lg:px-12 lg:py-24"
+     className="relative scroll-mt-28 overflow-hidden bg-white px-4 py-8 text-[#17191C] sm:px-8 sm:py-20 lg:px-12 lg:py-24"
     >
       {/* ==================================
           MAIN SECTION WIDTH ADJUSTMENT
@@ -1186,39 +1166,71 @@ export default function StandardsShowcase() {
       <div className="mx-auto max-w-[1180px]">
 
         {/* SECTION TITLE */}
-        <div className="mb-11">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B12025]">
-            THE FIRSTNOTCH STANDARD
-          </p>
+       {/* SECTION TITLE */}
+<div className="mb-5 sm:mb-11">
+  <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B12025] sm:text-[10px] sm:tracking-[0.2em]">
+    THE FIRSTNOTCH STANDARD
+  </p>
 
-          <h2
-            id="fns-standards-title"
-            className="mt-5 max-w-[900px] text-[clamp(2.5rem,5vw,4.7rem)] font-semibold leading-[1.07] tracking-[-0.065em]"
-          >
-            {COPY.standardsTitle}
-            <span className="text-[#B12025]">.</span>
-          </h2>
+  <h2
+    id="fns-standards-title"
+    className="mt-3 max-w-[900px] text-[clamp(1.85rem,8vw,2.25rem)] font-semibold leading-[1.08] tracking-[-0.055em] sm:mt-5 sm:text-[clamp(2.5rem,5vw,4.7rem)] sm:leading-[1.07] sm:tracking-[-0.065em]"
+  >
+    {COPY.standardsTitle}
+    <span className="text-[#B12025]">.</span>
+  </h2>
 
-          <p className="mt-4 max-w-[550px] text-[13px] font-light leading-7 text-[#17191C]/60">
-            Your processes, your standards, and a team
-            that works like it belongs in-house.
-          </p>
-        </div>
+  <p className="mt-2.5 max-w-[550px] text-[11px] font-light leading-[1.65] text-[#17191C]/60 sm:mt-4 sm:text-[13px] sm:leading-7">
+    Your processes, your standards, and a team
+    that works like it belongs in-house.
+  </p>
+</div>
 
         {/* ==================================
             COMPACT 2 × 2 CARD GRID
         ================================== */}
 
-        <div className="grid items-stretch gap-5 md:grid-cols-2">
-          {STANDARDS.map(([title, body], index) => (
-            <FeatureCard
-              key={title}
-              index={index}
-              title={title}
-              description={body}
-            />
-          ))}
-        </div>
+        {/* MOBILE: HORIZONTAL SWIPE / DESKTOP: ORIGINAL GRID */}
+<div
+  aria-label="FirstNotch standards cards"
+  className="
+    -mx-4 flex snap-x snap-mandatory
+    items-stretch gap-3
+    overflow-x-auto overscroll-x-contain
+    px-4 pb-3
+    [scrollbar-width:none]
+    [&::-webkit-scrollbar]:hidden
+
+    sm:mx-0 sm:grid sm:gap-5
+    sm:overflow-visible sm:px-0 sm:pb-0
+    md:grid-cols-2
+  "
+>
+  {STANDARDS.map(([title, body], index) => (
+    <div
+      key={title}
+      className="
+        w-[min(82vw,300px)]
+        shrink-0 snap-center
+
+        sm:w-auto sm:shrink
+      "
+    >
+      <FeatureCard
+        index={index}
+        title={title}
+        description={body}
+      />
+    </div>
+  ))}
+</div>
+
+{/* MOBILE SWIPE INDICATOR */}
+<div className="mt-2 flex items-center justify-center gap-2 text-[10px] text-[#17191C]/50 sm:hidden">
+  <span className="h-[1px] w-7 bg-[#B12025]" />
+  Swipe to explore all 4 cards
+  <ArrowUpRight size={13} />
+</div>
 
         {/* BOTTOM CTA */}
         <div className="mt-10 flex flex-wrap items-center justify-between gap-5 border-t border-[#17191C]/10 pt-7">
