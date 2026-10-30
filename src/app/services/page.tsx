@@ -3,12 +3,48 @@ import type { Metadata } from 'next';
 
 import ServicesExperience from '@/components/services/ServicesExperience';
 
-export const metadata: Metadata = {
-  title:
-    'Outsourcing Services in Sri Lanka | FirstNotch Solutions',
+// ======================================================
+// FIRSTNOTCH SOLUTIONS — SERVICES PAGE SEO
+// ======================================================
 
-  description:
-    'Explore 16 outsourcing services from FirstNotch Solutions in Colombo, Sri Lanka, including customer support, BPO and back office operations, and IT services.',
+const PAGE_PATH = '/services';
+
+const SEO_TITLE =
+  'Outsourcing Services in Sri Lanka | FirstNotch Solutions';
+
+const SEO_DESCRIPTION =
+  'Customer support, back office and IT outsourcing services in Sri Lanka, run by one trained team in Colombo. Start with one service or combine several.';
+
+// ======================================================
+// NEXT.JS METADATA
+// ======================================================
+
+export const metadata: Metadata = {
+  title: {
+    absolute: SEO_TITLE,
+  },
+
+  description: SEO_DESCRIPTION,
+
+  keywords: [
+    'outsourcing services in Sri Lanka',
+    'BPO services in Sri Lanka',
+    'outsourcing company Sri Lanka',
+    'customer support outsourcing',
+    'back office outsourcing',
+    'IT outsourcing services',
+    'call center services Sri Lanka',
+    'data entry outsourcing',
+    'document processing services',
+    'KYC and AML support',
+    'IT support services',
+    'web development Sri Lanka',
+    'FirstNotch Solutions',
+  ],
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
 
   robots: {
     index: true,
@@ -16,15 +52,24 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title:
-      'Outsourcing Services | FirstNotch Solutions',
-
-    description:
-      'Customer support, back office and IT services from a dedicated team in Colombo, Sri Lanka.',
-
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
     type: 'website',
+    locale: 'en_GB',
+    siteName: 'FirstNotch Solutions',
+    url: PAGE_PATH,
+  },
+
+  twitter: {
+    card: 'summary',
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
   },
 };
+
+// ======================================================
+// SERVICES PAGE — EXISTING COMPONENT
+// ======================================================
 
 export default function ServicesPage() {
   return <ServicesExperience />;

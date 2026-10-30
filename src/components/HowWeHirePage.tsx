@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -260,23 +259,19 @@ function HiringTestimonial() {
             opacity: 1,
             y: 0,
             textShadow:
-              '0 4px 12px rgba(85,0,0,.22)',
-            stagger: 0.09,
+              '0 0 0 rgba(85,0,0,0)',
+            stagger: 0.035,
             ease: 'none',
-
             scrollTrigger: {
               trigger: el,
-              start: 'top 87%',
-              end: 'bottom 43%',
+              start: 'top 85%',
+              end: 'bottom 45%',
               scrub: true,
             },
           }
         );
 
-        return () => {
-          tween.scrollTrigger?.kill();
-          tween.kill();
-        };
+        return () => tween.kill();
       }
     );
 
@@ -284,47 +279,22 @@ function HiringTestimonial() {
   }, []);
 
   return (
-    <section
-      aria-label="Online tutoring platform testimonial"
-      className="overflow-hidden bg-[#B12025] px-5 py-[100px] text-white sm:px-8 lg:px-14 lg:py-[150px]"
+    <p
+      ref={quoteRef}
+      className="text-[clamp(1.8rem,3vw,3.5rem)] font-semibold leading-[1.3] tracking-[-0.04em]"
     >
-      <div className="mx-auto max-w-[1440px]">
+      {quote.split(/\s+/).map((word, index) => (
         <span
-          aria-hidden="true"
-          className="block text-[120px] font-semibold leading-[.8] text-white/25"
+          key={index}
+          data-hire-quote-word
+          className="inline-block"
         >
-          “
+          {word}&nbsp;
         </span>
-
-        <blockquote>
-          <p
-            ref={quoteRef}
-            role="text"
-            aria-label={quote}
-            className="mt-5 max-w-[1160px] text-[clamp(2rem,4.1vw,4.7rem)] font-semibold leading-[1.38] tracking-[-.055em]"
-          >
-            {quote.split(/\s+/).map((word, i) => (
-              <span
-                aria-hidden="true"
-                data-hire-quote-word
-                key={i}
-                className="inline-block"
-              >
-                {word}
-                {'\u00a0'}
-              </span>
-            ))}
-          </p>
-
-          <footer className="mt-11 border-t border-white/25 pt-6 text-[12px] font-semibold uppercase tracking-[.17em] text-white/80">
-            Online tutoring platform
-          </footer>
-        </blockquote>
-      </div>
-    </section>
+      ))}
+    </p>
   );
 }
-
 // ======================================================
 // MAIN HOW WE HIRE PAGE
 // ======================================================
@@ -334,23 +304,17 @@ export default function HowWeHirePage() {
 
   const checksRef = useRef<HTMLElement>(null);
 
-  const checksTrackRef =
-    useRef<HTMLDivElement>(null);
+  const checksTrackRef = useRef<HTMLDivElement>(null);
 
-  const checksProgressRef =
-    useRef<HTMLDivElement>(null);
+  const checksProgressRef = useRef<HTMLDivElement>(null);
 
-  const marqueeRef =
-    useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
 
-  const pageProgressRef =
-    useRef<HTMLDivElement>(null);
+  const pageProgressRef = useRef<HTMLDivElement>(null);
 
-  const [remaining, setRemaining] =
-    useState(100);
+  const [remaining, setRemaining] = useState(100);
 
-  const [faqOpen, setFaqOpen] =
-    useState<number | null>(0);
+  const [faqOpen, setFaqOpen] = useState<number | null>(0);
 
   const [officeOpen, setOfficeOpen] =
     useState<boolean | null>(null);
@@ -361,28 +325,23 @@ export default function HowWeHirePage() {
 
   useEffect(() => {
     function refreshHours() {
-      const parts =
-        new Intl.DateTimeFormat('en-GB', {
-          timeZone: 'Asia/Colombo',
-          weekday: 'short',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        }).formatToParts(new Date());
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Colombo',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }).formatToParts(new Date());
 
       const part = (kind: string) =>
-        parts.find(
-          (x) => x.type === kind
-        )?.value ?? '';
+        parts.find((x) => x.type === kind)?.value ?? '';
 
       const mins =
         Number(part('hour')) * 60 +
         Number(part('minute'));
 
       setOfficeOpen(
-        !['Sat', 'Sun'].includes(
-          part('weekday')
-        ) &&
+        !['Sat', 'Sun'].includes(part('weekday')) &&
           mins >= 600 &&
           mins < 1140
       );
@@ -395,8 +354,7 @@ export default function HowWeHirePage() {
       60000
     );
 
-    return () =>
-      window.clearInterval(timer);
+    return () => window.clearInterval(timer);
   }, []);
 
   // ====================================================
@@ -425,15 +383,13 @@ export default function HowWeHirePage() {
               '[data-hire-title]'
             )
             .forEach((title) => {
-              const words =
-                title.querySelectorAll(
-                  '[data-hire-word]'
-                );
+              const words = title.querySelectorAll(
+                '[data-hire-word]'
+              );
 
               if (!words.length) return;
 
-              const hero =
-                title.tagName === 'H1';
+              const hero = title.tagName === 'H1';
 
               gsap.fromTo(
                 words,
@@ -445,13 +401,9 @@ export default function HowWeHirePage() {
                   yPercent: 0,
                   autoAlpha: 1,
 
-                  duration: hero
-                    ? 1.3
-                    : 0.95,
+                  duration: hero ? 1.3 : 0.95,
 
-                  stagger: hero
-                    ? 0.065
-                    : 0.045,
+                  stagger: hero ? 0.065 : 0.045,
 
                   ease: 'power4.out',
 
@@ -483,302 +435,353 @@ export default function HowWeHirePage() {
               gsap.fromTo(
                 element,
                 {
-                  y: 28,
-                  autoAlpha: 0,
+                  y: 40,
+                  opacity: 0,
                 },
                 {
                   y: 0,
-                  autoAlpha: 1,
+                  opacity: 1,
                   duration: 0.85,
                   ease: 'power3.out',
+                  clearProps: 'all',
 
                   scrollTrigger: {
                     trigger: element,
-                    start: 'top 91%',
+                    start: 'top 92%',
                     once: true,
                   },
                 }
               );
             });
-
-          // ==========================================
-          // TRAINING PROGRESS LINE
-          // ==========================================
-
-          root
-            .querySelectorAll<SVGPathElement>(
-              '[data-hire-path]'
-            )
-            .forEach((path) => {
-              gsap.fromTo(
-                path,
-                {
-                  strokeDashoffset: 1000,
-                },
-                {
-                  strokeDashoffset: 0,
-                  ease: 'none',
-
-                  scrollTrigger: {
-                    trigger:
-                      path.closest('section'),
-
-                    start: 'top 74%',
-                    end: 'bottom 40%',
-                    scrub: true,
-                  },
-                }
-              );
-            });
-
-          // ==========================================
-          // SCROLL-LINKED WORD OPACITY REVEAL
-          // ==========================================
-
-          const read =
-            root.querySelector<HTMLElement>(
-              '[data-hire-read]'
-            );
-
-          if (read) {
-            gsap.fromTo(
-              read.querySelectorAll(
-                '[data-hire-read-word]'
-              ),
-              {
-                opacity: 0.16,
-              },
-              {
-                opacity: 1,
-                stagger: 0.09,
-                ease: 'none',
-
-                scrollTrigger: {
-                  trigger: read,
-                  start: 'top 85%',
-                  end: 'bottom 41%',
-                  scrub: true,
-                },
-              }
-            );
-          }
-
-          // ==========================================
-          // PAGE SCROLL PROGRESS
-          // ==========================================
-
-          if (pageProgressRef.current) {
-            gsap.fromTo(
-              pageProgressRef.current,
-              {
-                scaleY: 0,
-              },
-              {
-                scaleY: 1,
-                ease: 'none',
-
-                scrollTrigger: {
-                  trigger: root,
-                  start: 'top top',
-                  end: 'bottom bottom',
-                  scrub: true,
-                },
-              }
-            );
-          }
-
-          // ==========================================
-          // STAFF BENEFITS MARQUEE
-          // ==========================================
-
-          if (marqueeRef.current) {
-            gsap.to(marqueeRef.current, {
-              xPercent: -50,
-              duration: 30,
-              repeat: -1,
-              ease: 'none',
-            });
-          }
         }, root);
 
         return () => ctx.revert();
       }
     );
 
-    // ==================================================
-    // GSAP HORIZONTAL CARDS — DESKTOP ONLY
-    // ==================================================
+    return () => mm.revert();
+  }, []);
 
-    mm.add(
-      '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
-      () => {
-        const section =
-          checksRef.current;
+  // ====================================================
+  // PAGE SCROLL PROGRESS
+  // ====================================================
 
-        const track =
-          checksTrackRef.current;
+  useEffect(() => {
+    const progress = pageProgressRef.current;
 
-        if (!section || !track) return;
+    if (!progress) return;
 
-        const distance = () =>
-          Math.max(
-            0,
-            track.scrollWidth -
-              section.clientWidth +
-              32
-          );
+    let frame = 0;
 
-        if (distance() <= 1) return;
+    const updateProgress = () => {
+      cancelAnimationFrame(frame);
 
-        const tween = gsap.to(track, {
-          x: () => -distance(),
-          ease: 'none',
+      frame = requestAnimationFrame(() => {
+        const scrollableHeight =
+          document.documentElement.scrollHeight -
+          window.innerHeight;
 
-          scrollTrigger: {
-            id: 'how-we-hire-checks',
+        const percentage =
+          scrollableHeight > 0
+            ? (window.scrollY / scrollableHeight) * 100
+            : 0;
 
-            trigger: section,
+        progress.style.width = `${Math.min(
+          100,
+          Math.max(0, percentage)
+        )}%`;
+      });
+    };
 
-            start: 'top top+=120',
+    updateProgress();
 
-            end: () =>
-              `+=${Math.max(1, distance())}`,
-
-            pin: true,
-            scrub: 0.9,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-
-            onUpdate: (self) => {
-              if (
-                checksProgressRef.current
-              ) {
-                checksProgressRef.current.style.transform =
-                  `scaleX(${self.progress})`;
-              }
-
-              const counts = [
-                100, 70, 45, 27, 17,
-              ];
-
-              setRemaining(
-                counts[
-                  Math.min(
-                    4,
-                    Math.floor(
-                      self.progress * 4.001
-                    )
-                  )
-                ]
-              );
-            },
-          },
-        });
-
-        const animations:
-          gsap.core.Tween[] = [];
-
-        track
-          .querySelectorAll<HTMLElement>(
-            '[data-hire-card]'
-          )
-          .forEach((card, index) => {
-            if (!index) return;
-
-            const texts =
-              card.querySelectorAll(
-                '[data-hire-card-text]'
-              );
-
-            const anim = gsap.fromTo(
-              texts,
-              {
-                autoAlpha: 0,
-                y: 25,
-              },
-              {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.75,
-                stagger: 0.1,
-                ease: 'power3.out',
-
-                scrollTrigger: {
-                  trigger: card,
-                  containerAnimation: tween,
-                  start: 'left 87%',
-                  once: true,
-                },
-              }
-            );
-
-            animations.push(anim);
-          });
-
-        return () => {
-          animations.forEach((a) => {
-            a.scrollTrigger?.kill();
-            a.kill();
-          });
-
-          tween.scrollTrigger?.kill();
-          tween.kill();
-
-          gsap.set(track, {
-            clearProps: 'transform',
-          });
-        };
-      }
-    );
-
-    let mounted = true;
-
-    document.fonts?.ready.then(() => {
-      if (mounted) {
-        ScrollTrigger.refresh();
-      }
+    window.addEventListener('scroll', updateProgress, {
+      passive: true,
     });
 
+    window.addEventListener('resize', updateProgress);
+
     return () => {
-      mounted = false;
-      mm.revert();
+      cancelAnimationFrame(frame);
+
+      window.removeEventListener(
+        'scroll',
+        updateProgress
+      );
+
+      window.removeEventListener(
+        'resize',
+        updateProgress
+      );
     };
   }, []);
 
   // ====================================================
-  // SCROLL TO AN INDIVIDUAL CHECK
+  // DESKTOP CHECK CARDS — HORIZONTAL SCROLL
+  // MOBILE WILL USE NORMAL HORIZONTAL CARDS
   // ====================================================
 
-  function goToCheck(index: number) {
-    const st = ScrollTrigger.getById(
-      'how-we-hire-checks'
+  useEffect(() => {
+    const section = checksRef.current;
+    const track = checksTrackRef.current;
+    const progress = checksProgressRef.current;
+
+    if (!section || !track) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 1024px)', () => {
+      const distance = () =>
+        Math.max(
+          0,
+          track.scrollWidth -
+            track.parentElement!.clientWidth
+        );
+
+      const tween = gsap.to(track, {
+        x: () => -distance(),
+        ease: 'none',
+
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${distance() + 400}`,
+          scrub: 1,
+          pin: true,
+          invalidateOnRefresh: true,
+
+          onUpdate: (self) => {
+            if (progress) {
+              progress.style.width = `${
+                self.progress * 100
+              }%`;
+            }
+          },
+        },
+      });
+
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    });
+
+    return () => mm.revert();
+  }, []);
+
+  // ====================================================
+  // MOBILE HORIZONTAL CARD SCROLLING
+  // ====================================================
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia(
+      '(max-width: 639px)'
     );
 
-    if (st) {
-      const y =
-        st.start +
-        (st.end - st.start) *
-          (index / 3);
+    const containers =
+      document.querySelectorAll<HTMLElement>(
+        '[data-mobile-auto-scroll]'
+      );
 
-      window.scrollTo({
-        top: y,
+    const cleanups: Array<() => void> = [];
 
-        behavior: window.matchMedia(
-          '(prefers-reduced-motion: reduce)'
-        ).matches
-          ? 'auto'
-          : 'smooth',
+    containers.forEach((container) => {
+      let interval: number | undefined;
+      let resumeTimeout: number | undefined;
+
+      const getCards = () =>
+        Array.from(
+          container.querySelectorAll<HTMLElement>(
+            '[data-mobile-scroll-card]'
+          )
+        );
+
+      const scrollNext = () => {
+        if (!mobileQuery.matches) return;
+
+        if (
+          window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+          ).matches
+        ) {
+          return;
+        }
+
+        const cards = getCards();
+
+        if (cards.length < 2) return;
+
+        const currentLeft = container.scrollLeft;
+
+        const nextCard = cards.find(
+          (card) =>
+            card.offsetLeft -
+              container.offsetLeft >
+            currentLeft + 8
+        );
+
+        if (nextCard) {
+          container.scrollTo({
+            left:
+              nextCard.offsetLeft -
+              container.offsetLeft,
+            behavior: 'smooth',
+          });
+        } else {
+          container.scrollTo({
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+      };
+
+      const start = () => {
+        if (interval !== undefined) return;
+
+        if (!mobileQuery.matches) return;
+
+        interval = window.setInterval(
+          scrollNext,
+          3500
+        );
+      };
+
+      const stop = () => {
+        if (interval !== undefined) {
+          window.clearInterval(interval);
+          interval = undefined;
+        }
+      };
+
+      const pause = () => {
+        stop();
+
+        if (resumeTimeout !== undefined) {
+          window.clearTimeout(resumeTimeout);
+        }
+
+        resumeTimeout = window.setTimeout(
+          start,
+          6000
+        );
+      };
+
+      const handleMediaChange = () => {
+        if (mobileQuery.matches) {
+          start();
+        } else {
+          stop();
+        }
+      };
+
+      container.addEventListener(
+        'touchstart',
+        pause,
+        { passive: true }
+      );
+
+      container.addEventListener(
+        'pointerdown',
+        pause
+      );
+
+      mobileQuery.addEventListener(
+        'change',
+        handleMediaChange
+      );
+
+      start();
+
+      cleanups.push(() => {
+        stop();
+
+        if (resumeTimeout !== undefined) {
+          window.clearTimeout(resumeTimeout);
+        }
+
+        container.removeEventListener(
+          'touchstart',
+          pause
+        );
+
+        container.removeEventListener(
+          'pointerdown',
+          pause
+        );
+
+        mobileQuery.removeEventListener(
+          'change',
+          handleMediaChange
+        );
       });
-    } else {
-      checksTrackRef.current
-        ?.children[index]
-        ?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center',
+    });
+
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+    };
+  }, []);
+
+    // ====================================================
+  // APPLICANT SCREENING COUNTER
+  // ====================================================
+
+  useEffect(() => {
+    const section = document.querySelector(
+      '[data-hire-screening]'
+    );
+
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting) return;
+
+        const counter = { value: 100 };
+
+        const animation = gsap.to(counter, {
+          value: 18,
+          duration: 2.5,
+          ease: 'power2.out',
+
+          onUpdate: () => {
+            setRemaining(Math.round(counter.value));
+          },
         });
-    }
-  }
+
+        observer.disconnect();
+
+        return () => animation.kill();
+      },
+      {
+        threshold: 0.25,
+      }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // ====================================================
+  // SMOOTH SECTION NAVIGATION
+  // ====================================================
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    element.scrollIntoView({
+      behavior: reducedMotion ? 'instant' : 'smooth',
+      block: 'start',
+    });
+  };
 
   // ====================================================
   // PAGE JSX
@@ -787,189 +790,374 @@ export default function HowWeHirePage() {
   return (
     <div
       ref={rootRef}
-      className="overflow-x-clip bg-white font-sans text-[#17191C]"
+      className="
+        relative
+        min-h-screen
+        overflow-x-clip
+        bg-white
+        font-normal
+        text-[#17191C]
+      "
     >
-      {/* ==============================================
-          PAGE SCROLL INDICATOR
-      ============================================== */}
+      {/* ================================================
+          PAGE SCROLL PROGRESS
+      ================================================ */}
 
       <div
-        ref={pageProgressRef}
         aria-hidden="true"
-        className="pointer-events-none fixed right-0 top-0 z-[125] h-full w-[3px] origin-top scale-y-0 bg-[#B12025]"
-      />
-
-      {/* ==============================================
-          STICKY SECTION NAVIGATION
-      ============================================== */}
-
-      <nav
-        aria-label="How we hire sections"
-        className="sticky top-[80px] z-30 overflow-x-auto border-b border-[#B12025]/15 bg-white/95 px-5 py-3 backdrop-blur-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:px-14"
+        className="
+          pointer-events-none
+          fixed
+          left-0
+          top-0
+          z-[100]
+          h-[3px]
+          w-full
+          bg-transparent
+        "
       >
-        <div className="mx-auto flex w-max max-w-[1450px] items-center gap-6 text-[11px] font-semibold lg:w-full lg:gap-8">
-          <span className="shrink-0 text-[#B12025]">
-            HOW WE HIRE
-          </span>
+        <div
+          ref={pageProgressRef}
+          className="
+            h-full
+            w-0
+            bg-[#B12025]
+          "
+        />
+      </div>
 
-          {(
-            [
-              ['Checks', '#checks'],
-              ['Training', '#training'],
-              ['Quality', '#quality'],
-              [
-                'Data protection',
-                '#security',
-              ],
-              ['FAQs', '#hire-faq'],
-            ] as const
-          ).map(([name, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="shrink-0 hover:text-[#B12025] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B12025]"
-            >
-              {name}
-            </a>
-          ))}
+      {/* ================================================
+          HERO SECTION
 
-          <a
-            href="#contact"
-            className="ml-auto shrink-0 rounded-full bg-[#B12025] px-4 py-2.5 text-white"
-          >
-            Book a call
-          </a>
-        </div>
-      </nav>
+          MOBILE:
+          - Reduced height
+          - Smaller headings
+          - Compact descriptions
+          - Smaller buttons
+          - Four checks in one row
 
-      {/* ==============================================
-          PREMIUM RED HERO
-          NO FALLING DOT ANIMATION
-          WHITE RISING TEXT
-      ============================================== */}
+          DESKTOP:
+          - Original spacious layout
+      ================================================ */}
 
       <section
-        id="hire-hero"
-        className="relative overflow-hidden bg-[#B12025] px-5 pb-[110px] pt-[150px] text-white sm:px-8 lg:px-14 lg:pb-[150px] lg:pt-[175px]"
+        id="how-we-hire"
+        aria-labelledby="hire-hero-title"
+        className="
+          relative
+          overflow-hidden
+          bg-[#B12025]
+          px-5
+          pb-[45px]
+          pt-[55px]
+          text-white
+
+          sm:px-8
+          sm:pb-[110px]
+          sm:pt-[150px]
+
+          lg:px-14
+          lg:pb-[150px]
+          lg:pt-[175px]
+        "
       >
-        {/* Subtle decorative circles */}
+        <div className="relative mx-auto max-w-[1440px]">
+          {/* EYEBROW */}
 
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-[220px] -top-[260px] h-[800px] w-[800px] rounded-full border border-white/10"
-        />
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-[110px] -top-[150px] h-[560px] w-[560px] rounded-full border border-white/10"
-        />
-
-        <div className="relative mx-auto max-w-[1450px]">
           <p
             data-hire-reveal
-            className={`${label} text-white/85`}
+            className="
+              text-[9px]
+              font-semibold
+              uppercase
+              tracking-[0.22em]
+              text-white/85
+
+              sm:text-[11px]
+            "
           >
-            FirstNotch Solutions / Our people
+            OUR PEOPLE. YOUR STANDARDS.
           </p>
 
-          {/* LARGE WHITE HEADING */}
+          {/* MAIN HERO HEADING */}
 
           <h1
+            id="hire-hero-title"
             data-hire-title
-            className="mt-9 max-w-[1250px] font-semibold leading-[1.04] tracking-[-.075em] text-white"
+            className="
+              mt-5
+              max-w-[1250px]
+              font-semibold
+              leading-[1.04]
+              tracking-[-0.075em]
+              text-white
+
+              sm:mt-9
+            "
           >
-            <span className="block text-[clamp(4rem,8vw,9.5rem)]">
-              <RisingWords
-                text="How we hire"
-              />
+            <span
+              className="
+                block
+                whitespace-nowrap
+                text-[clamp(2.2rem,10vw,3rem)]
+
+                sm:whitespace-normal
+                sm:text-[clamp(4rem,8vw,9.5rem)]
+              "
+            >
+              <RisingWords text="How we hire" />
             </span>
 
-            <span className="mt-6 block max-w-[1170px] text-[clamp(2.5rem,5.25vw,6.2rem)] leading-[1.1]">
+            <span
+              className="
+                mt-4
+                block
+                max-w-[1170px]
+                text-[clamp(1.65rem,7.5vw,2.2rem)]
+                leading-[1.15]
+
+                sm:mt-6
+                sm:text-[clamp(2.5rem,5.25vw,6.2rem)]
+                sm:leading-[1.1]
+              "
+            >
               <RisingWords
                 text="Only 15 to 20% of applicants pass our checks."
               />
             </span>
           </h1>
 
-          {/* THIN DIVIDER */}
+          {/* DIVIDER */}
 
           <div
-            data-hire-reveal
-            className="mt-14 h-px w-full bg-white/30"
+            aria-hidden="true"
+            className="
+              mt-7
+              h-px
+              w-full
+              bg-white/30
+
+              sm:mt-14
+            "
           />
 
-          <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_.8fr] lg:gap-20">
-            {/* HERO DESCRIPTION */}
+          {/* HERO DESCRIPTION + FOUR CHECKS */}
+
+          <div
+            className="
+              mt-6
+              grid
+              gap-7
+
+              sm:mt-10
+              sm:gap-12
+
+              lg:grid-cols-[1fr_.8fr]
+              lg:gap-20
+            "
+          >
+            {/* LEFT CONTENT */}
 
             <div>
               <p
                 data-hire-reveal
-                className="max-w-[710px] text-[clamp(1rem,1.65vw,1.35rem)] leading-[1.8] text-white"
+                className="
+                  max-w-[710px]
+                  text-[11px]
+                  leading-[1.55]
+                  text-white
+
+                  sm:text-[clamp(1rem,1.65vw,1.35rem)]
+                  sm:leading-[1.8]
+                "
               >
-                The people on your account will
-                speak to your customers or work
-                inside your systems. Each one
-                is tested before being offered
-                a job.
+                We take hiring seriously because the people
+                working on your account represent your
+                business. Every applicant goes through
+                language, technical, experience and
+                reference checks before joining our team.
               </p>
 
               <p
                 data-hire-reveal
-                className="mt-5 max-w-[670px] text-[14px] leading-[1.9] text-white/85"
+                className="
+                  mt-2
+                  max-w-[670px]
+                  text-[11px]
+                  leading-[1.55]
+                  text-white/85
+
+                  sm:mt-5
+                  sm:text-[14px]
+                  sm:leading-[1.9]
+                "
               >
-                This page explains the checks,
-                the training that follows and
-                how work is monitored once
-                someone starts.
+                We look for people who communicate clearly,
+                understand their responsibilities and can
+                deliver work to the standards you expect.
               </p>
 
               {/* HERO BUTTONS */}
 
               <div
                 data-hire-reveal
-                className="mt-9 flex flex-wrap gap-3"
+                className="
+                  mt-4
+                  flex
+                  flex-nowrap
+                  items-center
+                  gap-2
+
+                  sm:mt-9
+                  sm:flex-wrap
+                  sm:gap-3
+                "
               >
-                <a
-                  href="#contact"
-                  className="inline-flex min-h-[54px] items-center gap-3 rounded-full border border-white bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff2f2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                <Link
+                  href="/#contact"
+                  className="
+                    inline-flex
+                    min-h-[38px]
+                    shrink-0
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-full
+                    border
+                    border-white
+                    bg-white
+                    px-3
+                    text-[9px]
+                    font-semibold
+                    text-[#B12025]
+                    transition-colors
+                    duration-300
+                    hover:bg-[#fff2f2]
+
+                    sm:min-h-[54px]
+                    sm:gap-3
+                    sm:px-6
+                    sm:text-[12px]
+                  "
                 >
                   Book a free discovery call
 
                   <ArrowUpRight
-                    size={17}
-                  />
-                </a>
+                    aria-hidden="true"
+                    className="
+                      h-[13px]
+                      w-[13px]
 
-                <a
-                  href="#checks"
-                  className="inline-flex min-h-[54px] items-center gap-3 rounded-full border border-white/50 px-6 text-[12px] font-semibold text-white transition hover:bg-white/10"
+                      sm:h-[17px]
+                      sm:w-[17px]
+                    "
+                  />
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    scrollToSection('four-checks')
+                  }
+                  className="
+                    inline-flex
+                    min-h-[38px]
+                    shrink-0
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-full
+                    border
+                    border-white/50
+                    px-3
+                    text-[9px]
+                    font-semibold
+                    text-white
+                    transition-colors
+                    duration-300
+                    hover:bg-white/10
+
+                    sm:min-h-[54px]
+                    sm:gap-3
+                    sm:px-6
+                    sm:text-[12px]
+                  "
                 >
                   Explore the four checks
 
                   <ArrowDownRight
-                    size={17}
+                    aria-hidden="true"
+                    className="
+                      h-[13px]
+                      w-[13px]
+
+                      sm:h-[17px]
+                      sm:w-[17px]
+                    "
                   />
-                </a>
+                </button>
               </div>
             </div>
 
-            {/* TEXT-ONLY HIRING CHECKS */}
+            {/* FOUR CHECKS — ONE ROW ON MOBILE */}
 
             <div
               data-hire-reveal
-              className="grid grid-cols-2 content-start gap-x-7 gap-y-7"
+              className="
+                grid
+                grid-cols-4
+                content-start
+                gap-x-3
+                gap-y-0
+
+                sm:grid-cols-2
+                sm:gap-x-7
+                sm:gap-y-7
+              "
             >
-              {checks.map((check, index) => (
+              {[
+                'Language test',
+                'Technical assessment',
+                'Experience review',
+                'Reference checks',
+              ].map((title, index) => (
                 <div
-                  key={check.title}
-                  className="border-b border-white/35 pb-5"
+                  key={title}
+                  className="
+                    min-w-0
+                    border-b
+                    border-white/35
+                    pb-3
+
+                    sm:pb-5
+                  "
                 >
-                  <span className="font-mono text-[12px] text-white/70">
+                  <span
+                    className="
+                      font-mono
+                      text-[10px]
+                      text-white/70
+
+                      sm:text-[12px]
+                    "
+                  >
                     0{index + 1}
                   </span>
 
-                  <p className="mt-3 text-[clamp(.98rem,1.35vw,1.22rem)] font-medium leading-6 text-white">
-                    {check.title}
+                  <p
+                    className="
+                      mt-2
+                      text-[10px]
+                      font-medium
+                      leading-[1.35]
+                      text-white
+
+                      sm:mt-3
+                      sm:text-[clamp(.98rem,1.35vw,1.22rem)]
+                      sm:leading-6
+                    "
+                  >
+                    {title}
                   </p>
                 </div>
               ))}
@@ -978,708 +1166,2031 @@ export default function HowWeHirePage() {
         </div>
       </section>
 
-      {/* ==============================================
-          FOUR HIRING CHECKS
-          GSAP HORIZONTAL CARD SCROLL
-      ============================================== */}
+      {/* ================================================
+          FOUR CHECKS SECTION
+
+          MOBILE:
+          - Reduced white spacing
+          - Smaller heading
+          - Applicants remaining hidden
+          - Shorter horizontal cards
+      ================================================ */}
 
       <section
+        id="four-checks"
         ref={checksRef}
-        id="checks"
-        className="relative scroll-mt-[120px] bg-[#fff9f9] py-[95px] lg:flex lg:min-h-[760px] lg:flex-col lg:justify-center"
+        data-hire-screening
+        aria-labelledby="four-checks-title"
+        className="
+          relative
+          scroll-mt-[120px]
+          bg-[#fff9f9]
+          py-[35px]
+
+          sm:py-[95px]
+
+          lg:flex
+          lg:min-h-[760px]
+          lg:flex-col
+          lg:justify-center
+        "
       >
-        <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-14">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p
-                data-hire-reveal
-                className={`${label} text-[#B12025]`}
-              >
-                01 / Our selection process
-              </p>
+        <div
+          className="
+            mx-auto
+            w-full
+            max-w-[1440px]
+            px-5
 
-              <h2
-                data-hire-title
-                className={`mt-5 max-w-[920px] ${heading}`}
-              >
-                <RisingWords
-                  text="The four checks before anyone is hired"
-                />
-              </h2>
-            </div>
+            sm:px-8
 
-            <p className="rounded-full border border-[#B12025]/20 bg-white px-5 py-3 text-[12px] font-semibold text-[#B12025]">
-              Applicants remaining
+            lg:px-14
+          "
+        >
+          {/* SECTION LABEL */}
 
-              <span className="ml-2 text-[22px] tabular-nums">
-                {remaining}
-              </span>
-
-              <span className="text-[10px]">
-                {' '}example
-              </span>
-            </p>
-          </div>
-
-          <p
-            data-hire-reveal
-            className="mt-5 max-w-[690px] text-[13px] leading-7 text-[#17191C]/65"
-          >
-            The order and timing of these
-            steps still need to be confirmed.
-            The illustrated stage-by-stage
-            applicant counts are not measured
-            pass rates.
-          </p>
-        </div>
-
-        {/* SIDE SCROLL TRACK */}
-
-        <div className="mt-10 w-full overflow-x-auto overscroll-x-contain snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible lg:snap-none">
-          <div
-            ref={checksTrackRef}
-            className="flex w-max gap-5 pl-5 pr-5 sm:pl-8 lg:pl-14 lg:pr-14"
-          >
-            {checks.map(
-              (
-                {
-                  title,
-                  description,
-                  Icon,
-                  note,
-                },
-                index
-              ) => {
-                const red =
-                  index === 0 ||
-                  index === 2;
-
-                return (
-                  <article
-                    key={title}
-                    data-hire-card
-                    className={`relative flex min-h-[440px] w-[min(88vw,555px)] shrink-0 snap-center flex-col overflow-hidden rounded-[30px] border p-8 sm:p-10 lg:w-[615px] ${
-                      red
-                        ? 'border-[#B12025] bg-[#B12025] text-white'
-                        : 'border-[#B12025]/20 bg-white text-[#17191C]'
-                    }`}
-                  >
-                    {/* OUTLINED CARD NUMBER */}
-
-                    <div
-                      aria-hidden="true"
-                      className={`pointer-events-none absolute -right-3 top-6 text-[175px] font-semibold leading-none tracking-[-.13em] ${
-                        red
-                          ? 'text-white/[.08]'
-                          : 'text-[#B12025]/[.05]'
-                      }`}
-                    >
-                      0{index + 1}
-                    </div>
-
-                    <div className="relative flex items-start justify-between">
-                      <span
-                        className={`flex h-16 w-16 items-center justify-center rounded-[19px] ${
-                          red
-                            ? 'bg-white/15 text-white'
-                            : 'bg-[#fff2f2] text-[#B12025]'
-                        }`}
-                      >
-                        <Icon
-                          size={30}
-                          strokeWidth={1.5}
-                        />
-                      </span>
-
-                      <span
-                        className={`font-mono text-[12px] ${
-                          red
-                            ? 'text-white/75'
-                            : 'text-[#B12025]'
-                        }`}
-                      >
-                        0{index + 1} / 04
-                      </span>
-                    </div>
-
-                    <div className="relative mt-auto pt-14">
-                      <h3
-                        data-hire-card-text
-                        className="text-[clamp(2rem,3vw,3.25rem)] font-semibold leading-[1.13] tracking-[-.05em]"
-                      >
-                        {title}
-                      </h3>
-
-                      <p
-                        data-hire-card-text
-                        className={`mt-5 max-w-[470px] text-[14px] leading-[1.85] ${
-                          red
-                            ? 'text-white/85'
-                            : 'text-[#17191C]/70'
-                        }`}
-                      >
-                        {description}
-                      </p>
-
-                      <p
-                        className={`mt-7 border-t pt-5 text-[11px] font-semibold uppercase tracking-[.12em] ${
-                          red
-                            ? 'border-white/30 text-white/75'
-                            : 'border-[#B12025]/20 text-[#B12025]'
-                        }`}
-                      >
-                        {note}
-                      </p>
-                    </div>
-                  </article>
-                );
-              }
-            )}
-          </div>
-        </div>
-
-        {/* HORIZONTAL SCROLL PROGRESS */}
-
-        <div className="mx-auto mt-8 flex w-full max-w-[1450px] items-center gap-4 px-5 sm:px-8 lg:px-14">
-          <div className="h-1 flex-1 overflow-hidden rounded-full bg-[#B12025]/15">
-            <div
-              ref={checksProgressRef}
-              className="h-full origin-left scale-x-0 bg-[#B12025]"
-            />
-          </div>
-
-          <div className="hidden gap-2 lg:flex">
-            {checks.map((item, i) => (
-              <button
-                key={item.title}
-                type="button"
-                onClick={() =>
-                  goToCheck(i)
-                }
-                aria-label={`Show ${item.title}`}
-                className="rounded-full border border-[#B12025]/20 bg-white px-3 py-2 text-[11px] font-semibold text-[#B12025] hover:bg-[#B12025] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B12025]"
-              >
-                0{i + 1}
-              </button>
-            ))}
-          </div>
-
-          <p className="text-[11px] text-[#B12025] lg:hidden">
-            Swipe to explore →
-          </p>
-        </div>
-      </section>
-
-      {/* ==============================================
-          TRAINING BEFORE LIVE WORK
-      ============================================== */}
-
-      <section
-        id="training"
-        className="scroll-mt-[110px] bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[140px]"
-      >
-        <div className="mx-auto max-w-[1450px]">
           <p
             data-hire-reveal
             className={`${label} text-[#B12025]`}
           >
-            02 / Before live work
+            THE SELECTION PROCESS
           </p>
 
-          <div className="mt-5 grid items-end gap-9 lg:grid-cols-[1.08fr_.92fr]">
-            <h2
-              data-hire-title
-              className={heading}
-            >
-              <RisingWords
-                text="Training before work on your account starts"
-              />
-            </h2>
-
-            <p
-              data-hire-reveal
-              className="max-w-[520px] text-[14px] leading-[1.9] text-[#17191C]/70"
-            >
-              New hires train for{' '}
-
-              <strong className="text-[#B12025]">
-                {TRAINING_WEEKS === null
-                  ? 'a duration to be confirmed'
-                  : `${TRAINING_WEEKS} weeks`}
-              </strong>{' '}
-
-              before they handle live work.
-              This covers FirstNotch policies
-              and data handling, then your
-              products, tools and scripts.
-            </p>
-          </div>
-
-          {/* TRAINING PROGRESS LINE */}
-
-          <div className="relative mt-14 grid gap-4 md:grid-cols-4">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 1000 5"
-              preserveAspectRatio="none"
-              className="pointer-events-none absolute left-0 top-[48px] hidden h-[5px] w-full md:block"
-            >
-              <path
-                d="M 0 2.5 H 1000"
-                stroke="#B12025"
-                strokeOpacity=".14"
-                strokeWidth="2"
-              />
-
-              <path
-                data-hire-path
-                d="M 0 2.5 H 1000"
-                stroke="#B12025"
-                strokeWidth="3"
-                strokeDasharray="1000"
-                strokeDashoffset="1000"
-              />
-            </svg>
-
-            {training.map((item, index) => (
-              <article
-                key={item.title}
-                data-hire-reveal
-                className="relative rounded-[26px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-8"
-              >
-                <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-[#B12025] text-[12px] font-semibold text-white">
-                  {index === 3 ? (
-                    <Check size={20} />
-                  ) : (
-                    `0${index + 1}`
-                  )}
-                </span>
-
-                <h3 className="mt-8 text-[20px] font-semibold tracking-[-.03em]">
-                  {item.title}
-                </h3>
-
-                <p className="mt-4 text-[12px] leading-7 text-[#17191C]/70">
-                  {item.body}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          <p className="mt-9 text-[13px] leading-7 text-[#17191C]/70">
-            Training ends with a test on
-            your processes.{' '}
-
-            <strong className="text-[#B12025]">
-              Only staff who pass are moved
-              onto your account.
-            </strong>
-          </p>
-        </div>
-      </section>
-
-      {/* ==============================================
-          QUALITY MONITORING
-          RED BACKGROUND / WHITE TEXT
-      ============================================== */}
-
-      <section
-        id="quality"
-        className="scroll-mt-[110px] bg-[#B12025] px-5 py-[105px] text-white sm:px-8 lg:px-14 lg:py-[145px]"
-      >
-        <div className="mx-auto max-w-[1450px]">
-          <p
-            data-hire-reveal
-            className={`${label} text-white/75`}
-          >
-            03 / Ongoing performance
-          </p>
+          {/* SECTION HEADING */}
 
           <h2
+            id="four-checks-title"
             data-hire-title
-            className={`mt-5 max-w-[1050px] ${heading}`}
+            className="
+              mt-3
+              max-w-[920px]
+              text-[27px]
+              font-semibold
+              leading-[1.12]
+              tracking-[-0.055em]
+
+              sm:mt-5
+              sm:text-[clamp(2.7rem,5vw,5.8rem)]
+              sm:leading-[1.08]
+              sm:tracking-[-0.065em]
+            "
           >
             <RisingWords
-              text="How work is checked once someone starts"
+              text="The four checks before anyone is hired."
             />
           </h2>
 
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-12">
-            {monitoring.map((item, index) => (
+          {/* DESCRIPTION */}
+
+          <p
+            data-hire-reveal
+            className="
+              mt-3
+              max-w-[690px]
+              text-[11px]
+              leading-[1.6]
+              text-[#17191C]/65
+
+              sm:mt-5
+              sm:text-[13px]
+              sm:leading-7
+            "
+          >
+            Each applicant completes a structured screening
+            process. We assess communication, practical
+            skills, previous experience and references
+            before making a hiring decision.
+          </p>
+
+          {/* APPLICANTS REMAINING — DESKTOP ONLY */}
+
+          <div
+            data-hire-reveal
+            className="
+              mt-7
+              hidden
+              items-center
+              gap-4
+
+              sm:flex
+            "
+          >
+            <span
+              className="
+                rounded-full
+                border
+                border-[#B12025]/20
+                bg-white
+                px-5
+                py-3
+                text-[12px]
+                font-semibold
+                text-[#B12025]
+              "
+            >
+              Applicants remaining: {remaining}
+            </span>
+
+            <span
+              className="
+                text-[11px]
+                text-[#17191C]/50
+              "
+            >
+              Example screening journey
+            </span>
+          </div>
+        </div>
+
+        {/* ============================================
+            HORIZONTAL CHECK CARDS
+        ============================================ */}
+
+        <div
+          className="
+            mt-5
+            w-full
+            snap-x
+            snap-mandatory
+            overflow-x-auto
+            overscroll-x-contain
+
+            [scrollbar-width:none]
+            [&::-webkit-scrollbar]:hidden
+
+            sm:mt-10
+
+            lg:overflow-visible
+            lg:snap-none
+          "
+        >
+          <div
+            ref={checksTrackRef}
+            data-mobile-auto-scroll
+            className="
+              flex
+              w-max
+              gap-3
+              px-5
+
+              sm:gap-5
+              sm:px-8
+
+              lg:gap-6
+              lg:px-14
+            "
+          >
+            {checks.map((check, index) => {
+              const Icon = check.Icon;
+
+              return (
+                <article
+                  key={check.title}
+                  data-mobile-scroll-card
+                  className="
+                    relative
+                    flex
+                    min-h-[310px]
+                    w-[min(82vw,555px)]
+                    shrink-0
+                    snap-center
+                    flex-col
+                    overflow-hidden
+                    rounded-[22px]
+                    border
+                    border-[#B12025]/15
+                    bg-white
+                    p-5
+                    text-[#17191C]
+
+                    sm:min-h-[440px]
+                    sm:w-[min(88vw,555px)]
+                    sm:rounded-[30px]
+                    sm:p-10
+
+                    lg:w-[615px]
+                  "
+                >
+                  {/* CARD TOP */}
+
+                  <div
+                    className="
+                      flex
+                      items-start
+                      justify-between
+                      gap-3
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        h-12
+                        w-12
+                        items-center
+                        justify-center
+                        rounded-[14px]
+                        bg-[#B12025]/10
+                        text-[#B12025]
+
+                        sm:h-16
+                        sm:w-16
+                        sm:rounded-[19px]
+                      "
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="
+                          h-5
+                          w-5
+
+                          sm:h-7
+                          sm:w-7
+                        "
+                      />
+                    </div>
+
+                    <span
+                      className="
+                        text-[12px]
+                        font-semibold
+                        text-[#B12025]
+
+                        sm:text-[14px]
+                      "
+                    >
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  {/* CARD CONTENT */}
+
+                  <div
+                    className="
+                      relative
+                      mt-auto
+                      pt-6
+
+                      sm:pt-14
+                    "
+                  >
+                    <p
+                      className="
+                        text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.15em]
+                        text-[#B12025]
+
+                        sm:text-[12px]
+                      "
+                    >
+                      {check.note}
+                    </p>
+
+                    <h3
+                      className="
+                        mt-3
+                        text-[23px]
+                        font-semibold
+                        leading-[1.13]
+                        tracking-[-0.05em]
+
+                        sm:text-[clamp(2rem,3vw,3.25rem)]
+                      "
+                    >
+                      {check.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-3
+                        max-w-[470px]
+                        text-[11px]
+                        leading-[1.6]
+                        text-[#17191C]/65
+
+                        sm:mt-5
+                        sm:text-[14px]
+                        sm:leading-[1.85]
+                      "
+                    >
+                      {check.description}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* DESKTOP SCROLL PROGRESS */}
+
+        <div
+          aria-hidden="true"
+          className="
+            mx-auto
+            mt-8
+            hidden
+            h-[2px]
+            max-w-[1328px]
+            overflow-hidden
+            bg-[#B12025]/15
+
+            lg:block
+          "
+        >
+          <div
+            ref={checksProgressRef}
+            className="
+              h-full
+              w-0
+              bg-[#B12025]
+            "
+          />
+        </div>
+      </section>
+
+      {/* ================================================
+          TRAINING SECTION
+          MOBILE:
+          - Compact spacing
+          - Smaller headings
+          - Horizontal training cards
+      ================================================ */}
+
+      <section
+        id="training"
+        aria-labelledby="training-title"
+        className="
+          relative
+          scroll-mt-[100px]
+          overflow-hidden
+          bg-white
+          px-5
+          pb-[35px]
+          pt-[40px]
+
+          sm:px-8
+          sm:py-[100px]
+
+          lg:px-14
+          lg:py-[140px]
+        "
+      >
+        <div className="mx-auto max-w-[1440px]">
+          <p
+            data-hire-reveal
+            className={`${label} text-[#B12025]`}
+          >
+            TRAINED FOR YOUR BUSINESS
+          </p>
+
+          <h2
+            id="training-title"
+            data-hire-title
+            className="
+              mt-3
+              max-w-[1050px]
+              text-[clamp(2rem,8vw,2.6rem)]
+              font-semibold
+              leading-[1.12]
+              tracking-[-0.055em]
+
+              sm:mt-6
+              sm:text-[clamp(2.7rem,5vw,5.8rem)]
+              sm:leading-[1.08]
+              sm:tracking-[-0.065em]
+            "
+          >
+            <RisingWords
+              text="Training that prepares your team for your business."
+            />
+          </h2>
+
+          <p
+            data-hire-reveal
+            className="
+              mt-3
+              max-w-[780px]
+              text-[11px]
+              leading-[1.65]
+              text-[#17191C]/65
+
+              sm:mt-6
+              sm:text-[14px]
+              sm:leading-[1.85]
+            "
+          >
+            Before joining your account, team members learn
+            your processes, tools, products and quality
+            expectations. Training is designed around the
+            work they will actually do.
+          </p>
+
+                    {/* ============================================
+              TRAINING CARDS
+
+              MOBILE:
+              - Horizontal side scrolling
+              - Compact card height
+              - Smaller text and icons
+
+              TABLET / DESKTOP:
+              - Original grid layout
+          ============================================ */}
+
+          <div
+            data-mobile-auto-scroll
+            className="
+              mt-6
+              flex
+              snap-x
+              snap-mandatory
+              gap-3
+              overflow-x-auto
+              overscroll-x-contain
+              pb-3
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+
+              sm:mt-12
+              sm:grid
+              sm:grid-cols-2
+              sm:gap-5
+              sm:overflow-visible
+              sm:pb-0
+
+              lg:grid-cols-4
+              lg:gap-6
+            "
+          >
+            {training.map((item, index) => (
               <article
                 key={item.title}
-                data-hire-reveal
-                className={`group flex min-h-[290px] flex-col rounded-[28px] border border-white/20 bg-white/[.08] p-8 transition hover:bg-white/[.13] ${
-                  index < 2
-                    ? 'lg:col-span-7'
-                    : 'lg:col-span-5'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-white text-[#B12025]">
-                    <item.Icon
-                      size={26}
-                      strokeWidth={1.6}
-                    />
-                  </span>
+                data-mobile-scroll-card
+                className="
+                  group
+                  relative
+                  flex
+                  min-h-[210px]
+                  w-[78vw]
+                  max-w-[300px]
+                  shrink-0
+                  snap-start
+                  flex-col
+                  justify-between
+                  overflow-hidden
+                  rounded-[18px]
+                  border
+                  border-[#B12025]/15
+                  bg-[#F8F8F8]
+                  p-4
+                  transition-colors
+                  duration-300
 
-                  <span className="font-mono text-[12px] text-white/65">
+                  sm:min-h-[340px]
+                  sm:w-auto
+                  sm:max-w-none
+                  sm:rounded-[26px]
+                  sm:p-7
+
+                  lg:min-h-[390px]
+                  lg:p-8
+                "
+              >
+                {/* CARD NUMBER */}
+
+                <div className="flex items-start justify-between">
+                  <span
+                    className="
+                      flex
+                      h-9
+                      w-9
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-[#B12025]
+                      text-[11px]
+                      font-semibold
+                      text-white
+
+                      sm:h-14
+                      sm:w-14
+                      sm:text-[16px]
+                    "
+                  >
                     0{index + 1}
                   </span>
+
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="
+                      h-4
+                      w-4
+                      text-[#B12025]
+
+                      sm:h-6
+                      sm:w-6
+                    "
+                  />
                 </div>
 
-                <div className="mt-auto pt-10">
-                  <p className="text-[10px] font-semibold uppercase tracking-[.15em] text-white/75">
-                    {item.foot}
-                  </p>
+                {/* CARD CONTENT */}
 
-                  <h3 className="mt-3 text-[27px] font-semibold tracking-[-.045em]">
+                <div className="mt-5 sm:mt-12">
+                  <h3
+                    className="
+                      max-w-[250px]
+                      text-[17px]
+                      font-semibold
+                      leading-[1.15]
+                      tracking-[-0.045em]
+                      text-[#17191C]
+
+                      sm:text-[clamp(1.4rem,2vw,2rem)]
+                      sm:leading-[1.2]
+                    "
+                  >
                     {item.title}
                   </h3>
 
-                  <p className="mt-4 max-w-[520px] text-[13px] leading-[1.85] text-white/85">
+                  <p
+                    className="
+                      mt-2
+                      max-w-[260px]
+                      text-[11px]
+                      leading-[1.55]
+                      text-[#17191C]/65
+
+                      sm:mt-5
+                      sm:text-[13px]
+                      sm:leading-[1.8]
+                    "
+                  >
                     {item.body}
                   </p>
                 </div>
               </article>
             ))}
           </div>
+
+          {/* ============================================
+              TRAINING CLOSING MESSAGE
+
+              HIDDEN ON MOBILE ONLY
+          ============================================ */}
+
+          <div
+            data-hire-reveal
+            className="
+              mt-12
+              hidden
+              border-t
+              border-[#17191C]/10
+              pt-8
+
+              sm:block
+              lg:mt-16
+            "
+          >
+            <div
+              className="
+                flex
+                flex-col
+                gap-4
+
+                lg:flex-row
+                lg:items-center
+                lg:justify-between
+                lg:gap-12
+              "
+            >
+              <p
+                className="
+                  max-w-[850px]
+                  text-[clamp(1.3rem,2.2vw,2.4rem)]
+                  font-medium
+                  leading-[1.4]
+                  tracking-[-0.035em]
+                  text-[#17191C]
+                "
+              >
+                Training ends with a test on your processes.
+                Only people who pass move onto your account.
+              </p>
+
+              <span
+                className="
+                  inline-flex
+                  shrink-0
+                  items-center
+                  gap-2
+                  text-[12px]
+                  font-semibold
+                  text-[#B12025]
+                "
+              >
+                <Check
+                  aria-hidden="true"
+                  size={17}
+                />
+
+                Process tested
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ==============================================
-          DATA PROTECTION
-      ============================================== */}
+      {/* ================================================
+          QUALITY MONITORING SECTION
+
+          MOBILE:
+          - Reduced red empty spaces
+          - Smaller headings and descriptions
+          - Horizontally scrolling cards
+          - Smaller card icons and text
+
+          TABLET / DESKTOP:
+          - Original grid layout
+      ================================================ */}
 
       <section
-        id="security"
-        className="scroll-mt-[110px] bg-white px-5 py-[110px] sm:px-8 lg:px-14 lg:py-[145px]"
+        id="quality-monitoring"
+        aria-labelledby="quality-monitoring-title"
+        className="
+          relative
+          scroll-mt-[100px]
+          overflow-hidden
+          bg-[#B12025]
+          px-5
+          pb-[40px]
+          pt-[45px]
+          text-white
+
+          sm:px-8
+          sm:py-[100px]
+
+          lg:px-14
+          lg:py-[140px]
+        "
       >
-        <div className="mx-auto grid max-w-[1450px] gap-12 lg:grid-cols-[.82fr_1.18fr] lg:gap-20">
-          <div className="lg:sticky lg:top-[145px] lg:self-start">
-            <p
-              data-hire-reveal
-              className={`${label} text-[#B12025]`}
-            >
-              04 / Data protection
-            </p>
+        <div className="mx-auto max-w-[1440px]">
+          {/* SECTION LABEL */}
 
-            <h2
-              data-hire-title
-              className={`mt-5 ${heading}`}
-            >
-              <RisingWords
-                text="How your data is protected"
-              />
-            </h2>
+          <p
+            data-hire-reveal
+            className="
+              text-[9px]
+              font-semibold
+              uppercase
+              tracking-[0.2em]
+              text-white/80
 
-            <p
-              data-hire-reveal
-              className="mt-6 max-w-[480px] text-[14px] leading-8 text-[#17191C]/70"
-            >
-              Staff receive only the access
-              they need to do their assigned
-              work, with mandatory data-handling
-              training and confidentiality
-              agreements.
-            </p>
+              sm:text-[11px]
+            "
+          >
+            QUALITY MONITORING
+          </p>
+
+          {/* MAIN HEADING */}
+
+          <h2
+            id="quality-monitoring-title"
+            data-hire-title
+            className="
+              mt-3
+              max-w-[1150px]
+              text-[clamp(2rem,8vw,2.65rem)]
+              font-semibold
+              leading-[1.1]
+              tracking-[-0.055em]
+              text-white
+
+              sm:mt-6
+              sm:text-[clamp(2.7rem,5vw,5.8rem)]
+              sm:leading-[1.08]
+              sm:tracking-[-0.065em]
+            "
+          >
+            <RisingWords
+              text="Quality is checked, scored and improved."
+            />
+          </h2>
+
+          {/* DESCRIPTION */}
+
+          <p
+            data-hire-reveal
+            className="
+              mt-3
+              max-w-[770px]
+              text-[11px]
+              leading-[1.65]
+              text-white/85
+
+              sm:mt-6
+              sm:text-[14px]
+              sm:leading-[1.85]
+            "
+          >
+            Hiring and training are only the beginning.
+            We continue to monitor performance, review
+            quality scores and coach team members to
+            maintain the standards your business expects.
+          </p>
+
+          {/* ============================================
+              QUALITY CARDS
+
+              MOBILE:
+              - Single horizontal row
+              - Side scrolling
+              - Smaller icons
+              - Reduced card height
+              - Smaller text
+
+              TABLET / DESKTOP:
+              - Original grid
+          ============================================ */}
+
+          <div
+            data-mobile-auto-scroll
+            className="
+              mt-6
+              flex
+              snap-x
+              snap-mandatory
+              gap-3
+              overflow-x-auto
+              overscroll-x-contain
+              pb-3
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+
+              sm:mt-12
+              sm:grid
+              sm:grid-cols-2
+              sm:gap-5
+              sm:overflow-visible
+              sm:pb-0
+
+              lg:grid-cols-4
+              lg:gap-6
+            "
+          >
+            {monitoring.map((item, index) => {
+              const Icon = item.Icon;
+
+              return (
+                <article
+                  key={item.title}
+                  data-mobile-scroll-card
+                  className="
+                    group
+                    relative
+                    flex
+                    min-h-[235px]
+                    w-[78vw]
+                    max-w-[300px]
+                    shrink-0
+                    snap-start
+                    flex-col
+                    justify-between
+                    overflow-hidden
+                    rounded-[18px]
+                    border
+                    border-white/25
+                    bg-white
+                    p-4
+                    text-[#17191C]
+                    transition-transform
+                    duration-300
+
+                    sm:min-h-[360px]
+                    sm:w-auto
+                    sm:max-w-none
+                    sm:rounded-[26px]
+                    sm:p-7
+
+                    lg:min-h-[410px]
+                    lg:p-8
+                  "
+                >
+                  {/* CARD TOP */}
+
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="
+                        flex
+                        h-10
+                        w-10
+                        items-center
+                        justify-center
+                        rounded-[12px]
+                        bg-[#B12025]/10
+                        text-[#B12025]
+
+                        sm:h-16
+                        sm:w-16
+                        sm:rounded-[18px]
+                      "
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="
+                          h-5
+                          w-5
+
+                          sm:h-7
+                          sm:w-7
+                        "
+                      />
+                    </div>
+
+                    <span
+                      className="
+                        text-[11px]
+                        font-semibold
+                        text-[#B12025]/65
+
+                        sm:text-[13px]
+                      "
+                    >
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  {/* CARD CONTENT */}
+
+                  <div className="mt-5 sm:mt-12">
+                    <h3
+                      className="
+                        text-[18px]
+                        font-semibold
+                        leading-[1.15]
+                        tracking-[-0.045em]
+                        text-[#17191C]
+
+                        sm:text-[clamp(1.5rem,2vw,2.1rem)]
+                        sm:leading-[1.2]
+                      "
+                    >
+                      {item.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-2
+                        text-[11px]
+                        leading-[1.55]
+                        text-[#17191C]/65
+
+                        sm:mt-5
+                        sm:text-[13px]
+                        sm:leading-[1.8]
+                      "
+                    >
+                      {item.body}
+                    </p>
+
+                    {/* CARD FOOTER */}
+
+                    <div
+                      className="
+                        mt-4
+                        border-t
+                        border-[#17191C]/10
+                        pt-3
+
+                        sm:mt-8
+                        sm:pt-5
+                      "
+                    >
+                      <p
+                        className="
+                          text-[9px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.1em]
+                          text-[#B12025]
+
+                          sm:text-[11px]
+                        "
+                      >
+                        {item.foot}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
-          {/* STICKY SECURITY CARDS */}
+          {/* MOBILE SCROLL INDICATOR */}
 
-          <div className="space-y-5">
-            {security.map((item, index) => (
-              <article
+          <div
+            aria-hidden="true"
+            className="
+              mt-3
+              flex
+              items-center
+              justify-center
+              gap-2
+
+              sm:hidden
+            "
+          >
+            {monitoring.map((item, index) => (
+              <span
                 key={item.title}
-                className={`relative rounded-[29px] border border-[#B12025]/15 bg-[#fff9f9] p-8 sm:p-11 lg:sticky ${
-                  index === 0
-                    ? 'lg:top-[105px]'
-                    : index === 1
-                      ? 'lg:top-[125px]'
-                      : 'lg:top-[145px]'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#B12025] text-white">
-                    <item.Icon
-                      size={27}
-                      strokeWidth={1.6}
-                    />
-                  </span>
-
-                  <span className="font-mono text-[12px] text-[#B12025]">
-                    0{index + 1} / 03
-                  </span>
-                </div>
-
-                <h3 className="mt-10 text-[clamp(1.9rem,3.2vw,3.4rem)] font-semibold tracking-[-.06em]">
-                  {item.title}
-                </h3>
-
-                <p className="mt-5 max-w-[580px] text-[14px] leading-[1.85] text-[#17191C]/65">
-                  {item.body}
-                </p>
-
-                <span className="mt-8 inline-block rounded-full border border-[#B12025]/20 bg-white px-4 py-2 text-[11px] font-semibold text-[#B12025]">
-                  {item.badge}
-                </span>
-              </article>
+                className={`
+                  h-[4px]
+                  rounded-full
+                  ${
+                    index === 0
+                      ? 'w-[20px] bg-white'
+                      : 'w-[6px] bg-white/40'
+                  }
+                `}
+              />
             ))}
           </div>
         </div>
       </section>
-
-      {/* ==============================================
-          KEEPING TRAINED STAFF
-      ============================================== */}
+            {/* ================================================
+          DATA SECURITY SECTION
+      ================================================ */}
 
       <section
-        id="retention"
-        className="overflow-hidden bg-[#fff9f9] py-[110px] lg:py-[145px]"
+        id="data-security"
+        aria-labelledby="data-security-title"
+        className="
+          relative
+          scroll-mt-[100px]
+          bg-white
+          px-5
+          py-[45px]
+
+          sm:px-8
+          sm:py-[100px]
+
+          lg:px-14
+          lg:py-[140px]
+        "
       >
-        <div className="mx-auto max-w-[1450px] px-5 sm:px-8 lg:px-14">
+        <div className="mx-auto max-w-[1440px]">
           <p
             data-hire-reveal
             className={`${label} text-[#B12025]`}
           >
-            05 / Continuity
+            DATA SECURITY
           </p>
 
-          {/* SCROLL-LINKED TEXT OPACITY REVEAL */}
-
-          <h2
-            className={`mt-6 max-w-[1150px] ${heading}`}
-          >
-            <span
-              data-hire-read
-              role="text"
-              aria-label="Keeping trained people on your account"
-            >
-              <span aria-hidden="true">
-                {'Keeping trained people on your account'
-                  .split(/\s+/)
-                  .map((word, i) => (
-                    <span
-                      key={i}
-                      data-hire-read-word
-                      className="inline-block"
-                    >
-                      {word}
-                      {'\u00a0'}
-                    </span>
-                  ))}
-              </span>
-            </span>
-          </h2>
-
-          <p
-            data-hire-reveal
-            className="mt-8 max-w-[780px] text-[14px] leading-8 text-[#17191C]/70"
-          >
-            Competitive pay, monthly incentives
-            and EPF contributions after probation
-            help trained staff stay with FirstNotch.
-            As a result, the people who know
-            your processes remain on your account.
-          </p>
-        </div>
-
-        {/* ANIMATED MARQUEE */}
-
-        <div className="mt-16 overflow-hidden border-y border-[#B12025]/10 bg-white py-8">
           <div
-            ref={marqueeRef}
-            className="flex w-max gap-9 whitespace-nowrap text-[clamp(1.4rem,3vw,3rem)] font-semibold tracking-[-.05em] text-[#17191C]"
+            className="
+              mt-3
+              grid
+              gap-5
+
+              sm:mt-6
+              sm:gap-10
+
+              lg:grid-cols-[1.1fr_.9fr]
+              lg:items-end
+            "
           >
-            {[0, 1].map((i) => (
-              <div
-                key={i}
-                className="flex shrink-0 items-center gap-9 pr-9"
-              >
-                <span>
-                  Competitive pay
-                </span>
+            <h2
+              id="data-security-title"
+              data-hire-title
+              className="
+                max-w-[950px]
+               text-[27px]
+                font-semibold
+                leading-[1.12]
+                tracking-[-0.055em]
 
-                <span className="text-[#B12025]">
-                  ✳
-                </span>
+                sm:text-[clamp(2.7rem,5vw,5.8rem)]
+                sm:leading-[1.08]
+                sm:tracking-[-0.065em]
+              "
+            >
+              <RisingWords
+                text="Your data is handled with care."
+              />
+            </h2>
 
-                <span>
-                  Monthly incentives
-                </span>
+            <p
+              data-hire-reveal
+              className="
+                max-w-[520px]
+                text-[11px]
+                leading-[1.65]
+                text-[#17191C]/70
 
-                <span className="text-[#B12025]">
-                  ✳
-                </span>
-
-                <span>
-                  EPF after probation
-                </span>
-
-                <span className="text-[#B12025]">
-                  ✳
-                </span>
-              </div>
-            ))}
+                sm:text-[14px]
+                sm:leading-[1.9]
+              "
+            >
+              Every team member is trained to protect
+              confidential information. Access is limited
+              according to the work they perform, and
+              confidentiality is part of their employment
+              agreement.
+            </p>
           </div>
-        </div>
 
-        <div className="mx-auto mt-9 max-w-[1450px] px-5 sm:px-8 lg:px-14">
-          <Link
-            href="/#careers"
-            className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#B12025] underline-offset-4 hover:underline"
-          >
-            See jobs at FirstNotch
+          {/* SECURITY CARDS */}
 
-            <ArrowUpRight size={17} />
-          </Link>
+          <div
+  data-mobile-auto-scroll
+  className="
+    mt-5 flex snap-x snap-mandatory gap-3
+    overflow-x-auto overscroll-x-contain pb-2
+    [scrollbar-width:none]
+    [&::-webkit-scrollbar]:hidden
+    sm:mt-14 sm:grid sm:grid-cols-2 sm:gap-5
+    sm:overflow-visible sm:pb-0
+    md:grid-cols-3
+  "
+> {security.map((item, index) => {
+              const Icon = item.Icon;
+
+              return (
+                <article
+  key={item.title}
+  data-mobile-scroll-card
+  className="
+    group relative flex min-h-[205px]
+    w-[78vw] max-w-[270px] shrink-0 snap-start
+    flex-col rounded-[20px]
+    border border-[#B12025]/15
+    bg-[#fff9f9] p-4
+    sm:min-h-[310px] sm:w-auto sm:max-w-none
+    sm:rounded-[28px] sm:p-8
+  "
+>
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="
+                        flex
+                        h-10
+                        w-10
+                        items-center
+                        justify-center
+                        rounded-[12px]
+                        bg-[#B12025]
+                        text-white
+
+                        sm:h-14
+                        sm:w-14
+                        sm:rounded-[18px]
+                      "
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="
+                          h-5
+                          w-5
+
+                          sm:h-6
+                          sm:w-6
+                        "
+                      />
+                    </div>
+
+                    <span
+                      className="
+                        text-[11px]
+                        font-semibold
+                        text-[#B12025]/55
+
+                        sm:text-[13px]
+                      "
+                    >
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <div className="mt-auto pt-5 sm:pt-12">
+                    <span
+                      className="
+                        text-[9px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.13em]
+                        text-[#B12025]
+
+                        sm:text-[10px]
+                      "
+                    >
+                      {item.badge}
+                    </span>
+
+                    <h3
+                      className="
+                        mt-2
+                        text-[19px]
+                        font-semibold
+                        leading-[1.2]
+                        tracking-[-0.04em]
+
+                        sm:mt-4
+                        sm:text-[26px]
+                      "
+                    >
+                      {item.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-2
+                        max-w-[370px]
+                        text-[11px]
+                        leading-[1.6]
+                        text-[#17191C]/65
+
+                        sm:mt-4
+                        sm:text-[13px]
+                        sm:leading-[1.8]
+                      "
+                    >
+                      {item.body}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* ==============================================
-          TESTIMONIAL
-          RED BACKGROUND + SCROLL TEXT REVEAL
-      ============================================== */}
-
-      <HiringTestimonial />
-
-      {/* ==============================================
-          FAQ
-      ============================================== */}
+      {/* ================================================
+          TEAM RETENTION SECTION
+      ================================================ */}
 
       <section
-        id="hire-faq"
-        className="scroll-mt-[110px] bg-white px-5 py-[110px] sm:px-8 lg:px-14 lg:py-[145px]"
+        id="team-retention"
+        aria-labelledby="team-retention-title"
+        className="
+          relative
+          overflow-hidden
+          bg-[#17191C]
+          px-5
+          py-[50px]
+          text-white
+
+          sm:px-8
+          sm:py-[110px]
+
+          lg:px-14
+          lg:py-[150px]
+        "
       >
-        <div className="mx-auto grid max-w-[1450px] gap-12 lg:grid-cols-[.83fr_1.17fr] lg:gap-20">
+        <div
+          className="
+            mx-auto
+            grid
+            max-w-[1440px]
+            gap-7
+
+            sm:gap-12
+
+            lg:grid-cols-[1.05fr_.95fr]
+            lg:items-center
+          "
+        >
+          {/* LEFT CONTENT */}
+
+          <div>
+            <p
+              data-hire-reveal
+              className={`${label} text-white/65`}
+            >
+              PEOPLE WHO STAY
+            </p>
+
+            <h2
+              id="team-retention-title"
+              data-hire-title
+              className="
+                mt-4
+                max-w-[850px]
+                text-[clamp(2rem,8vw,2.65rem)]
+                font-semibold
+                leading-[1.12]
+                tracking-[-0.055em]
+
+                sm:mt-6
+                sm:text-[clamp(2.7rem,5vw,5.8rem)]
+                sm:leading-[1.08]
+                sm:tracking-[-0.065em]
+              "
+            >
+              <RisingWords
+                text="Good people. Stronger teams."
+              />
+            </h2>
+
+            <p
+              data-hire-reveal
+              className="
+                mt-4
+                max-w-[660px]
+                text-[11px]
+                leading-[1.7]
+                text-white/75
+
+                sm:mt-7
+                sm:text-[14px]
+                sm:leading-[1.9]
+              "
+            >
+              Keeping experienced people on your account
+              helps maintain consistent service. We support
+              our employees through regular feedback,
+              coaching and opportunities to develop their
+              skills.
+            </p>
+
+            <p
+              data-hire-reveal
+              className="
+                mt-3
+                max-w-[660px]
+                text-[11px]
+                leading-[1.7]
+                text-white/75
+
+                sm:mt-5
+                sm:text-[14px]
+                sm:leading-[1.9]
+              "
+            >
+              Our managers work closely with team members
+              to identify problems early, improve
+              performance and support long-term growth.
+            </p>
+          </div>
+
+          {/* RIGHT CONTENT */}
+
+          <div
+            data-hire-reveal
+            className="
+              relative
+              overflow-hidden
+              rounded-[22px]
+              border
+              border-white/15
+              bg-white/[0.06]
+              p-5
+
+              sm:rounded-[32px]
+              sm:p-10
+            "
+          >
+            <div
+              className="
+                flex
+                items-center
+                justify-between
+                border-b
+                border-white/15
+                pb-5
+              "
+            >
+              <span
+                className="
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.15em]
+                  text-white/65
+
+                  sm:text-[12px]
+                "
+              >
+                HOW WE SUPPORT OUR TEAMS
+              </span>
+
+              <ArrowUpRight
+                aria-hidden="true"
+                className="h-5 w-5 text-white/70"
+              />
+            </div>
+
+           <div
+  data-mobile-auto-scroll
+  className="
+    mt-4 flex snap-x snap-mandatory gap-3
+    overflow-x-auto overscroll-x-contain pb-2
+    [scrollbar-width:none]
+    [&::-webkit-scrollbar]:hidden
+    sm:mt-8 sm:block sm:space-y-6
+    sm:overflow-visible sm:pb-0
+  "
+>
+              {[
+                {
+                  number: '01',
+                  title: 'Regular feedback',
+                  description:
+                    'Clear conversations about performance and expectations.',
+                },
+                {
+                  number: '02',
+                  title: 'Ongoing coaching',
+                  description:
+                    'Practical support to strengthen skills and confidence.',
+                },
+                {
+                  number: '03',
+                  title: 'Development opportunities',
+                  description:
+                    'Opportunities to learn and take on greater responsibility.',
+                },
+              ].map((item) => (
+                <div
+  key={item.number}
+  data-mobile-scroll-card
+  className="
+    flex min-h-[155px] w-[75vw] max-w-[235px]
+    shrink-0 snap-start flex-col
+    rounded-[15px] border border-white/15
+    bg-white/[0.05] p-4
+    sm:grid sm:min-h-0 sm:w-auto sm:max-w-none
+    sm:grid-cols-[45px_1fr] sm:gap-5
+    sm:rounded-none sm:border-0 sm:border-b
+    sm:border-white/10 sm:bg-transparent
+    sm:p-0 sm:pb-6
+    sm:last:border-b-0 sm:last:pb-0
+  "
+>
+                  <span
+                    className="
+  text-[10px] font-semibold text-white/50
+  sm:pt-1 sm:text-[11px]
+"
+                  >
+                    {item.number}
+                  </span>
+
+                  <div>
+                    <h3
+                      className="
+                        text-[16px]
+                        font-semibold
+                        tracking-[-0.03em]
+
+                        sm:text-[22px]
+                      "
+                    >
+                      {item.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-1
+                        text-[11px]
+                        leading-[1.6]
+                        text-white/65
+
+                        sm:mt-2
+                        sm:text-[13px]
+                        sm:leading-[1.8]
+                      "
+                    >
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================
+          CLIENT TESTIMONIAL
+      ================================================ */}
+
+      <section
+        id="testimonial"
+        aria-labelledby="testimonial-title"
+        className="
+          relative
+          overflow-hidden
+          bg-[#fff9f9]
+          px-5
+          py-[30px]
+
+          sm:px-8
+          sm:py-[110px]
+
+          lg:px-14
+          lg:py-[150px]
+        "
+      >
+        <div className="mx-auto max-w-[1440px]">
+          <p
+            data-hire-reveal
+            className={`${label} text-[#B12025]`}
+          >
+            WHAT CLIENTS NOTICE
+          </p>
+
+          <div
+            className="
+              mt-5
+              grid
+              gap-7
+
+              sm:mt-10
+              sm:gap-12
+
+              lg:grid-cols-[.3fr_1fr]
+            "
+          >
+            <div
+              data-hire-reveal
+              className="
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-full
+                bg-[#B12025]
+                text-[32px]
+                font-semibold
+                text-white
+
+                sm:h-20
+                sm:w-20
+                sm:text-[52px]
+              "
+            >
+              &ldquo;
+            </div>
+
+            <div>
+              <h2
+                id="testimonial-title"
+                className="sr-only"
+              >
+                Client testimonial
+              </h2>
+
+              <HiringTestimonial />
+
+              <div
+                data-hire-reveal
+                className="
+                  mt-7
+                  flex
+                  items-center
+                  gap-4
+                  border-t
+                  border-[#B12025]/15
+                  pt-5
+
+                  sm:mt-12
+                  sm:pt-8
+                "
+              >
+                <div
+                  className="
+                    h-10
+                    w-1
+                    rounded-full
+                    bg-[#B12025]
+
+                    sm:h-12
+                  "
+                />
+
+                <div>
+                  <p
+                    className="
+                      text-[12px]
+                      font-semibold
+                      text-[#17191C]
+
+                      sm:text-[14px]
+                    "
+                  >
+                    Client feedback
+                  </p>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[10px]
+                      text-[#17191C]/55
+
+                      sm:text-[12px]
+                    "
+                  >
+                    Service quality and communication
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================
+          FREQUENTLY ASKED QUESTIONS
+      ================================================ */}
+
+      <section
+        id="frequently-asked-questions"
+        aria-labelledby="faq-title"
+        className="
+          relative
+          scroll-mt-[100px]
+          bg-white
+          px-5
+          py-[50px]
+
+          sm:px-8
+          sm:py-[110px]
+
+          lg:px-14
+          lg:py-[150px]
+        "
+      >
+        <div
+          className="
+            mx-auto
+            grid
+            max-w-[1440px]
+            gap-8
+
+            sm:gap-12
+
+            lg:grid-cols-[.8fr_1.2fr]
+            lg:gap-20
+          "
+        >
+          {/* LEFT HEADING */}
+
           <div>
             <p
               data-hire-reveal
               className={`${label} text-[#B12025]`}
             >
-              06 / Questions
+              FREQUENTLY ASKED QUESTIONS
             </p>
 
             <h2
+              id="faq-title"
               data-hire-title
-              className={`mt-5 ${heading}`}
+              className="
+                mt-4
+                max-w-[600px]
+                text-[clamp(2rem,8vw,2.65rem)]
+                font-semibold
+                leading-[1.12]
+                tracking-[-0.055em]
+
+                sm:mt-6
+                sm:text-[clamp(2.7rem,5vw,5.8rem)]
+                sm:leading-[1.08]
+                sm:tracking-[-0.065em]
+              "
             >
               <RisingWords
-                text="Questions about the hiring process"
+                text="Questions about our hiring process."
               />
             </h2>
 
-            <a
-              href="#contact"
-              className="mt-8 inline-flex items-center gap-2 text-[13px] font-semibold text-[#B12025] hover:underline"
-            >
-              Can we interview your team?
-              Book a call
+            <p
+              data-hire-reveal
+              className="
+                mt-4
+                max-w-[430px]
+                text-[11px]
+                leading-[1.7]
+                text-[#17191C]/65
 
-              <ArrowUpRight size={17} />
-            </a>
+                sm:mt-7
+                sm:text-[14px]
+                sm:leading-[1.9]
+              "
+            >
+              Here are answers to some of the questions
+              clients ask about recruitment, training and
+              the people who work on their accounts.
+            </p>
           </div>
 
           {/* FAQ ACCORDION */}
 
-          <div className="space-y-3">
-            {faqs.map((item, index) => (
-              <div
-                key={item.question}
-                className="overflow-hidden rounded-[20px] border border-[#B12025]/15 bg-[#fff9f9]"
-              >
-                <h3>
+          <div className="border-t border-[#17191C]/15">
+            {faqs.map((faq, index) => {
+              const isOpen = faqOpen === index;
+
+              return (
+                <div
+                  key={faq.question}
+                  className="
+                    border-b
+                    border-[#17191C]/15
+                  "
+                >
                   <button
                     type="button"
-                    aria-expanded={
-                      faqOpen === index
-                    }
-                    aria-controls={`hire-answer-${index}`}
+                    aria-expanded={isOpen}
+                    aria-controls={`hire-faq-panel-${index}`}
                     onClick={() =>
-                      setFaqOpen((x) =>
-                        x === index
-                          ? null
-                          : index
+                      setFaqOpen(
+                        isOpen ? null : index
                       )
                     }
-                    className="flex w-full items-center justify-between gap-5 p-6 text-left text-[15px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B12025]"
+                    className="
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      gap-4
+                      py-5
+                      text-left
+
+                      sm:gap-8
+                      sm:py-7
+                    "
                   >
-                    <span>
-                      {item.question}
+                    <span
+                      className="
+                        text-[13px]
+                        font-semibold
+                        leading-[1.5]
+                        tracking-[-0.025em]
+                        text-[#17191C]
+
+                        sm:text-[18px]
+                      "
+                    >
+                      {faq.question}
                     </span>
 
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff0f0] text-[#B12025]">
+                    <span
+                      className={`
+                        flex
+                        h-8
+                        w-8
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        transition-colors
+                        duration-300
+
+                        sm:h-10
+                        sm:w-10
+
+                        ${
+                          isOpen
+                            ? 'border-[#B12025] bg-[#B12025] text-white'
+                            : 'border-[#17191C]/20 bg-white text-[#17191C]'
+                        }
+                      `}
+                    >
                       <ChevronDown
-                        size={18}
-                        className={`transition-transform ${
-                          faqOpen === index
-                            ? 'rotate-180'
-                            : ''
-                        }`}
+                        aria-hidden="true"
+                        className={`
+                          h-4
+                          w-4
+                          transition-transform
+                          duration-300
+
+                          ${
+                            isOpen
+                              ? 'rotate-180'
+                              : 'rotate-0'
+                          }
+                        `}
                       />
                     </span>
                   </button>
-                </h3>
 
-                <div
-                  id={`hire-answer-${index}`}
-                  className={`grid transition-[grid-template-rows] duration-300 ${
-                    faqOpen === index
-                      ? 'grid-rows-[1fr]'
-                      : 'grid-rows-[0fr]'
-                  }`}
-                >
-                  <div className="min-h-0 overflow-hidden">
-                    <p className="border-t border-[#B12025]/10 px-6 pb-7 pt-5 text-[13px] leading-8 text-[#17191C]/70">
-                      {item.answer}
+                  <div
+                    id={`hire-faq-panel-${index}`}
+                    hidden={!isOpen}
+                    className="
+                      pb-5
+                      pr-10
+
+                      sm:pb-7
+                      sm:pr-16
+                    "
+                  >
+                    <p
+                      className="
+                        max-w-[680px]
+                        text-[11px]
+                        leading-[1.75]
+                        text-[#17191C]/65
+
+                        sm:text-[14px]
+                        sm:leading-[1.9]
+                      "
+                    >
+                      {faq.answer}
                     </p>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ==============================================
-          OFFICE HOURS INDICATOR
-      ============================================== */}
+      {/* ================================================
+          FINAL CTA SECTION
+      ================================================ */}
 
-      <section className="border-t border-[#B12025]/10 bg-[#fff9f9] px-5 py-8 sm:px-8 lg:px-14">
-        <div className="mx-auto flex max-w-[1450px] flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-[13px] font-semibold">
-              FirstNotch Colombo office
-            </p>
+      <section
+        id="hire-contact"
+        aria-labelledby="hire-contact-title"
+        className="
+          relative
+          overflow-hidden
+          bg-[#B12025]
+          px-5
+          py-[55px]
+          text-white
 
-            <p className="mt-2 text-[11px] text-[#17191C]/65">
-              Monday to Friday · 10am–7pm
-              Sri Lanka time
-            </p>
-          </div>
+          sm:px-8
+          sm:py-[115px]
 
-          <span
-            role="status"
-            className="inline-flex items-center gap-2 rounded-full border border-[#B12025]/15 bg-white px-4 py-2.5 text-[11px] font-semibold"
+          lg:px-14
+          lg:py-[155px]
+        "
+      >
+        <div className="mx-auto max-w-[1440px]">
+          {/* TOP ROW */}
+
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              justify-between
+              gap-4
+            "
           >
-            <span
-              className={`h-2 w-2 rounded-full ${
-                officeOpen
-                  ? 'bg-[#B12025]'
-                  : 'bg-[#17191C]/30'
-              }`}
-            />
+            <p
+              data-hire-reveal
+              className={`${label} text-white/75`}
+            >
+              LET'S BUILD YOUR TEAM
+            </p>
 
-            {officeOpen === null
-              ? 'Checking office hours'
-              : officeOpen
-                ? 'Within office hours'
-                : 'Outside office hours'}
-          </span>
+            {/* OFFICE HOURS */}
+
+            <div
+              data-hire-reveal
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-white/25
+                px-3
+                py-2
+
+                sm:px-4
+              "
+            >
+              <span
+                className={`
+                  h-[7px]
+                  w-[7px]
+                  rounded-full
+
+                  ${
+                    officeOpen === true
+                      ? 'bg-[#8EF0AE]'
+                      : officeOpen === false
+                        ? 'bg-white/50'
+                        : 'bg-white/30'
+                  }
+                `}
+              />
+
+              <span
+                className="
+                  text-[9px]
+                  font-medium
+                  text-white/85
+
+                  sm:text-[11px]
+                "
+              >
+                {officeOpen === null
+                  ? 'Checking Colombo office hours'
+                  : officeOpen
+                    ? 'Colombo office is open'
+                    : 'Colombo office is currently closed'}
+              </span>
+            </div>
+          </div>
+
+          {/* CTA HEADING */}
+
+          <h2
+            id="hire-contact-title"
+            data-hire-title
+            className="
+              mt-6
+              max-w-[1200px]
+              text-[clamp(2.2rem,9vw,3.2rem)]
+              font-semibold
+              leading-[1.08]
+              tracking-[-0.065em]
+
+              sm:mt-12
+              sm:text-[clamp(3.5rem,7vw,8rem)]
+              sm:leading-[1.05]
+            "
+          >
+            <RisingWords
+              text="The right people for your business."
+            />
+          </h2>
+
+          {/* CTA DESCRIPTION */}
+
+          <p
+            data-hire-reveal
+            className="
+              mt-4
+              max-w-[660px]
+              text-[11px]
+              leading-[1.7]
+              text-white/85
+
+              sm:mt-8
+              sm:text-[15px]
+              sm:leading-[1.9]
+            "
+          >
+            Tell us what your business needs. We can
+            discuss the roles, skills and languages
+            required to build a team that works to your
+            standards.
+          </p>
+
+          {/* CTA BUTTONS */}
+
+          <div
+            data-hire-reveal
+            className="
+              mt-6
+              flex
+              flex-wrap
+              items-center
+              gap-3
+
+              sm:mt-10
+              sm:gap-4
+            "
+          >
+            <Link
+              href="/#contact"
+              className="
+                inline-flex
+                min-h-[42px]
+                items-center
+                justify-center
+                gap-2
+                rounded-full
+                bg-white
+                px-4
+                text-[10px]
+                font-semibold
+                text-[#B12025]
+                transition-colors
+                duration-300
+                hover:bg-[#fff2f2]
+
+                sm:min-h-[56px]
+                sm:gap-3
+                sm:px-7
+                sm:text-[13px]
+              "
+            >
+              Book a free discovery call
+
+              <ArrowUpRight
+                aria-hidden="true"
+                className="
+                  h-4
+                  w-4
+
+                  sm:h-5
+                  sm:w-5
+                "
+              />
+            </Link>
+
+            <Link
+              href="/services"
+              className="
+                inline-flex
+                min-h-[42px]
+                items-center
+                justify-center
+                gap-2
+                rounded-full
+                border
+                border-white/50
+                px-4
+                text-[10px]
+                font-semibold
+                text-white
+                transition-colors
+                duration-300
+                hover:bg-white/10
+
+                sm:min-h-[56px]
+                sm:gap-3
+                sm:px-7
+                sm:text-[13px]
+              "
+            >
+              Explore our services
+
+              <ArrowUpRight
+                aria-hidden="true"
+                className="
+                  h-4
+                  w-4
+
+                  sm:h-5
+                  sm:w-5
+                "
+              />
+            </Link>
+          </div>
+
+          {/* BOTTOM DIVIDER */}
+
+          <div
+            aria-hidden="true"
+            className="
+              mt-10
+              h-px
+              w-full
+              bg-white/25
+
+              sm:mt-20
+            "
+          />
+
+          <div
+            className="
+              mt-5
+              flex
+              flex-wrap
+              items-center
+              justify-between
+              gap-3
+
+              sm:mt-8
+            "
+          >
+            <p
+              className="
+                text-[10px]
+                font-medium
+                text-white/70
+
+                sm:text-[12px]
+              "
+            >
+              FirstNotch Solutions (Pvt) Ltd
+            </p>
+
+            <p
+              className="
+                text-[10px]
+                text-white/60
+
+                sm:text-[12px]
+              "
+            >
+              Built on people. Driven by quality.
+            </p>
+          </div>
         </div>
       </section>
-
-      {/* StoryContact renders the contact form and footer */}
     </div>
   );
 }

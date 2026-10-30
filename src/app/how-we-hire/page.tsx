@@ -5,11 +5,47 @@ import Navbar from '@/components/Navbar';
 import StoryContact from '@/components/StoryContact';
 import HowWeHirePage from '@/components/HowWeHirePage';
 
-export const metadata: Metadata = {
-  title: 'How We Hire | FirstNotch Solutions Sri Lanka',
+// ======================================================
+// FIRSTNOTCH — HOW WE HIRE PAGE SEO
+// ======================================================
 
-  description:
-    'Discover how FirstNotch Solutions selects, trains and monitors its people. Language testing, practical assessments, experience reviews, reference checks and quality assurance.',
+const PAGE_PATH = '/how-we-hire';
+
+const SEO_TITLE =
+  'How We Hire | FirstNotch Solutions Sri Lanka';
+
+const SEO_DESCRIPTION =
+  'Discover how FirstNotch Solutions selects, trains and monitors its people. Language testing, practical assessments, experience reviews, reference checks and quality assurance.';
+
+// ======================================================
+// NEXT.JS SEO METADATA
+// ======================================================
+
+export const metadata: Metadata = {
+  title: {
+    absolute: SEO_TITLE,
+  },
+
+  description: SEO_DESCRIPTION,
+
+  keywords: [
+    'FirstNotch Solutions hiring process',
+    'How FirstNotch hires',
+    'BPO recruitment Sri Lanka',
+    'BPO employee screening',
+    'outsourcing team recruitment',
+    'employee training Colombo',
+    'customer support agent training',
+    'language assessment Sri Lanka',
+    'technical skills assessment',
+    'employee reference checks',
+    'outsourcing quality assurance',
+    'FirstNotch Solutions Sri Lanka',
+  ],
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
 
   robots: {
     index: true,
@@ -17,14 +53,24 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'How We Hire | FirstNotch Solutions',
-
-    description:
-      'Only 15 to 20% of applicants pass the FirstNotch hiring checks. Learn how we select and train the teams working on client accounts.',
-
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
     type: 'website',
+    locale: 'en_GB',
+    siteName: 'FirstNotch Solutions',
+    url: PAGE_PATH,
+  },
+
+  twitter: {
+    card: 'summary',
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
   },
 };
+
+// ======================================================
+// FAQ STRUCTURED DATA
+// ======================================================
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -78,16 +124,25 @@ const faqSchema = {
   ],
 };
 
+// ======================================================
+// HOW WE HIRE PAGE
+// ======================================================
+
 export default function HowWeHireRoute() {
   return (
     <>
+      {/* EXISTING FIRSTNOTCH NAVBAR */}
       <Navbar />
 
       <main id="top">
+        {/* EXISTING HOW WE HIRE PAGE */}
         <HowWeHirePage />
+
+        {/* EXISTING CONTACT FORM AND FOOTER */}
         <StoryContact />
       </main>
 
+      {/* FAQ STRUCTURED DATA */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

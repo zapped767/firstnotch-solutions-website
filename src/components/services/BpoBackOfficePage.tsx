@@ -5,20 +5,16 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import BpoScrollLineHero from './BpoScrollLineHero';
 
 import {
-  ArrowDown,
   ArrowRight,
-  ArrowUpRight,
   BadgeCheck,
   CalendarDays,
-  Check,
-  CheckCheck,
   ChevronDown,
   ClipboardCheck,
   ClipboardList,
   Database,
-  FileCheck2,
   FileText,
   ScanSearch,
   ShieldCheck,
@@ -299,9 +295,6 @@ function FaqRow({
 export default function BpoBackOfficePage() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const heroRef = useRef<HTMLElement>(null);
-  const docsRef = useRef<HTMLDivElement>(null);
-
   const quoteRef = useRef<HTMLElement>(null);
   const stepsRef = useRef<HTMLElement>(null);
 
@@ -314,9 +307,7 @@ export default function BpoBackOfficePage() {
 
   useEffect(() => {
     const root = pageRef.current;
-    const hero = heroRef.current;
-
-    if (!root || !hero) return;
+    if (!root) return;
 
     const mm = gsap.matchMedia();
 
@@ -339,183 +330,6 @@ export default function BpoBackOfficePage() {
               scrub: true,
             },
           });
-
-          // ==========================================
-          // SOFT BACKGROUND COLOUR MORPH
-          // ==========================================
-
-          gsap.fromTo(
-            hero,
-            {
-              backgroundColor: '#FFF9F6',
-            },
-            {
-              backgroundColor: '#FFFFFF',
-              ease: 'none',
-
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          );
-
-          // ==========================================
-          // MASKED HEADING RISE
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-bpo-line]',
-            {
-              yPercent: 110,
-              autoAlpha: 0,
-            },
-            {
-              yPercent: 0,
-              autoAlpha: 1,
-
-              duration: 1.1,
-              stagger: 0.11,
-
-              ease: 'power4.out',
-            }
-          );
-
-          // HERO SUPPORTING TEXT
-
-          gsap.fromTo(
-            '[data-bpo-intro]',
-            {
-              y: 26,
-              autoAlpha: 0,
-            },
-            {
-              y: 0,
-              autoAlpha: 1,
-
-              duration: 0.8,
-              stagger: 0.1,
-              delay: 0.45,
-
-              ease: 'power3.out',
-            }
-          );
-
-          // 98% HIGHLIGHT
-
-          gsap.fromTo(
-            '[data-bpo-98-wipe]',
-            {
-              scaleX: 0,
-            },
-            {
-              scaleX: 1,
-              transformOrigin: 'left center',
-
-              duration: 1,
-              delay: 0.62,
-
-              ease: 'power3.out',
-            }
-          );
-
-          // ==========================================
-          // DOCUMENTS: MESSY -> NEAT ROWS
-          // ==========================================
-
-          const cards =
-            gsap.utils.toArray<HTMLElement>(
-              '[data-bpo-doc]'
-            );
-
-          const scatter = [
-            [-80, -90, -19],
-            [110, -80, 17],
-            [-105, 60, -12],
-            [65, 95, 15],
-          ];
-
-          gsap.fromTo(
-            cards,
-            {
-              x: (i) =>
-                scatter[i % scatter.length][0],
-
-              y: (i) =>
-                scatter[i % scatter.length][1],
-
-              rotation: (i) =>
-                scatter[i % scatter.length][2],
-            },
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-
-              stagger: 0.08,
-              ease: 'none',
-
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 0.8,
-              },
-            }
-          );
-
-          // ==========================================
-          // SCAN LINE
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-bpo-scan]',
-            {
-              y: -5,
-              opacity: 0,
-            },
-            {
-              y: () =>
-                (docsRef.current?.clientHeight || 400) -
-                40,
-
-              opacity: 1,
-              ease: 'none',
-
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 0.7,
-              },
-            }
-          );
-
-          // DOCUMENT CHECKMARKS
-
-          gsap.fromTo(
-            '[data-bpo-doc-check]',
-            {
-              scale: 0,
-              autoAlpha: 0,
-            },
-            {
-              scale: 1,
-              autoAlpha: 1,
-
-              stagger: 0.1,
-              ease: 'back.out(1.6)',
-
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top 2%',
-                end: 'bottom 25%',
-                scrub: 0.8,
-              },
-            }
-          );
 
           // ==========================================
           // SECTION CONTENT REVEALS
@@ -647,34 +461,6 @@ export default function BpoBackOfficePage() {
               }
             );
           }
-
-          // ==========================================
-          // PARALLAX BACKGROUND SHAPES
-          // ==========================================
-
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-bpo-bg]'
-            )
-            .forEach((el, i) => {
-              gsap.fromTo(
-                el,
-                {
-                  y: i % 2 ? -30 : 30,
-                },
-                {
-                  y: i % 2 ? 45 : -45,
-                  ease: 'none',
-
-                  scrollTrigger: {
-                    trigger: hero,
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: true,
-                  },
-                }
-              );
-            });
 
           // ==========================================
           // TESTIMONIAL HIGHLIGHT SWEEP
@@ -991,227 +777,10 @@ export default function BpoBackOfficePage() {
       </div>
 
       {/* ==============================================
-          01 — HERO SECTION
+          01 — SCROLL-DRAWN RED LINE HERO
       ============================================== */}
 
-      <section
-        ref={heroRef}
-        id="bpo-top"
-        className="relative isolate overflow-hidden bg-[#FFF9F6] px-5 pb-16 pt-[150px] sm:px-8 lg:px-14 lg:pb-28 lg:pt-[175px]"
-      >
-        {/* PARALLAX BACKGROUND SHAPES */}
-
-        <div
-          aria-hidden="true"
-          data-bpo-bg
-          className="absolute -right-24 top-24 h-[420px] w-[420px] rounded-full bg-[#F8DEDE]/65 blur-[90px]"
-        />
-
-        <div
-          aria-hidden="true"
-          data-bpo-bg
-          className="absolute -left-44 bottom-0 h-[300px] w-[300px] rounded-full bg-[#FFF0E5] blur-[65px]"
-        />
-
-        <div className="relative mx-auto grid max-w-[1420px] items-center gap-12 lg:grid-cols-[1.12fr_.88fr] lg:gap-14">
-          {/* HERO LEFT CONTENT */}
-
-          <div>
-            
-
-            <p
-              data-bpo-intro
-              className="mt-8 text-[11px] font-bold uppercase tracking-[.2em] text-[#B12025]"
-            >
-              BPO and back office outsourcing in Sri Lanka
-            </p>
-
-            {/* MASKED H1 REVEAL */}
-
-            <h1 className="mt-5 max-w-[850px] text-[clamp(2.65rem,5.3vw,5.3rem)] font-semibold leading-[1.08] tracking-[-.069em]">
-              <span className="block overflow-hidden pb-[.1em]">
-                <span
-                  data-bpo-line
-                  className="block"
-                >
-                  Back office work
-                </span>
-              </span>
-
-              <span className="block overflow-hidden pb-[.1em]">
-                <span
-                  data-bpo-line
-                  className="block"
-                >
-                  delivered at{' '}
-
-                  <span className="relative inline-block text-[#B12025]">
-                    <span
-                      data-bpo-98-wipe
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-[6%] -z-10 h-[33%] origin-left bg-[#F6CECF]"
-                    />
-
-                    98%
-                  </span>{' '}
-                  accuracy,
-                </span>
-              </span>
-
-              <span className="block overflow-hidden pb-[.1em]">
-                <span
-                  data-bpo-line
-                  className="block"
-                >
-                  checked by software
-                </span>
-              </span>
-
-              <span className="block overflow-hidden pb-[.1em]">
-                <span
-                  data-bpo-line
-                  className="block"
-                >
-                  and by people.
-                </span>
-              </span>
-            </h1>
-
-            <p
-              data-bpo-intro
-              className="mt-8 max-w-[680px] text-[15px] leading-[1.85] text-[#17191C]/75"
-            >
-              Back office work builds up as a business grows.
-              Data entry falls behind and checks on new
-              customers slow down sign-ups. Managers end up
-              doing admin instead of their own jobs.
-            </p>
-
-            <p
-              data-bpo-intro
-              className="mt-4 max-w-[680px] text-[15px] leading-[1.85] text-[#17191C]/75"
-            >
-              FirstNotch&apos;s team of 30+ in Colombo can take
-              this work on. Software catches simple errors
-              first, then a person checks each item. That is
-              how client work reaches a 98% accuracy rate.
-            </p>
-
-            <div
-              data-bpo-intro
-              className="mt-7 flex flex-wrap items-center gap-4"
-            >
-              <a
-                href="#bpo-services"
-                className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#B12025] underline-offset-4 hover:underline"
-              >
-                See the seven services
-                <ArrowDown size={16} />
-              </a>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[#B12025] px-6 py-3.5 text-[12px] font-semibold text-white transition hover:bg-[#991B20]"
-              >
-                Book a free discovery call
-                <ArrowUpRight size={17} />
-              </a>
-            </div>
-          </div>
-
-          {/* ==========================================
-              ANIMATED DOCUMENT CHECKING PANEL
-          ========================================== */}
-
-          <div
-            ref={docsRef}
-            className="relative mx-auto w-full max-w-[525px] overflow-hidden rounded-[30px] border border-[#B12025]/15 bg-white/90 p-5 shadow-[0_30px_90px_rgba(177,32,37,.09)] sm:p-7"
-            role="img"
-            aria-label="Illustration of invoices, identity records and contracts being checked"
-          >
-            <div className="flex items-center justify-between border-b border-[#B12025]/10 pb-4">
-              <span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#B12025]">
-                Software + human review
-              </span>
-
-              <ScanSearch
-                size={20}
-                className="text-[#B12025]"
-              />
-            </div>
-
-            <div className="relative mt-5 grid grid-cols-2 gap-3 sm:gap-4">
-              {[
-                {
-                  n: 'Invoice',
-                  k: 'INV-2048',
-                  I: FileText,
-                },
-                {
-                  n: 'KYC record',
-                  k: 'KYC-0152',
-                  I: ShieldCheck,
-                },
-                {
-                  n: 'Contract',
-                  k: 'DOC-9031',
-                  I: FileCheck2,
-                },
-                {
-                  n: 'Data sheet',
-                  k: 'DATA-042',
-                  I: Database,
-                },
-              ].map((doc) => (
-                <div
-                  key={doc.k}
-                  data-bpo-doc
-                  className="relative min-h-[135px] rounded-[17px] border border-[#B12025]/10 bg-[#FFF9F7] p-4 shadow-sm sm:min-h-[165px]"
-                >
-                  <div className="flex items-center justify-between">
-                    <doc.I
-                      size={21}
-                      className="text-[#B12025]"
-                    />
-
-                    <span
-                      data-bpo-doc-check
-                      className="rounded-full bg-[#B12025] p-1 text-white"
-                    >
-                      <Check size={13} />
-                    </span>
-                  </div>
-
-                  <p className="mt-5 text-[14px] font-semibold">
-                    {doc.n}
-                  </p>
-
-                  <p className="mt-1 font-mono text-[10px] tracking-[.06em] text-[#17191C]/50">
-                    {doc.k}
-                  </p>
-
-                  <div className="mt-3 h-[3px] w-4/5 rounded-full bg-[#B12025]/10">
-                    <div className="h-full w-3/4 rounded-full bg-[#B12025]/30" />
-                  </div>
-                </div>
-              ))}
-
-              {/* SCANNING LINE */}
-
-              <div
-                data-bpo-scan
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px] bg-[#B12025] shadow-[0_0_20px_5px_rgba(177,32,37,.2)]"
-              />
-            </div>
-
-            <div className="mt-5 flex items-center gap-2 rounded-xl bg-[#FFF0F0] p-3 text-[11px] font-medium text-[#B12025]">
-              <CheckCheck size={17} />
-              Checked by software and by people
-            </div>
-          </div>
-        </div>
-      </section>
+      <BpoScrollLineHero />
 
       {/* ==============================================
           02 — ANIMATED STATISTICS

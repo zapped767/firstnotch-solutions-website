@@ -261,9 +261,10 @@ export default function Hero() {
                 index * 0.9
               ) * (narrow ? 5 : 8);
 
-            const driftY =
-              (progress - 0.5) *
-              (index % 2 ? -45 : 40);
+           const driftY =
+  (progress - 0.5) *
+    (index % 2 ? -45 : 40) +
+  35;
 
             const z =
               -260 +
@@ -574,9 +575,10 @@ export default function Hero() {
     relative z-20 mx-auto flex
     min-h-[620px] max-w-[1100px]
     flex-col items-center justify-center
-    px-5 pb-[20px] pt-[100px]
-    text-center
-    sm:min-h-[800px]
+   px-5 pb-[20px] pt-[60px]
+text-center
+max-sm:-translate-y-[65px]
+sm:min-h-[800px]
     sm:px-8 sm:pb-[75px] sm:pt-[95px]
     lg:min-h-[calc(100svh-88px)]
     lg:pb-[40px] lg:pt-[35px]

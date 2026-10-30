@@ -6,12 +6,48 @@ import StoryContact from '@/components/StoryContact';
 
 import CustomerServicePage from '@/components/services/CustomerServicePage';
 
-export const metadata: Metadata = {
-  title:
-    'Outsourced Customer Service in Sri Lanka | FirstNotch Solutions',
+// ======================================================
+// FIRSTNOTCH — CUSTOMER SERVICE OUTSOURCING SEO
+// ======================================================
 
-  description:
-    "One team for your emails, chats and calls, with every customer's full history visible. Multilingual, brand-aligned customer service from Colombo.",
+const PAGE_PATH =
+  '/services/customer-support-outsourcing/customer-service';
+
+const SEO_TITLE =
+  'Outsourced Customer Service in Sri Lanka | FirstNotch';
+
+const SEO_DESCRIPTION =
+  'Outsourced customer service from a trained team in Colombo. Emails, chats and calls handled in four languages, with a quality score on every ticket.';
+
+// ======================================================
+// NEXT.JS SEO METADATA
+// ======================================================
+
+export const metadata: Metadata = {
+  title: {
+    absolute: SEO_TITLE,
+  },
+
+  description: SEO_DESCRIPTION,
+
+  keywords: [
+    'outsourced customer service Sri Lanka',
+    'customer service outsourcing',
+    'customer support outsourcing Sri Lanka',
+    'outsourced customer service',
+    'email customer support',
+    'live chat support services',
+    'multilingual customer service',
+    'call center services Sri Lanka',
+    'phone support outsourcing',
+    'social media customer support',
+    'customer helpdesk outsourcing',
+    'FirstNotch Solutions',
+  ],
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
 
   robots: {
     index: true,
@@ -19,24 +55,36 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title:
-      'Customer Service Outsourcing | FirstNotch Solutions',
-
-    description:
-      'Email, chat, phone and social support in your own help desk, under your brand.',
-
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
     type: 'website',
+    locale: 'en_GB',
+    siteName: 'FirstNotch Solutions',
+    url: PAGE_PATH,
+  },
+
+  twitter: {
+    card: 'summary',
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
   },
 };
+
+// ======================================================
+// CUSTOMER SERVICE PAGE
+// ======================================================
 
 export default function CustomerServiceRoute() {
   return (
     <>
+      {/* Existing FirstNotch Navbar */}
       <Navbar />
 
       <main id="top">
+        {/* Customer Service Content */}
         <CustomerServicePage />
 
+        {/* Existing Contact Form and Footer */}
         <StoryContact />
       </main>
     </>

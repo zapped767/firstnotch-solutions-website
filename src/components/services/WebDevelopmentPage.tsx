@@ -360,7 +360,216 @@ function SampleBrowser() {
     </div>
   );
 }
+// ======================================================
+// FIRSTNOTCH — AUTO SLIDING SERVICE CAROUSEL
+// ======================================================
 
+function WebDevelopmentFeaturesCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+ 
+
+  const total = features.length;
+
+// ==========================================
+// AUTOMATIC INFINITE CAROUSEL
+// ==========================================
+
+useEffect(() => {
+  const interval = window.setInterval(() => {
+    setActiveIndex((current) => (current + 1) % total);
+  }, 3500);
+
+  return () => window.clearInterval(interval);
+}, [total]);
+
+  return (
+ 
+ <div className="relative mt-12 w-full">
+      {/* Carousel viewport */}
+      <div className="relative mx-auto h-[390px] w-full overflow-hidden sm:h-[430px] lg:h-[460px]">
+        <div className="relative mx-auto h-full w-full max-w-[1320px]">
+          {features.map((feature, index) => {
+            let offset = index - activeIndex;
+
+            // Infinite circular positioning
+            if (offset > total / 2) {
+              offset -= total;
+            }
+
+            if (offset < -total / 2) {
+              offset += total;
+            }
+
+            const isActive = offset === 0;
+            const isVisible = Math.abs(offset) <= 1;
+
+            return (
+              <article
+                key={feature.title}
+                aria-hidden={!isVisible}
+                inert={!isVisible}
+                className={`
+                  absolute left-1/2 top-1/2
+                  flex flex-col
+                  rounded-[26px]
+                  border
+                  bg-white
+                  transition-[transform,opacity,box-shadow,border-color]
+                  duration-700
+                  ease-[cubic-bezier(0.22,1,0.36,1)]
+                  will-change-transform
+
+                  ${
+                    isActive
+                      ? 'z-30 border-[#B12025]/25 shadow-[0_25px_75px_rgba(177,32,37,0.13)]'
+                      : 'z-10 border-[#E8E8E8] shadow-[0_12px_40px_rgba(0,0,0,0.06)]'
+                  }
+
+                  ${
+                    isVisible
+                      ? 'pointer-events-auto'
+                      : 'pointer-events-none'
+                  }
+
+                  w-[min(82vw,520px)]
+                  h-[330px]
+                  sm:h-[360px]
+                  lg:h-[385px]
+                `}
+                style={{
+                  transform: `
+                    translate(
+                      calc(-50% + ${offset * 83}%),
+                      -50%
+                    )
+                    scale(${isActive ? 1 : 0.82})
+                  `,
+                  opacity: isVisible
+                    ? isActive
+                      ? 1
+                      : 0.65
+                    : 0,
+                  zIndex: isActive ? 30 : 10,
+                }}
+              >
+                
+
+                <div className="flex flex-1 flex-col p-6 sm:p-8 lg:p-9">
+                  {/* Card header */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <span className="font-mono text-[11px] font-semibold tracking-[0.15em] text-[#B12025]">
+                        {String(index + 1).padStart(2, '0')}
+                        {' / '}
+                        {String(total).padStart(2, '0')}
+                      </span>
+
+                      <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.17em] text-[#17191C]/40">
+                        Web development
+                      </p>
+                    </div>
+
+                    <div
+                      className={`
+                        flex h-[52px] w-[52px]
+                        shrink-0 items-center justify-center
+                        rounded-[16px]
+                        transition-colors duration-500
+                        ${
+                          isActive
+                            ? 'bg-[#B12025] text-white'
+                            : 'bg-[#FBEDEE] text-[#B12025]'
+                        }
+                      `}
+                    >
+                      <feature.Icon
+                        size={25}
+                        strokeWidth={1.7}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Card content */}
+                  <div className="mt-6">
+                    <h3
+                      className={`
+                        font-semibold
+                        leading-[1.15]
+                        tracking-[-0.055em]
+                        text-[#17191C]
+                        transition-all duration-500
+
+                        ${
+                          isActive
+                            ? 'text-[clamp(1.65rem,3vw,2.5rem)]'
+                            : 'text-[clamp(1.45rem,2.5vw,2.1rem)]'
+                        }
+                      `}
+                    >
+                      {feature.title}
+                    </h3>
+
+                    <p className="mt-4 max-w-[440px] text-[12px] leading-[1.85] text-[#17191C]/65 sm:text-[13px]">
+                      {feature.text}
+                    </p>
+                  </div>
+
+                  {/* Card footer */}
+                  <div className="mt-auto border-t border-[#17191C]/10 pt-5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`
+                          flex h-[25px] w-[25px]
+                          items-center justify-center
+                          rounded-full
+
+                          ${
+                            isActive
+                              ? 'bg-[#B12025] text-white'
+                              : 'bg-[#B12025]/10 text-[#B12025]'
+                          }
+                        `}
+                      >
+                        <Check size={14} strokeWidth={2.4} />
+                      </span>
+
+                      <span className="text-[12px] font-semibold text-[#B12025]">
+                        {feature.tag}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Pagination dots — click to choose a card */}
+      <div className="mt-[30px] flex items-center justify-center gap-[8px]" aria-label="Web development carousel pagination">
+        {features.map((feature, index) => (
+          <button
+            key={feature.title}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            aria-label={`Show service ${index + 1}: ${feature.title}`}
+            aria-current={activeIndex === index ? 'true' : undefined}
+            className={`h-[7px] rounded-full transition-all duration-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025] ${
+              activeIndex === index
+                ? 'w-[30px] bg-[#B12025]'
+                : 'w-[7px] bg-[#B12025]/20 hover:bg-[#B12025]/50'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Bottom text */}
+      <p className="mt-5 text-center text-[11px] tracking-[0.04em] text-[#17191C]/45">
+        Explore all eight services
+      </p>
+    </div>
+  );
+}
 // ======================================================
 // MAIN PAGE
 // ======================================================
@@ -491,32 +700,7 @@ export default function WebDevelopmentPage() {
               );
             });
 
-          // Parallax service cards
 
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-wd-feature]'
-            )
-            .forEach((element, i) => {
-              gsap.fromTo(
-                element,
-                {
-                  y: i % 2 ? -20 : 20,
-                  opacity: 0.6,
-                },
-                {
-                  y: i % 2 ? 14 : -14,
-                  opacity: 1,
-                  ease: 'none',
-                  scrollTrigger: {
-                    trigger: element,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1.1,
-                  },
-                }
-              );
-            });
 
           // Testimonial text reveal
 
@@ -686,60 +870,96 @@ export default function WebDevelopmentPage() {
 <WebCosmosHero />
     
       {/* ==============================================
-          02 — WHAT WEB DEVELOPMENT INCLUDES
-      ============================================== */}
+    02 — WHAT WEB DEVELOPMENT INCLUDES
+    PREMIUM AUTO SLIDING CAROUSEL
+============================================== */}
 
-      <section
-        id="wd-included"
-        className="scroll-mt-24 bg-[#F7F7F8] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+<section
+  id="wd-included"
+  className="
+    relative
+    scroll-mt-24
+    overflow-hidden
+    bg-[#F7F7F8]
+    px-5
+    py-20
+    sm:px-8
+    lg:px-14
+    lg:py-28
+  "
+>
+  {/* Soft red background glow */}
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none
+      absolute
+      left-1/2
+      top-[45%]
+      h-[550px]
+      w-[850px]
+      -translate-x-1/2
+      rounded-full
+      bg-[#B12025]/[0.035]
+      blur-[100px]
+    "
+  />
+
+  <div className="relative z-10 mx-auto max-w-[1420px]">
+    {/* Section heading */}
+    <div className="text-center">
+      <p
+        data-wd-fade
+        className="
+          mb-4
+          text-[10px]
+          font-bold
+          uppercase
+          tracking-[0.24em]
+          text-[#B12025]
+        "
       >
-        <div className="mx-auto max-w-[1420px]">
-          <SectionHead
-            eyebrow="01 / Included in the build"
-            title="What the web development service includes"
-            desc="From the first plan to launch, every part is designed around how your business works."
-          />
+        01 / INCLUDED IN THE BUILD
+      </p>
 
-          <ul className="mt-8 grid gap-3 md:grid-cols-2 lg:gap-5">
-            {features.map((f, i) => (
-              <li
-                data-wd-feature
-                key={f.title}
-                className="group min-w-0 rounded-[20px] border border-[#E6E7E9] bg-white p-6 transition-colors hover:border-[#B12025]/50 sm:p-7"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-[#B12025]">
-                    {String(i + 1).padStart(
-                      2,
-                      '0'
-                    )} / 08
-                  </span>
+      <h2
+        className="
+          mx-auto
+          max-w-[950px]
+          text-[clamp(2.4rem,5vw,5rem)]
+          font-semibold
+          leading-[1.08]
+          tracking-[-0.065em]
+          text-[#17191C]
+        "
+      >
+        What the web development
+        <br className="hidden sm:block" />
+        <span className="text-[#B12025]">
+          {' '}service includes
+        </span>
+      </h2>
 
-                  <f.Icon
-                    size={24}
-                    strokeWidth={1.6}
-                    className="text-[#B12025]"
-                  />
-                </div>
+      <p
+        data-wd-fade
+        className="
+          mx-auto
+          mt-6
+          max-w-[620px]
+          text-[14px]
+          leading-[1.85]
+          text-[#17191C]/60
+        "
+      >
+        From the first plan to launch, every part is
+        designed around how your business works.
+      </p>
+    </div>
 
-                <h3 className="mt-6 text-[clamp(1.4rem,2.1vw,2rem)] font-semibold tracking-[-.04em]">
-                  {f.title}
-                </h3>
-
-                <p className="mt-2 max-w-[560px] text-[13px] leading-[1.8] text-[#17191C]/65">
-                  {f.text}
-                </p>
-
-                <p className="mt-5 flex items-center gap-2 border-t border-[#17191C]/10 pt-4 text-[11px] font-semibold text-[#B12025]">
-                  <Check size={14} />
-                  {f.tag}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
+    {/* Automatic 3-card carousel */}
+    <WebDevelopmentFeaturesCarousel />
+  </div>
+</section>
       {/* ==============================================
           03 — RESPONSIVE DEVICE PREVIEW
       ============================================== */}

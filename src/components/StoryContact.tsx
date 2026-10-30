@@ -44,6 +44,7 @@ export default function StoryContact() {
   const [status, setStatus] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // Desktop/tablet form submission — unchanged.
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -120,7 +121,11 @@ export default function StoryContact() {
             lg:gap-20
           "
         >
-          {/* LEFT: CONTACT INFORMATION */}
+          {/* =====================================
+              LEFT — CONTACT INFORMATION
+              ORIGINAL RESPONSIVE DESIGN
+          ===================================== */}
+
           <div className="lg:col-span-6">
             <p
               data-fns-reveal
@@ -171,6 +176,7 @@ export default function StoryContact() {
             </p>
 
             {/* CONTACT DETAILS */}
+
             <dl
               data-fns-reveal
               className="
@@ -184,20 +190,9 @@ export default function StoryContact() {
               "
             >
               {/* EMAIL */}
+
               <div>
-                <dt
-                  className="
-                    mb-1.5
-                    flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    sm:mb-3
-                    sm:gap-3
-                    sm:text-xs
-                  "
-                >
+                <dt className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold sm:mb-3 sm:gap-3 sm:text-xs">
                   <Mail
                     aria-hidden="true"
                     size={15}
@@ -209,14 +204,7 @@ export default function StoryContact() {
                 <dd>
                   <a
                     href={`mailto:${CONTACT.email}`}
-                    className="
-                      break-all
-                      text-[11px]
-                      leading-5
-                      hover:underline
-                      sm:text-xs
-                      sm:leading-6
-                    "
+                    className="break-all text-[11px] leading-5 hover:underline sm:text-xs sm:leading-6"
                   >
                     {CONTACT.email}
                   </a>
@@ -224,20 +212,9 @@ export default function StoryContact() {
               </div>
 
               {/* PHONE */}
+
               <div>
-                <dt
-                  className="
-                    mb-1.5
-                    flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    sm:mb-3
-                    sm:gap-3
-                    sm:text-xs
-                  "
-                >
+                <dt className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold sm:mb-3 sm:gap-3 sm:text-xs">
                   <Phone
                     aria-hidden="true"
                     size={15}
@@ -249,13 +226,7 @@ export default function StoryContact() {
                 <dd>
                   <a
                     href={`tel:${CONTACT.phone}`}
-                    className="
-                      text-[11px]
-                      leading-5
-                      hover:underline
-                      sm:text-xs
-                      sm:leading-6
-                    "
+                    className="text-[11px] leading-5 hover:underline sm:text-xs sm:leading-6"
                   >
                     {CONTACT.phoneDisplay}
                   </a>
@@ -263,20 +234,9 @@ export default function StoryContact() {
               </div>
 
               {/* OFFICE */}
+
               <div>
-                <dt
-                  className="
-                    mb-1.5
-                    flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    sm:mb-3
-                    sm:gap-3
-                    sm:text-xs
-                  "
-                >
+                <dt className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold sm:mb-3 sm:gap-3 sm:text-xs">
                   <MapPin
                     aria-hidden="true"
                     size={15}
@@ -285,14 +245,7 @@ export default function StoryContact() {
                   Office
                 </dt>
 
-                <dd
-                  className="
-                    text-[11px]
-                    leading-5
-                    sm:text-xs
-                    sm:leading-6
-                  "
-                >
+                <dd className="text-[11px] leading-5 sm:text-xs sm:leading-6">
                   {CONTACT.office}
                   <br />
                   {CONTACT.city}
@@ -300,20 +253,9 @@ export default function StoryContact() {
               </div>
 
               {/* HOURS */}
+
               <div>
-                <dt
-                  className="
-                    mb-1.5
-                    flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    sm:mb-3
-                    sm:gap-3
-                    sm:text-xs
-                  "
-                >
+                <dt className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold sm:mb-3 sm:gap-3 sm:text-xs">
                   <Clock
                     aria-hidden="true"
                     size={15}
@@ -322,14 +264,7 @@ export default function StoryContact() {
                   Hours
                 </dt>
 
-                <dd
-                  className="
-                    text-[11px]
-                    leading-5
-                    sm:text-xs
-                    sm:leading-6
-                  "
-                >
+                <dd className="text-[11px] leading-5 sm:text-xs sm:leading-6">
                   {CONTACT.days}
                   <br />
                   {CONTACT.hours}
@@ -338,313 +273,396 @@ export default function StoryContact() {
             </dl>
           </div>
 
-          {/* RIGHT: DISCOVERY CALL FORM */}
-          <form
-            onSubmit={submit}
-            className="
-              border-t
-              border-black/20
-              pt-5
-              sm:pt-7
-              lg:col-span-6
-            "
-          >
+          {/* =====================================
+              RIGHT — CONTACT FORM AREA
+          ===================================== */}
+
+          <div className="lg:col-span-6">
+            {/* =====================================
+                MOBILE ONLY
+                NO FORM FIELDS
+                RED DISCOVERY CALL BUTTON
+            ===================================== */}
+
             <div
               className="
-                grid
-                gap-x-7
-                gap-y-4
-                sm:grid-cols-2
-                sm:gap-y-6
+                border-t
+                border-black/20
+                pt-5
+                sm:hidden
               "
             >
-              {/* FULL NAME */}
-              <label
-                htmlFor="fns-name"
-                className="text-[10px] font-medium sm:text-[11px]"
+              <a
+                href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(
+                  'Free discovery call enquiry',
+                )}`}
+                className="
+                  flex
+                  min-h-[48px]
+                  w-full
+                  items-center
+                  justify-between
+                  gap-3
+                  rounded-full
+                  bg-[#B12025]
+                  px-5
+                  text-[11px]
+                  font-semibold
+                  text-white
+                  transition-colors
+                  duration-300
+                  hover:bg-[#951a1f]
+                "
               >
-                Full name
+                <span>Book a free discovery call</span>
 
-                <input
-                  id="fns-name"
-                  name="name"
-                  autoComplete="name"
-                  required
-                  maxLength={100}
-                  className={field}
+                <ArrowUpRight
+                  aria-hidden="true"
+                  size={18}
+                  className="shrink-0"
                 />
-              </label>
-
-              {/* COMPANY */}
-              <label
-                htmlFor="fns-company"
-                className="text-[10px] font-medium sm:text-[11px]"
-              >
-                Company
-
-                <input
-                  id="fns-company"
-                  name="company"
-                  autoComplete="organization"
-                  maxLength={120}
-                  className={field}
-                />
-              </label>
-
-              {/* WORK EMAIL */}
-              <label
-                htmlFor="fns-email"
-                className="text-[10px] font-medium sm:text-[11px]"
-              >
-                Work email
-
-                <input
-                  id="fns-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  maxLength={160}
-                  className={field}
-                />
-              </label>
-
-              {/* COUNTRY */}
-              <label
-                htmlFor="fns-country"
-                className="text-[10px] font-medium sm:text-[11px]"
-              >
-                Country
-
-                <input
-                  id="fns-country"
-                  name="country"
-                  autoComplete="country-name"
-                  required
-                  maxLength={100}
-                  className={field}
-                />
-              </label>
+              </a>
             </div>
 
-            {/* SERVICE */}
-            <label
-              htmlFor="fns-service"
+            {/* =====================================
+                TABLET + DESKTOP ONLY
+                ORIGINAL FORM UNCHANGED
+            ===================================== */}
+
+            <form
+              onSubmit={submit}
               className="
-                mt-5
-                block
-                text-[10px]
-                font-medium
-                sm:mt-7
-                sm:text-[11px]
+                hidden
+                border-t
+                border-black/20
+                pt-5
+                sm:block
+                sm:pt-7
               "
             >
-              What do you need help with?
+              {/* PERSONAL DETAILS */}
 
-              <select
-                id="fns-service"
-                name="service"
-                defaultValue=""
-                required
-                className={`${field} cursor-pointer`}
+              <div
+                className="
+                  grid
+                  gap-x-7
+                  gap-y-4
+                  sm:grid-cols-2
+                  sm:gap-y-6
+                "
               >
-                <option value="" disabled>
-                  —
-                </option>
+                {/* FULL NAME */}
 
-                {serviceOptions.map((text) => (
-                  <option key={text}>{text}</option>
-                ))}
-              </select>
-            </label>
+                <label
+                  htmlFor="fns-name"
+                  className="text-[10px] font-medium sm:text-[11px]"
+                >
+                  Full name
 
-            {/* START DATE */}
-            <label
-              htmlFor="fns-start"
-              className="
-                mt-5
-                block
-                text-[10px]
-                font-medium
-                sm:mt-7
-                sm:text-[11px]
-              "
-            >
-              When do you need your team to start?
+                  <input
+                    id="fns-name"
+                    name="name"
+                    autoComplete="name"
+                    required
+                    maxLength={100}
+                    className={field}
+                  />
+                </label>
 
-              <select
-                id="fns-start"
-                name="start"
-                defaultValue=""
-                required
-                className={`${field} cursor-pointer`}
+                {/* COMPANY */}
+
+                <label
+                  htmlFor="fns-company"
+                  className="text-[10px] font-medium sm:text-[11px]"
+                >
+                  Company
+
+                  <input
+                    id="fns-company"
+                    name="company"
+                    autoComplete="organization"
+                    maxLength={120}
+                    className={field}
+                  />
+                </label>
+
+                {/* WORK EMAIL */}
+
+                <label
+                  htmlFor="fns-email"
+                  className="text-[10px] font-medium sm:text-[11px]"
+                >
+                  Work email
+
+                  <input
+                    id="fns-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    maxLength={160}
+                    className={field}
+                  />
+                </label>
+
+                {/* COUNTRY */}
+
+                <label
+                  htmlFor="fns-country"
+                  className="text-[10px] font-medium sm:text-[11px]"
+                >
+                  Country
+
+                  <input
+                    id="fns-country"
+                    name="country"
+                    autoComplete="country-name"
+                    required
+                    maxLength={100}
+                    className={field}
+                  />
+                </label>
+              </div>
+
+              {/* SERVICE */}
+
+              <label
+                htmlFor="fns-service"
+                className="
+                  mt-5
+                  block
+                  text-[10px]
+                  font-medium
+                  sm:mt-7
+                  sm:text-[11px]
+                "
               >
-                <option value="" disabled>
-                  —
-                </option>
+                What do you need help with?
 
-                {startOptions.map((text) => (
-                  <option key={text}>{text}</option>
-                ))}
-              </select>
-            </label>
+                <select
+                  id="fns-service"
+                  name="service"
+                  defaultValue=""
+                  required
+                  className={`${field} cursor-pointer`}
+                >
+                  <option value="" disabled>
+                    —
+                  </option>
 
-            {/* WORKING HOURS */}
-            <label
-              htmlFor="fns-hours"
-              className="
-                mt-5
-                block
-                text-[10px]
-                font-medium
-                sm:mt-7
-                sm:text-[11px]
-              "
-            >
-              What hours should your team cover?
+                  {serviceOptions.map((text) => (
+                    <option key={text}>{text}</option>
+                  ))}
+                </select>
+              </label>
 
-              <select
-                id="fns-hours"
-                name="hours"
-                defaultValue=""
-                required
-                className={`${field} cursor-pointer`}
+              {/* START DATE */}
+
+              <label
+                htmlFor="fns-start"
+                className="
+                  mt-5
+                  block
+                  text-[10px]
+                  font-medium
+                  sm:mt-7
+                  sm:text-[11px]
+                "
               >
-                <option value="" disabled>
-                  —
-                </option>
+                When do you need your team to start?
 
-                {hoursOptions.map((text) => (
-                  <option key={text}>{text}</option>
-                ))}
-              </select>
-            </label>
+                <select
+                  id="fns-start"
+                  name="start"
+                  defaultValue=""
+                  required
+                  className={`${field} cursor-pointer`}
+                >
+                  <option value="" disabled>
+                    —
+                  </option>
 
-            {/* MESSAGE */}
-            <label
-              htmlFor="fns-message"
-              className="
-                mt-5
-                block
-                text-[10px]
-                font-medium
-                sm:mt-7
-                sm:text-[11px]
-              "
-            >
-              Anything else we should know?
+                  {startOptions.map((text) => (
+                    <option key={text}>{text}</option>
+                  ))}
+                </select>
+              </label>
 
-              <textarea
-                data-lenis-prevent
-                id="fns-message"
-                name="message"
-                rows={3}
-                maxLength={1500}
-                className={`${field} resize-y`}
-              />
-            </label>
+              {/* WORKING HOURS */}
 
-            <p
-              className="
-                mt-4
-                text-[10px]
-                leading-5
-                text-black/55
-                sm:mt-5
-              "
-            >
-              Opens your email app. Review and send your enquiry there.
-            </p>
+              <label
+                htmlFor="fns-hours"
+                className="
+                  mt-5
+                  block
+                  text-[10px]
+                  font-medium
+                  sm:mt-7
+                  sm:text-[11px]
+                "
+              >
+                What hours should your team cover?
 
-            {/* BOOK FREE DISCOVERY CALL BUTTON */}
-            <button
-              data-fns-magnetic
-              type="submit"
-              className="
-                mt-4
-                flex
-                min-h-12
-                w-full
-                items-center
-                justify-between
-                rounded-full
-                bg-[#17191C]
-                px-5
-                text-[11px]
-                font-semibold
-                text-white
-                transition-colors
-                hover:bg-[#B12025]
-                sm:mt-5
-                sm:min-h-14
-                sm:px-6
-                sm:text-xs
-              "
-            >
-              {COPY.cta}
+                <select
+                  id="fns-hours"
+                  name="hours"
+                  defaultValue=""
+                  required
+                  className={`${field} cursor-pointer`}
+                >
+                  <option value="" disabled>
+                    —
+                  </option>
 
-              <ArrowUpRight aria-hidden="true" size={18} />
-            </button>
+                  {hoursOptions.map((text) => (
+                    <option key={text}>{text}</option>
+                  ))}
+                </select>
+              </label>
 
-            <p
-              role="status"
-              aria-live="polite"
-              className="
-                mt-3
-                text-[11px]
-                leading-5
-                text-black/60
-                sm:mt-4
-                sm:text-xs
-                sm:leading-6
-              "
-            >
-              {status}
-            </p>
+              {/* MESSAGE */}
 
-            {draft && (
-              <div className="mt-4">
+              <label
+                htmlFor="fns-message"
+                className="
+                  mt-5
+                  block
+                  text-[10px]
+                  font-medium
+                  sm:mt-7
+                  sm:text-[11px]
+                "
+              >
+                Anything else we should know?
+
                 <textarea
                   data-lenis-prevent
-                  aria-label="Your enquiry"
-                  readOnly
-                  rows={7}
-                  value={draft}
-                  className="
-                    w-full
-                    resize-y
-                    rounded-xl
-                    border
-                    border-black/20
-                    p-4
-                    text-xs
-                    leading-6
-                  "
+                  id="fns-message"
+                  name="message"
+                  rows={3}
+                  maxLength={1500}
+                  className={`${field} resize-y`}
                 />
+              </label>
 
-                <button
-                  type="button"
-                  onClick={copy}
-                  className="
-                    mt-3
-                    inline-flex
-                    items-center
-                    gap-2
-                    text-xs
-                    font-medium
-                  "
-                >
-                  {copied ? (
-                    <Check aria-hidden="true" size={14} />
-                  ) : (
-                    <Copy aria-hidden="true" size={14} />
-                  )}
+              {/* EMAIL INFORMATION */}
 
-                  {copied ? 'Copied' : 'Copy enquiry'}
-                </button>
-              </div>
-            )}
-          </form>
+              <p
+                className="
+                  mt-4
+                  text-[10px]
+                  leading-5
+                  text-black/55
+                  sm:mt-5
+                "
+              >
+                Opens your email app. Review and send your enquiry there.
+              </p>
+
+              {/* DESKTOP/TABLET BUTTON */}
+
+              <button
+                data-fns-magnetic
+                type="submit"
+                className="
+                  mt-4
+                  flex
+                  min-h-12
+                  w-full
+                  items-center
+                  justify-between
+                  rounded-full
+                  bg-[#17191C]
+                  px-5
+                  text-[11px]
+                  font-semibold
+                  text-white
+                  transition-colors
+                  hover:bg-[#B12025]
+                  sm:mt-5
+                  sm:min-h-14
+                  sm:px-6
+                  sm:text-xs
+                "
+              >
+                {COPY.cta}
+
+                <ArrowUpRight
+                  aria-hidden="true"
+                  size={18}
+                />
+              </button>
+
+              {/* STATUS MESSAGE */}
+
+              <p
+                role="status"
+                aria-live="polite"
+                className="
+                  mt-3
+                  text-[11px]
+                  leading-5
+                  text-black/60
+                  sm:mt-4
+                  sm:text-xs
+                  sm:leading-6
+                "
+              >
+                {status}
+              </p>
+
+              {/* COPY ENQUIRY */}
+
+              {draft && (
+                <div className="mt-4">
+                  <textarea
+                    data-lenis-prevent
+                    aria-label="Your enquiry"
+                    readOnly
+                    rows={7}
+                    value={draft}
+                    className="
+                      w-full
+                      resize-y
+                      rounded-xl
+                      border
+                      border-black/20
+                      p-4
+                      text-xs
+                      leading-6
+                    "
+                  />
+
+                  <button
+                    type="button"
+                    onClick={copy}
+                    className="
+                      mt-3
+                      inline-flex
+                      items-center
+                      gap-2
+                      text-xs
+                      font-medium
+                    "
+                  >
+                    {copied ? (
+                      <Check
+                        aria-hidden="true"
+                        size={14}
+                      />
+                    ) : (
+                      <Copy
+                        aria-hidden="true"
+                        size={14}
+                      />
+                    )}
+
+                    {copied ? 'Copied' : 'Copy enquiry'}
+                  </button>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
       </section>
 
