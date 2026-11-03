@@ -204,7 +204,7 @@ function ProofRing({
     <svg
       aria-hidden="true"
       viewBox="0 0 100 100"
-      className="h-[54px] w-[54px] -rotate-90 sm:h-[84px] sm:w-[84px]"
+      className="h-[42px] w-[42px] -rotate-90 sm:h-[84px] sm:w-[84px]"
     >
       <circle
         cx="50"
@@ -346,7 +346,7 @@ function LanguageBentoCard() {
         border
         border-[#17191C]/10
         bg-white
-        p-6
+        p-5
         shadow-[0_8px_32px_rgba(23,25,28,.04)]
         outline-none
         transition-shadow
@@ -357,12 +357,12 @@ function LanguageBentoCard() {
         sm:p-8
       "
     >
-      <div className="flex min-h-[225px] flex-col">
-        <h3 className="text-[15px] font-semibold text-[#17191C]">
+      <div className="flex min-h-[175px] flex-col sm:min-h-[225px]">
+        <h3 className="text-[13px] font-semibold text-[#17191C] sm:text-[15px]">
           Four languages. One standard.
         </h3>
 
-        <div className="mt-5 flex flex-nowrap gap-1.5 sm:mt-7 sm:flex-wrap sm:gap-3">
+        <div className="mt-4 flex flex-nowrap gap-1.5 sm:mt-7 sm:flex-wrap sm:gap-3">
           {languages.map((language) => (
             <span
               key={language}
@@ -378,7 +378,7 @@ function LanguageBentoCard() {
                 bg-[#fff6f5]
                 px-2
                 py-2
-                text-[10px]
+                text-[9px]
                 sm:min-w-[76px]
                 sm:px-4
                 sm:py-2.5
@@ -392,12 +392,12 @@ function LanguageBentoCard() {
           ))}
         </div>
 
-        <p className="mt-5 max-w-[390px] text-[12px] leading-6 text-[#17191C]/60 sm:mt-7 sm:text-[13px] sm:leading-7">
+        <p className="mt-4 max-w-[390px] text-[11px] leading-5 text-[#17191C]/60 sm:mt-7 sm:text-[13px] sm:leading-7">
           Your customer hears one consistent answer,
           regardless of language.
         </p>
 
-        <div aria-hidden="true" className="mt-auto pt-7">
+        <div aria-hidden="true" className="mt-auto pt-5 sm:pt-7">
           <div className="h-[2px] overflow-hidden rounded-full bg-[#B12025]/10">
             <div
               data-language-line
@@ -536,7 +536,7 @@ function AnimatedChannelFlowCard() {
         overflow-hidden
         rounded-[26px]
         bg-[#B12025]
-        p-6
+        p-5
         text-white
         shadow-[0_18px_48px_rgba(177,32,37,.15)]
         outline-none
@@ -550,18 +550,18 @@ function AnimatedChannelFlowCard() {
         className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-white/[.09] blur-[70px]"
       />
 
-      <div className="relative z-10 flex min-h-[225px] flex-col">
-        <h3 className="text-[15px] font-semibold">
+      <div className="relative z-10 flex min-h-[175px] flex-col sm:min-h-[225px]">
+        <h3 className="text-[13px] font-semibold sm:text-[15px]">
           One team, one tone of voice.
         </h3>
 
-        <p className="mt-3 max-w-[440px] text-[12px] leading-6 text-white/85">
+        <p className="mt-2 max-w-[440px] text-[11px] leading-5 text-white/85 sm:mt-3 sm:text-[12px] sm:leading-6">
           Phone, email and chat conversations come
           together in one trained support team.
         </p>
 
         <div
-          className="mt-8 flex w-full items-start justify-between"
+          className="mt-5 flex w-full items-start justify-between sm:mt-8"
           aria-label="Call, Email and Message connected to one team"
         >
           {channels.map((channel, index) => {
@@ -586,7 +586,7 @@ function AnimatedChannelFlowCard() {
 
                   <span
                     data-channel-label
-                    className="mt-3 whitespace-nowrap text-[10px] font-semibold leading-4 text-white sm:text-[11px]"
+                    className="mt-2 whitespace-nowrap text-[9px] font-semibold leading-4 text-white sm:mt-3 sm:text-[11px]"
                   >
                     {channel.label}
                   </span>
@@ -608,7 +608,7 @@ function AnimatedChannelFlowCard() {
           })}
         </div>
 
-        <div className="mt-auto flex items-center gap-2 border-t border-white/20 pt-4 text-[11px] font-medium leading-5 text-white/90">
+        <div className="mt-auto flex items-center gap-2 border-t border-white/20 pt-3 text-[10px] font-medium leading-4 text-white/90 sm:pt-4 sm:text-[11px] sm:leading-5">
           <span
             aria-hidden="true"
             className="h-2 w-2 shrink-0 rounded-full bg-white"
@@ -646,8 +646,8 @@ function FaqCard({
       tabIndex={duplicate ? -1 : 0}
       className="
         flex
-        h-[220px]
-        w-[255px]
+        h-[180px]
+        w-[238px]
         shrink-0
         flex-col
         overflow-hidden
@@ -655,7 +655,7 @@ function FaqCard({
         border
         border-[#17191C]/[.08]
         bg-white
-        p-[18px]
+        p-[14px]
         shadow-[0_10px_28px_rgba(23,25,28,.05)]
         outline-none
         transition-colors
@@ -701,8 +701,8 @@ function FaqCard({
 
       <h3
         className="
-          mt-[13px]
-          text-[15px]
+          mt-[10px]
+          text-[14px]
           font-semibold
           leading-[1.3]
           tracking-[-.025em]
@@ -721,10 +721,10 @@ function FaqCard({
 
       <p
         className="
-          mt-[10px]
+          mt-[8px]
           overflow-hidden
-          text-[11px]
-          leading-[1.55]
+          text-[10px]
+          leading-[1.5]
           text-[#17191C]/65
 
           sm:mt-4
@@ -750,9 +750,9 @@ function FaqCard({
           shrink-0
           rounded-full
           bg-[#B12025]/[.07]
-          px-[10px]
-          py-[5px]
-          text-[9px]
+          px-[9px]
+          py-[4px]
+          text-[8px]
           font-semibold
           text-[#B12025]
 
@@ -875,8 +875,8 @@ function FaqRollerSection() {
         overflow-hidden
         bg-[#FAF9F8]
 
-        pb-[38px]
-        pt-[38px]
+        pb-[28px]
+        pt-[28px]
 
         sm:py-[135px]
       "
@@ -965,7 +965,7 @@ function FaqRollerSection() {
           ONE AUTO-SCROLLING ROW
       ============================================ */}
 
-      <div className="mt-[22px] block sm:hidden">
+      <div className="mt-[16px] block sm:hidden">
         <HorizontalScroller
           items={[...questions]}
           speed={36}
@@ -1875,17 +1875,17 @@ useEffect(() => {
             />
           </div>
 
-         <div className="relative mx-auto max-w-[1440px] px-5 pb-[38px] pt-[42px] md:px-10 md:pb-32 md:pt-36 lg:pt-44">
+         <div className="relative mx-auto max-w-[1440px] px-4 pb-[24px] pt-[24px] sm:px-5 sm:pb-[38px] sm:pt-[42px] md:px-10 md:pb-32 md:pt-36 lg:pt-44">
             <p
               data-reveal
-             className="mb-4 text-[11px] font-semibold tracking-[.025em] text-[#B12025] sm:mb-7 sm:text-[13px]" 
+             className="mb-2.5 text-[10px] font-semibold tracking-[.025em] text-[#B12025] sm:mb-7 sm:text-[13px]" 
             >
               Outsourcing services in Sri Lanka.
             </p>
 
             <h1
               data-reveal
-             className="max-w-[1030px] text-[clamp(2rem,8.5vw,2.5rem)] font-semibold leading-[1.12] tracking-[-.055em] sm:text-[clamp(3rem,6.5vw,6.9rem)] sm:leading-[1.055] sm:tracking-[-.07em]"
+             className="max-w-[1030px] text-[clamp(1.72rem,7.3vw,2.12rem)] font-semibold leading-[1.12] tracking-[-.05em] sm:text-[clamp(3rem,6.5vw,6.9rem)] sm:leading-[1.055] sm:tracking-[-.07em]"
             >
               Hand over your{' '}
               <span className="text-[#B12025]">
@@ -1895,10 +1895,10 @@ useEffect(() => {
 
             <p
               data-reveal
-              className="mt-8 max-w-[710px] text-[15px] leading-8 text-[#17191C]/60 sm:text-[17px]"
+              className="mt-5 max-w-[710px] text-[13px] leading-[1.85] text-[#17191C]/60 sm:mt-8 sm:text-[17px] sm:leading-8"
             >
               FirstNotch offers 16 BPO services in Sri Lanka.
-              Choose one or several. A trained team of 30+
+              Choose one or several. A trained team of 70+
               in Colombo works in your tools and follows
               your processes. Every piece of work gets a
               quality score, whether it is a support call
@@ -1909,7 +1909,7 @@ useEffect(() => {
               type="button"
               data-reveal
               onClick={() => jumpTo('contact')}
-              className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[#B12025] px-5 py-3 text-[11px] font-semibold text-white transition duration-300 hover:bg-[#961b21] sm:mt-9 sm:gap-4 sm:px-7 sm:py-4 sm:text-sm"
+              className="group mt-5 inline-flex items-center gap-2 rounded-full bg-[#B12025] px-4 py-2.5 text-[10px] font-semibold text-white transition duration-300 hover:bg-[#961b21] sm:mt-9 sm:gap-4 sm:px-7 sm:py-4 sm:text-sm"
             >
               Book a free discovery call
 
@@ -1962,7 +1962,7 @@ useEffect(() => {
                 key={category.id}
                 type="button"
                 onClick={() => jumpTo(category.id)}
-                className={`relative shrink-0 whitespace-nowrap py-4 text-[9px] font-medium tracking-[-.025em] sm:font-semibold sm:tracking-normal transition-colors sm:py-5 sm:text-[13px] ${
+                className={`relative shrink-0 whitespace-nowrap py-3 text-[8px] font-medium tracking-[-.025em] sm:font-semibold sm:tracking-normal transition-colors sm:py-5 sm:text-[13px] ${
                   activeCategory === index
                     ? 'text-[#B12025]'
                     : 'text-[#17191C]/55 hover:text-[#17191C]'
@@ -1970,7 +1970,7 @@ useEffect(() => {
               >
                 {category.short}
 
-                <span className="ml-0.5 text-[8px] opacity-55 sm:ml-1 sm:text-[11px]">
+                <span className="ml-0.5 text-[7px] opacity-55 sm:ml-1 sm:text-[11px]">
                   {category.services.length}
                 </span>
 
@@ -1994,16 +1994,16 @@ useEffect(() => {
 
 <section
   id="results"
-  className="overflow-hidden bg-[#f8f7f5] py-10 sm:py-32"
+  className="overflow-hidden bg-[#f8f7f5] py-7 sm:py-32"
 >
-  <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+  <div className="mx-auto max-w-[1440px] px-4 sm:px-5 md:px-10">
 
     {/* SECTION LABEL */}
 
     <p
       data-reveal
       className="
-        text-[10px]
+        text-[9px]
         font-semibold
         uppercase
         tracking-[.16em]
@@ -2021,9 +2021,9 @@ useEffect(() => {
     <h2
       data-reveal
       className="
-        mt-3
+        mt-2
         max-w-3xl
-        text-[25px]
+        text-[22px]
         font-semibold
         leading-[1.15]
         tracking-[-.045em]
@@ -2044,7 +2044,7 @@ useEffect(() => {
       ref={mobileResultsRef}
       aria-label="FirstNotch performance results"
       className="
-        mt-7
+        mt-5
         flex
         w-full
         gap-3
@@ -2080,7 +2080,7 @@ useEffect(() => {
               relative
               box-border
               flex
-              h-[185px]
+              h-[150px]
               w-[calc(100%-12px)]
               min-w-[calc(100%-12px)]
               max-w-[calc(100%-12px)]
@@ -2088,9 +2088,9 @@ useEffect(() => {
               snap-start
               flex-col
               overflow-hidden
-              rounded-[20px]
+              rounded-[18px]
               border
-              p-5
+              p-4
               shadow-[0_12px_40px_rgba(23,25,28,.035)]
 
               sm:h-auto
@@ -2132,8 +2132,8 @@ useEffect(() => {
                 className="
                   pointer-events-none
                   absolute
-                  right-5
-                  top-5
+                  right-4
+                  top-4
                   opacity-85
 
                   sm:right-6
@@ -2153,7 +2153,7 @@ useEffect(() => {
               className="
                 relative
                 z-10
-                text-[39px]
+                text-[32px]
                 font-semibold
                 leading-none
                 tracking-[-.07em]
@@ -2173,8 +2173,8 @@ useEffect(() => {
               className="
                 relative
                 z-10
-                mt-5
-                text-[14px]
+                mt-3
+                text-[13px]
                 font-semibold
                 leading-[1.3]
 
@@ -2191,10 +2191,10 @@ useEffect(() => {
               className={`
                 relative
                 z-10
-                mt-2
+                mt-1.5
                 max-w-[190px]
-                text-[11px]
-                leading-[1.5]
+                text-[10px]
+                leading-[1.45]
 
                 sm:max-w-none
                 sm:text-[13px]
@@ -2214,9 +2214,9 @@ useEffect(() => {
             <span
               className={`
                 absolute
-                bottom-4
-                right-5
-                text-[10px]
+                bottom-3
+                right-4
+                text-[9px]
                 font-medium
                 tracking-[.15em]
                 sm:hidden
@@ -2296,15 +2296,15 @@ useEffect(() => {
           className={`
             relative
             flex
-            min-h-[570px]
+            min-h-[430px]
             w-full
             shrink-0
             snap-start
             items-center
             border-r
-            px-5
-            pb-14
-            pt-12
+            px-4
+            pb-10
+            pt-8
 
             md:px-10
 
@@ -2331,7 +2331,7 @@ useEffect(() => {
               w-full
               max-w-[1280px]
               items-center
-              gap-5
+              gap-3
 
               lg:grid-cols-[.45fr_1fr]
               lg:gap-12
@@ -2344,7 +2344,7 @@ useEffect(() => {
               aria-hidden="true"
               className={`
                 select-none
-                text-[clamp(6.5rem,29vw,8rem)]
+                text-[clamp(5rem,24vw,6.3rem)]
                 font-bold
                 leading-none
                 tracking-[-.14em]
@@ -2369,7 +2369,7 @@ useEffect(() => {
               <p
                 data-category-animate
                 className={`
-                  text-xs
+                  text-[10px]
                   font-semibold
                   uppercase
                   tracking-[.22em]
@@ -2389,8 +2389,8 @@ useEffect(() => {
               <h2
                 data-category-animate
                 className={`
-                  mt-3
-                  text-[clamp(2.4rem,10vw,3.2rem)]
+                  mt-2
+                  text-[clamp(2rem,8.5vw,2.5rem)]
                   font-semibold
                   leading-[1.05]
                   tracking-[-.06em]
@@ -2413,10 +2413,10 @@ useEffect(() => {
               <p
                 data-category-animate
                 className={`
-                  mt-4
+                  mt-3
                   max-w-[620px]
-                  text-[13px]
-                  leading-[1.75]
+                  text-[11px]
+                  leading-[1.65]
 
                   lg:mt-7
                   lg:text-[16px]
@@ -2437,8 +2437,8 @@ useEffect(() => {
               <p
                 data-category-animate
                 className={`
-                  mt-5
-                  text-[clamp(1.5rem,6.5vw,2rem)]
+                  mt-4
+                  text-[clamp(1.25rem,5.5vw,1.6rem)]
                   font-semibold
                   tracking-tight
 
@@ -2463,11 +2463,11 @@ useEffect(() => {
                 onClick={() => jumpTo(category.id)}
                 className={`
                   group
-                  mt-5
+                  mt-4
                   inline-flex
                   items-center
                   gap-3
-                  text-[12px]
+                  text-[10px]
                   font-semibold
                   transition-opacity
                   hover:opacity-70
@@ -2511,8 +2511,8 @@ useEffect(() => {
     aria-label="Go to next service category"
     className="
       absolute
-      bottom-[18px]
-      right-[18px]
+      bottom-[14px]
+      right-[14px]
       z-30
       inline-flex
       items-center
@@ -2522,9 +2522,9 @@ useEffect(() => {
       border
       border-[#B12025]/20
       bg-white
-      px-[20px]
-      py-[12px]
-      text-[12px]
+      px-[16px]
+      py-[10px]
+      text-[10px]
       font-semibold
       text-[#B12025]
       shadow-[0_8px_30px_rgba(0,0,0,0.16)]
@@ -2595,39 +2595,39 @@ useEffect(() => {
           <section
             key={category.id}
             id={category.id}
-            className={`scroll-mt-[155px] border-t border-[#17191C]/5 py-10 sm:py-28 ${
+            className={`scroll-mt-[155px] border-t border-[#17191C]/5 py-7 sm:py-28 ${
               index % 2 === 0
                 ? 'bg-white'
                 : 'bg-[#f8f7f5]'
             }`}
           >
-            <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+            <div className="mx-auto max-w-[1440px] px-4 sm:px-5 md:px-10">
               <div
                 data-reveal
-                className="mb-6 flex flex-col justify-between gap-3 sm:mb-12 sm:gap-6 lg:flex-row lg:items-end"
+                className="mb-4 flex flex-col justify-between gap-2 sm:mb-12 sm:gap-6 lg:flex-row lg:items-end"
               >
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#B12025]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#B12025] sm:text-xs sm:tracking-[.24em]">
                     0{index + 1} / {category.services.length} services
                   </p>
 
-                  <h2 className="mt-2 text-[clamp(2rem,8vw,2.6rem)] font-semibold leading-[1.08] tracking-[-.06em] sm:mt-4 sm:text-[clamp(2.6rem,5vw,5rem)]">
+                  <h2 className="mt-1.5 text-[clamp(1.72rem,7vw,2.1rem)] font-semibold leading-[1.08] tracking-[-.055em] sm:mt-4 sm:text-[clamp(2.6rem,5vw,5rem)] sm:tracking-[-.06em]">
                     {category.label}
                     <span className="text-[#B12025]">.</span>
                   </h2>
 
-                  <p className="mt-3 max-w-[740px] text-[12px] leading-[1.65] text-[#17191C]/60 sm:mt-4 sm:text-base sm:leading-8">
+                  <p className="mt-2 max-w-[740px] text-[11px] leading-[1.55] text-[#17191C]/60 sm:mt-4 sm:text-base sm:leading-8">
                     {category.description}
                   </p>
                 </div>
 
-                <div className="shrink-0 self-start rounded-full border border-[#B12025]/20 bg-white px-4 py-2 text-[12px] font-semibold text-[#B12025] sm:px-6 sm:py-3 sm:text-sm">
+                <div className="shrink-0 self-start rounded-full border border-[#B12025]/20 bg-white px-3 py-1.5 text-[10px] font-semibold text-[#B12025] sm:px-6 sm:py-3 sm:text-sm">
                   {category.proof}
                 </div>
               </div>
 
               {category.id === 'customer-support' && (
-                <div className="mb-8 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&>article]:w-[88%] [&>article]:min-w-[88%] [&>article]:shrink-0 [&>article]:snap-start [&::-webkit-scrollbar]:hidden sm:mb-12 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:[&>article]:w-auto sm:[&>article]:min-w-0 sm:[&>article]:shrink sm:[&>article]:snap-none">
+                <div className="mb-5 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&>article]:w-[88%] [&>article]:min-w-[88%] [&>article]:shrink-0 [&>article]:snap-start [&::-webkit-scrollbar]:hidden sm:mb-12 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:[&>article]:w-auto sm:[&>article]:min-w-0 sm:[&>article]:shrink sm:[&>article]:snap-none">
                   <LanguageBentoCard />
                   <AnimatedChannelFlowCard />
                 </div>

@@ -461,7 +461,7 @@ export default function BpoScrollLineHero() {
           </p>
 
           <p>
-            FirstNotch&apos;s team of 30+ in Colombo can take
+            FirstNotch&apos;s team of 70+ in Colombo can take
             this work on. Software catches simple errors first,
             then a person checks each item. That is how client
             work reaches a 98% accuracy rate.

@@ -794,7 +794,7 @@ export default function AboutFirstNotchPage() {
               data-about-in
               className="mt-5 max-w-[760px] text-[15px] leading-[1.95] text-[#17191C]/70"
             >
-              Today a team of 30+ works from the
+              Today a team of 70+ works from the
               Colombo office on customer support,
               back office work and IT services.
             </p>

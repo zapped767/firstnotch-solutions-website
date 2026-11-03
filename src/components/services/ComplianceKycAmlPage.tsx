@@ -815,13 +815,7 @@ export default function ComplianceKycAmlPage() {
 
         <div className="relative mx-auto grid max-w-[1420px] items-center gap-10 lg:grid-cols-[1.12fr_.88fr] lg:gap-14">
           <div>
-            <p
-              data-kyc-hero-small
-              className="text-[11px] text-white/70"
-            >
-              Services / BPO &amp; Back Office /
-              Compliance, KYC and AML support
-            </p>
+           
 
             <p
               data-kyc-hero-small

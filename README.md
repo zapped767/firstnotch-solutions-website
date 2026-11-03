@@ -19,7 +19,7 @@ Open the localhost URL printed in your terminal. Node.js 22 or newer is required
 
 - The supplied hero headline and introduction
 - Six client logo placeholders
-- 30+, 85%, 98% and four-language figures
+- 70+, 85%, 98% and four-language figures
 - Why outsource to Sri Lanka
 - Customer Support, BPO & Back Office and IT Services, including all service lists
 - All five supplied testimonials

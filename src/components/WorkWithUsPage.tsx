@@ -816,7 +816,7 @@ export default function WorkWithUsPage() {
               className="mt-8 max-w-[690px] text-[15px] leading-[1.9] text-white/95 sm:text-[17px]"
             >
               FirstNotch is a BPO company with
-              a team of 30+ at its Colombo
+              a team of 70+ at its Colombo
               office. Staff answer customer
               calls, process data and build
               websites for client businesses
@@ -863,7 +863,7 @@ export default function WorkWithUsPage() {
             className="relative border-t border-white/35 pt-9 lg:mb-3 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
           >
             <p className="text-[clamp(6rem,12vw,12rem)] font-semibold leading-none tracking-[-.1em]">
-              30
+              70
               <span className="text-white/65">
                 +
               </span>

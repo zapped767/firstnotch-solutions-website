@@ -825,13 +825,7 @@ export default function BackOfficeOperationsPage() {
           {/* HERO COPY */}
 
           <div>
-            <p
-              data-bo-hero-sub
-              className="text-[11px] text-[#17191C]/55"
-            >
-              Services / BPO &amp; Back Office /
-              Back office operations
-            </p>
+            
 
             <p
               data-bo-hero-sub

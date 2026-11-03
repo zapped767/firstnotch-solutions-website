@@ -1068,13 +1068,7 @@ export default function DocumentProcessingPage() {
           {/* HERO TEXT */}
 
           <div>
-            <p
-              data-doc-intro
-              className="text-[12px] text-[#17191C]/50"
-            >
-              Services / BPO &amp; Back Office /
-              Document processing
-            </p>
+            
 
             <p
               data-doc-intro

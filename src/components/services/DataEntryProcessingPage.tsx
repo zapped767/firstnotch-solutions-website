@@ -1069,13 +1069,7 @@ export default function DataEntryProcessingPage() {
           {/* HERO TEXT */}
 
           <div>
-            <p
-              data-de-intro
-              className="text-[12px] text-[#17191C]/50"
-            >
-              Services / BPO &amp; Back Office /
-              Data entry and processing
-            </p>
+            
 
             <p
               data-de-intro

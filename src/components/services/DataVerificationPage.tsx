@@ -1071,13 +1071,7 @@ export default function DataVerificationPage() {
           {/* LEFT SIDE TEXT */}
 
           <div>
-            <p
-              data-dv-intro
-              className="text-[12px] text-[#17191C]/50"
-            >
-              Services / BPO &amp; Back Office /
-              Data verification and validation
-            </p>
+            
 
             <p
               data-dv-intro

@@ -849,13 +849,7 @@ export default function VirtualAssistantServicesPage() {
           {/* LEFT HERO TEXT */}
 
           <div>
-            <p
-              data-va-hero-detail
-              className="text-[11px] text-[#17191C]/55"
-            >
-              Services / BPO &amp; Back Office /
-              Virtual assistant services
-            </p>
+            
 
             <p
               data-va-hero-detail
