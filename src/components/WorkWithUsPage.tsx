@@ -6,6 +6,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import Footer from '@/components/FirstNotchFooter';
 
 import {
   ArrowDownRight,
@@ -265,10 +266,10 @@ function HeroWords({ text }: { text: string }) {
 }
 
 const titleClass =
-  'text-[clamp(2.65rem,5.4vw,6rem)] font-semibold leading-[1.09] tracking-[-.065em]';
+  'text-[clamp(2rem,9vw,2.45rem)] font-semibold leading-[1.08] tracking-[-.055em] sm:text-[clamp(2.65rem,5.4vw,6rem)] sm:leading-[1.09] sm:tracking-[-.065em]';
 
 const labelClass =
-  'text-[11px] font-semibold uppercase tracking-[.2em]';
+  'text-[9px] font-semibold uppercase tracking-[.18em] sm:text-[11px] sm:tracking-[.2em]';
 
 // ======================================================
 // MAIN PAGE
@@ -765,6 +766,35 @@ export default function WorkWithUsPage() {
     }
   }
 
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 639px)');
+    if (!media.matches) return;
+
+    const scrollers = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-mobile-auto-scroll]')
+    );
+
+    const timers = scrollers.map((scroller) =>
+      window.setInterval(() => {
+        const card = scroller.querySelector<HTMLElement>('[data-mobile-card]');
+        if (!card) return;
+
+        const step = card.offsetWidth + 12;
+        const nearEnd =
+          scroller.scrollLeft + scroller.clientWidth >=
+          scroller.scrollWidth - step * 0.6;
+
+        scroller.scrollTo({
+          left: nearEnd ? 0 : scroller.scrollLeft + step,
+          behavior: 'smooth',
+        });
+      }, 3200)
+    );
+
+    return () =>
+      timers.forEach((timer) => window.clearInterval(timer));
+  }, []);
+
   return (
     <div
       ref={rootRef}
@@ -784,7 +814,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="wu-top"
-        className="relative overflow-hidden bg-[#B12025] px-5 pb-[105px] pt-[150px] text-white sm:px-8 lg:px-14 lg:pb-[140px] lg:pt-[195px]"
+        className="relative overflow-hidden bg-[#B12025] px-5 pb-[48px] pt-[78px] text-white sm:px-8 sm:pb-[105px] sm:pt-[150px] lg:px-14 lg:pb-[140px] lg:pt-[195px]"
       >
         <div
           aria-hidden="true"
@@ -798,14 +828,9 @@ export default function WorkWithUsPage() {
 
         <div className="relative mx-auto grid max-w-[1460px] gap-14 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
-            <p
-              data-wu-in
-              className={`${labelClass} text-white/75`}
-            >
-              FIRSTNOTCH SOLUTIONS / WORK WITH US
-            </p>
+           
 
-            <h1 className="mt-7 max-w-[920px] text-[clamp(3.2rem,6.5vw,7.8rem)] font-semibold leading-[1.045] tracking-[-.075em]">
+            <h1 className="mt-4 max-w-[920px] text-[clamp(2.35rem,11vw,3rem)] font-semibold leading-[1.02] tracking-[-.065em] sm:mt-7 sm:text-[clamp(3.2rem,6.5vw,7.8rem)] sm:leading-[1.045] sm:tracking-[-.075em]">
               <HeroWords
                 text="Jobs in Colombo that pay a salary plus monthly incentives"
               />
@@ -813,7 +838,7 @@ export default function WorkWithUsPage() {
 
             <p
               data-wu-in
-              className="mt-8 max-w-[690px] text-[15px] leading-[1.9] text-white/95 sm:text-[17px]"
+              className="mt-5 max-w-[690px] text-[12px] leading-[1.7] text-white/95 sm:mt-8 sm:text-[17px] sm:leading-[1.9]"
             >
               FirstNotch is a BPO company with
               a team of 70+ at its Colombo
@@ -825,7 +850,7 @@ export default function WorkWithUsPage() {
 
             <p
               data-wu-in
-              className="mt-5 max-w-[650px] text-[14px] leading-[1.85] text-white/80"
+              className="mt-3 max-w-[650px] text-[11px] leading-[1.7] text-white/80 sm:mt-5 sm:text-[14px] sm:leading-[1.85]"
             >
               A willingness to learn matters
               more here than a long CV. New
@@ -860,9 +885,9 @@ export default function WorkWithUsPage() {
 
           <div
             data-wu-in
-            className="relative border-t border-white/35 pt-9 lg:mb-3 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
+            className="relative border-t border-white/35 pt-5 sm:pt-9 lg:mb-3 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
           >
-            <p className="text-[clamp(6rem,12vw,12rem)] font-semibold leading-none tracking-[-.1em]">
+            <p className="text-[64px] font-semibold leading-none tracking-[-.08em] sm:text-[clamp(6rem,12vw,12rem)] sm:tracking-[-.1em]">
               70
               <span className="text-white/65">
                 +
@@ -888,7 +913,7 @@ export default function WorkWithUsPage() {
             </div>
 
             <div
-              className="relative mt-10 h-[54px] overflow-hidden"
+              className="relative mt-5 h-[38px] overflow-hidden sm:mt-10 sm:h-[54px]"
               aria-hidden="true"
             >
               <svg
@@ -922,7 +947,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="benefits"
-        className="scroll-mt-[110px] bg-white px-5 py-[105px] sm:px-8 lg:px-14 lg:py-[135px]"
+        className="scroll-mt-[110px] bg-white px-5 py-[52px] sm:px-8 sm:py-[105px] lg:px-14 lg:py-[135px]"
       >
         <div className="mx-auto max-w-[1440px]">
           <p
@@ -940,12 +965,12 @@ export default function WorkWithUsPage() {
             />
           </h2>
 
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-12">
+          <div data-mobile-auto-scroll className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-12 md:grid md:overflow-visible md:pb-0 lg:grid-cols-12">
             {/* SALARY CARD */}
 
             <article
               data-wu-in
-              className="flex min-h-[345px] flex-col rounded-[29px] bg-[#B12025] p-8 text-white sm:p-10 lg:col-span-7"
+              data-mobile-card className="flex min-h-[235px] w-[82vw] shrink-0 snap-start flex-col rounded-[22px] bg-[#B12025] p-5 text-white sm:min-h-[345px] sm:w-auto sm:rounded-[29px] sm:p-10 lg:col-span-7"
             >
               <Wallet
                 size={30}
@@ -1004,7 +1029,7 @@ export default function WorkWithUsPage() {
                 <article
                   data-wu-in
                   key={title}
-                  className={`flex min-h-[245px] flex-col rounded-[29px] border border-[#B12025]/15 bg-[#fff9f9] p-8 ${
+                  data-mobile-card className={`flex min-h-[205px] w-[78vw] shrink-0 snap-start flex-col rounded-[22px] border border-[#B12025]/15 bg-[#fff9f9] p-5 sm:min-h-[245px] sm:w-auto sm:rounded-[29px] sm:p-8 ${
                     index === 0
                       ? 'lg:col-span-5'
                       : 'lg:col-span-6'
@@ -1031,7 +1056,7 @@ export default function WorkWithUsPage() {
 
             <article
               data-wu-in
-              className="flex min-h-[245px] flex-col rounded-[29px] border border-[#B12025]/15 bg-white p-8 lg:col-span-6"
+              data-mobile-card className="flex min-h-[205px] w-[78vw] shrink-0 snap-start flex-col rounded-[22px] border border-[#B12025]/15 bg-white p-5 sm:min-h-[245px] sm:w-auto sm:rounded-[29px] sm:p-8 lg:col-span-6"
             >
               <CheckCircle2
                 size={28}
@@ -1055,7 +1080,7 @@ export default function WorkWithUsPage() {
 
           {/* DRESS CODE WEEK STRIP */}
 
-          <div className="mt-8 rounded-[28px] border border-[#B12025]/15 bg-[#fff9f9] p-6 sm:p-9">
+          <div className="mt-5 rounded-[22px] border border-[#B12025]/15 bg-[#fff9f9] p-4 sm:mt-8 sm:rounded-[28px] sm:p-9">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h3 className="text-[21px] font-semibold">
                 Your workweek, your style
@@ -1066,7 +1091,10 @@ export default function WorkWithUsPage() {
               </span>
             </div>
 
-            <div className="mt-7 grid grid-cols-5 gap-2 sm:gap-3">
+            <div
+  data-mobile-auto-scroll
+  className="mt-5 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-7 sm:grid sm:grid-cols-5 sm:overflow-visible sm:pb-0 sm:gap-3"
+>
               {[
                 ['Mon', 'Smart casual'],
                 ['Tue', 'Smart casual'],
@@ -1075,13 +1103,14 @@ export default function WorkWithUsPage() {
                 ['Fri', 'Casual'],
               ].map(([day, mode]) => (
                 <div
-                  key={day}
-                  className={`rounded-[17px] border p-3 text-center sm:p-5 ${
-                    today === day
-                      ? 'border-[#B12025] bg-[#B12025] text-white'
-                      : 'border-[#B12025]/15 bg-white'
-                  }`}
-                >
+  key={day}
+  data-mobile-card
+  className={`w-[78px] shrink-0 snap-start rounded-[17px] border p-3 text-center sm:w-auto sm:shrink sm:p-5 ${
+    today === day
+      ? 'border-[#B12025] bg-[#B12025] text-white'
+      : 'border-[#B12025]/15 bg-white'
+  }`}
+>
                   <p className="text-[12px] font-semibold">
                     {day}
                   </p>
@@ -1102,7 +1131,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="culture"
-        className="bg-[#fff9f9] py-[100px] lg:py-[135px]"
+        className="bg-[#fff9f9] py-[52px] sm:py-[100px] lg:py-[135px]"
       >
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
           <p
@@ -1122,7 +1151,7 @@ export default function WorkWithUsPage() {
 
           <p
             data-wu-in
-            className="mt-6 max-w-[700px] text-[14px] leading-8 text-[#17191C]/65"
+            className="mt-4 max-w-[700px] text-[11px] leading-6 text-[#17191C]/65 sm:mt-6 sm:text-[14px] sm:leading-8"
           >
             Colleagues from different
             backgrounds work together,
@@ -1131,12 +1160,12 @@ export default function WorkWithUsPage() {
           </p>
         </div>
 
-        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8 lg:px-14">
+        <div data-mobile-auto-scroll className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-10 sm:gap-4 sm:px-8 sm:pb-5 lg:px-14">
           {culture.map(
             ({ title, body, Icon }, index) => (
               <article
                 key={title}
-                className={`flex min-h-[325px] w-[min(85vw,420px)] shrink-0 snap-start flex-col rounded-[27px] border p-8 sm:w-[440px] ${
+                data-mobile-card className={`flex min-h-[225px] w-[78vw] shrink-0 snap-start flex-col rounded-[22px] border p-5 sm:min-h-[325px] sm:w-[440px] sm:rounded-[27px] sm:p-8 ${
                   index === 0
                     ? 'border-[#B12025] bg-[#B12025] text-white'
                     : 'border-[#B12025]/15 bg-white'
@@ -1153,7 +1182,7 @@ export default function WorkWithUsPage() {
                 />
 
                 <div className="mt-auto pt-12">
-                  <h3 className="text-[27px] font-semibold tracking-[-.04em]">
+                  <h3 className="text-[21px] font-semibold tracking-[-.035em] sm:text-[27px] sm:tracking-[-.04em]">
                     {title}
                   </h3>
 
@@ -1201,7 +1230,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="roles"
-        className="scroll-mt-[110px] bg-[#17191C] px-5 py-[110px] text-white sm:px-8 lg:px-14 lg:py-[140px]"
+       className="scroll-mt-[110px] bg-[#17191C] px-5 py-[38px] text-white sm:px-8 sm:py-[110px] lg:px-14 lg:py-[140px]"
       >
         <div className="mx-auto max-w-[1440px]">
           <p
@@ -1211,9 +1240,9 @@ export default function WorkWithUsPage() {
             03 / OPEN ROLES
           </p>
 
-          <h2
-            className={`${titleClass} mt-5 max-w-[1050px]`}
-          >
+         <h2
+  className="mt-3 max-w-[1050px] text-[26px] font-semibold leading-[1.08] tracking-[-.05em] sm:mt-5 sm:text-[clamp(2.65rem,5.4vw,6rem)] sm:leading-[1.09] sm:tracking-[-.065em]"
+>
             <ScrollWords
               text="Find a role where you can do your best work."
             />
@@ -1221,7 +1250,7 @@ export default function WorkWithUsPage() {
 
           <p
             data-wu-in
-            className="mt-6 max-w-[760px] text-[14px] leading-8 text-white/70"
+           className="mt-3 max-w-[760px] text-[9px] leading-[1.7] text-white/70 sm:mt-6 sm:text-[14px] sm:leading-8"
           >
             These BPO roles are listed in the
             FirstNotch careers brief.
@@ -1236,7 +1265,7 @@ export default function WorkWithUsPage() {
           <div
             role="group"
             aria-label="Filter job categories"
-            className="mt-9 flex flex-wrap gap-2"
+            className="mt-9 hidden flex-wrap gap-2 sm:flex"
           >
             {categories.map((category) => (
               <button
@@ -1261,12 +1290,12 @@ export default function WorkWithUsPage() {
 
           {/* ROLE CARDS */}
 
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div data-mobile-auto-scroll className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-10 md:grid md:overflow-visible md:pb-0 md:grid-cols-2">
             {displayedRoles.map((role) => (
               <article
                 key={role.slug}
                 id={role.slug}
-                className={`group relative min-h-[315px] scroll-mt-[130px] overflow-hidden rounded-[28px] border p-8 sm:p-10 ${
+               data-mobile-card className={`group relative min-h-[185px] w-[78vw] shrink-0 snap-start scroll-mt-[130px] overflow-hidden rounded-[20px] border p-4 sm:min-h-[315px] sm:w-auto sm:rounded-[28px] sm:p-10 ${
                   suggested === role.category
                     ? 'border-white bg-[#B12025]'
                     : 'border-white/20 bg-[#25282C]'
@@ -1282,16 +1311,16 @@ export default function WorkWithUsPage() {
                   </span>
                 </div>
 
-                <div className="mt-14">
-                  <h3 className="text-[clamp(1.65rem,2.5vw,2.65rem)] font-semibold leading-[1.17] tracking-[-.045em]">
+                <div className="mt-7 sm:mt-14">
+                <h3 className="text-[18px] font-semibold leading-[1.18] tracking-[-.035em] sm:text-[clamp(1.65rem,2.5vw,2.65rem)] sm:tracking-[-.045em]">
                     {role.title}
                   </h3>
 
-                  <p className="mt-4 max-w-[510px] text-[13px] leading-7 text-white/75">
+                 <p className="mt-3 max-w-[510px] text-[9px] leading-[1.65] text-white/75 sm:mt-4 sm:text-[13px] sm:leading-7">
                     {role.summary}
                   </p>
 
-                  <p className="mt-4 text-[11px] text-white/60">
+                  <p className="mt-3 text-[8px] text-white/60 sm:mt-4 sm:text-[11px]">
                     Full time · Colombo office
                   </p>
                 </div>
@@ -1301,7 +1330,7 @@ export default function WorkWithUsPage() {
                   onClick={() =>
                     openRole(role)
                   }
-                  className="mt-8 inline-flex items-center gap-2 border-b border-white/40 pb-2 text-[12px] font-semibold transition group-hover:border-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+                className="mt-5 inline-flex items-center gap-1.5 border-b border-white/40 pb-1.5 text-[9px] font-semibold transition group-hover:border-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white sm:mt-8 sm:gap-2 sm:pb-2 sm:text-[12px]"
                 >
                   View role & apply
                   <ArrowUpRight size={17} />
@@ -1347,7 +1376,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="wu-matcher"
-        className="bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[130px]"
+        className="hidden bg-white px-5 py-[100px] sm:block sm:px-8 lg:px-14 lg:py-[130px]"
       >
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div>
@@ -1492,7 +1521,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="wu-growth"
-        className="bg-[#fff9f9] px-5 py-[110px] sm:px-8 lg:px-14 lg:py-[145px]"
+        className="bg-[#fff9f9] px-5 py-[36px] sm:px-8 sm:py-[110px] lg:px-14 lg:py-[145px]"
       >
         <div className="mx-auto max-w-[1400px]">
           <p
@@ -1503,26 +1532,26 @@ export default function WorkWithUsPage() {
           </p>
 
           <h2
-            className={`${titleClass} mt-5 max-w-[1050px]`}
+            className="mt-3 max-w-[1050px] text-[26px] font-semibold leading-[1.08] tracking-[-.05em] sm:mt-5 sm:text-[clamp(2.65rem,5.4vw,6rem)] sm:leading-[1.09] sm:tracking-[-.065em]"
           >
             <ScrollWords
               text="One role can open the door to the next."
             />
           </h2>
 
-          <blockquote className="mt-10 max-w-[1050px] border-l-[5px] border-[#B12025] pl-7 text-[clamp(1.55rem,3.15vw,3.25rem)] font-medium leading-[1.42] tracking-[-.04em] text-[#17191C]">
+        <blockquote className="mt-5 max-w-[1050px] border-l-[3px] border-[#B12025] pl-3 text-[16px] font-medium leading-[1.35] tracking-[-.025em] text-[#17191C] sm:mt-10 sm:border-l-[5px] sm:pl-7 sm:text-[clamp(1.55rem,3.15vw,3.25rem)] sm:leading-[1.42] sm:tracking-[-.04em]">
             <ScrollWords
               text="I joined to answer calls. Within a year I was helping to train new starters on my team."
             />
 
-            <footer className="mt-6 text-[12px] font-semibold not-italic tracking-normal text-[#B12025]">
+           <footer className="mt-4 text-[9px] font-semibold not-italic tracking-normal text-[#B12025] sm:mt-6 sm:text-[12px]">
               Customer Support Executive, FirstNotch
             </footer>
           </blockquote>
 
           {/* CAREER PROGRESSION */}
 
-          <div className="relative mt-16 grid gap-4 md:grid-cols-3">
+          <div data-mobile-auto-scroll className="relative mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-16 md:grid md:overflow-visible md:pb-0 md:grid-cols-3">
             <div className="absolute left-0 right-0 top-[34px] hidden h-[3px] bg-[#B12025]/15 md:block">
               <div
                 ref={growthRef}
@@ -1537,17 +1566,17 @@ export default function WorkWithUsPage() {
             ].map((stage, index) => (
               <div
                 key={stage}
-                className="relative rounded-[24px] border border-[#B12025]/15 bg-white p-7"
+               data-mobile-card className="relative min-h-[155px] w-[74vw] shrink-0 snap-start rounded-[18px] border border-[#B12025]/15 bg-white p-4 sm:min-h-0 sm:w-auto sm:rounded-[24px] sm:p-7"
               >
-                <span className="relative z-10 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#B12025] text-[13px] font-semibold text-white">
+               <span className="relative z-10 flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#B12025] text-[10px] font-semibold text-white sm:h-[50px] sm:w-[50px] sm:text-[13px]">
                   0{index + 1}
                 </span>
 
-                <h3 className="mt-8 text-[21px] font-semibold">
+                <h3 className="mt-5 text-[16px] font-semibold sm:mt-8 sm:text-[21px]">
                   {stage}
                 </h3>
 
-                <p className="mt-3 text-[12px] leading-7 text-[#17191C]/65">
+              <p className="mt-2 text-[9px] leading-[1.6] text-[#17191C]/65 sm:mt-3 sm:text-[12px] sm:leading-7">
                   {index === 0
                     ? 'Start in a customer support role.'
                     : index === 1
@@ -1571,7 +1600,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="process"
-        className="bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[130px]"
+        className="bg-white px-5 py-[52px] sm:px-8 sm:py-[100px] lg:px-14 lg:py-[130px]"
       >
         <div className="mx-auto max-w-[1400px]">
           <p
@@ -1589,7 +1618,7 @@ export default function WorkWithUsPage() {
             />
           </h2>
 
-          <p className="mt-5 text-[13px] leading-7 text-[#17191C]/65">
+          <p className="mt-4 text-[11px] leading-6 text-[#17191C]/65 sm:mt-5 sm:text-[13px] sm:leading-7">
             Expect a language test and, for most
             roles, a practical task. Work history
             and references are reviewed before
@@ -1597,7 +1626,7 @@ export default function WorkWithUsPage() {
             timing are to be confirmed.
           </p>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-4">
+          <div data-mobile-auto-scroll className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-10 md:grid md:overflow-visible md:pb-0 md:grid-cols-4">
             {[
               'Language test',
               'Practical task',
@@ -1607,7 +1636,7 @@ export default function WorkWithUsPage() {
               <div
                 data-wu-in
                 key={name}
-                className="rounded-[25px] border border-[#B12025]/15 bg-[#fff9f9] p-7"
+                data-mobile-card className="min-h-[170px] w-[72vw] shrink-0 snap-start rounded-[22px] border border-[#B12025]/15 bg-[#fff9f9] p-5 sm:min-h-0 sm:w-auto sm:rounded-[25px] sm:p-7"
               >
                 <span className="text-[55px] font-semibold tracking-[-.08em] text-[#B12025]/25">
                   0{index + 1}
@@ -1622,7 +1651,7 @@ export default function WorkWithUsPage() {
 
           <Link
             href="/how-we-hire"
-            className="mt-8 inline-flex items-center gap-2 text-[13px] font-semibold text-[#B12025] hover:underline"
+         className="mt-8 hidden items-center gap-2 text-[13px] font-semibold text-[#B12025] hover:underline sm:inline-flex"
           >
             See how we hire
             <ArrowUpRight size={17} />
@@ -1636,7 +1665,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="apply"
-        className="scroll-mt-[110px] bg-[#B12025] px-5 py-[105px] text-white sm:px-8 lg:px-14 lg:py-[135px]"
+        className="hidden scroll-mt-[110px] bg-[#B12025] px-5 py-[105px] text-white sm:block sm:px-8 lg:px-14 lg:py-[135px]"
       >
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-20">
           <div>
@@ -1724,9 +1753,9 @@ export default function WorkWithUsPage() {
 
       <section
         id="wu-faq"
-        className="bg-white px-5 py-[105px] sm:px-8 lg:px-14 lg:py-[135px]"
+        className="bg-white px-5 pb-[35px] pt-[28px] sm:px-8 sm:py-[105px] lg:px-14 lg:py-[135px]"
       >
-        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[.82fr_1.18fr] lg:gap-20">
+        <div className="mx-auto grid max-w-[1400px] gap-6 sm:gap-12 lg:grid-cols-[.82fr_1.18fr] lg:gap-20">
           <div>
             <p
               data-wu-in
@@ -1736,14 +1765,14 @@ export default function WorkWithUsPage() {
             </p>
 
             <h2
-              className={`${titleClass} mt-5`}
+              className="mt-3 text-[26px] font-semibold leading-[1.08] tracking-[-.05em] sm:mt-5 sm:text-[clamp(2.65rem,5.4vw,6rem)] sm:leading-[1.09] sm:tracking-[-.065em]"
             >
               <ScrollWords
                 text="Questions from job applicants"
               />
             </h2>
 
-            <span className="mt-6 inline-flex rounded-full bg-[#fff3f3] px-4 py-2 text-[11px] font-semibold text-[#B12025]">
+           <span className="mt-4 inline-flex rounded-full bg-[#fff3f3] px-3 py-1.5 text-[9px] font-semibold text-[#B12025] sm:mt-6 sm:px-4 sm:py-2 sm:text-[11px]">
               All positions: Colombo office-based
             </span>
           </div>
@@ -1768,7 +1797,7 @@ export default function WorkWithUsPage() {
                           : index
                       )
                     }
-                    className="flex w-full items-center justify-between gap-4 p-6 text-left text-[14px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B12025]"
+                    className="flex w-full items-center justify-between gap-3 p-4 text-left text-[12px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B12025] sm:gap-4 sm:p-6 sm:text-[14px]"
                   >
                     <span>{faq.q}</span>
 
@@ -1809,7 +1838,7 @@ export default function WorkWithUsPage() {
 
       <section
         id="careers-contact"
-        className="bg-[#fff9f9] px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[130px]"
+        className="hidden bg-[#fff9f9] px-5 py-[100px] sm:block sm:px-8 lg:px-14 lg:py-[130px]"
       >
         <div className="mx-auto max-w-[1400px] rounded-[30px] border border-[#B12025]/15 bg-white p-8 sm:p-12 lg:p-16">
           <p
@@ -1904,7 +1933,7 @@ export default function WorkWithUsPage() {
           FOOTER
       ============================================== */}
 
-      <footer className="bg-[#17191C] px-5 pb-8 pt-[70px] text-white sm:px-8 lg:px-14">
+      <footer className="hidden bg-[#17191C] px-5 pb-8 pt-[70px] text-white sm:block sm:px-8 lg:px-14">
         <div className="mx-auto max-w-[1400px]">
           <div className="flex flex-wrap justify-between gap-10">
             <div>
@@ -1963,6 +1992,11 @@ export default function WorkWithUsPage() {
           </div>
         </div>
       </footer>
+
+      {/* SHARED SITE FOOTER — MOBILE ONLY */}
+      <div className="sm:hidden">
+        <Footer />
+      </div>
 
       {/* ==============================================
           JOB DETAILS DRAWER
