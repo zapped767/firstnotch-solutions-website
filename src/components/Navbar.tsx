@@ -550,7 +550,7 @@ export default function Navbar() {
         ============================================= */}
 
         <Link
-          href="/#contact"
+          href="/book-a-free-call"
           onClick={closeAllMenus}
           data-fns-magnetic
           className="
@@ -900,7 +900,7 @@ export default function Navbar() {
                   </span>
 
                   <Link
-                    href="/#contact"
+                    href="/book-a-free-call"
                     onClick={closeAllMenus}
                     aria-label="Book a discovery call"
                     className="
@@ -965,7 +965,7 @@ export default function Navbar() {
                   </div>
 
                   <Link
-                    href="/#contact"
+                    href="/book-a-free-call"
                     onClick={closeAllMenus}
                     className="
                       flex items-center justify-between
@@ -1016,7 +1016,7 @@ export default function Navbar() {
                 </Link>
 
                 <Link
-                  href="/#contact"
+                  href="/book-a-free-call"
                   onClick={closeAllMenus}
                   className="
                     flex items-center gap-2
@@ -1483,7 +1483,7 @@ export default function Navbar() {
                 </p>
 
                 <Link
-                  href="/#contact"
+                  href="/book-a-free-call"
                   onClick={closeAllMenus}
                   className="
                     mt-6 inline-flex min-h-[44px]

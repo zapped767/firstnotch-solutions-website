@@ -264,7 +264,7 @@ function AboutHero() {
         : Math.min(h * 0.47, 390);
 
       const cy = mobile
-        ? 260
+        ? 290
         : h * 0.70;
 
       const angle =
@@ -558,52 +558,68 @@ function AboutHero() {
           CENTRE CONTENT + RISING HEADING
       ============================================== */}
 
-      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1480px] flex-col items-center justify-center px-5 pb-[80px] pt-[320px] text-center sm:min-h-[830px] sm:px-8 sm:pb-[115px] sm:pt-[210px] lg:min-h-[860px] lg:pt-[225px]">
-        <p
-          data-orbit-hero-in
-          className={`${eyebrow} text-[10px] sm:text-[11px]`}
-        >
-          FIRSTNOTCH SOLUTIONS · EST. 2022
-        </p>
+      <div className="
+  relative z-10 mx-auto flex
+  min-h-[570px]
+  max-w-[1480px]
+  flex-col items-center justify-center
+  px-5
+  pb-[35px]
+  pt-[260px]
+  text-center
 
-       <h1 className="mt-6 max-w-[960px] text-[clamp(2.95rem,6.4vw,7.4rem)] font-semibold leading-[1.03] tracking-[-.08em] text-[#B12025]">
-  <RiseWords text="About FirstNotch" />
+  sm:min-h-[830px]
+  sm:px-8
+  sm:pb-[115px]
+  sm:pt-[210px]
+
+  lg:min-h-[860px]
+  lg:pt-[225px]
+">
+<p
+  data-orbit-hero-in
+  className="-mt-[40px] text-[8px] font-semibold uppercase tracking-[.13em] text-[#B12025] sm:mt-0 sm:text-[11px] sm:tracking-[.22em]"
+>
+  FIRSTNOTCH SOLUTIONS · EST. 2022
+</p>
+
+<h1 className="mt-[10px] max-w-[290px] text-[32px] font-semibold leading-[.92] tracking-[-.065em] text-[#B12025] sm:mt-6 sm:max-w-[960px] sm:text-[clamp(2.95rem,6.4vw,7.4rem)] sm:leading-[1.03] sm:tracking-[-.08em]">
+  <RiseWords text="About FirstNotch Solutions" />
 </h1>
 
         <p
-          data-orbit-hero-in
-          className="mx-auto mt-6 max-w-[670px] text-[clamp(.95rem,1.35vw,1.25rem)] leading-[1.75] text-[#17191C]/70"
-        >
+  data-orbit-hero-in
+  className="mx-auto mt-[190px] max-w-[280px] text-[11px] leading-[1.7] text-[#17191C]/65 sm:mt-6 sm:max-w-[670px] sm:text-[clamp(.95rem,1.35vw,1.25rem)] sm:leading-[1.75]"
+>
           An outsourcing company in Colombo,
           working for businesses in Sri Lanka
           and overseas since 2022.
         </p>
 
         <div
-          data-orbit-hero-in
-          className="mt-8 flex flex-wrap justify-center gap-3"
-        >
-          <a
-            href="#contact"
-            className="inline-flex min-h-[49px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white hover:bg-[#991b20]"
-          >
-            Book a free discovery call
-            <ArrowUpRight size={16} />
-          </a>
+  data-orbit-hero-in
+  className="mt-8 flex w-full flex-nowrap items-center justify-between gap-2 sm:w-auto sm:flex-wrap sm:justify-center sm:gap-3"
+>
+  {/* Left button */}
+  <Link
+    href="/book-a-free-call"
+    className="inline-flex min-h-[42px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#B12025] px-3 text-[9px] font-semibold text-white hover:bg-[#991b20] sm:min-h-[49px] sm:flex-none sm:gap-2 sm:px-6 sm:text-[12px]"
+  >
+    Book a free discovery call
+    <ArrowUpRight size={14} className="sm:h-4 sm:w-4" />
+  </Link>
 
-          <Link
-            href="/services"
-            className="inline-flex min-h-[49px] items-center gap-2 rounded-full border border-[#B12025]/25 bg-white px-6 text-[12px] font-semibold text-[#B12025] hover:border-[#B12025]"
-          >
-            See the services
-            <ArrowUpRight size={16} />
-          </Link>
-        </div>
+  {/* Right button */}
+  <Link
+    href="/services"
+    className="inline-flex min-h-[42px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#B12025]/25 bg-white px-3 text-[9px] font-semibold text-[#B12025] hover:border-[#B12025] sm:min-h-[49px] sm:flex-none sm:gap-2 sm:px-6 sm:text-[12px]"
+  >
+    See the services
+    <ArrowUpRight size={14} className="sm:h-4 sm:w-4" />
+  </Link>
+</div>
 
-        <p className="mt-[90px] text-[10px] text-[#17191C]/35">
-          Illustrative photography ·
-          Temporary online images
-        </p>
+        
       </div>
     </section>
   );
@@ -617,9 +633,42 @@ export default function AboutFirstNotchPage() {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = rootRef.current;
+   const root = rootRef.current;
 
-    if (!root) return;
+if (!root) return;
+
+const valuesSlider =
+  root.querySelector<HTMLElement>('[data-values-slider]');
+
+let valuesInterval: ReturnType<typeof setInterval> | null = null;
+
+if (valuesSlider) {
+  valuesInterval = setInterval(() => {
+    if (window.innerWidth >= 640) return;
+
+    const cards = Array.from(
+      valuesSlider.children
+    ) as HTMLElement[];
+
+    if (!cards.length) return;
+
+    const cardWidth = cards[0].offsetWidth + 12;
+    const maxScroll =
+      valuesSlider.scrollWidth - valuesSlider.clientWidth;
+
+    if (valuesSlider.scrollLeft >= maxScroll - 10) {
+      valuesSlider.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+    } else {
+      valuesSlider.scrollBy({
+        left: cardWidth,
+        behavior: 'smooth',
+      });
+    }
+  }, 3000);
+}
 
     const mm = gsap.matchMedia();
 
@@ -752,30 +801,28 @@ export default function AboutFirstNotchPage() {
 
       <section
         id="about-intro"
-        className="bg-white px-5 py-[90px] sm:px-8 lg:px-14 lg:py-[130px]"
+        className="bg-white px-5 py-[45px] sm:px-8 sm:py-[90px] lg:px-14 lg:py-[130px]"
       >
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.42fr_.58fr] lg:gap-20">
+        <div className="mx-auto grid max-w-[1420px] gap-7 sm:gap-12 lg:grid-cols-[.42fr_.58fr] lg:gap-20">
           <div data-about-in>
-            <p className={eyebrow}>
-              A PARTNER FROM COLOMBO
-            </p>
+            <p className="text-[8px] font-semibold uppercase tracking-[.20em] text-[#B12025] sm:text-[11px] sm:tracking-[.22em]">
+  A PARTNER FROM COLOMBO
+</p>
 
             <span
-              aria-hidden="true"
-              className="mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-[#fff1f1] text-[#B12025]"
-            >
-              <Globe2 size={26} />
-            </span>
+  aria-hidden="true"
+  className="mt-4 flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#fff1f1] text-[#B12025] sm:mt-7 sm:h-14 sm:w-14"
+>
+  <Globe2 className="h-[16px] w-[16px] sm:h-[26px] sm:w-[26px]" />
+</span>
           </div>
 
           <div>
-            <h2
-              className={`${heading} max-w-[850px]`}
-            >
-              <ScrollWords
-                text="Built in Sri Lanka. Working with the world."
-              />
-            </h2>
+            <h2 className="max-w-[850px] text-[28px] font-semibold leading-[1.06] tracking-[-.055em] sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]">
+  <ScrollWords
+    text="Built in Sri Lanka. Working with the world."
+  />
+</h2>
 
             <p
               data-about-in
@@ -792,7 +839,7 @@ export default function AboutFirstNotchPage() {
 
             <p
               data-about-in
-              className="mt-5 max-w-[760px] text-[15px] leading-[1.95] text-[#17191C]/70"
+              className="mt-3 max-w-[760px] text-[12px] leading-[1.75] text-[#17191C]/70 sm:mt-5 sm:text-[15px] sm:leading-[1.95]"
             >
               Today a team of 70+ works from the
               Colombo office on customer support,
@@ -801,18 +848,18 @@ export default function AboutFirstNotchPage() {
           </div>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-[1420px] grid-cols-2 gap-x-6 gap-y-9 border-t border-[#B12025]/15 pt-10 lg:grid-cols-4">
+       <div className="mx-auto mt-8 grid max-w-[1420px] grid-cols-4 gap-2 border-t border-[#B12025]/15 pt-6 sm:mt-16 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-9 sm:pt-10 lg:grid-cols-4">
           {STATS.map((stat) => (
             <div
               key={stat.number}
               data-about-in
-              className="border-l-2 border-[#B12025] pl-5"
+              className="border-l border-[#B12025] pl-2 sm:border-l-2 sm:pl-5"
             >
-              <p className="text-[clamp(2.7rem,5.6vw,6rem)] font-semibold leading-none tracking-[-.08em] text-[#B12025]">
+              <p className="text-[25px] font-semibold leading-none tracking-[-.06em] text-[#B12025] sm:text-[clamp(2.7rem,5.6vw,6rem)] sm:tracking-[-.08em]">
                 {stat.number}
               </p>
 
-              <p className="mt-4 max-w-[190px] text-[12px] leading-6 text-[#17191C]/65">
+              <p className="mt-2 max-w-[90px] text-[8px] leading-[1.5] text-[#17191C]/65 sm:mt-4 sm:max-w-[190px] sm:text-[12px] sm:leading-6">
                 {stat.label}
               </p>
             </div>
@@ -826,38 +873,39 @@ export default function AboutFirstNotchPage() {
 
       <section
         id="why"
-        className="bg-[#fff8f8] px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[135px]"
+        className="bg-[#fff8f8] px-5 py-[48px] sm:px-8 sm:py-[100px] lg:px-14 lg:py-[135px]"
       >
         <div className="mx-auto max-w-[1420px]">
-          <p
-            data-about-in
-            className={eyebrow}
-          >
-            OUR PURPOSE
-          </p>
+         <p
+  data-about-in
+  className="text-[8px] font-semibold uppercase tracking-[.20em] text-[#B12025] sm:text-[11px] sm:tracking-[.22em]"
+>
+  OUR PURPOSE
+</p>
 
-          <h2
-            className={`${heading} mt-6 max-w-[1150px]`}
-          >
+          <h2 className="mt-4 max-w-[1150px] text-[30px] font-semibold leading-[1.08] tracking-[-.055em] sm:mt-6 sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]">
             <ScrollWords
               text="Why FirstNotch exists"
             />
           </h2>
 
-          <div className="mt-11 grid gap-5 md:grid-cols-2">
+          <div
+  data-purpose-slider
+  className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-11 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0"
+>
             <div
               data-about-in
-              className="rounded-[30px] bg-[#B12025] p-8 text-white sm:p-11"
+              className="min-h-[280px] w-[88%] shrink-0 snap-center rounded-[22px] bg-[#B12025] p-5 text-white sm:min-h-0 sm:w-auto sm:rounded-[30px] sm:p-11"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30">
-                <CheckCircle2 size={24} />
+                <CheckCircle2 className="h-[17px] w-[17px] sm:h-6 sm:w-6" />
               </span>
 
-              <h3 className="mt-10 text-[clamp(1.7rem,3vw,2.8rem)] font-semibold tracking-[-.05em]">
+              <h3 className="mt-6 text-[20px] font-semibold leading-[1.2] tracking-[-.04em] sm:mt-10 sm:text-[clamp(1.7rem,3vw,2.8rem)] sm:tracking-[-.05em]">
                 Quality businesses can trust.
               </h3>
 
-              <p className="mt-5 max-w-[520px] text-[14px] leading-8 text-white/85">
+              <p className="mt-4 max-w-[520px] text-[11px] leading-[1.75] text-white/85 sm:mt-5 sm:text-[14px] sm:leading-8">
                 The aim is to become an outsourcing
                 partner that companies in Sri Lanka
                 and abroad can trust with their work.
@@ -869,17 +917,17 @@ export default function AboutFirstNotchPage() {
 
             <div
               data-about-in
-              className="rounded-[30px] border border-[#B12025]/15 bg-white p-8 sm:p-11"
+             className="min-h-[280px] w-[88%] shrink-0 snap-center rounded-[22px] border border-[#B12025]/15 bg-white p-5 sm:min-h-0 sm:w-auto sm:rounded-[30px] sm:p-11"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#fff1f1] text-[#B12025]">
                 <Users size={24} />
               </span>
 
-              <h3 className="mt-10 text-[clamp(1.7rem,3vw,2.8rem)] font-semibold tracking-[-.05em]">
-                Careers that move people forward.
-              </h3>
+              <h3 className="mt-6 text-[20px] font-semibold leading-[1.2] tracking-[-.04em] sm:mt-10 sm:text-[clamp(1.7rem,3vw,2.8rem)] sm:tracking-[-.05em]">
+  Careers that move people forward.
+</h3>
 
-              <p className="mt-5 max-w-[520px] text-[14px] leading-8 text-[#17191C]/70">
+              <p className="mt-4 max-w-[520px] text-[11px] leading-[1.75] text-[#17191C]/70 sm:mt-5 sm:text-[14px] sm:leading-8">
                 The second aim is to create skilled
                 jobs and careers for people in Sri Lanka.
                 Each new client account opens roles for
@@ -897,20 +945,20 @@ export default function AboutFirstNotchPage() {
 
       <section
         id="values"
-        className="bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[140px]"
+        className="bg-white px-5 py-[45px] sm:px-8 sm:py-[100px] lg:px-14 lg:py-[140px]"
       >
         <div className="mx-auto max-w-[1420px]">
-          <div className="grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+          <div className="grid gap-4 sm:gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
             <div>
               <p
                 data-about-in
-                className={eyebrow}
+                className="text-[8px] font-semibold uppercase tracking-[.18em] text-[#B12025] sm:text-[11px] sm:tracking-[.22em]"
               >
                 OUR PRINCIPLES
               </p>
 
               <h2
-                className={`${heading} mt-5`}
+               className="mt-3 text-[30px] font-semibold leading-[1.05] tracking-[-.055em] sm:mt-5 sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]"
               >
                 <ScrollWords
                   text="The values behind the work"
@@ -920,7 +968,7 @@ export default function AboutFirstNotchPage() {
 
             <p
               data-about-in
-              className="max-w-[550px] text-[14px] leading-8 text-[#17191C]/65"
+              className="max-w-[550px] text-[11px] leading-[1.7] text-[#17191C]/65 sm:text-[14px] sm:leading-8"
             >
               These eight values guide how the
               team hires, trains and works on
@@ -928,27 +976,30 @@ export default function AboutFirstNotchPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+         <div
+  data-values-slider
+  className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 xl:grid-cols-4"
+>
             {VALUES.map((value, index) => (
               <article
                 key={value.title}
                 data-about-in
-                className="group flex min-h-[310px] flex-col rounded-[25px] border border-[#B12025]/15 bg-[#fffafa] p-7 transition-colors duration-300 hover:border-[#B12025] hover:bg-[#B12025] hover:text-white"
+               className="group flex h-[210px] w-[82%] shrink-0 snap-center flex-col rounded-[20px] border border-[#B12025]/15 bg-[#fffafa] p-5 transition-colors duration-300 hover:border-[#B12025] hover:bg-[#B12025] hover:text-white sm:h-auto sm:min-h-[310px] sm:w-auto sm:rounded-[25px] sm:p-7"
               >
                 <div className="flex items-start justify-between">
-                  <value.Icon
-                    size={27}
-                    strokeWidth={1.5}
-                    className="text-[#B12025] transition-colors group-hover:text-white"
-                  />
+                 <value.Icon
+  size={20}
+  strokeWidth={1.5}
+  className="text-[#B12025] transition-colors group-hover:text-white sm:h-[27px] sm:w-[27px]"
+/>
 
-                  <span className="text-[11px] font-semibold text-[#B12025] group-hover:text-white/75">
+                  <span className="text-[9px] font-semibold text-[#B12025] group-hover:text-white/75 sm:text-[11px]">
                     0{index + 1}
                   </span>
                 </div>
 
-                <div className="mt-auto pt-12">
-                  <h3 className="text-[22px] font-semibold leading-[1.2] tracking-[-.04em]">
+                <div className="mt-auto pt-4 sm:pt-12">
+                  <h3 className="text-[17px] font-semibold leading-[1.2] tracking-[-.035em] sm:text-[22px] sm:tracking-[-.04em]">
                     {value.title}
                   </h3>
 
@@ -968,19 +1019,19 @@ export default function AboutFirstNotchPage() {
 
       <section
         id="who-we-work-with"
-        className="bg-[#fff8f8] px-5 py-[105px] sm:px-8 lg:px-14 lg:py-[140px]"
+        className="bg-[#fff8f8] px-5 py-[45px] sm:px-8 sm:py-[105px] lg:px-14 lg:py-[140px]"
       >
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+       <div className="mx-auto grid max-w-[1420px] gap-6 sm:gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div>
             <p
               data-about-in
-              className={eyebrow}
+              className="text-[8px] font-semibold uppercase tracking-[.18em] text-[#B12025] sm:text-[11px] sm:tracking-[.22em]"
             >
               WORKING TOGETHER
             </p>
 
             <h2
-              className={`${heading} mt-5`}
+              className="mt-3 text-[30px] font-semibold leading-[1.05] tracking-[-.055em] sm:mt-5 sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]"
             >
               <ScrollWords
                 text="Who FirstNotch works with"
@@ -991,7 +1042,7 @@ export default function AboutFirstNotchPage() {
           <div>
             <p
               data-about-in
-              className="text-[15px] leading-[1.95] text-[#17191C]/70"
+             className="text-[11px] leading-[1.75] text-[#17191C]/70 sm:text-[15px] sm:leading-[1.95]"
             >
               Clients are businesses that want
               reliable help they can scale up
@@ -1003,14 +1054,14 @@ export default function AboutFirstNotchPage() {
 
             <p
               data-about-in
-              className="mt-6 text-[15px] leading-[1.95] text-[#17191C]/70"
+             className="mt-3 text-[11px] leading-[1.75] text-[#17191C]/70 sm:mt-6 sm:text-[15px] sm:leading-[1.95]"
             >
               Clients are based in Sri Lanka
               and in the UK, Australia and
               the Middle East.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-nowrap items-center gap-1.5 sm:mt-8 sm:flex-wrap sm:gap-2">
               {[
                 'Sri Lanka',
                 'United Kingdom',
@@ -1019,7 +1070,7 @@ export default function AboutFirstNotchPage() {
               ].map((place) => (
                 <span
                   key={place}
-                  className="rounded-full border border-[#B12025]/20 bg-white px-4 py-2.5 text-[11px] font-semibold text-[#B12025]"
+                 className="whitespace-nowrap rounded-full border border-[#B12025]/20 bg-white px-2.5 py-2 text-[8px] font-semibold text-[#B12025] sm:px-4 sm:py-2.5 sm:text-[11px]"
                 >
                   {place}
                 </span>
@@ -1028,11 +1079,11 @@ export default function AboutFirstNotchPage() {
 
             <div
               data-about-in
-              className="mt-10 flex flex-wrap gap-3"
+             className="mt-6 flex flex-nowrap items-center gap-2 sm:mt-10 sm:flex-wrap sm:gap-3"
             >
               <Link
                 href="/how-we-hire"
-                className="inline-flex items-center gap-2 rounded-full bg-[#B12025] px-5 py-3.5 text-[12px] font-semibold text-white"
+                className="inline-flex min-h-[40px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#B12025] px-3 text-[9px] font-semibold text-white sm:min-h-0 sm:flex-none sm:gap-2 sm:px-5 sm:py-3.5 sm:text-[12px]"
               >
                 How the team is hired
                 <MoveUpRight size={17} />
@@ -1040,10 +1091,10 @@ export default function AboutFirstNotchPage() {
 
               <Link
                 href="/work-with-us"
-                className="inline-flex items-center gap-2 rounded-full border border-[#B12025]/20 bg-white px-5 py-3.5 text-[12px] font-semibold text-[#B12025]"
+               className="inline-flex min-h-[40px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#B12025]/20 bg-white px-3 text-[9px] font-semibold text-[#B12025] sm:min-h-0 sm:flex-none sm:gap-2 sm:px-5 sm:py-3.5 sm:text-[12px]"
               >
                 Jobs at FirstNotch
-                <ArrowUpRight size={17} />
+                <ArrowUpRight className="h-[13px] w-[13px] sm:h-[17px] sm:w-[17px]" />
               </Link>
             </div>
           </div>
@@ -1056,7 +1107,7 @@ export default function AboutFirstNotchPage() {
 
       <section
         id="leadership"
-        className="bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[140px]"
+        className="bg-white px-5 py-[45px] sm:px-8 sm:py-[100px] lg:px-14 lg:py-[140px]"
       >
         <div className="mx-auto max-w-[1420px]">
           <p
@@ -1067,7 +1118,7 @@ export default function AboutFirstNotchPage() {
           </p>
 
           <h2
-            className={`${heading} mt-5 max-w-[980px]`}
+            className="mt-3 max-w-[980px] text-[30px] font-semibold leading-[1.05] tracking-[-.055em] sm:mt-5 sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]"
           >
             <ScrollWords
               text="The leadership team"
@@ -1076,36 +1127,36 @@ export default function AboutFirstNotchPage() {
 
           <p
             data-about-in
-            className="mt-5 max-w-[720px] text-[14px] leading-8 text-[#17191C]/65"
+            className="mt-3 max-w-[720px] text-[11px] leading-[1.7] text-[#17191C]/65 sm:mt-5 sm:text-[14px] sm:leading-8"
           >
             The people responsible for client
             accounts and for the team in Colombo.
           </p>
 
-          <div className="mt-11 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-11 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0">
             {LEADERS.map((person) => (
               <article
                 key={person.number}
                 data-about-in
-                className="rounded-[26px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-9"
+                className="w-[82%] shrink-0 snap-center rounded-[20px] border border-[#B12025]/15 bg-[#fff9f9] p-5 sm:w-auto sm:rounded-[26px] sm:p-9"
               >
                 <span
                   aria-hidden="true"
-                  className="flex h-[130px] w-full items-center justify-center rounded-[18px] bg-white text-[#B12025]/30"
+                 className="flex h-[85px] w-full items-center justify-center rounded-[14px] bg-white text-[#B12025]/30 sm:h-[130px] sm:rounded-[18px]"
                 >
                   <BriefcaseBusiness
-                    size={40}
-                    strokeWidth={1.3}
-                  />
+  className="h-[26px] w-[26px] sm:h-10 sm:w-10"
+  strokeWidth={1.3}
+/>
                 </span>
 
-                <div className="mt-8 flex items-start justify-between gap-3">
+                <div className="mt-5 flex items-start justify-between gap-3 sm:mt-8">
                   <div>
-                    <h3 className="text-[21px] font-semibold tracking-[-.035em]">
+                    <h3 className="text-[16px] font-semibold tracking-[-.035em] sm:text-[21px]">
                       {person.title}
                     </h3>
 
-                    <p className="mt-3 text-[12px] leading-7 text-[#17191C]/55">
+                    <p className="mt-2 text-[9px] leading-[1.6] text-[#17191C]/55 sm:mt-3 sm:text-[12px] sm:leading-7">
                       {person.prompt}
                     </p>
                   </div>
@@ -1132,26 +1183,17 @@ export default function AboutFirstNotchPage() {
 
       <section
         aria-label="Furniture retailer testimonial"
-        className="overflow-hidden bg-[#B12025] px-5 py-[110px] text-white sm:px-8 lg:px-14 lg:py-[150px]"
+       className="overflow-hidden bg-[#B12025] px-5 py-[55px] text-white sm:px-8 sm:py-[110px] lg:px-14 lg:py-[150px]"
       >
         <div className="mx-auto max-w-[1420px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[.22em] text-white/75">
-            FURNITURE RETAILER
-          </p>
-
-          <span
-            aria-hidden="true"
-            className="mt-5 block text-[110px] font-semibold leading-[.85] text-white/25"
-          >
-            “
-          </span>
+         
 
           <blockquote>
             <p
               data-about-quote
               role="text"
               aria-label={QUOTE}
-              className="mt-4 max-w-[1160px] text-[clamp(2rem,4.3vw,5rem)] font-semibold leading-[1.35] tracking-[-.06em]"
+             className="mt-2 max-w-[1160px] text-[24px] font-semibold leading-[1.28] tracking-[-.045em] sm:mt-4 sm:text-[clamp(2rem,4.3vw,5rem)] sm:leading-[1.35] sm:tracking-[-.06em]"
             >
               {QUOTE.split(/\s+/).map(
                 (word, i) => (
@@ -1168,9 +1210,7 @@ export default function AboutFirstNotchPage() {
               )}
             </p>
 
-            <footer className="mt-10 border-t border-white/25 pt-5 text-[12px] font-semibold tracking-[.1em] text-white/80">
-              Furniture retailer
-            </footer>
+            
           </blockquote>
         </div>
       </section>
@@ -1179,18 +1219,18 @@ export default function AboutFirstNotchPage() {
           FINAL DISCOVERY CALL CTA
       ============================================== */}
 
-      <section className="bg-white px-5 py-[90px] sm:px-8 lg:px-14 lg:py-[115px]">
-        <div className="mx-auto flex max-w-[1420px] flex-wrap items-end justify-between gap-8">
+      <section className="bg-white px-5 py-[42px] sm:px-8 sm:py-[90px] lg:px-14 lg:py-[115px]">
+       <div className="mx-auto flex max-w-[1420px] flex-wrap items-end justify-between gap-5 sm:gap-8">
           <div>
             <p
               data-about-in
-              className={eyebrow}
+             className="text-[8px] font-semibold uppercase tracking-[.18em] text-[#B12025] sm:text-[11px] sm:tracking-[.22em]"
             >
               LET&apos;S WORK TOGETHER
             </p>
 
             <h2
-              className={`${heading} mt-5 max-w-[860px]`}
+              className="mt-3 max-w-[860px] text-[30px] font-semibold leading-[1.06] tracking-[-.055em] sm:mt-5 sm:text-[clamp(2.7rem,5.3vw,6.2rem)] sm:leading-[1.09] sm:tracking-[-.068em]"
             >
               <ScrollWords
                 text="Put the right team behind your business."
@@ -1200,7 +1240,7 @@ export default function AboutFirstNotchPage() {
 
           <a
             href="#contact"
-            className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white"
+          className="inline-flex min-h-[40px] items-center gap-2 rounded-full bg-[#B12025] px-4 text-[9px] font-semibold text-white sm:min-h-[52px] sm:gap-3 sm:px-6 sm:text-[12px]"
           >
             Book a free discovery call
             <ArrowUpRight size={17} />
