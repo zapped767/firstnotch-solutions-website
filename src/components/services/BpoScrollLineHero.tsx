@@ -391,14 +391,20 @@ export default function BpoScrollLineHero() {
     <section
       id="bpo-hero"
       className="
-        relative isolate flex min-h-[850px]
-        w-full items-center justify-center
-        overflow-hidden bg-[#17191C]
-        px-[22px] pb-[110px] pt-[130px]
-        text-white
-        sm:px-[40px]
-        lg:min-h-[900px] lg:px-[65px]
-      "
+  relative isolate flex min-h-[850px]
+  w-full items-center justify-center
+  overflow-hidden bg-[#17191C]
+  px-[22px] pb-[110px] pt-[130px]
+  text-white
+
+  max-sm:min-h-0
+  max-sm:px-[18px]
+  max-sm:pb-[58px]
+  max-sm:pt-[70px]
+
+  sm:px-[40px]
+  lg:min-h-[900px] lg:px-[65px]
+"
     >
       <CosmicParallaxBg
         head="BPO & BACK OFFICE"
@@ -410,7 +416,23 @@ export default function BpoScrollLineHero() {
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
 
         {/* EYEBROW */}
-        <p className="cosmic-reveal cosmic-reveal-1 mb-[30px] text-[10px] font-bold uppercase tracking-[0.25em] text-[#FF8589] sm:text-[11px]">
+       <p className="
+  cosmic-reveal cosmic-reveal-1
+  mb-[30px]
+  text-[10px]
+  font-bold
+  uppercase
+  tracking-[0.25em]
+  text-[#FF8589]
+
+  max-sm:mb-[16px]
+  max-sm:max-w-[280px]
+  max-sm:text-[8px]
+  max-sm:leading-[1.6]
+  max-sm:tracking-[0.18em]
+
+  sm:text-[11px]
+">
           BPO and Back Office Outsourcing in Sri Lanka
         </p>
 
@@ -421,10 +443,15 @@ export default function BpoScrollLineHero() {
             mx-auto max-w-[1100px]
             text-center
             text-[clamp(42px,5.8vw,88px)]
-            font-semibold
-            leading-[1.08]
-            tracking-[-0.065em]
-            text-white
+font-semibold
+leading-[1.08]
+tracking-[-0.065em]
+text-white
+
+max-sm:max-w-[305px]
+max-sm:text-[34px]
+max-sm:leading-[1.08]
+max-sm:tracking-[-0.05em]
           "
         >
           Back office work
@@ -443,15 +470,23 @@ export default function BpoScrollLineHero() {
         {/* DESCRIPTION */}
         <div
           className="
-            cosmic-reveal cosmic-reveal-3
-            mx-auto mt-[32px]
-            max-w-[720px]
-            space-y-[15px]
-            text-center
-            text-[14px] leading-[1.9]
-            text-white/65
-            sm:text-[15px]
-          "
+  cosmic-reveal cosmic-reveal-3
+  mx-auto mt-[32px]
+  max-w-[720px]
+  space-y-[15px]
+  text-center
+  text-[14px]
+  leading-[1.9]
+  text-white/65
+
+  max-sm:mt-[20px]
+  max-sm:max-w-[300px]
+  max-sm:space-y-[9px]
+  max-sm:text-[10px]
+  max-sm:leading-[1.65]
+
+  sm:text-[15px]
+"
         >
           <p>
             Back office work builds up as a business grows.
@@ -469,16 +504,36 @@ export default function BpoScrollLineHero() {
         </div>
 
         {/* CTA BUTTONS */}
-        <div className="cosmic-reveal cosmic-reveal-4 mt-[35px] flex flex-wrap items-center justify-center gap-[12px]">
+      <div className="
+  cosmic-reveal cosmic-reveal-4
+  mt-[35px]
+  flex
+  flex-wrap
+  items-center
+  justify-center
+  gap-[12px]
+
+  max-sm:mt-[22px]
+  max-sm:w-full
+  max-sm:flex-nowrap
+  max-sm:gap-[7px]
+">
 
           <a
             href="#bpo-services"
             className="
-              group inline-flex min-h-[50px]
-              items-center justify-center gap-[12px]
-              rounded-full bg-[#B12025]
-              px-[26px] text-[12px]
-              font-semibold text-white
+             group inline-flex min-h-[50px]
+items-center justify-center gap-[12px]
+rounded-full bg-[#B12025]
+px-[26px] text-[12px]
+font-semibold text-white
+
+max-sm:min-h-[38px]
+max-sm:flex-1
+max-sm:gap-[6px]
+max-sm:px-[10px]
+max-sm:text-[9px]
+max-sm:whitespace-nowrap
               transition-all duration-300
               hover:bg-[#D32A30]
             "
@@ -493,11 +548,18 @@ export default function BpoScrollLineHero() {
           <Link
             href="/book-a-free-call"
             className="
-              group inline-flex min-h-[50px]
-              items-center justify-center gap-[12px]
-              rounded-full border border-white/25
-              bg-white/10 px-[26px]
-              text-[12px] font-semibold
+             group inline-flex min-h-[50px]
+items-center justify-center gap-[12px]
+rounded-full border border-white/25
+bg-white/10 px-[26px]
+text-[12px] font-semibold
+
+max-sm:min-h-[38px]
+max-sm:flex-1
+max-sm:gap-[6px]
+max-sm:px-[10px]
+max-sm:text-[8px]
+max-sm:whitespace-nowrap
               text-white backdrop-blur-md
               transition-all duration-300
               hover:border-white
@@ -511,7 +573,21 @@ export default function BpoScrollLineHero() {
         </div>
 
         {/* TRUST POINTS */}
-        <div className="cosmic-reveal cosmic-reveal-5 mt-[38px] flex flex-wrap items-center justify-center gap-x-[26px] gap-y-[12px] text-[11px] font-medium text-white/60">
+        <div className="
+  cosmic-reveal cosmic-reveal-5
+  mt-[38px]
+  flex flex-wrap
+  items-center justify-center
+  gap-x-[26px] gap-y-[12px]
+  text-[11px] font-medium
+  text-white/60
+
+  max-sm:mt-[20px]
+  max-sm:flex-nowrap
+  max-sm:gap-x-[10px]
+  max-sm:text-[7px]
+  max-sm:whitespace-nowrap
+">
 
           <span className="flex items-center gap-[8px]">
             <CheckCircle2
@@ -551,6 +627,7 @@ export default function BpoScrollLineHero() {
           text-[10px] font-semibold
           uppercase tracking-[0.18em]
           text-white/55
+          max-sm:hidden
         "
       >
         Scroll to explore

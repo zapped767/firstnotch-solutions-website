@@ -684,6 +684,7 @@ function CrowdCanvas({
 
 /* =========================================================
    FAQ ITEM
+   MOBILE ONLY COMPACT VERSION
 ========================================================= */
 
 function FAQItem({
@@ -717,6 +718,9 @@ function FAQItem({
           py-5
           text-left
 
+          max-sm:gap-[10px]
+          max-sm:py-[14px]
+
           sm:py-7
         "
       >
@@ -728,6 +732,9 @@ function FAQItem({
             leading-[1.3]
             tracking-[-0.03em]
             text-[#17191C]
+
+            max-sm:text-[13px]
+            max-sm:leading-[1.25]
 
             sm:text-[22px]
 
@@ -751,6 +758,9 @@ function FAQItem({
             transition-all
             duration-300
 
+            max-sm:h-[30px]
+            max-sm:w-[30px]
+
             sm:h-11
             sm:w-11
 
@@ -765,6 +775,9 @@ function FAQItem({
             className="
               h-4
               w-4
+
+              max-sm:h-[12px]
+              max-sm:w-[12px]
             "
           />
         </span>
@@ -793,6 +806,11 @@ function FAQItem({
               leading-[1.8]
               text-[#17191C]/65
 
+              max-sm:pb-[14px]
+              max-sm:pr-[32px]
+              max-sm:text-[9px]
+              max-sm:leading-[1.6]
+
               sm:pb-8
               sm:text-[14px]
               sm:leading-[1.9]
@@ -805,6 +823,11 @@ function FAQItem({
     </div>
   );
 }
+
+/* =========================================================
+   RISING WORDS
+========================================================= */
+
 function RisingWords({
   text,
   className = '',
@@ -814,22 +837,35 @@ function RisingWords({
 }) {
   return (
     <span className={className}>
-      {text.split(' ').map((word, index) => (
-        <span
-          key={`${word}-${index}`}
-          className="mr-[0.22em] inline-block overflow-hidden align-bottom"
-        >
-          <span
-            data-rise-word
-            className="inline-block"
-          >
-            {word}
-          </span>
-        </span>
-      ))}
+      {text
+        .split(' ')
+        .map(
+          (
+            word,
+            index,
+          ) => (
+            <span
+              key={`${word}-${index}`}
+              className="
+                mr-[0.22em]
+                inline-block
+                overflow-hidden
+                align-bottom
+              "
+            >
+              <span
+                data-rise-word
+                className="inline-block"
+              >
+                {word}
+              </span>
+            </span>
+          ),
+        )}
     </span>
   );
 }
+
 /* =========================================================
    PAGE
 ========================================================= */
@@ -841,198 +877,261 @@ export default function ITServicesPage() {
   const serviceTrackRef =
     useRef<HTMLDivElement>(null);
 
+  /*
+   * MOBILE PROCESS AUTO SCROLL
+   *
+   * This ref is only used by the mobile process carousel.
+   * Tablet + desktop layout remains unchanged.
+   */
+  const processTrackRef =
+    useRef<HTMLDivElement>(null);
+
   const [faqOpen, setFaqOpen] =
     useState<number | null>(0);
-const [stat98, setStat98] = useState(0);
-const [stat85, setStat85] = useState(0);
-const [stat15, setStat15] = useState(0);
-const [stat20, setStat20] = useState(0);
- /* =======================================================
-   HERO + WORD RISING ANIMATION
-======================================================= */
 
-useEffect(() => {
-  const root = rootRef.current;
+  const [stat98, setStat98] =
+    useState(0);
 
-  if (!root) return;
+  const [stat85, setStat85] =
+    useState(0);
 
-  const ctx = gsap.context(() => {
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
+  const [stat15, setStat15] =
+    useState(0);
 
-    if (reduceMotion) {
-      gsap.set('[data-rise-word]', {
-        yPercent: 0,
-        opacity: 1,
-      });
+  const [stat20, setStat20] =
+    useState(0);
 
-      return;
-    }
+  /* =======================================================
+     HERO + WORD RISING ANIMATION
+  ======================================================= */
 
-    gsap.set('[data-rise-word]', {
-      yPercent: 115,
-      opacity: 0,
-    });
+  useEffect(() => {
+    const root =
+      rootRef.current;
 
-    const timeline = gsap.timeline({
-      defaults: {
-        ease: 'power4.out',
-      },
-    });
+    if (!root) return;
 
-    timeline.fromTo(
-      '[data-hero-eyebrow]',
-      {
-        opacity: 0,
-        y: 15,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-      },
-    );
+    const ctx =
+      gsap.context(() => {
+        const reduceMotion =
+          window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+          ).matches;
 
-    timeline.to(
-      '[data-rise-word]',
-      {
-        yPercent: 0,
-        opacity: 1,
-        duration: 0.95,
-        stagger: 0.045,
-      },
-      '-=0.25',
-    );
+        if (reduceMotion) {
+          gsap.set(
+            '[data-rise-word]',
+            {
+              yPercent: 0,
+              opacity: 1,
+            },
+          );
 
-    timeline.fromTo(
-      '[data-hero-copy]',
-      {
-        opacity: 0,
-        y: 25,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.75,
-        stagger: 0.1,
-      },
-      '-=0.45',
-    );
+          return;
+        }
 
-    timeline.fromTo(
-      '[data-hero-stats]',
-      {
-        opacity: 0,
-        y: 25,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-      },
-      '-=0.35',
-    );
+        gsap.set(
+          '[data-rise-word]',
+          {
+            yPercent: 115,
+            opacity: 0,
+          },
+        );
 
-    gsap.to('[data-down-arrow]', {
-      y: 5,
-      duration: 0.65,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-    });
-  }, root);
+        const timeline =
+          gsap.timeline({
+            defaults: {
+              ease: 'power4.out',
+            },
+          });
 
-  return () => ctx.revert();
-}, []);
-/* =======================================================
-   STAT AUTO INCREMENT
-======================================================= */
+        timeline.fromTo(
+          '[data-hero-eyebrow]',
+          {
+            opacity: 0,
+            y: 15,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+          },
+        );
 
-useEffect(() => {
-  const heroStats =
-    document.getElementById('hero-stats');
+        timeline.to(
+          '[data-rise-word]',
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.95,
+            stagger: 0.045,
+          },
+          '-=0.25',
+        );
 
-  if (!heroStats) return;
+        timeline.fromTo(
+          '[data-hero-copy]',
+          {
+            opacity: 0,
+            y: 25,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+          },
+          '-=0.45',
+        );
 
-  let hasAnimated = false;
+        timeline.fromTo(
+          '[data-hero-stats]',
+          {
+            opacity: 0,
+            y: 25,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+          },
+          '-=0.35',
+        );
 
-  const animateValue = (
-    setter: React.Dispatch<React.SetStateAction<number>>,
-    target: number,
-    duration: number,
-  ) => {
-    const startTime = performance.now();
+        gsap.to(
+          '[data-down-arrow]',
+          {
+            y: 5,
+            duration: 0.65,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+          },
+        );
+      }, root);
 
-    const update = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
+    return () =>
+      ctx.revert();
+  }, []);
 
-      const progress = Math.min(
-        elapsed / duration,
-        1,
+  /* =======================================================
+     STAT AUTO INCREMENT
+  ======================================================= */
+
+  useEffect(() => {
+    const heroStats =
+      document.getElementById(
+        'hero-stats',
       );
 
-      const eased =
-        1 - Math.pow(1 - progress, 3);
+    if (!heroStats) return;
 
-      setter(
-        Math.round(target * eased),
+    let hasAnimated = false;
+
+    const animateValue = (
+      setter: React.Dispatch<
+        React.SetStateAction<number>
+      >,
+      target: number,
+      duration: number,
+    ) => {
+      const startTime =
+        performance.now();
+
+      const update = (
+        currentTime: number,
+      ) => {
+        const elapsed =
+          currentTime -
+          startTime;
+
+        const progress =
+          Math.min(
+            elapsed /
+              duration,
+            1,
+          );
+
+        const eased =
+          1 -
+          Math.pow(
+            1 - progress,
+            3,
+          );
+
+        setter(
+          Math.round(
+            target * eased,
+          ),
+        );
+
+        if (
+          progress < 1
+        ) {
+          requestAnimationFrame(
+            update,
+          );
+        }
+      };
+
+      requestAnimationFrame(
+        update,
       );
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      }
     };
 
-    requestAnimationFrame(update);
-  };
+    const observer =
+      new IntersectionObserver(
+        ([entry]) => {
+          if (
+            entry.isIntersecting &&
+            !hasAnimated
+          ) {
+            hasAnimated =
+              true;
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (
-        entry.isIntersecting &&
-        !hasAnimated
-      ) {
-        hasAnimated = true;
+            animateValue(
+              setStat98,
+              98,
+              1500,
+            );
 
-        animateValue(
-          setStat98,
-          98,
-          1500,
-        );
+            animateValue(
+              setStat85,
+              85,
+              1500,
+            );
 
-        animateValue(
-          setStat85,
-          85,
-          1500,
-        );
+            animateValue(
+              setStat15,
+              15,
+              1300,
+            );
 
-        animateValue(
-          setStat15,
-          15,
-          1300,
-        );
+            animateValue(
+              setStat20,
+              20,
+              1400,
+            );
 
-        animateValue(
-          setStat20,
-          20,
-          1400,
-        );
+            observer.disconnect();
+          }
+        },
+        {
+          threshold: 0.25,
+        },
+      );
 
-        observer.disconnect();
-      }
-    },
-    {
-      threshold: 0.25,
-    },
-  );
+    observer.observe(
+      heroStats,
+    );
 
-  observer.observe(heroStats);
+    return () =>
+      observer.disconnect();
+  }, []);
 
-  return () => observer.disconnect();
-}, []);
   /* =======================================================
-     MOBILE AUTO SERVICE CARDS
+     MOBILE ONLY — AUTO SERVICE CARDS
+     Desktop / tablet are untouched
   ======================================================= */
 
   useEffect(() => {
@@ -1113,7 +1212,8 @@ useEffect(() => {
       }
 
       currentIndex =
-        (currentIndex + 1) %
+        (currentIndex +
+          1) %
         cards.length;
 
       scrollToCard(
@@ -1141,7 +1241,9 @@ useEffect(() => {
     const pause = () => {
       stop();
 
-      if (resumeTimer) {
+      if (
+        resumeTimer
+      ) {
         clearTimeout(
           resumeTimer,
         );
@@ -1172,7 +1274,9 @@ useEffect(() => {
     return () => {
       stop();
 
-      if (resumeTimer) {
+      if (
+        resumeTimer
+      ) {
         clearTimeout(
           resumeTimer,
         );
@@ -1190,6 +1294,193 @@ useEffect(() => {
     };
   }, []);
 
+  /* =======================================================
+     MOBILE ONLY — PROCESS CARDS AUTO SIDE SCROLL
+
+     IMPORTANT:
+     scrollTo() is used instead of scrollIntoView().
+     This prevents the whole page from jumping vertically.
+  ======================================================= */
+
+  useEffect(() => {
+    const track =
+      processTrackRef.current;
+
+    if (!track) return;
+
+    const mobile =
+      window.matchMedia(
+        '(max-width: 639px)',
+      );
+
+    const reducedMotion =
+      window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      );
+
+    if (
+      !mobile.matches ||
+      reducedMotion.matches
+    ) {
+      return;
+    }
+
+    let currentIndex = 0;
+
+    let interval:
+      | ReturnType<
+          typeof setInterval
+        >
+      | undefined;
+
+    let resumeTimer:
+      | ReturnType<
+          typeof setTimeout
+        >
+      | undefined;
+
+    const getCards = () =>
+      Array.from(
+        track.querySelectorAll<HTMLElement>(
+          '[data-process-card]',
+        ),
+      );
+
+    const stop = () => {
+      if (!interval)
+        return;
+
+      clearInterval(
+        interval,
+      );
+
+      interval =
+        undefined;
+    };
+
+    const scrollToCard = (
+      index: number,
+    ) => {
+      const cards =
+        getCards();
+
+      const card =
+        cards[index];
+
+      if (!card)
+        return;
+
+      track.scrollTo({
+        left:
+          card.offsetLeft -
+          track.offsetLeft,
+
+        behavior:
+          'smooth',
+      });
+    };
+
+    const next = () => {
+      const cards =
+        getCards();
+
+      if (
+        cards.length < 2
+      ) {
+        return;
+      }
+
+      currentIndex =
+        (currentIndex +
+          1) %
+        cards.length;
+
+      scrollToCard(
+        currentIndex,
+      );
+    };
+
+    const start = () => {
+      stop();
+
+      if (
+        !mobile.matches ||
+        reducedMotion.matches
+      ) {
+        return;
+      }
+
+      interval =
+        setInterval(
+          next,
+          2800,
+        );
+    };
+
+    /*
+     * If the user manually swipes the cards,
+     * pause automatic movement for a few seconds.
+     */
+    const pause = () => {
+      stop();
+
+      if (
+        resumeTimer
+      ) {
+        clearTimeout(
+          resumeTimer,
+        );
+      }
+
+      resumeTimer =
+        setTimeout(
+          start,
+          5500,
+        );
+    };
+
+    track.addEventListener(
+      'touchstart',
+      pause,
+      {
+        passive: true,
+      },
+    );
+
+    track.addEventListener(
+      'pointerdown',
+      pause,
+    );
+
+    start();
+
+    return () => {
+      stop();
+
+      if (
+        resumeTimer
+      ) {
+        clearTimeout(
+          resumeTimer,
+        );
+      }
+
+      track.removeEventListener(
+        'touchstart',
+        pause,
+      );
+
+      track.removeEventListener(
+        'pointerdown',
+        pause,
+      );
+    };
+  }, []);
+
+  /* =======================================================
+     SCROLL TO SERVICES
+  ======================================================= */
+
   const scrollToServices =
     () => {
       document
@@ -1197,7 +1488,8 @@ useEffect(() => {
           'it-services-list',
         )
         ?.scrollIntoView({
-          behavior: 'smooth',
+          behavior:
+            'smooth',
           block: 'start',
         });
     };
@@ -1210,518 +1502,613 @@ useEffect(() => {
         text-[#17191C]
       "
     >
-   {/* ===================================================
-    01 — WHITE HERO + ANIMATED CROWD BEHIND TEXT
-=================================================== */}
+            {/* ===================================================
+          01 — WHITE HERO + ANIMATED CROWD BEHIND TEXT
+      =================================================== */}
 
-<section
-  aria-labelledby="it-services-title"
-  className="
-    relative
-    isolate
-    overflow-hidden
-    bg-white
-    px-5
-    pb-[100px]
-    pt-[125px]
-
-    sm:px-8
-    sm:pb-[130px]
-    sm:pt-[160px]
-
-    lg:px-14
-    lg:pb-[150px]
-    lg:pt-[185px]
-  "
->
-  {/* =================================================
-      ANIMATED CANVAS CROWD — BEHIND HERO TEXT
-  ================================================= */}
-
-  <div
-    aria-hidden="true"
-    className="
-      pointer-events-none
-      absolute
-      inset-x-0
-      bottom-0
-      z-0
-      h-[390px]
-      overflow-hidden
-
-      sm:h-[500px]
-      lg:h-[620px]
-    "
-  >
-    <div
-      className="
-        absolute
-        inset-0
-        opacity-[0.13]
-
-        sm:opacity-[0.15]
-        lg:opacity-[0.17]
-      "
-    >
-      <CrowdCanvas
-        src="https://cdn.21st.dev/assets/localized/abdb8990a7bef8c2f5af3e45f0a3c969c4b0603fba8be92e81347de4ea4e1ed7.png"
-        rows={15}
-        cols={7}
-      />
-    </div>
-
-    {/* Soft white fade from the heading into the crowd */}
-    <div
-      className="
-        absolute
-        inset-x-0
-        top-0
-        h-[150px]
-        bg-gradient-to-b
-        from-white
-        via-white/75
-        to-transparent
-
-        sm:h-[190px]
-        lg:h-[220px]
-      "
-    />
-
-    {/* Bottom fade keeps the hero transition clean */}
-    <div
-      className="
-        absolute
-        inset-x-0
-        bottom-0
-        h-[70px]
-        bg-gradient-to-t
-        from-white
-        to-transparent
-      "
-    />
-  </div>
-
-  {/* Subtle white centre veil for text readability */}
-  <div
-    aria-hidden="true"
-    className="
-      pointer-events-none
-      absolute
-      left-1/2
-      top-[54%]
-      z-[1]
-      h-[470px]
-      w-[92%]
-      max-w-[1120px]
-      -translate-x-1/2
-      -translate-y-1/2
-      rounded-[50%]
-      bg-white/58
-      blur-[48px]
-
-      sm:bg-white/52
-      lg:bg-white/45
-    "
-  />
-
-  {/* =================================================
-      HERO CONTENT
-  ================================================= */}
-
-  <div
-    className="
-      relative
-      z-20
-      mx-auto
-      max-w-[1450px]
-    "
-  >
-    {/* EYEBROW */}
-
-    <p
-      data-hero-eyebrow
-      className="
-        text-center
-        text-[9px]
-        font-bold
-        uppercase
-        tracking-[0.25em]
-        text-[#B12025]
-
-        sm:text-[11px]
-      "
-    >
-      IT SERVICES IN SRI LANKA
-    </p>
-
-    {/* H1 — WORD RISING */}
-
-    <h1
-      id="it-services-title"
-      className="
-        mx-auto
-        mt-5
-        max-w-[1450px]
-        text-center
-        text-[clamp(2.35rem,10vw,4rem)]
-        font-semibold
-        leading-[1.02]
-        tracking-[-0.065em]
-        text-[#B12025]
-
-        sm:mt-7
-        sm:text-[clamp(3.8rem,6.2vw,6.6rem)]
-
-        lg:whitespace-nowrap
-        lg:text-[clamp(4.2rem,5.4vw,6.6rem)]
-      "
-    >
-      <RisingWords
-        text="One IT Services Team in Colombo,"
-      />
-    </h1>
-
-    <p
-      className="
-        mx-auto
-        mt-4
-        max-w-[1180px]
-        text-center
-        text-[clamp(1.45rem,6vw,2.2rem)]
-        font-semibold
-        leading-[1.08]
-        tracking-[-0.045em]
-        text-[#B12025]
-
-        sm:mt-5
-        sm:text-[clamp(2rem,3.5vw,3.5rem)]
-
-        lg:text-[clamp(2.4rem,3vw,3.6rem)]
-      "
-    >
-      <RisingWords
-        text="From Building Your Website to Answering Your Customers' Technical Questions."
-      />
-    </p>
-
-    {/* DESCRIPTION */}
-
-    <div
-      className="
-        relative
-        z-20
-        mx-auto
-        mt-7
-        max-w-[850px]
-        text-center
-
-        sm:mt-10
-      "
-    >
-      <p
-        data-hero-copy
+      <section
+        aria-labelledby="it-services-title"
         className="
-          text-[12px]
-          leading-[1.75]
-          text-[#17191C]/65
+          relative
+          isolate
+          overflow-hidden
+          bg-white
+          px-5
+          pb-[100px]
+          pt-[125px]
 
-          sm:text-[15px]
-          sm:leading-[1.9]
+          sm:px-8
+          sm:pb-[130px]
+          sm:pt-[160px]
 
-          lg:text-[16px]
+          lg:px-14
+          lg:pb-[150px]
+          lg:pt-[185px]
         "
       >
-        Your website needs regular updates, and your
-        staff need help when a laptop or login fails.
-        If you sell software or devices, your customers
-        also need answers to technical questions.
-      </p>
+        {/* =================================================
+            ANIMATED CANVAS CROWD — BEHIND HERO TEXT
+        ================================================= */}
 
-      <p
-        data-hero-copy
-        className="
-          mx-auto
-          mt-4
-          max-w-[760px]
-          text-[12px]
-          leading-[1.75]
-          text-[#17191C]/65
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            bottom-0
+            z-0
+            h-[390px]
+            overflow-hidden
 
-          sm:mt-5
-          sm:text-[15px]
-          sm:leading-[1.9]
+            sm:h-[500px]
+            lg:h-[620px]
+          "
+        >
+          <div
+            className="
+              absolute
+              inset-0
+              opacity-[0.13]
 
-          lg:text-[16px]
-        "
-      >
-        FirstNotch&apos;s team in Colombo covers all
-        of it. Choose only the services you need.
-        Every ticket and task gets a quality score.
-      </p>
+              sm:opacity-[0.15]
+              lg:opacity-[0.17]
+            "
+          >
+            <CrowdCanvas
+              src="https://cdn.21st.dev/assets/localized/abdb8990a7bef8c2f5af3e45f0a3c969c4b0603fba8be92e81347de4ea4e1ed7.png"
+              rows={15}
+              cols={7}
+            />
+          </div>
 
-      <button
-        type="button"
-        onClick={scrollToServices}
-        data-hero-copy
-        className="
-          group
-          mt-7
-          inline-flex
-          items-center
-          gap-3
-          border-b
-          border-[#B12025]/30
-          pb-2
-          text-[11px]
-          font-semibold
-          text-[#B12025]
-          transition-colors
+          {/* Soft white fade */}
+          <div
+            className="
+              absolute
+              inset-x-0
+              top-0
+              h-[150px]
+              bg-gradient-to-b
+              from-white
+              via-white/75
+              to-transparent
 
-          hover:border-[#B12025]
+              sm:h-[190px]
+              lg:h-[220px]
+            "
+          />
 
-          sm:mt-9
-          sm:text-[13px]
-        "
-      >
-        See the four services
+          {/* Bottom fade */}
+          <div
+            className="
+              absolute
+              inset-x-0
+              bottom-0
+              h-[70px]
+              bg-gradient-to-t
+              from-white
+              to-transparent
+            "
+          />
+        </div>
 
-        <ArrowDown
-          data-down-arrow
-          className="h-4 w-4"
+        {/* White centre veil */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-[54%]
+            z-[1]
+            h-[470px]
+            w-[92%]
+            max-w-[1120px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-[50%]
+            bg-white/58
+            blur-[48px]
+
+            sm:bg-white/52
+            lg:bg-white/45
+          "
         />
-      </button>
-    </div>
 
-    {/* Space lets the animated crowd remain visible behind the lower hero */}
-    <div
-      aria-hidden="true"
-      className="
-        h-[150px]
-        sm:h-[210px]
-        lg:h-[250px]
-      "
-    />
-  </div>
-</section>
+        {/* =================================================
+            HERO CONTENT
+        ================================================= */}
 
-{/* ===================================================
-    HERO STATS — DIRECTLY AFTER HERO
-=================================================== */}
+        <div
+          className="
+            relative
+            z-20
+            mx-auto
+            max-w-[1450px]
+          "
+        >
+          {/* EYEBROW */}
 
-<section
-  aria-label="IT services performance statistics"
-  className="
-    relative
-    z-30
-    bg-white
-    px-5
+          <p
+            data-hero-eyebrow
+            className="
+              text-center
+              text-[9px]
+              font-bold
+              uppercase
+              tracking-[0.25em]
+              text-[#B12025]
 
-    sm:px-8
-    lg:px-14
-  "
->
-  <div
-    id="hero-stats"
-    data-hero-stats
-    className="
-      mx-auto
-      grid
-      max-w-[1200px]
-      grid-cols-2
-      border-y
-      border-[#17191C]/10
-      bg-white
+              sm:text-[11px]
+            "
+          >
+            IT SERVICES IN SRI LANKA
+          </p>
 
-      lg:grid-cols-4
-    "
-  >
-    {/* 98% */}
-    <div
-      className="
-        min-h-[120px]
-        border-b
-        border-r
-        border-[#17191C]/10
-        p-4
+          {/* H1 */}
 
-        sm:min-h-[150px]
-        sm:p-6
+          <h1
+            id="it-services-title"
+            className="
+              mx-auto
+              mt-5
+              max-w-[1450px]
+              text-center
+              text-[clamp(2.35rem,10vw,4rem)]
+              font-semibold
+              leading-[1.02]
+              tracking-[-0.065em]
+              text-[#B12025]
 
-        lg:border-b-0
-      "
-    >
-      <strong
+              sm:mt-7
+              sm:text-[clamp(3.8rem,6.2vw,6.6rem)]
+
+              lg:whitespace-nowrap
+              lg:text-[clamp(4.2rem,5.4vw,6.6rem)]
+            "
+          >
+            <RisingWords text="One IT Services Team in Colombo," />
+          </h1>
+
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-[1180px]
+              text-center
+              text-[clamp(1.45rem,6vw,2.2rem)]
+              font-semibold
+              leading-[1.08]
+              tracking-[-0.045em]
+              text-[#B12025]
+
+              sm:mt-5
+              sm:text-[clamp(2rem,3.5vw,3.5rem)]
+
+              lg:text-[clamp(2.4rem,3vw,3.6rem)]
+            "
+          >
+            <RisingWords
+              text="From Building Your Website to Answering Your Customers' Technical Questions."
+            />
+          </p>
+
+          {/* DESCRIPTION */}
+
+          <div
+            className="
+              relative
+              z-20
+              mx-auto
+              mt-7
+              max-w-[850px]
+              text-center
+
+              sm:mt-10
+            "
+          >
+            <p
+              data-hero-copy
+              className="
+                text-[12px]
+                leading-[1.75]
+                text-[#17191C]/65
+
+                sm:text-[15px]
+                sm:leading-[1.9]
+
+                lg:text-[16px]
+              "
+            >
+              Your website needs regular updates, and your
+              staff need help when a laptop or login fails.
+              If you sell software or devices, your customers
+              also need answers to technical questions.
+            </p>
+
+            <p
+              data-hero-copy
+              className="
+                mx-auto
+                mt-4
+                max-w-[760px]
+                text-[12px]
+                leading-[1.75]
+                text-[#17191C]/65
+
+                sm:mt-5
+                sm:text-[15px]
+                sm:leading-[1.9]
+
+                lg:text-[16px]
+              "
+            >
+              FirstNotch&apos;s team in Colombo covers all
+              of it. Choose only the services you need.
+              Every ticket and task gets a quality score.
+            </p>
+
+            <button
+              type="button"
+              onClick={scrollToServices}
+              data-hero-copy
+              className="
+                group
+                mt-7
+                inline-flex
+                items-center
+                gap-3
+                border-b
+                border-[#B12025]/30
+                pb-2
+                text-[11px]
+                font-semibold
+                text-[#B12025]
+                transition-colors
+
+                hover:border-[#B12025]
+
+                sm:mt-9
+                sm:text-[13px]
+              "
+            >
+              See the four services
+
+              <ArrowDown
+                data-down-arrow
+                className="h-4 w-4"
+              />
+            </button>
+          </div>
+
+          {/* Crowd visibility space */}
+
+          <div
+            aria-hidden="true"
+            className="
+              h-[150px]
+
+              sm:h-[210px]
+              lg:h-[250px]
+            "
+          />
+        </div>
+      </section>
+
+      {/* ===================================================
+          HERO STATS
+
+          MOBILE ONLY:
+          - all 4 in one row
+          - same value size
+          - smaller labels
+          - reduced height
+
+          TABLET / DESKTOP:
+          existing design preserved
+      =================================================== */}
+
+      <section
+        aria-label="IT services performance statistics"
         className="
-          block
-          text-[25px]
-          font-semibold
-          tracking-[-0.05em]
-          text-[#B12025]
+          relative
+          z-30
+          bg-white
+          px-5
 
-          sm:text-[38px]
+          max-sm:px-[12px]
+
+          sm:px-8
+          lg:px-14
         "
       >
-        {stat98}%
-      </strong>
+        <div
+          id="hero-stats"
+          data-hero-stats
+          className="
+            mx-auto
+            grid
+            max-w-[1200px]
+            grid-cols-2
+            border-y
+            border-[#17191C]/10
+            bg-white
 
-      <span
-        className="
-          mt-2
-          block
-          max-w-[180px]
-          text-[9px]
-          leading-[1.5]
-          text-[#17191C]/50
+            max-sm:grid-cols-4
+            max-sm:gap-0
 
-          sm:text-[11px]
-        "
-      >
-        Accuracy rate across client work
-      </span>
-    </div>
+            lg:grid-cols-4
+          "
+        >
+          {/* =========================
+              98%
+          ========================= */}
 
-    {/* 85% */}
-    <div
-      className="
-        min-h-[120px]
-        border-b
-        border-[#17191C]/10
-        p-4
+          <div
+            className="
+              min-h-[120px]
+              border-b
+              border-r
+              border-[#17191C]/10
+              p-4
 
-        sm:min-h-[150px]
-        sm:p-6
+              max-sm:min-h-[82px]
+              max-sm:min-w-0
+              max-sm:border-b-0
+              max-sm:px-[7px]
+              max-sm:py-[13px]
 
-        lg:border-b-0
-        lg:border-r
-      "
-    >
-      <strong
-        className="
-          block
-          text-[25px]
-          font-semibold
-          tracking-[-0.05em]
-          text-[#B12025]
+              sm:min-h-[150px]
+              sm:p-6
 
-          sm:text-[38px]
-        "
-      >
-        {stat85}%
-      </strong>
+              lg:border-b-0
+            "
+          >
+            <strong
+              className="
+                block
+                text-[25px]
+                font-semibold
+                tracking-[-0.05em]
+                text-[#B12025]
 
-      <span
-        className="
-          mt-2
-          block
-          max-w-[180px]
-          text-[9px]
-          leading-[1.5]
-          text-[#17191C]/50
+                max-sm:whitespace-nowrap
+                max-sm:text-[18px]
+                max-sm:leading-none
+                max-sm:tracking-[-0.05em]
 
-          sm:text-[11px]
-        "
-      >
-        Client retention rate
-      </span>
-    </div>
+                sm:text-[38px]
+              "
+            >
+              {stat98}%
+            </strong>
 
-    {/* 15–20% */}
-    <Link
-      href="/how-we-hire"
-      className="
-        group
-        min-h-[120px]
-        border-r
-        border-[#17191C]/10
-        p-4
-        transition-colors
+            <span
+              className="
+                mt-2
+                block
+                max-w-[180px]
+                text-[9px]
+                leading-[1.5]
+                text-[#17191C]/50
 
-        hover:bg-[#B12025]/[0.035]
+                max-sm:mt-[7px]
+                max-sm:text-[7px]
+                max-sm:leading-[1.3]
 
-        sm:min-h-[150px]
-        sm:p-6
-      "
-    >
-      <strong
-        className="
-          block
-          text-[25px]
-          font-semibold
-          tracking-[-0.05em]
-          text-[#B12025]
+                sm:text-[11px]
+              "
+            >
+              Accuracy rate across client work
+            </span>
+          </div>
 
-          sm:text-[38px]
-        "
-      >
-        {stat15}–20%
-      </strong>
+          {/* =========================
+              85%
+          ========================= */}
 
-      <span
-        className="
-          mt-2
-          block
-          max-w-[180px]
-          text-[9px]
-          leading-[1.5]
-          text-[#17191C]/50
+          <div
+            className="
+              min-h-[120px]
+              border-b
+              border-[#17191C]/10
+              p-4
 
-          sm:text-[11px]
-        "
-      >
-        Of job applicants pass the hiring checks
-      </span>
-    </Link>
+              max-sm:min-h-[82px]
+              max-sm:min-w-0
+              max-sm:border-b-0
+              max-sm:border-r
+              max-sm:px-[7px]
+              max-sm:py-[13px]
 
-    {/* 20+ */}
-    <Link
-      href="/services/it-services/web-development"
-      className="
-        group
-        min-h-[120px]
-        p-4
-        transition-colors
+              sm:min-h-[150px]
+              sm:p-6
 
-        hover:bg-[#B12025]/[0.035]
+              lg:border-b-0
+              lg:border-r
+            "
+          >
+            <strong
+              className="
+                block
+                text-[25px]
+                font-semibold
+                tracking-[-0.05em]
+                text-[#B12025]
 
-        sm:min-h-[150px]
-        sm:p-6
-      "
-    >
-      <strong
-        className="
-          block
-          text-[25px]
-          font-semibold
-          tracking-[-0.05em]
-          text-[#B12025]
+                max-sm:whitespace-nowrap
+                max-sm:text-[18px]
+                max-sm:leading-none
+                max-sm:tracking-[-0.05em]
 
-          sm:text-[38px]
-        "
-      >
-        {stat20}+
-      </strong>
+                sm:text-[38px]
+              "
+            >
+              {stat85}%
+            </strong>
 
-      <span
-        className="
-          mt-2
-          block
-          max-w-[180px]
-          text-[9px]
-          leading-[1.5]
-          text-[#17191C]/50
+            <span
+              className="
+                mt-2
+                block
+                max-w-[180px]
+                text-[9px]
+                leading-[1.5]
+                text-[#17191C]/50
 
-          sm:text-[11px]
-        "
-      >
-        Websites built and maintained
-      </span>
-    </Link>
-  </div>
-</section>
+                max-sm:mt-[7px]
+                max-sm:text-[7px]
+                max-sm:leading-[1.3]
+
+                sm:text-[11px]
+              "
+            >
+              Client retention rate
+            </span>
+          </div>
+
+          {/* =========================
+              15–20%
+          ========================= */}
+
+          <Link
+            href="/how-we-hire"
+            className="
+              group
+              min-h-[120px]
+              border-r
+              border-[#17191C]/10
+              p-4
+              transition-colors
+
+              hover:bg-[#B12025]/[0.035]
+
+              max-sm:min-h-[82px]
+              max-sm:min-w-0
+              max-sm:px-[7px]
+              max-sm:py-[13px]
+
+              sm:min-h-[150px]
+              sm:p-6
+            "
+          >
+            <strong
+              className="
+                block
+                text-[25px]
+                font-semibold
+                tracking-[-0.05em]
+                text-[#B12025]
+
+                max-sm:whitespace-nowrap
+                max-sm:text-[18px]
+                max-sm:leading-none
+                max-sm:tracking-[-0.065em]
+
+                sm:text-[38px]
+              "
+            >
+              {stat15}–20%
+            </strong>
+
+            <span
+              className="
+                mt-2
+                block
+                max-w-[180px]
+                text-[9px]
+                leading-[1.5]
+                text-[#17191C]/50
+
+                max-sm:mt-[7px]
+                max-sm:text-[7px]
+                max-sm:leading-[1.3]
+
+                sm:text-[11px]
+              "
+            >
+              Of job applicants pass the hiring checks
+            </span>
+          </Link>
+
+          {/* =========================
+              20+
+          ========================= */}
+
+          <Link
+            href="/services/it-services/web-development"
+            className="
+              group
+              min-h-[120px]
+              p-4
+              transition-colors
+
+              hover:bg-[#B12025]/[0.035]
+
+              max-sm:min-h-[82px]
+              max-sm:min-w-0
+              max-sm:px-[7px]
+              max-sm:py-[13px]
+
+              sm:min-h-[150px]
+              sm:p-6
+            "
+          >
+            <strong
+              className="
+                block
+                text-[25px]
+                font-semibold
+                tracking-[-0.05em]
+                text-[#B12025]
+
+                max-sm:whitespace-nowrap
+                max-sm:text-[18px]
+                max-sm:leading-none
+                max-sm:tracking-[-0.05em]
+
+                sm:text-[38px]
+              "
+            >
+              {stat20}+
+            </strong>
+
+            <span
+              className="
+                mt-2
+                block
+                max-w-[180px]
+                text-[9px]
+                leading-[1.5]
+                text-[#17191C]/50
+
+                max-sm:mt-[7px]
+                max-sm:text-[7px]
+                max-sm:leading-[1.3]
+
+                sm:text-[11px]
+              "
+            >
+              Websites built and maintained
+            </span>
+          </Link>
+        </div>
+      </section>
 
       {/* ===================================================
           02 — FOUR SERVICES
-          MOBILE = AUTO HORIZONTAL
+
+          MOBILE ONLY:
+          - shorter section
+          - smaller cards
+          - smaller icon
+          - less empty space
+          - smaller title / description
+          - existing automatic horizontal scrolling
+
+          TABLET / DESKTOP:
+          unchanged
       =================================================== */}
 
       <section
@@ -1733,6 +2120,8 @@ useEffect(() => {
           px-5
           py-[65px]
 
+          max-sm:py-[38px]
+
           sm:px-8
           sm:py-[110px]
 
@@ -1740,12 +2129,7 @@ useEffect(() => {
           lg:py-[140px]
         "
       >
-        <div
-          className="
-            mx-auto
-            max-w-[1450px]
-          "
-        >
+        <div className="mx-auto max-w-[1450px]">
           <p
             className="
               text-center
@@ -1755,11 +2139,13 @@ useEffect(() => {
               tracking-[0.22em]
               text-[#B12025]
 
+              max-sm:text-[8px]
+              max-sm:tracking-[0.18em]
+
               sm:text-[11px]
             "
           >
-            ONE TEAM. FOUR
-            SERVICES.
+            ONE TEAM. FOUR SERVICES.
           </p>
 
           <h2
@@ -1773,6 +2159,9 @@ useEffect(() => {
               leading-[1]
               tracking-[-0.055em]
               text-[#17191C]
+
+              max-sm:mt-[10px]
+              max-sm:text-[28px]
 
               sm:mt-6
               sm:text-[clamp(3rem,5vw,5.8rem)]
@@ -1791,16 +2180,18 @@ useEffect(() => {
               leading-[1.7]
               text-[#17191C]/55
 
+              max-sm:mt-[10px]
+              max-sm:text-[9px]
+              max-sm:leading-[1.5]
+
               sm:text-[14px]
             "
           >
-            Choose a service
-            to see what it
-            includes.
+            Choose a service to see what it includes.
           </p>
 
           {/* =================================================
-              DISPLAY CARDS — STACKED / SKEW STYLE
+              MOBILE AUTO-SCROLL CARDS
           ================================================= */}
 
           <div
@@ -1819,6 +2210,10 @@ useEffect(() => {
 
               [scrollbar-width:none]
               [&::-webkit-scrollbar]:hidden
+
+              max-sm:mt-[24px]
+              max-sm:gap-[14px]
+              max-sm:pb-[26px]
 
               sm:mx-0
               sm:mt-14
@@ -1849,12 +2244,16 @@ useEffect(() => {
                     shrink-0
                     snap-center
 
+                    max-sm:w-[76vw]
+                    max-sm:max-w-[275px]
+
                     sm:w-auto
                     sm:max-w-none
                     sm:snap-none
                   "
                 >
                   {/* Back stacked layer 01 */}
+
                   <div
                     aria-hidden="true"
                     className="
@@ -1878,11 +2277,14 @@ useEffect(() => {
                       group-hover:translate-y-[14px]
                       group-hover:border-[#B12025]/20
 
+                      max-sm:hidden
+
                       sm:rounded-[28px]
                     "
                   />
 
                   {/* Back stacked layer 02 */}
+
                   <div
                     aria-hidden="true"
                     className="
@@ -1907,9 +2309,15 @@ useEffect(() => {
                       group-hover:translate-y-[7px]
                       group-hover:border-[#B12025]/20
 
+                      max-sm:hidden
+
                       sm:rounded-[28px]
                     "
                   />
+
+                  {/* =========================================
+                      MAIN SERVICE CARD
+                  ========================================= */}
 
                   <Link
                     href={service.href}
@@ -1963,6 +2371,12 @@ useEffect(() => {
                       hover:shadow-[0_30px_80px_rgba(177,32,37,0.12)]
                       hover:before:opacity-0
 
+                      max-sm:min-h-[255px]
+max-sm:skew-y-0
+max-sm:rounded-[14px]
+max-sm:px-[17px]
+max-sm:py-[16px]
+
                       sm:min-h-[390px]
                       sm:rounded-[28px]
                       sm:px-7
@@ -1972,6 +2386,7 @@ useEffect(() => {
                     "
                   >
                     {/* Counter + arrow */}
+
                     <div
                       className="
                         relative
@@ -1989,6 +2404,8 @@ useEffect(() => {
                           font-semibold
                           tracking-[0.14em]
                           text-[#17191C]/40
+
+                          max-sm:text-[8px]
                         "
                       >
                         {service.number} / 04
@@ -2012,13 +2429,25 @@ useEffect(() => {
                           group-hover:border-[#B12025]
                           group-hover:bg-[#B12025]
                           group-hover:text-white
+
+                          max-sm:h-[27px]
+                          max-sm:w-[27px]
                         "
                       >
-                        <ArrowUpRight className="h-4 w-4" />
+                        <ArrowUpRight
+                          className="
+                            h-4
+                            w-4
+
+                            max-sm:h-[12px]
+                            max-sm:w-[12px]
+                          "
+                        />
                       </span>
                     </div>
 
-                    {/* Icon */}
+                    {/* ICON */}
+
                     <div
                       className="
                         relative
@@ -2038,6 +2467,10 @@ useEffect(() => {
 
                         group-hover:scale-105
 
+                        max-sm:mt-[20px]
+                        max-sm:h-[40px]
+                        max-sm:w-[40px]
+
                         sm:mt-11
                         sm:h-[58px]
                         sm:w-[58px]
@@ -2048,6 +2481,9 @@ useEffect(() => {
                           h-5
                           w-5
 
+                          max-sm:h-[16px]
+                          max-sm:w-[16px]
+
                           sm:h-6
                           sm:w-6
                         "
@@ -2055,13 +2491,16 @@ useEffect(() => {
                       />
                     </div>
 
-                    {/* Content */}
+                    {/* CONTENT */}
+
                     <div
                       className="
                         relative
                         z-10
                         mt-auto
                         pt-12
+
+                        max-sm:pt-[24px]
                       "
                     >
                       <p
@@ -2072,6 +2511,10 @@ useEffect(() => {
                           uppercase
                           tracking-[0.16em]
                           text-[#B12025]/75
+
+                          max-sm:mb-[7px]
+                          max-sm:text-[7px]
+                          max-sm:tracking-[0.13em]
 
                           sm:text-[10px]
                         "
@@ -2086,6 +2529,9 @@ useEffect(() => {
                           leading-[1.05]
                           tracking-[-0.045em]
                           text-[#17191C]
+
+                          max-sm:text-[18px]
+                          max-sm:leading-[1.1]
 
                           sm:text-[27px]
                           lg:text-[25px]
@@ -2102,6 +2548,10 @@ useEffect(() => {
                           text-[11px]
                           leading-[1.75]
                           text-[#17191C]/60
+
+                          max-sm:mt-[8px]
+                          max-sm:text-[9px]
+                          max-sm:leading-[1.5]
 
                           sm:text-[13px]
                           sm:leading-[1.8]
@@ -2120,6 +2570,9 @@ useEffect(() => {
                           border-t
                           border-[#17191C]/10
                           pt-4
+
+                          max-sm:mt-[14px]
+                          max-sm:pt-[10px]
                         "
                       >
                         <span
@@ -2129,6 +2582,9 @@ useEffect(() => {
                             uppercase
                             tracking-[0.12em]
                             text-[#B12025]
+
+                            max-sm:text-[7px]
+                            max-sm:tracking-[0.09em]
 
                             sm:text-[10px]
                           "
@@ -2146,32 +2602,40 @@ useEffect(() => {
                             duration-500
 
                             group-hover:translate-x-1
+
+                            max-sm:h-[12px]
+                            max-sm:w-[12px]
                           "
                         />
                       </div>
                     </div>
                   </Link>
 
-                  {/* Decorative service number */}
-                  <span
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none
-                      absolute
-                      -bottom-7
-                      right-3
-                      z-20
-                      text-[44px]
-                      font-semibold
-                      leading-none
-                      tracking-[-0.08em]
-                      text-[#B12025]/[0.07]
+                  {/* Decorative number */}
 
-                      sm:text-[58px]
-                    "
-                  >
-                    0{index + 1}
-                  </span>
+                  <span
+  aria-hidden="true"
+  className="
+    pointer-events-none
+    absolute
+    -bottom-7
+    right-3
+    z-20
+    text-[44px]
+    font-semibold
+    leading-none
+    tracking-[-0.08em]
+    text-[#B12025]/[0.07]
+
+    max-sm:bottom-[12px]
+    max-sm:right-[14px]
+    max-sm:text-[30px]
+
+    sm:text-[58px]
+  "
+>
+  0{index + 1}
+</span>
                 </div>
               );
             })}
@@ -2187,40 +2651,40 @@ useEffect(() => {
               justify-center
               gap-2
 
+              max-sm:mt-[8px]
+
               sm:hidden
             "
           >
-            {services.map(
-              (
-                service,
-                index,
-              ) => (
-                <span
-                  key={
-                    service.title
-                  }
-                  className={`
-                    h-[3px]
-                    rounded-full
+            {services.map((service, index) => (
+              <span
+                key={service.title}
+                className={`
+                  h-[3px]
+                  rounded-full
 
-                    ${
-                      index ===
-                      0
-                        ? 'w-7 bg-[#B12025]'
-                        : 'w-3 bg-[#17191C]/15'
-                    }
-                  `}
-                />
-              ),
-            )}
+                  ${
+                    index === 0
+                      ? 'w-7 bg-[#B12025]'
+                      : 'w-3 bg-[#17191C]/15'
+                  }
+                `}
+              />
+            ))}
           </div>
         </div>
       </section>
+            {/* ===================================================
+          04 — TESTIMONIAL / CLIENT EXPERIENCE
 
-     
+          MOBILE ONLY:
+          - reduced section height
+          - smaller quote
+          - smaller gaps
+          - smaller client label
 
-      {/* ===================================================
-          04 — TESTIMONIAL
+          TABLET / DESKTOP:
+          unchanged
       =================================================== */}
 
       <section
@@ -2229,6 +2693,8 @@ useEffect(() => {
           px-5
           py-[65px]
           text-white
+
+          max-sm:py-[42px]
 
           sm:px-8
           sm:py-[110px]
@@ -2251,6 +2717,9 @@ useEffect(() => {
               tracking-[0.22em]
               text-white/45
 
+              max-sm:text-[8px]
+              max-sm:tracking-[0.18em]
+
               sm:text-[11px]
             "
           >
@@ -2266,29 +2735,23 @@ useEffect(() => {
               leading-[1.12]
               tracking-[-0.045em]
 
+              max-sm:mt-[20px]
+              max-sm:text-[22px]
+              max-sm:leading-[1.12]
+              max-sm:tracking-[-0.04em]
+
               sm:mt-10
               sm:text-[clamp(2.7rem,5vw,5.5rem)]
             "
           >
-            &ldquo;The team
-            built our new{' '}
-            <span
-              className="
-                text-[#E75A5F]
-              "
-            >
+            &ldquo;The team built our new{' '}
+            <span className="text-[#E75A5F]">
               website
             </span>
-            , and our staff now
-            call them for help
+            , and our staff now call them for help
             with{' '}
-            <span
-              className="
-                text-[#E75A5F]
-              "
-            >
-              laptops and
-              email.
+            <span className="text-[#E75A5F]">
+              laptops and email.
             </span>
             &rdquo;
           </blockquote>
@@ -2303,6 +2766,10 @@ useEffect(() => {
               border-white/10
               pt-5
 
+              max-sm:mt-[24px]
+              max-sm:gap-[10px]
+              max-sm:pt-[14px]
+
               sm:mt-12
               sm:pt-7
             "
@@ -2313,6 +2780,9 @@ useEffect(() => {
                 w-2
                 rounded-full
                 bg-[#B12025]
+
+                max-sm:h-[6px]
+                max-sm:w-[6px]
               "
             />
 
@@ -2324,11 +2794,13 @@ useEffect(() => {
                 tracking-[0.15em]
                 text-white/55
 
+                max-sm:text-[8px]
+                max-sm:tracking-[0.13em]
+
                 sm:text-[12px]
               "
             >
-              Interior design
-              studio
+              Interior design studio
             </p>
           </div>
         </div>
@@ -2336,6 +2808,17 @@ useEffect(() => {
 
       {/* ===================================================
           05 — SECURITY / OWNERSHIP
+
+          MOBILE ONLY:
+          - shorter section
+          - smaller cards
+          - smaller headings
+          - smaller descriptions
+          - smaller ownership pills
+          - smaller security rows
+
+          TABLET / DESKTOP:
+          unchanged
       =================================================== */}
 
       <section
@@ -2343,6 +2826,8 @@ useEffect(() => {
           bg-white
           px-5
           py-[65px]
+
+          max-sm:py-[38px]
 
           sm:px-8
           sm:py-[110px]
@@ -2362,11 +2847,15 @@ useEffect(() => {
               grid
               gap-4
 
+              max-sm:gap-[12px]
+
               lg:grid-cols-2
               lg:gap-6
             "
           >
-            {/* OWNERSHIP */}
+            {/* =================================================
+                OWNERSHIP
+            ================================================= */}
 
             <div
               className="
@@ -2374,6 +2863,9 @@ useEffect(() => {
                 bg-[#B12025]
                 p-6
                 text-white
+
+                max-sm:rounded-[20px]
+                max-sm:p-[20px]
 
                 sm:rounded-[32px]
                 sm:p-10
@@ -2389,6 +2881,9 @@ useEffect(() => {
                   tracking-[0.2em]
                   text-white/60
 
+                  max-sm:text-[8px]
+                  max-sm:tracking-[0.16em]
+
                   sm:text-[11px]
                 "
               >
@@ -2402,6 +2897,11 @@ useEffect(() => {
                   font-semibold
                   leading-[1]
                   tracking-[-0.05em]
+
+                  max-sm:mt-[14px]
+                  max-sm:text-[26px]
+                  max-sm:leading-[1.05]
+                  max-sm:tracking-[-0.045em]
 
                   sm:text-[50px]
                 "
@@ -2419,16 +2919,15 @@ useEffect(() => {
                   leading-[1.75]
                   text-white/75
 
+                  max-sm:mt-[14px]
+                  max-sm:text-[9px]
+                  max-sm:leading-[1.6]
+
                   sm:text-[14px]
                 "
               >
-                The code,
-                domain and
-                hosting
-                accounts are
-                in your name,
-                and you have
-                full access at
+                The code, domain and hosting accounts are
+                in your name, and you have full access at
                 all times.
               </p>
 
@@ -2438,45 +2937,53 @@ useEffect(() => {
                   flex
                   flex-wrap
                   gap-2
+
+                  max-sm:mt-[18px]
+                  max-sm:gap-[6px]
                 "
               >
                 {[
                   'Code',
                   'Domain',
                   'Hosting',
-                ].map(
-                  (item) => (
-                    <span
-                      key={
-                        item
-                      }
-                      className="
-                        rounded-full
-                        border
-                        border-white/20
-                        bg-white/10
-                        px-4
-                        py-2
-                        text-[10px]
-                        font-semibold
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="
+                      rounded-full
+                      border
+                      border-white/20
+                      bg-white/10
+                      px-4
+                      py-2
+                      text-[10px]
+                      font-semibold
 
-                        sm:text-[12px]
-                      "
-                    >
-                      {item}
-                    </span>
-                  ),
-                )}
+                      max-sm:px-[12px]
+                      max-sm:py-[7px]
+                      max-sm:text-[8px]
+
+                      sm:text-[12px]
+                    "
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
 
-            {/* SECURITY */}
+            {/* =================================================
+                SECURITY
+            ================================================= */}
 
             <div
               className="
                 rounded-[24px]
                 bg-[#F5F5F3]
                 p-6
+
+                max-sm:rounded-[20px]
+                max-sm:p-[20px]
 
                 sm:rounded-[32px]
                 sm:p-10
@@ -2491,6 +2998,9 @@ useEffect(() => {
                   uppercase
                   tracking-[0.2em]
                   text-[#B12025]
+
+                  max-sm:text-[8px]
+                  max-sm:tracking-[0.16em]
 
                   sm:text-[11px]
                 "
@@ -2507,84 +3017,114 @@ useEffect(() => {
                   tracking-[-0.05em]
                   text-[#17191C]
 
+                  max-sm:mt-[14px]
+                  max-sm:text-[26px]
+                  max-sm:leading-[1.02]
+                  max-sm:tracking-[-0.045em]
+
                   sm:text-[50px]
                 "
               >
                 Access only
-                where it is
-                needed.
+                <br className="max-sm:hidden" />
+                {' '}where it is
+                <br className="max-sm:hidden" />
+                {' '}needed.
               </h2>
 
               <div
                 className="
                   mt-8
                   space-y-3
+
+                  max-sm:mt-[18px]
+                  max-sm:space-y-[7px]
                 "
               >
                 {[
                   'Own login per team member',
                   'Two-factor login on accounts',
                   'Monthly security updates',
-                ].map(
-                  (item) => (
-                    <div
-                      key={
-                        item
-                      }
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      rounded-[14px]
+                      bg-white
+                      p-4
+
+                      max-sm:min-h-[54px]
+                      max-sm:gap-[10px]
+                      max-sm:rounded-[14px]
+                      max-sm:px-[14px]
+                      max-sm:py-[10px]
+
+                      sm:p-5
+                    "
+                  >
+                    <span
                       className="
                         flex
+                        h-8
+                        w-8
+                        shrink-0
                         items-center
-                        gap-3
-                        rounded-[14px]
-                        bg-white
-                        p-4
+                        justify-center
+                        rounded-full
+                        bg-[#B12025]
+                        text-white
 
-                        sm:p-5
+                        max-sm:h-[30px]
+                        max-sm:w-[30px]
                       "
                     >
-                      <span
+                      <Check
                         className="
-                          flex
-                          h-8
-                          w-8
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-full
-                          bg-[#B12025]
-                          text-white
-                        "
-                      >
-                        <Check
-                          className="
-                            h-4
-                            w-4
-                          "
-                        />
-                      </span>
+                          h-4
+                          w-4
 
-                      <span
-                        className="
-                          text-[11px]
-                          font-semibold
-                          text-[#17191C]
-
-                          sm:text-[13px]
+                          max-sm:h-[13px]
+                          max-sm:w-[13px]
                         "
-                      >
-                        {item}
-                      </span>
-                    </div>
-                  ),
-                )}
+                      />
+                    </span>
+
+                    <span
+                      className="
+                        text-[11px]
+                        font-semibold
+                        text-[#17191C]
+
+                        max-sm:text-[9px]
+                        max-sm:leading-[1.35]
+
+                        sm:text-[13px]
+                      "
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
+            {/* ===================================================
+          06 — HOW TEAM IS SET UP / PROCESS
 
-      {/* ===================================================
-          06 — HOW TEAM IS SET UP
+          MOBILE ONLY:
+          - reduced section whitespace
+          - smaller heading / description
+          - horizontal cards
+          - automatic side scrolling
+          - manual swipe still works
+
+          TABLET / DESKTOP:
+          existing layout preserved
       =================================================== */}
 
       <section
@@ -2592,6 +3132,8 @@ useEffect(() => {
           bg-[#F5F5F3]
           px-5
           py-[65px]
+
+          max-sm:py-[38px]
 
           sm:px-8
           sm:py-[110px]
@@ -2606,6 +3148,8 @@ useEffect(() => {
             max-w-[1350px]
           "
         >
+          {/* LABEL */}
+
           <p
             className="
               text-[9px]
@@ -2614,11 +3158,16 @@ useEffect(() => {
               tracking-[0.22em]
               text-[#B12025]
 
+              max-sm:text-[8px]
+              max-sm:tracking-[0.18em]
+
               sm:text-[11px]
             "
           >
             THE PROCESS
           </p>
+
+          {/* HEADING */}
 
           <h2
             className="
@@ -2630,14 +3179,19 @@ useEffect(() => {
               tracking-[-0.055em]
               text-[#17191C]
 
+              max-sm:mt-[12px]
+              max-sm:text-[28px]
+              max-sm:leading-[1.05]
+              max-sm:tracking-[-0.045em]
+
               sm:mt-6
               sm:text-[clamp(3rem,5vw,5.8rem)]
             "
           >
-            How your IT
-            services team is
-            set up
+            How your IT services team is set up
           </h2>
+
+          {/* DESCRIPTION */}
 
           <p
             className="
@@ -2647,136 +3201,247 @@ useEffect(() => {
               leading-[1.75]
               text-[#17191C]/55
 
+              max-sm:mt-[14px]
+              max-sm:text-[9px]
+              max-sm:leading-[1.6]
+
               sm:text-[14px]
               sm:leading-[1.9]
             "
           >
-            The biggest risk
-            with outsourced IT
-            services is a team
-            that does not know
-            your systems. These
-            steps are there to
-            stop that.
+            The biggest risk with outsourced IT services
+            is a team that does not know your systems.
+            These steps are there to stop that.
           </p>
 
+          {/* =================================================
+              PROCESS CARDS
+
+              Mobile:
+              flex horizontal carousel
+
+              sm+:
+              original grid
+          ================================================= */}
+
           <div
+            ref={processTrackRef}
             className="
               mt-10
               grid
               border-t
               border-[#17191C]/15
 
+              max-sm:-mx-5
+              max-sm:mt-[24px]
+              max-sm:flex
+              max-sm:snap-x
+              max-sm:snap-mandatory
+              max-sm:gap-[10px]
+              max-sm:overflow-x-auto
+              max-sm:overscroll-x-contain
+              max-sm:scroll-smooth
+              max-sm:border-t-0
+              max-sm:px-5
+              max-sm:pb-[4px]
+              max-sm:[scrollbar-width:none]
+              max-sm:[&::-webkit-scrollbar]:hidden
+
               sm:mt-14
 
               lg:grid-cols-4
             "
           >
-            {process.map(
-              (
-                item,
-                index,
-              ) => (
-                <article
-                  key={
-                    item.number
+            {process.map((item, index) => (
+              <article
+                key={item.number}
+                data-process-card
+                className={`
+                  relative
+                  border-b
+                  border-[#17191C]/15
+                  py-7
+
+                  max-sm:min-h-[205px]
+                  max-sm:w-[72vw]
+                  max-sm:max-w-[245px]
+                  max-sm:shrink-0
+                  max-sm:snap-center
+                  max-sm:rounded-[18px]
+                  max-sm:border
+                  max-sm:border-[#17191C]/10
+                  max-sm:bg-white
+                  max-sm:p-[17px]
+
+                  lg:min-h-[370px]
+                  lg:border-b-0
+                  lg:px-7
+                  lg:py-9
+
+                  ${
+                    index < process.length - 1
+                      ? 'lg:border-r'
+                      : ''
                   }
-                  className={`
-                    relative
-                    border-b
-                    border-[#17191C]/15
-                    py-7
+                `}
+              >
+                {/* NUMBER */}
 
-                    lg:min-h-[370px]
-                    lg:border-b-0
-                    lg:px-7
-                    lg:py-9
+                <span
+                  className="
+                    text-[10px]
+                    font-semibold
+                    text-[#B12025]
 
-                    ${
-                      index <
-                      process.length -
-                        1
-                        ? 'lg:border-r'
-                        : ''
-                    }
-                  `}
+                    max-sm:text-[8px]
+                  "
                 >
-                  <span
+                  {item.number}
+                </span>
+
+                {/* TITLE */}
+
+                <h3
+                  className="
+                    mt-5
+                    text-[21px]
+                    font-semibold
+                    leading-[1.1]
+                    tracking-[-0.04em]
+
+                    max-sm:mt-[16px]
+                    max-sm:text-[17px]
+                    max-sm:leading-[1.15]
+                    max-sm:tracking-[-0.035em]
+
+                    sm:text-[25px]
+                  "
+                >
+                  {item.title}
+                </h3>
+
+                {/* DESCRIPTION */}
+
+                <p
+                  className="
+                    mt-4
+                    text-[11px]
+                    leading-[1.75]
+                    text-[#17191C]/55
+
+                    max-sm:mt-[12px]
+                    max-sm:text-[9px]
+                    max-sm:leading-[1.6]
+
+                    sm:text-[13px]
+                  "
+                >
+                  {item.description}
+                </p>
+
+                {/* HOW WE HIRE LINK */}
+
+                {index === 1 && (
+                  <Link
+                    href="/how-we-hire"
                     className="
+                      mt-5
+                      inline-flex
+                      items-center
+                      gap-2
                       text-[10px]
                       font-semibold
                       text-[#B12025]
+
+                      max-sm:mt-[13px]
+                      max-sm:gap-[5px]
+                      max-sm:text-[8px]
                     "
                   >
-                    {
-                      item.number
-                    }
-                  </span>
+                    How we hire
 
-                  <h3
-                    className="
-                      mt-5
-                      text-[21px]
-                      font-semibold
-                      leading-[1.1]
-                      tracking-[-0.04em]
-
-                      sm:text-[25px]
-                    "
-                  >
-                    {
-                      item.title
-                    }
-                  </h3>
-
-                  <p
-                    className="
-                      mt-4
-                      text-[11px]
-                      leading-[1.75]
-                      text-[#17191C]/55
-
-                      sm:text-[13px]
-                    "
-                  >
-                    {
-                      item.description
-                    }
-                  </p>
-
-                  {index ===
-                    1 && (
-                    <Link
-                      href="/how-we-hire"
+                    <ArrowRight
                       className="
-                        mt-5
-                        inline-flex
-                        items-center
-                        gap-2
-                        text-[10px]
-                        font-semibold
-                        text-[#B12025]
-                      "
-                    >
-                      How we hire
+                        h-3
+                        w-3
 
-                      <ArrowRight
-                        className="
-                          h-3
-                          w-3
-                        "
-                      />
-                    </Link>
-                  )}
-                </article>
-              ),
-            )}
+                        max-sm:h-[10px]
+                        max-sm:w-[10px]
+                      "
+                    />
+                  </Link>
+                )}
+
+                {/* MOBILE CARD NUMBER DECORATION */}
+
+                <span
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    bottom-[10px]
+                    right-[14px]
+                    hidden
+                    text-[38px]
+                    font-semibold
+                    leading-none
+                    tracking-[-0.08em]
+                    text-[#B12025]/[0.05]
+
+                    max-sm:block
+                  "
+                >
+                  {item.number}
+                </span>
+              </article>
+            ))}
+          </div>
+
+          {/* =================================================
+              MOBILE SWIPE INDICATOR
+          ================================================= */}
+
+          <div
+            className="
+              mt-[14px]
+              hidden
+              items-center
+              justify-center
+              gap-[5px]
+
+              max-sm:flex
+            "
+          >
+            {process.map((item, index) => (
+              <span
+                key={item.number}
+                className={`
+                  h-[3px]
+                  rounded-full
+
+                  ${
+                    index === 0
+                      ? 'w-[22px] bg-[#B12025]'
+                      : 'w-[8px] bg-[#17191C]/15'
+                  }
+                `}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* ===================================================
           07 — FAQ
+
+          MOBILE ONLY:
+          - shorter section
+          - smaller heading
+          - less white space
+          - FAQItem itself was compacted in Part 1
+
+          TABLET / DESKTOP:
+          unchanged
       =================================================== */}
 
       <section
@@ -2784,6 +3449,8 @@ useEffect(() => {
           bg-white
           px-5
           py-[65px]
+
+          max-sm:py-[38px]
 
           sm:px-8
           sm:py-[110px]
@@ -2798,6 +3465,8 @@ useEffect(() => {
             max-w-[1200px]
           "
         >
+          {/* FAQ LABEL */}
+
           <p
             className="
               text-[9px]
@@ -2806,11 +3475,16 @@ useEffect(() => {
               tracking-[0.22em]
               text-[#B12025]
 
+              max-sm:text-[8px]
+              max-sm:tracking-[0.18em]
+
               sm:text-[11px]
             "
           >
             FAQ
           </p>
+
+          {/* FAQ HEADING */}
 
           <h2
             className="
@@ -2822,13 +3496,19 @@ useEffect(() => {
               tracking-[-0.055em]
               text-[#17191C]
 
+              max-sm:mt-[12px]
+              max-sm:text-[28px]
+              max-sm:leading-[1.03]
+              max-sm:tracking-[-0.045em]
+
               sm:mt-6
               sm:text-[clamp(3rem,5vw,5.7rem)]
             "
           >
-            Common questions
-            about IT services
+            Common questions about IT services
           </h2>
+
+          {/* FAQ LIST */}
 
           <div
             className="
@@ -2836,39 +3516,26 @@ useEffect(() => {
               border-t
               border-[#17191C]/15
 
+              max-sm:mt-[24px]
+
               sm:mt-14
             "
           >
-            {faqs.map(
-              (
-                item,
-                index,
-              ) => (
-                <FAQItem
-                  key={
-                    item.question
-                  }
-                  question={
-                    item.question
-                  }
-                  answer={
-                    item.answer
-                  }
-                  open={
-                    faqOpen ===
-                    index
-                  }
-                  onClick={() =>
-                    setFaqOpen(
-                      faqOpen ===
-                        index
-                        ? null
-                        : index,
-                    )
-                  }
-                />
-              ),
-            )}
+            {faqs.map((item, index) => (
+              <FAQItem
+                key={item.question}
+                question={item.question}
+                answer={item.answer}
+                open={faqOpen === index}
+                onClick={() =>
+                  setFaqOpen(
+                    faqOpen === index
+                      ? null
+                      : index,
+                  )
+                }
+              />
+            ))}
           </div>
         </div>
       </section>

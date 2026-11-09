@@ -206,6 +206,11 @@ const navigationLinks = [
     icon: HeartHandshake,
   },
   {
+  label: 'Culture',
+  href: '/culture',
+  icon: HeartHandshake,
+},
+  {
     label: 'Work With Us',
     href: '/work-with-us',
     icon: BriefcaseBusiness,

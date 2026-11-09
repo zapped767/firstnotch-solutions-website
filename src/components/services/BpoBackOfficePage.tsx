@@ -239,14 +239,14 @@ function FaqRow({
   const splitAt = item.a.indexOf(item.highlight);
 
   return (
-    <div className="border-b border-[#B12025]/15 py-5">
+    <div className="border-b border-[#B12025]/15 py-5 max-sm:py-3.5">
       <h3>
         <button
           type="button"
           aria-expanded={open}
           aria-controls={`bpo-faq-answer-${index}`}
           onClick={() => setOpen((v) => !v)}
-          className="flex w-full items-start justify-between gap-4 text-left text-[16px] font-semibold tracking-[-.03em] text-[#17191C] focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-[#B12025] sm:text-[18px]"
+          className="flex w-full items-start justify-between gap-4 text-left text-[16px] font-semibold tracking-[-.03em] text-[#17191C] focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-[#B12025] max-sm:gap-3 max-sm:text-[12px] max-sm:leading-[1.4] sm:text-[18px]"
         >
           {item.q}
 
@@ -266,7 +266,7 @@ function FaqRow({
         className="overflow-hidden"
         aria-hidden={!open}
       >
-        <p className="max-w-[680px] pb-1 pt-4 text-[13px] leading-[1.9] text-[#17191C]/70 sm:text-[14px]">
+        <p className="max-w-[680px] pb-1 pt-4 text-[13px] leading-[1.9] text-[#17191C]/70 max-sm:pt-3 max-sm:text-[9px] max-sm:leading-[1.6] sm:text-[14px]">
           {splitAt >= 0 ? (
             <>
               {item.a.slice(0, splitAt)}
@@ -295,12 +295,192 @@ function FaqRow({
 export default function BpoBackOfficePage() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const quoteRef = useRef<HTMLElement>(null);
-  const stepsRef = useRef<HTMLElement>(null);
+const quoteRef = useRef<HTMLElement>(null);
+const stepsRef = useRef<HTMLElement>(null);
 
-  const ringRef = useRef<SVGCircleElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
+// Desktop GSAP horizontal service cards
+const servicesSectionRef = useRef<HTMLElement>(null);
+const servicesTrackRef = useRef<HTMLDivElement>(null);
 
+const ringRef = useRef<SVGCircleElement>(null);
+const timelineRef = useRef<HTMLDivElement>(null);
+
+  // Mobile horizontal sliders
+  const mobileServicesRef =
+    useRef<HTMLDivElement>(null);
+
+  const mobileProcessRef =
+    useRef<HTMLDivElement>(null);
+
+  // ====================================================
+// SERVICE CARDS — CONTINUOUS AUTO LOOP
+// Desktop + Tablet + Mobile
+// ====================================================
+
+useEffect(() => {
+  const container = mobileServicesRef.current;
+
+  if (!container) return;
+
+  const track =
+    container.querySelector<HTMLElement>(
+      '[data-bpo-services-track]'
+    );
+
+  if (!track) return;
+
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  );
+
+  if (reduceMotion.matches) return;
+
+  const originalCards = Array.from(
+    track.querySelectorAll<HTMLElement>(
+      '[data-bpo-loop-card="original"]'
+    )
+  );
+
+  if (!originalCards.length) return;
+
+  // Wait until browser has calculated card widths
+  const createLoop = () => {
+    const firstCard = originalCards[0];
+
+    const styles =
+      window.getComputedStyle(track);
+
+    const gap =
+      parseFloat(styles.columnGap || styles.gap) || 0;
+
+    const cardWidth =
+      firstCard.getBoundingClientRect().width;
+
+    // Width of ONE complete set of cards
+    const oneSetWidth =
+      originalCards.length * cardWidth +
+      originalCards.length * gap;
+
+    gsap.set(track, {
+      x: 0,
+    });
+
+    const tween = gsap.to(track, {
+      x: -oneSetWidth,
+
+      duration: 32,
+
+      ease: 'none',
+
+      repeat: -1,
+
+      modifiers: {
+        x: gsap.utils.unitize(
+          gsap.utils.wrap(
+            -oneSetWidth,
+            0
+          )
+        ),
+      },
+    });
+
+    return tween;
+  };
+
+  const tween = createLoop();
+
+  // Pause while user hovers
+  const pause = () => tween?.pause();
+
+  const play = () => tween?.play();
+
+  container.addEventListener(
+    'mouseenter',
+    pause
+  );
+
+  container.addEventListener(
+    'mouseleave',
+    play
+  );
+
+  return () => {
+    tween?.kill();
+
+    container.removeEventListener(
+      'mouseenter',
+      pause
+    );
+
+    container.removeEventListener(
+      'mouseleave',
+      play
+    );
+
+    gsap.set(track, {
+      clearProps: 'transform',
+    });
+  };
+}, []);
+  // ====================================================
+  // MOBILE — PROCESS CARDS AUTO SCROLL
+  // ====================================================
+
+  useEffect(() => {
+    const container =
+      mobileProcessRef.current;
+
+    if (!container) return;
+
+    const media = window.matchMedia(
+      '(max-width: 639px)'
+    );
+
+    if (!media.matches) return;
+
+    let index = 0;
+
+    const getCards = () =>
+      Array.from(
+        container.querySelectorAll<HTMLElement>(
+          '[data-bpo-mobile-step]'
+        )
+      );
+
+    const scrollToCard = (
+      cardIndex: number
+    ) => {
+      const cards = getCards();
+
+      if (!cards.length) return;
+
+      const card = cards[cardIndex];
+
+      if (!card) return;
+
+      container.scrollTo({
+        left:
+          card.offsetLeft -
+          container.offsetLeft,
+        behavior: 'smooth',
+      });
+    };
+
+    const timer = window.setInterval(() => {
+      const cards = getCards();
+
+      if (!cards.length) return;
+
+      index =
+        (index + 1) % cards.length;
+
+      scrollToCard(index);
+    }, 3500);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
   // ====================================================
   // GSAP ANIMATIONS
   // ====================================================
@@ -461,29 +641,6 @@ export default function BpoBackOfficePage() {
               }
             );
           }
-
-          // ==========================================
-          // TESTIMONIAL HIGHLIGHT SWEEP
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-bpo-quote-highlight]',
-            {
-              backgroundSize: '0% 100%',
-            },
-            {
-              backgroundSize: '100% 100%',
-              ease: 'none',
-              stagger: 0.22,
-
-              scrollTrigger: {
-                trigger: quoteRef.current,
-                start: 'top 75%',
-                end: 'bottom 45%',
-                scrub: true,
-              },
-            }
-          );
 
           // QUOTE WORD REVEAL
 
@@ -653,32 +810,56 @@ export default function BpoBackOfficePage() {
       () => {
         const ctx = gsap.context(() => {
           // ==========================================
-          // COLUMN SPEED PARALLAX
-          // ==========================================
+// DESKTOP — PINNED HORIZONTAL SERVICE CARDS
+// Vertical page scroll -> horizontal cards
+// ==========================================
 
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-bpo-column]'
-            )
-            .forEach((el, i) => {
-              gsap.fromTo(
-                el,
-                {
-                  y: 0,
-                },
-                {
-                  y: (i % 3 - 1) * 20,
-                  ease: 'none',
+const servicesSection =
+  servicesSectionRef.current;
 
-                  scrollTrigger: {
-                    trigger: '#bpo-services',
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: true,
-                  },
-                }
-              );
-            });
+const servicesTrack =
+  servicesTrackRef.current;
+
+if (servicesSection && servicesTrack) {
+  const getHorizontalDistance = () => {
+    return Math.max(
+      0,
+      servicesTrack.scrollWidth -
+        servicesSection.clientWidth +
+        112
+    );
+  };
+
+  gsap.to(servicesTrack, {
+    x: () => -getHorizontalDistance(),
+
+    ease: 'none',
+
+    scrollTrigger: {
+      trigger: servicesSection,
+
+      // Pin when section reaches navbar area
+      start: 'top top+=95',
+
+      // Scroll distance depends on actual card width
+      end: () =>
+        `+=${Math.max(
+          getHorizontalDistance(),
+          900
+        )}`,
+
+      pin: true,
+
+      // Smooth connection between
+      // vertical scroll and horizontal movement
+      scrub: 0.8,
+
+      anticipatePin: 1,
+
+      invalidateOnRefresh: true,
+    },
+  });
+}
 
           // ==========================================
           // PINNED TESTIMONIAL
@@ -787,52 +968,61 @@ export default function BpoBackOfficePage() {
       ============================================== */}
 
       <section
-        className="relative bg-white px-5 py-12 sm:px-8 lg:px-14"
+        className="
+  relative bg-white px-5 py-12
+
+  max-sm:px-3
+  max-sm:py-5
+
+  sm:px-8
+  lg:px-14
+"
         aria-label="FirstNotch performance statistics"
       >
-        <div className="mx-auto grid max-w-[1420px] grid-cols-2 gap-5 rounded-[26px] border border-[#B12025]/10 bg-white p-5 shadow-[0_12px_50px_rgba(177,32,37,.06)] md:grid-cols-4 lg:p-8">
+        <div className="
+  mx-auto
+  grid
+  max-w-[1420px]
+  grid-cols-2
+  gap-5
+  rounded-[26px]
+  border
+  border-[#B12025]/10
+  bg-white
+  p-5
+  shadow-[0_12px_50px_rgba(177,32,37,.06)]
+
+max-sm:grid-cols-4
+max-sm:gap-0
+max-sm:rounded-[18px]
+max-sm:px-[10px]
+max-sm:py-[14px]
+max-sm:items-start
+
+  md:grid-cols-4
+  lg:p-8
+">
           {/* 98% + SVG RING */}
 
           <div
             data-bpo-reveal
-            className="flex items-center gap-3 border-[#B12025]/10 md:border-r"
+           className="
+  flex items-center gap-3
+  border-[#B12025]/10
+
+  max-sm:flex-col
+  max-sm:items-start
+  max-sm:gap-1
+
+  md:border-r
+"
           >
-            <svg
-              viewBox="0 0 112 112"
-              width="70"
-              height="70"
-              className="shrink-0 -rotate-90"
-              aria-hidden="true"
-            >
-              <circle
-                cx="56"
-                cy="56"
-                r="45"
-                stroke="#F5DADA"
-                strokeWidth="8"
-                fill="none"
-              />
-
-              <circle
-                ref={ringRef}
-                cx="56"
-                cy="56"
-                r="45"
-                stroke={RED}
-                strokeWidth="8"
-                fill="none"
-                strokeLinecap="round"
-                strokeDasharray={2 * Math.PI * 45}
-                strokeDashoffset={2 * Math.PI * 45}
-              />
-            </svg>
-
+           
             <div>
-              <div className="text-[28px] font-semibold tracking-[-.06em] text-[#B12025]">
-                <span data-bpo-count="98">98</span>%
+<div className="whitespace-nowrap text-[28px] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.06em]">                <span data-bpo-count="98">98</span>%
               </div>
 
-              <p className="text-[11px] leading-5 text-[#17191C]/60">
+              <p className="text-[11px] leading-5 text-[#17191C]/60 max-sm:mt-1 max-sm:text-[6.5px] max-sm:leading-[1.35]">
                 accuracy rate across client work
               </p>
             </div>
@@ -844,11 +1034,10 @@ export default function BpoBackOfficePage() {
             data-bpo-reveal
             className="flex flex-col justify-center border-[#B12025]/10 pl-2 md:border-r md:pl-6"
           >
-            <div className="text-[37px] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-              <span data-bpo-count="85">85</span>%
+<div className="whitespace-nowrap text-[37px] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.06em]">              <span data-bpo-count="85">85</span>%
             </div>
 
-            <p className="mt-2 text-[12px] text-[#17191C]/60">
+            <p className="mt-2 text-[12px] text-[#17191C]/60 max-sm:mt-1 max-sm:text-[6.5px] max-sm:leading-[1.35]">
               client retention rate
             </p>
           </div>
@@ -859,13 +1048,24 @@ export default function BpoBackOfficePage() {
             data-bpo-reveal
             className="flex flex-col justify-center border-[#B12025]/10 pl-2 md:border-r md:pl-6"
           >
-            <div className="text-[37px] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-              <span data-bpo-count="15">15</span>
-              –
-              <span data-bpo-count="20">20</span>%
-            </div>
+            <div
+className="
+  whitespace-nowrap
+  text-[37px]
+  font-semibold
+  leading-none
+  tracking-[-.06em]
+  text-[#B12025]
 
-            <p className="mt-2 text-[12px] text-[#17191C]/60">
+  max-sm:text-[18px]
+  max-sm:leading-none
+  max-sm:tracking-[-0.06em]
+"
+>
+  <span data-bpo-count="15">15</span>–<span data-bpo-count="20">20</span>%
+</div>
+
+            <p className="mt-2 text-[12px] text-[#17191C]/60 max-sm:mt-1 max-sm:text-[6.5px] max-sm:leading-[1.35]">
               of job applicants pass the hiring checks
             </p>
           </div>
@@ -876,11 +1076,10 @@ export default function BpoBackOfficePage() {
             data-bpo-reveal
             className="flex flex-col justify-center pl-2 md:pl-6"
           >
-            <div className="text-[37px] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-              <span data-bpo-count="30">30</span>+
+<div className="whitespace-nowrap text-[37px] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[18px] max-sm:leading-none max-sm:tracking-[-0.06em]">              <span data-bpo-count="30">30</span>+
             </div>
 
-            <p className="mt-2 text-[12px] text-[#17191C]/60">
+            <p className="mt-2 text-[12px] text-[#17191C]/60 max-sm:mt-1 max-sm:text-[6.5px] max-sm:leading-[1.35]">
               trained staff in Colombo
             </p>
           </div>
@@ -888,86 +1087,397 @@ export default function BpoBackOfficePage() {
       </section>
 
       {/* ==============================================
-          03 — SEVEN SERVICE CARDS
-      ============================================== */}
+    03 — SEVEN SERVICE CARDS
+    DESKTOP = GSAP PINNED HORIZONTAL SCROLL
+    MOBILE = EXISTING AUTO HORIZONTAL SCROLL
+============================================== */}
 
-      <section
-        id="bpo-services"
-        className="scroll-mt-[100px] bg-white px-5 py-[90px] sm:px-8 lg:px-14 lg:py-[120px]"
+<section
+  ref={servicesSectionRef}
+  id="bpo-services"
+  className="
+    relative
+    scroll-mt-[100px]
+    overflow-hidden
+    bg-white
+    px-5
+    py-[90px]
+
+    max-sm:px-4
+    max-sm:py-[42px]
+
+    sm:px-8
+
+    lg:flex
+    lg:min-h-[720px]
+    lg:flex-col
+    lg:justify-center
+    lg:px-14
+    lg:py-[70px]
+  "
+>
+  <div className="mx-auto w-full max-w-[1420px]">
+    {/* ==========================================
+        HEADING
+    ========================================== */}
+
+    <p
+      data-bpo-reveal
+      className="
+        text-[11px]
+        font-semibold
+        uppercase
+        tracking-[.2em]
+        text-[#B12025]
+
+        max-sm:text-[8px]
+        max-sm:tracking-[0.16em]
+      "
+    >
+      What we handle
+    </p>
+
+    <div
+      className="
+        mt-4
+        flex
+        flex-wrap
+        items-end
+        justify-between
+        gap-6
+      "
+    >
+      <h2
+        data-bpo-reveal
+        className="
+          max-w-[820px]
+          text-[clamp(2.6rem,5vw,5rem)]
+          font-semibold
+          leading-[1.08]
+          tracking-[-.06em]
+
+          max-sm:text-[30px]
+          max-sm:leading-[1.04]
+          max-sm:tracking-[-0.045em]
+        "
       >
-        <div className="mx-auto max-w-[1420px]">
-          <p
-            data-bpo-reveal
-            className="text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025]"
+        BPO and back office services
+
+        <span className="text-[#B12025]">
+          .
+        </span>
+      </h2>
+
+      
+    </div>
+  </div>
+
+<div
+  ref={mobileServicesRef}
+  className="
+    mt-12
+    w-full
+    overflow-hidden
+
+    max-sm:mt-7
+  "
+>
+  <div
+    data-bpo-services-track
+    className="
+      flex
+      w-max
+      gap-5
+      will-change-transform
+
+      max-sm:gap-3
+    "
+  >
+    {/* ======================================
+        ORIGINAL CARDS
+    ====================================== */}
+
+    {services.map((service, i) => (
+      <div
+        key={`original-${service.slug}`}
+        data-bpo-column
+        data-bpo-loop-card="original"
+        className="
+          w-[410px]
+          shrink-0
+
+          max-sm:w-[70vw]
+          max-sm:max-w-[240px]
+
+          sm:w-[390px]
+
+          lg:w-[410px]
+        "
+      >
+        <Link
+          data-bpo-card
+          href={`${BASE}/${service.slug}`}
+          className="
+            group
+            flex
+            h-full
+            min-h-[265px]
+            flex-col
+            rounded-[24px]
+            border
+            border-[#B12025]/10
+            bg-[#FFF9F7]
+            p-7
+
+            transition-[background-color,border-color,box-shadow,transform]
+            duration-300
+
+            hover:-translate-y-2
+            hover:border-[#B12025]
+            hover:bg-white
+            hover:shadow-[0_25px_60px_rgba(177,32,37,.11)]
+
+            max-sm:min-h-[190px]
+            max-sm:rounded-[18px]
+            max-sm:p-4
+          "
+        >
+          <div className="flex items-center justify-between">
+            <service.icon
+              size={27}
+              strokeWidth={1.6}
+              className="
+                text-[#B12025]
+
+                max-sm:h-[20px]
+                max-sm:w-[20px]
+              "
+            />
+
+            <span className="text-[11px] text-[#B12025]/50 max-sm:text-[8px]">
+              0{i + 1}
+            </span>
+          </div>
+
+          <h3
+            className="
+              mt-9
+              max-w-[320px]
+              text-[21px]
+              font-semibold
+              leading-[1.2]
+              tracking-[-.04em]
+
+              max-sm:mt-5
+              max-sm:text-[16px]
+            "
           >
-            What we handle
+            {service.title}
+          </h3>
+
+          <p
+            className="
+              mt-3
+              text-[13px]
+              leading-[1.8]
+              text-[#17191C]/65
+
+              max-sm:mt-2
+              max-sm:text-[9px]
+              max-sm:leading-[1.55]
+            "
+          >
+            {service.detail}
           </p>
 
-          <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
-            <h2
-              data-bpo-reveal
-              className="max-w-[820px] text-[clamp(2.6rem,5vw,5rem)] font-semibold leading-[1.08] tracking-[-.06em]"
-            >
-              BPO and back office services
-              <span className="text-[#B12025]">.</span>
-            </h2>
+          <span
+            className="
+              mt-auto
+              flex
+              items-center
+              gap-2
+              pt-6
+              text-[12px]
+              font-semibold
+              text-[#B12025]
 
-            <p
-              data-bpo-reveal
-              className="max-w-[300px] text-[13px] leading-7 text-[#17191C]/65"
-            >
-              Each card links to the full details.
-            </p>
+              max-sm:pt-4
+              max-sm:text-[9px]
+            "
+          >
+            Read more
+
+            <ArrowRight
+              size={16}
+              className="
+                transition-transform
+                group-hover:translate-x-2
+              "
+            />
+          </span>
+        </Link>
+      </div>
+    ))}
+
+    {/* ======================================
+        DUPLICATE CARDS
+        Needed for seamless infinite loop
+    ====================================== */}
+
+    {services.map((service, i) => (
+      <div
+        key={`clone-${service.slug}`}
+        data-bpo-loop-card="clone"
+        aria-hidden="true"
+        className="
+          w-[410px]
+          shrink-0
+
+          max-sm:w-[70vw]
+          max-sm:max-w-[240px]
+
+          sm:w-[390px]
+
+          lg:w-[410px]
+        "
+      >
+        <Link
+          tabIndex={-1}
+          href={`${BASE}/${service.slug}`}
+          className="
+            group
+            flex
+            h-full
+            min-h-[265px]
+            flex-col
+            rounded-[24px]
+            border
+            border-[#B12025]/10
+            bg-[#FFF9F7]
+            p-7
+
+            transition-[background-color,border-color,box-shadow,transform]
+            duration-300
+
+            hover:-translate-y-2
+            hover:border-[#B12025]
+            hover:bg-white
+            hover:shadow-[0_25px_60px_rgba(177,32,37,.11)]
+
+            max-sm:min-h-[190px]
+            max-sm:rounded-[18px]
+            max-sm:p-4
+          "
+        >
+          <div className="flex items-center justify-between">
+            <service.icon
+              size={27}
+              strokeWidth={1.6}
+              className="
+                text-[#B12025]
+
+                max-sm:h-[20px]
+                max-sm:w-[20px]
+              "
+            />
+
+            <span className="text-[11px] text-[#B12025]/50 max-sm:text-[8px]">
+              0{i + 1}
+            </span>
           </div>
 
-          {/* ANIMATED GRID */}
+          <h3
+            className="
+              mt-9
+              max-w-[320px]
+              text-[21px]
+              font-semibold
+              leading-[1.2]
+              tracking-[-.04em]
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {services.map((service, i) => (
-              <div
-                data-bpo-column
-                key={service.slug}
-                className="min-w-0"
-              >
-                <Link
-                  data-bpo-card
-                  href={`${BASE}/${service.slug}`}
-                  className="group flex h-full min-h-[265px] flex-col rounded-[24px] border border-[#B12025]/10 bg-[#FFF9F7] p-7 transition-[background-color,border-color,box-shadow,transform] duration-300 hover:-translate-y-2 hover:border-[#B12025] hover:bg-white hover:shadow-[0_25px_60px_rgba(177,32,37,.11)] focus-visible:outline-2 focus-visible:outline-[#B12025]"
-                >
-                  <div className="flex items-center justify-between">
-                    <service.icon
-                      size={27}
-                      strokeWidth={1.6}
-                      className="text-[#B12025]"
-                    />
+              max-sm:mt-5
+              max-sm:text-[16px]
+            "
+          >
+            {service.title}
+          </h3>
 
-                    <span className="text-[11px] text-[#B12025]/50">
-                      0{i + 1}
-                    </span>
-                  </div>
+          <p
+            className="
+              mt-3
+              text-[13px]
+              leading-[1.8]
+              text-[#17191C]/65
 
-                  <h3 className="mt-9 max-w-[320px] text-[21px] font-semibold leading-[1.2] tracking-[-.04em]">
-                    {service.title}
-                  </h3>
+              max-sm:mt-2
+              max-sm:text-[9px]
+              max-sm:leading-[1.55]
+            "
+          >
+            {service.detail}
+          </p>
 
-                  <p className="mt-3 text-[13px] leading-[1.8] text-[#17191C]/65">
-                    {service.detail}
-                  </p>
+          <span
+            className="
+              mt-auto
+              flex
+              items-center
+              gap-2
+              pt-6
+              text-[12px]
+              font-semibold
+              text-[#B12025]
 
-                  <span className="mt-auto flex items-center gap-2 pt-6 text-[12px] font-semibold text-[#B12025]">
-                    Read more
+              max-sm:pt-4
+              max-sm:text-[9px]
+            "
+          >
+            Read more
 
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-2"
-                    />
-                  </span>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            <ArrowRight
+              size={16}
+              className="
+                transition-transform
+                group-hover:translate-x-2
+              "
+            />
+          </span>
+        </Link>
+      </div>
+    ))}
+  </div>
+</div>
+
+  {/* ==========================================
+      DESKTOP SCROLL HINT
+  ========================================== */}
+
+  <div
+    className="
+      mx-auto
+      mt-7
+      hidden
+      w-full
+      max-w-[1420px]
+      items-center
+      justify-between
+      px-14
+
+      lg:flex
+    "
+  >
+
+
+    <div className="flex items-center gap-3">
+      <span className="h-[1px] w-[70px] bg-[#B12025]/25" />
+
+      <ArrowRight
+        size={16}
+        className="text-[#B12025]"
+      />
+    </div>
+  </div>
+</section>
 
       {/* ==============================================
           04 — PINNED QUOTE SECTION
@@ -976,7 +1486,7 @@ export default function BpoBackOfficePage() {
       <section
         ref={quoteRef}
         id="bpo-results"
-        className="relative flex min-h-[510px] items-center overflow-hidden bg-[#B12025] px-5 py-20 text-white sm:px-8 lg:min-h-[600px] lg:px-14"
+        className="relative flex min-h-[510px] items-center overflow-hidden bg-[#B12025] px-5 py-20 text-white max-sm:min-h-0 max-sm:px-4 max-sm:py-[48px] sm:px-8 lg:min-h-[600px] lg:px-14"
       >
         <div
           aria-hidden="true"
@@ -986,17 +1496,16 @@ export default function BpoBackOfficePage() {
         <div className="relative mx-auto w-full max-w-[1180px] text-center">
           <p
             data-bpo-reveal
-            className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/75"
+            className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/75 max-sm:text-[8px] max-sm:leading-[1.5] max-sm:tracking-[0.16em]"
           >
             Freight forwarder · client experience
           </p>
 
-          <blockquote className="mx-auto mt-9 max-w-[1100px] text-[clamp(1.85rem,4.1vw,4.3rem)] font-semibold leading-[1.3] tracking-[-.055em]">
+          <blockquote className="mx-auto mt-9 max-w-[1100px] text-[clamp(1.85rem,4.1vw,4.3rem)] font-semibold leading-[1.3] tracking-[-.055em] max-sm:mt-5 max-sm:text-[27px] max-sm:leading-[1.22] max-sm:tracking-[-0.045em]">
             {QUOTE_PARTS.map((part, i) => (
               <span
                 key={i}
-                data-bpo-quote-highlight
-                className="mr-[.2em] inline rounded-[3px] bg-[linear-gradient(rgba(255,255,255,.19),rgba(255,255,255,.19))] bg-left bg-no-repeat [background-size:0%_100%]"
+                className="mr-[.2em] inline"
               >
                 {part.split(/\s+/).map((word, j) => (
                   <span
@@ -1014,7 +1523,7 @@ export default function BpoBackOfficePage() {
 
           {/* BEFORE / AFTER STORY */}
 
-          <div className="mx-auto mt-10 flex max-w-[640px] flex-wrap justify-center gap-3">
+          <div className="mx-auto mt-10 flex max-w-[640px] flex-wrap justify-center gap-3 max-sm:hidden">
             {[
               'Days',
               'Within a day',
@@ -1036,7 +1545,7 @@ export default function BpoBackOfficePage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-8 h-[3px] w-[240px] overflow-hidden rounded-full bg-white/25">
+          <div className="mx-auto mt-8 h-[3px] w-[240px] overflow-hidden rounded-full bg-white/25 max-sm:hidden">
             <div
               data-bpo-quote-progress
               className="h-full w-full origin-left scale-x-0 bg-white"
@@ -1057,9 +1566,9 @@ export default function BpoBackOfficePage() {
 
       <section
         id="bpo-faq"
-        className="bg-[#FFF8F5] px-5 py-[105px] sm:px-8 lg:px-14 lg:py-[135px]"
+        className="bg-[#FFF8F5] px-5 py-[105px] max-sm:px-4 max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[135px]"
       >
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
+        <div className="mx-auto grid max-w-[1420px] gap-12 max-sm:gap-7 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
           {/* STICKY LEFT HEADING */}
 
           <div className="self-start lg:sticky lg:top-[125px]">
@@ -1072,13 +1581,13 @@ export default function BpoBackOfficePage() {
 
             <h2
               data-bpo-reveal
-              className="mt-5 max-w-[420px] text-[clamp(2.6rem,4.8vw,4.9rem)] font-semibold leading-[1.08] tracking-[-.06em]"
+              className="mt-5 max-w-[420px] text-[clamp(2.6rem,4.8vw,4.9rem)] font-semibold leading-[1.08] tracking-[-.06em] max-sm:mt-3 max-sm:max-w-[300px] max-sm:text-[30px] max-sm:leading-[1.05] max-sm:tracking-[-0.045em]"
             >
               Common questions about back office outsourcing
               <span className="text-[#B12025]">.</span>
             </h2>
 
-            <p className="mt-6 max-w-[360px] text-[14px] leading-[1.8] text-[#17191C]/65">
+            <p className="mt-6 max-w-[360px] text-[14px] leading-[1.8] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-[1.6]">
               Answers about quality, turnaround,
               your data and growing the team.
             </p>
@@ -1105,7 +1614,7 @@ export default function BpoBackOfficePage() {
       <section
         ref={stepsRef}
         id="bpo-process"
-        className="flex min-h-[570px] items-center bg-white px-5 py-24 sm:px-8 lg:min-h-[690px] lg:px-14"
+        className="flex min-h-[570px] items-center bg-white px-5 py-24 max-sm:min-h-0 max-sm:px-4 max-sm:py-[48px] sm:px-8 lg:min-h-[690px] lg:px-14"
       >
         <div className="mx-auto w-full max-w-[1420px]">
           <p
@@ -1117,7 +1626,7 @@ export default function BpoBackOfficePage() {
 
           <h2
             data-bpo-reveal
-            className="mt-5 max-w-[1000px] text-[clamp(2.5rem,4.9vw,5rem)] font-semibold leading-[1.07] tracking-[-.06em]"
+            className="mt-5 max-w-[1000px] text-[clamp(2.5rem,4.9vw,5rem)] font-semibold leading-[1.07] tracking-[-.06em] max-sm:mt-3 max-sm:max-w-[310px] max-sm:text-[30px] max-sm:leading-[1.06] max-sm:tracking-[-0.045em]"
           >
             How your back office team is set up
             <span className="text-[#B12025]">.</span>
@@ -1125,7 +1634,7 @@ export default function BpoBackOfficePage() {
 
           <p
             data-bpo-reveal
-            className="mt-5 max-w-[680px] text-[14px] leading-[1.8] text-[#17191C]/65"
+            className="mt-5 max-w-[680px] text-[14px] leading-[1.8] text-[#17191C]/65 max-sm:mt-4 max-sm:max-w-[310px] max-sm:text-[10px] max-sm:leading-[1.6]"
           >
             The biggest risk with outsourced admin is
             mistakes that reach your systems. These
@@ -1134,7 +1643,7 @@ export default function BpoBackOfficePage() {
 
           {/* PROGRESS LINE */}
 
-          <div className="relative mt-12">
+          <div className="relative mt-12 max-sm:mt-7">
             <div
               aria-hidden="true"
               className="absolute left-0 right-0 top-0 hidden h-[2px] bg-[#B12025]/15 lg:block"
@@ -1148,29 +1657,49 @@ export default function BpoBackOfficePage() {
 
             {/* FOUR STEPS */}
 
-            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <div
+              ref={mobileProcessRef}
+              className="
+                flex gap-3 overflow-x-auto
+                snap-x snap-mandatory scroll-smooth pb-3
+                [scrollbar-width:none]
+                [&::-webkit-scrollbar]:hidden
+                sm:grid sm:grid-cols-2 sm:gap-7
+                sm:overflow-visible sm:pb-0
+                lg:grid-cols-4 lg:gap-8
+              "
+            >
               {setup.map((step) => (
                 <article
                   data-bpo-step
+                  data-bpo-mobile-step
                   key={step.n}
-                  className="border-t-2 border-[#B12025]/35 pt-6 lg:border-0"
+                  className="
+                    border-t-2 border-[#B12025]/35 pt-6
+                    max-sm:w-[74vw]
+                    max-sm:max-w-[250px]
+                    max-sm:shrink-0
+                    max-sm:snap-center
+                    max-sm:pt-4
+                    lg:border-0
+                  "
                 >
-                  <div className="flex items-center gap-3 text-[#B12025]">
+                  <div className="flex items-center gap-3 text-[#B12025] max-sm:gap-2">
                     <step.icon
                       size={25}
                       strokeWidth={1.6}
                     />
 
-                    <span className="text-[13px] font-semibold">
+                    <span className="text-[13px] font-semibold max-sm:text-[9px]">
                       {step.n}
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-[21px] font-semibold tracking-[-.04em]">
+                  <h3 className="mt-5 text-[21px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[17px] max-sm:leading-[1.15]">
                     {step.title}
                   </h3>
 
-                  <p className="mt-4 text-[13px] leading-[1.9] text-[#17191C]/65">
+                  <p className="mt-4 text-[13px] leading-[1.9] text-[#17191C]/65 max-sm:mt-3 max-sm:text-[9px] max-sm:leading-[1.6]">
                     {step.text}
                   </p>
                 </article>

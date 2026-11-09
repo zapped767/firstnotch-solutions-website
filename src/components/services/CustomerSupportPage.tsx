@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -232,7 +231,6 @@ export default function CustomerSupportPage() {
     let mounted = true;
 
     const ctx = gsap.context(() => {
-
       // ================================================
       // NORMAL DESKTOP / TABLET MOTION
       // ================================================
@@ -240,10 +238,7 @@ export default function CustomerSupportPage() {
       mm.add(
         '(prefers-reduced-motion: no-preference)',
         () => {
-
           // 01 — HERO LINE REVEAL
-          // Lines are already split in JSX, so no
-          // SplitText plugin is needed.
 
           gsap.from('[data-cs-hero-line]', {
             yPercent: 110,
@@ -350,7 +345,9 @@ export default function CustomerSupportPage() {
           if (words.length) {
             gsap.fromTo(
               words,
-              { opacity: 0.22 },
+              {
+                opacity: 0.22,
+              },
               {
                 opacity: 1,
                 stagger: 0.065,
@@ -370,7 +367,9 @@ export default function CustomerSupportPage() {
 
           gsap.fromTo(
             '[data-cs-quote-box]',
-            { scaleX: 0.88 },
+            {
+              scaleX: 0.88,
+            },
             {
               scaleX: 1,
               ease: 'none',
@@ -415,7 +414,6 @@ export default function CustomerSupportPage() {
       mm.add(
         '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
         () => {
-
           // 08 — PINNED HORIZONTAL PROCESS
 
           const section =
@@ -591,14 +589,15 @@ export default function CustomerSupportPage() {
           };
         }
       );
-
     }, root);
 
     // Refresh pinned positions once Poppins loads.
 
     if (document.fonts?.ready) {
       document.fonts.ready.then(() => {
-        if (mounted) ScrollTrigger.refresh();
+        if (mounted) {
+          ScrollTrigger.refresh();
+        }
       });
     }
 
@@ -618,39 +617,68 @@ export default function CustomerSupportPage() {
       ref={rootRef}
       className="bg-white font-[inherit] text-[#17191C]"
     >
-{/* =================================================
-    SECTION 01 — PREMIUM STICKY SCROLL HERO
-================================================= */}
+            {/* =================================================
+          SECTION 01 — PREMIUM STICKY SCROLL HERO
+      ================================================= */}
 
-<CustomerSupportStickyHero />
+      <CustomerSupportStickyHero />
 
       {/* =================================================
           SECTION 02 — COUNT-UP STATISTICS
+
+          MOBILE:
+          - ALL 4 STATS IN ONE ROW
+          - SMALLER TEXT
+          - SMALLER SPACING
+
+          TABLET / DESKTOP:
+          - ORIGINAL DESIGN
       ================================================= */}
 
       <section
         aria-label="Customer support at a glance"
         className="
-          border-y border-[#B12025]/10
+          border-y
+          border-[#B12025]/10
           bg-[#FCFAFA]
-          px-5 py-12
-          sm:px-8 lg:px-14
+          px-5
+          py-12
+
+          max-sm:px-3
+          max-sm:py-5
+
+          sm:px-8
+
+          lg:px-14
         "
       >
-        <div className="
-          mx-auto
-          grid max-w-[1400px]
-          grid-cols-2 gap-9
-          md:grid-cols-4 md:gap-6
-        ">
+        <div
+          className="
+            mx-auto
+            grid
+            max-w-[1400px]
+            grid-cols-2
+            gap-9
+
+            max-sm:grid-cols-4
+            max-sm:gap-2
+
+            md:grid-cols-4
+            md:gap-6
+          "
+        >
           {stats.map((item) => (
             <div
               data-cs-reveal
               key={item.label}
               className="
                 min-w-0
-                border-l-2 border-[#B12025]
+                border-l-2
+                border-[#B12025]
                 pl-5
+
+                max-sm:border-l
+                max-sm:pl-2
               "
             >
               <p
@@ -668,21 +696,34 @@ export default function CustomerSupportPage() {
                   leading-none
                   tracking-[-0.055em]
                   text-[#B12025]
+
+                  max-sm:text-[18px]
+                  max-sm:tracking-[-0.04em]
                 "
               >
                 {'prefix' in item
                   ? item.prefix
                   : ''}
+
                 {item.to}
                 {item.suffix}
               </p>
 
-              <p className="
-                mt-3 max-w-[230px]
-                text-[11px] leading-[1.75]
-                text-[#17191C]/65
-                sm:text-[12px]
-              ">
+              <p
+                className="
+                  mt-3
+                  max-w-[230px]
+                  text-[11px]
+                  leading-[1.75]
+                  text-[#17191C]/65
+
+                  max-sm:mt-2
+                  max-sm:text-[6.5px]
+                  max-sm:leading-[1.35]
+
+                  sm:text-[12px]
+                "
+              >
                 {item.label}
               </p>
             </div>
@@ -692,42 +733,61 @@ export default function CustomerSupportPage() {
 
       {/* =================================================
           SECTION 03 — SCROLL TEXT HIGHLIGHT
+
+          MOBILE:
+          - COMPLETELY REMOVED
+
+          TABLET / DESKTOP:
+          - ORIGINAL SECTION
       ================================================= */}
 
       <section
         data-cs-highlight
         className="
-          px-5 py-20
+          hidden
+          px-5
+          py-20
+
+          sm:block
           sm:px-8
-          lg:px-14 lg:py-32
+
+          lg:px-14
+          lg:py-32
         "
       >
         <div className="mx-auto max-w-[1100px]">
-
           <p
             data-cs-reveal
             className="
-              mb-6 text-[11px]
-              font-semibold uppercase
-              tracking-[0.19em] text-[#B12025]
+              mb-6
+              text-[11px]
+              font-semibold
+              uppercase
+              tracking-[0.19em]
+              text-[#B12025]
             "
           >
             Your company. Your voice.
           </p>
 
-          <h2 className="
-            text-[clamp(2rem,4.8vw,4.7rem)]
-            font-semibold
-            leading-[1.18]
-            tracking-[-0.05em]
-          ">
+          <h2
+            className="
+              text-[clamp(2rem,4.8vw,4.7rem)]
+              font-semibold
+              leading-[1.18]
+              tracking-[-0.05em]
+            "
+          >
             {'Agents work as part of your team — in your systems, with your standards.'
               .split(' ')
               .map((word, index) => (
                 <span
                   data-cs-word
                   key={`${word}-${index}`}
-                  className="inline-block pr-[0.25em]"
+                  className="
+                    inline-block
+                    pr-[0.25em]
+                  "
                 >
                   {word}
                 </span>
@@ -738,6 +798,16 @@ export default function CustomerSupportPage() {
 
       {/* =================================================
           SECTION 04 — STACKING SERVICE CARDS
+
+          MOBILE:
+          - REDUCED SECTION HEIGHT
+          - SMALLER HEADING
+          - SMALLER DESCRIPTION
+          - HORIZONTAL SIDE SCROLL
+          - SMALLER CARDS
+
+          TABLET / DESKTOP:
+          - ORIGINAL STACKING DESIGN
       ================================================= */}
 
       <section
@@ -745,41 +815,117 @@ export default function CustomerSupportPage() {
         className="
           scroll-mt-[105px]
           bg-[#FAF9F9]
-          px-5 py-20
+          px-5
+          py-20
+
+          max-sm:px-4
+          max-sm:py-10
+
           sm:px-8
-          lg:px-14 lg:py-28
+
+          lg:px-14
+          lg:py-28
         "
       >
         <div className="mx-auto max-w-[1250px]">
 
-          <div data-cs-reveal className="mb-12 max-w-[860px] lg:mb-16">
+          {/* ===============================================
+              SERVICES HEADING
+          =============================================== */}
 
-            <p className="
-              text-[11px] font-semibold
-              uppercase tracking-[0.19em]
-              text-[#B12025]
-            ">
+          <div
+            data-cs-reveal
+            className="
+              mb-12
+              max-w-[860px]
+
+              max-sm:mb-6
+
+              lg:mb-16
+            "
+          >
+            <p
+              className="
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.19em]
+                text-[#B12025]
+
+                max-sm:text-[8px]
+                max-sm:tracking-[0.16em]
+              "
+            >
               Five connected services
             </p>
 
-            <h2 className="
-              mt-4
-              text-[clamp(2.35rem,5vw,5rem)]
-              font-semibold
-              leading-[1.1]
-              tracking-[-0.055em]
-            ">
+            <h2
+              className="
+                mt-4
+                text-[clamp(2.35rem,5vw,5rem)]
+                font-semibold
+                leading-[1.1]
+                tracking-[-0.055em]
+
+                max-sm:mt-2
+                max-sm:text-[29px]
+                max-sm:leading-[1.02]
+              "
+            >
               Customer support services
-              <span className="text-[#B12025]">.</span>
+
+              <span className="text-[#B12025]">
+                .
+              </span>
             </h2>
 
-            <p className="mt-5 text-[14px] leading-[1.85] text-[#17191C]/60">
+            <p
+              className="
+                mt-5
+                text-[14px]
+                leading-[1.85]
+                text-[#17191C]/60
+
+                max-sm:mt-3
+                max-sm:text-[10px]
+                max-sm:leading-[1.5]
+              "
+            >
               Choose a service to see how it works.
             </p>
           </div>
 
-          <div className="space-y-7 lg:space-y-14">
+          {/* ===============================================
+              SERVICE CARDS CONTAINER
 
+              MOBILE:
+              Horizontal swipe
+
+              SM+:
+              Original vertical stacking
+          =============================================== */}
+
+          <div
+            className="
+              flex
+              gap-3
+              overflow-x-auto
+              snap-x
+              snap-mandatory
+              scroll-smooth
+              pb-3
+
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+
+              sm:block
+              sm:space-y-7
+              sm:overflow-visible
+              sm:pb-0
+
+              lg:space-y-14
+            "
+          >
             {services.map((item, index) => {
               const Icon = item.icon;
               const red = index % 2 === 0;
@@ -789,6 +935,12 @@ export default function CustomerSupportPage() {
                   key={item.number}
                   className="
                     relative
+
+                    max-sm:w-[76vw]
+                    max-sm:max-w-[265px]
+                    max-sm:shrink-0
+                    max-sm:snap-center
+
                     lg:sticky
                     lg:top-[111px]
                   "
@@ -806,6 +958,9 @@ export default function CustomerSupportPage() {
                       border
                       p-7
 
+                      max-sm:rounded-[20px]
+                      max-sm:p-4
+
                       shadow-[0_20px_60px_rgba(23,25,28,0.08)]
 
                       sm:p-9
@@ -821,21 +976,36 @@ export default function CustomerSupportPage() {
                       }
                     `}
                   >
-                    <div className="
-                      grid items-center gap-9
-                      lg:grid-cols-[1.1fr_.9fr]
-                      lg:gap-14
-                    ">
+                    <div
+                      className="
+                        grid
+                        items-center
+                        gap-9
 
-                      {/* CARD TEXT */}
+                        lg:grid-cols-[1.1fr_.9fr]
+                        lg:gap-14
+                      "
+                    >
+                      {/* =====================================
+                          CARD TEXT
+                      ===================================== */}
 
                       <div>
                         <p
-                          className={`text-[11px] font-semibold tracking-[0.22em] ${
-                            red
-                              ? 'text-white/65'
-                              : 'text-[#B12025]'
-                          }`}
+                          className={`
+                            text-[11px]
+                            font-semibold
+                            tracking-[0.22em]
+
+                            max-sm:text-[7px]
+                            max-sm:tracking-[0.16em]
+
+                            ${
+                              red
+                                ? 'text-white/65'
+                                : 'text-[#B12025]'
+                            }
+                          `}
                         >
                           {item.number} / 05 — SUPPORT SERVICES
                         </p>
@@ -844,9 +1014,18 @@ export default function CustomerSupportPage() {
                           data-cs-service-icon
                           className={`
                             mt-8
-                            flex h-[64px] w-[64px]
-                            items-center justify-center
+                            flex
+                            h-[64px]
+                            w-[64px]
+                            items-center
+                            justify-center
                             rounded-[18px]
+
+                            max-sm:mt-4
+                            max-sm:h-[40px]
+                            max-sm:w-[40px]
+                            max-sm:rounded-[12px]
+
                             ${
                               red
                                 ? 'bg-white/15'
@@ -855,27 +1034,48 @@ export default function CustomerSupportPage() {
                           `}
                         >
                           <Icon
+                            className="
+                              max-sm:h-[18px]
+                              max-sm:w-[18px]
+                            "
                             size={29}
                             strokeWidth={1.55}
                           />
                         </div>
 
-                        <h3 className="
-                          mt-7
-                          text-[clamp(1.9rem,3.6vw,3.9rem)]
-                          font-semibold
-                          leading-[1.13]
-                          tracking-[-0.05em]
-                        ">
+                        <h3
+                          className="
+                            mt-7
+                            text-[clamp(1.9rem,3.6vw,3.9rem)]
+                            font-semibold
+                            leading-[1.13]
+                            tracking-[-0.05em]
+
+                            max-sm:mt-4
+                            max-sm:text-[23px]
+                            max-sm:leading-[1.05]
+                          "
+                        >
                           {item.title}
                         </h3>
 
                         <p
-                          className={`mt-5 max-w-[510px] text-[14px] leading-[1.85] ${
-                            red
-                              ? 'text-white/80'
-                              : 'text-[#17191C]/65'
-                          }`}
+                          className={`
+                            mt-5
+                            max-w-[510px]
+                            text-[14px]
+                            leading-[1.85]
+
+                            max-sm:mt-3
+                            max-sm:text-[9px]
+                            max-sm:leading-[1.55]
+
+                            ${
+                              red
+                                ? 'text-white/80'
+                                : 'text-[#17191C]/65'
+                            }
+                          `}
                         >
                           {item.description}
                         </p>
@@ -885,12 +1085,24 @@ export default function CustomerSupportPage() {
                           className={`
                             group
                             mt-8
-                            inline-flex items-center gap-3
+                            inline-flex
+                            items-center
+                            gap-3
                             rounded-full
-                            px-5 py-3.5
-                            text-[12px] font-semibold
+                            px-5
+                            py-3.5
+                            text-[12px]
+                            font-semibold
+
+                            max-sm:mt-4
+                            max-sm:gap-2
+                            max-sm:px-4
+                            max-sm:py-2.5
+                            max-sm:text-[9px]
+
                             transition-transform
                             hover:-translate-y-1
+
                             ${
                               red
                                 ? 'bg-white text-[#B12025]'
@@ -904,21 +1116,32 @@ export default function CustomerSupportPage() {
                             size={16}
                             className="
                               transition-transform
-                              group-hover:translate-x-1
                               group-hover:-translate-y-1
+                              group-hover:translate-x-1
+
+                              max-sm:h-[12px]
+                              max-sm:w-[12px]
                             "
                           />
                         </Link>
                       </div>
 
-                      {/* ANIMATED SERVICE WORKFLOW */}
+                      {/* =====================================
+                          ANIMATED SERVICE WORKFLOW
+                          Continues in Part 3
+                      ===================================== */}
 
-                      <div
+                                            <div
                         className={`
                           rounded-[24px]
                           p-5
                           shadow-[0_15px_40px_rgba(0,0,0,0.07)]
+
+                          max-sm:rounded-[16px]
+                          max-sm:p-3
+
                           sm:p-7
+
                           ${
                             red
                               ? 'bg-white text-[#17191C]'
@@ -926,27 +1149,80 @@ export default function CustomerSupportPage() {
                           }
                         `}
                       >
-                        <div className="
-                          flex items-center justify-between
-                          gap-2 border-b border-black/10
-                          pb-5
-                        ">
+                        {/* =====================================
+                            WORKFLOW HEADER
+                        ===================================== */}
 
-                          <div className="flex items-center gap-3">
-                            <span className="
-                              flex h-10 w-10
-                              items-center justify-center
-                              rounded-xl bg-[#B12025]/10
-                              text-[#B12025]
-                            ">
-                              <Icon size={20} />
+                        <div
+                          className="
+                            flex
+                            items-center
+                            justify-between
+                            gap-2
+                            border-b
+                            border-black/10
+                            pb-5
+
+                            max-sm:pb-3
+                          "
+                        >
+                          <div
+                            className="
+                              flex
+                              items-center
+                              gap-3
+
+                              max-sm:gap-2
+                            "
+                          >
+                            <span
+                              className="
+                                flex
+                                h-10
+                                w-10
+                                items-center
+                                justify-center
+                                rounded-xl
+                                bg-[#B12025]/10
+                                text-[#B12025]
+
+                                max-sm:h-8
+                                max-sm:w-8
+                                max-sm:rounded-[9px]
+                              "
+                            >
+                              <Icon
+                                size={20}
+                                className="
+                                  max-sm:h-[15px]
+                                  max-sm:w-[15px]
+                                "
+                              />
                             </span>
 
                             <div>
-                              <p className="text-[12px] font-semibold">
+                              <p
+                                className="
+                                  text-[12px]
+                                  font-semibold
+
+                                  max-sm:text-[9px]
+                                  max-sm:leading-[1.25]
+                                "
+                              >
                                 {item.miniTitle}
                               </p>
-                              <p className="mt-1 text-[10px] text-[#17191C]/45">
+
+                              <p
+                                className="
+                                  mt-1
+                                  text-[10px]
+                                  text-[#17191C]/45
+
+                                  max-sm:mt-[2px]
+                                  max-sm:text-[7px]
+                                "
+                              >
                                 Illustrative example
                               </p>
                             </div>
@@ -954,54 +1230,130 @@ export default function CustomerSupportPage() {
 
                           <Check
                             size={17}
-                            className="shrink-0 text-[#B12025]"
+                            className="
+                              shrink-0
+                              text-[#B12025]
+
+                              max-sm:h-[13px]
+                              max-sm:w-[13px]
+                            "
                           />
                         </div>
 
-                        <div className="mt-5 space-y-3">
+                        {/* =====================================
+                            WORKFLOW STEPS
+                        ===================================== */}
 
-                          {item.steps.map((step, stepIndex) => (
-                            <div
-                              key={step}
-                              className="
-                                flex items-center gap-3
-                                rounded-xl bg-white
-                                p-3.5
-                                transition-transform
-                                duration-300
-                                hover:translate-x-1
-                              "
-                            >
-                              <span className="
-                                flex h-8 w-8
-                                shrink-0
-                                items-center justify-center
-                                rounded-full
-                                bg-[#B12025]/10
-                                text-[10px] font-semibold
-                                text-[#B12025]
-                              ">
-                                0{stepIndex + 1}
-                              </span>
+                        <div
+                          className="
+                            mt-5
+                            space-y-3
 
-                              <span className="flex-1 text-[12px] font-medium">
-                                {step}
-                              </span>
+                            max-sm:mt-3
+                            max-sm:space-y-2
+                          "
+                        >
+                          {item.steps.map(
+                            (
+                              step,
+                              stepIndex
+                            ) => (
+                              <div
+                                key={step}
+                                className="
+                                  flex
+                                  items-center
+                                  gap-3
+                                  rounded-xl
+                                  bg-white
+                                  p-3.5
+                                  transition-transform
+                                  duration-300
+                                  hover:translate-x-1
 
-                              <Check
-                                size={15}
-                                className="text-[#B12025]"
-                              />
-                            </div>
-                          ))}
+                                  max-sm:gap-2
+                                  max-sm:rounded-[9px]
+                                  max-sm:p-2
+                                "
+                              >
+                                <span
+                                  className="
+                                    flex
+                                    h-8
+                                    w-8
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-[#B12025]/10
+                                    text-[10px]
+                                    font-semibold
+                                    text-[#B12025]
+
+                                    max-sm:h-6
+                                    max-sm:w-6
+                                    max-sm:text-[7px]
+                                  "
+                                >
+                                  0
+                                  {stepIndex +
+                                    1}
+                                </span>
+
+                                <span
+                                  className="
+                                    flex-1
+                                    text-[12px]
+                                    font-medium
+
+                                    max-sm:text-[8px]
+                                    max-sm:leading-[1.25]
+                                  "
+                                >
+                                  {step}
+                                </span>
+
+                                <Check
+                                  size={15}
+                                  className="
+                                    text-[#B12025]
+
+                                    max-sm:h-[11px]
+                                    max-sm:w-[11px]
+                                  "
+                                />
+                              </div>
+                            )
+                          )}
                         </div>
 
-                        <div className="
-                          mt-5 flex items-center gap-2
-                          text-[10px] font-semibold
-                          text-[#B12025]
-                        ">
-                          <CheckCheck size={15} />
+                        {/* =====================================
+                            WORKFLOW FOOTER
+                        ===================================== */}
+
+                        <div
+                          className="
+                            mt-5
+                            flex
+                            items-center
+                            gap-2
+                            text-[10px]
+                            font-semibold
+                            text-[#B12025]
+
+                            max-sm:mt-3
+                            max-sm:gap-1.5
+                            max-sm:text-[7px]
+                          "
+                        >
+                          <CheckCheck
+                            size={15}
+                            className="
+                              max-sm:h-[11px]
+                              max-sm:w-[11px]
+                            "
+                          />
+
                           Your team, your standards
                         </div>
                       </div>
@@ -1011,90 +1363,166 @@ export default function CustomerSupportPage() {
               );
             })}
           </div>
+
+          {/* ===============================================
+              MOBILE SWIPE INDICATOR
+
+              MOBILE ONLY
+          =============================================== */}
+
+          <div
+            className="
+              hidden
+
+              max-sm:mt-2
+              max-sm:flex
+              max-sm:items-center
+              max-sm:justify-center
+              max-sm:gap-1.5
+              max-sm:text-[7px]
+              max-sm:font-medium
+              max-sm:text-[#B12025]/60
+            "
+          >
+            Swipe to explore services
+
+            <ArrowUpRight
+              size={10}
+              className="
+                rotate-45
+              "
+            />
+          </div>
         </div>
       </section>
-
-      {/* =================================================
+            {/* =================================================
           SECTION 05 — BEFORE / AFTER STORY
+
+          MOBILE:
+          - COMPLETELY HIDDEN
+
+          TABLET / DESKTOP:
+          - ORIGINAL DESIGN
       ================================================= */}
 
       <section
         data-cs-story
         className="
+          hidden
           bg-white
-          px-5 py-20
+          px-5
+          py-20
+
+          sm:block
           sm:px-8
+
           lg:h-[165vh]
           lg:px-14
           lg:py-0
         "
       >
-        <div className="
-          mx-auto
-          flex max-w-[1300px]
-          flex-col justify-center
+        <div
+          className="
+            mx-auto
+            flex
+            max-w-[1300px]
+            flex-col
+            justify-center
 
-          lg:sticky
-          lg:top-[100px]
-          lg:h-[calc(100vh-110px)]
-        ">
-
-          <div data-cs-reveal className="mb-9">
-
-            <p className="
-              text-[11px] font-semibold
-              uppercase tracking-[0.2em]
-              text-[#B12025]
-            ">
+            lg:sticky
+            lg:top-[100px]
+            lg:h-[calc(100vh-110px)]
+          "
+        >
+          <div
+            data-cs-reveal
+            className="mb-9"
+          >
+            <p
+              className="
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.2em]
+                text-[#B12025]
+              "
+            >
               A clearer way to support
             </p>
 
-            <h2 className="
-              mt-3
-              text-[clamp(2.3rem,4.6vw,4.8rem)]
-              font-semibold
-              tracking-[-0.055em]
-            ">
+            <h2
+              className="
+                mt-3
+                text-[clamp(2.3rem,4.6vw,4.8rem)]
+                font-semibold
+                tracking-[-0.055em]
+              "
+            >
               From missed moments to managed conversations.
             </h2>
           </div>
 
-          {/* BEFORE AND AFTER STAGE */}
+          {/* ===============================================
+              BEFORE AND AFTER STAGE
+          =============================================== */}
 
-          <div className="
-            relative
-            min-h-[380px]
-            overflow-hidden
-            rounded-[30px]
-            lg:min-h-[435px]
-          ">
-
-            {/* BEFORE */}
-
-            <div className="
-              absolute inset-0
+          <div
+            className="
+              relative
+              min-h-[380px]
+              overflow-hidden
               rounded-[30px]
-              bg-[#F7F1F1]
-              p-7 sm:p-12
-            ">
-              <p className="
-                text-[11px] font-semibold
-                uppercase tracking-[0.2em]
-                text-[#B12025]
-              ">
+
+              lg:min-h-[435px]
+            "
+          >
+            {/* =============================================
+                BEFORE
+            ============================================= */}
+
+            <div
+              className="
+                absolute
+                inset-0
+                rounded-[30px]
+                bg-[#F7F1F1]
+                p-7
+
+                sm:p-12
+              "
+            >
+              <p
+                className="
+                  text-[11px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.2em]
+                  text-[#B12025]
+                "
+              >
                 Before — the missed moments
               </p>
 
-              <h3 className="
-                mt-5
-                text-[clamp(1.6rem,3.2vw,3rem)]
-                font-semibold
-                tracking-[-0.04em]
-              ">
+              <h3
+                className="
+                  mt-5
+                  text-[clamp(1.6rem,3.2vw,3rem)]
+                  font-semibold
+                  tracking-[-0.04em]
+                "
+              >
                 Calls missed. Cases passed around.
               </h3>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div
+                className="
+                  mt-8
+                  grid
+                  gap-3
+
+                  sm:grid-cols-3
+                "
+              >
                 {[
                   'Unanswered calls',
                   'Unassigned complaints',
@@ -1103,33 +1531,46 @@ export default function CustomerSupportPage() {
                   <div
                     key={item}
                     className="
-                      flex items-center gap-3
+                      flex
+                      items-center
+                      gap-3
                       rounded-2xl
-                      border border-[#B12025]/15
-                      bg-white p-5
-                      text-[12px] font-medium
+                      border
+                      border-[#B12025]/15
+                      bg-white
+                      p-5
+                      text-[12px]
+                      font-medium
                     "
                   >
                     <X
                       size={20}
-                      className="shrink-0 text-[#B12025]"
+                      className="
+                        shrink-0
+                        text-[#B12025]
+                      "
                     />
+
                     {item}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* AFTER — SCROLL CROSSFADE */}
+            {/* =============================================
+                AFTER — SCROLL CROSSFADE
+            ============================================= */}
 
             <div
               data-cs-story-after
               className="
-                relative z-10
+                relative
+                z-10
                 mt-[400px]
                 rounded-[30px]
                 bg-[#B12025]
-                p-7 text-white
+                p-7
+                text-white
 
                 sm:mt-[365px]
                 sm:p-12
@@ -1139,24 +1580,38 @@ export default function CustomerSupportPage() {
                 lg:mt-0
               "
             >
-              <p className="
-                text-[11px] font-semibold
-                uppercase tracking-[0.2em]
-                text-white/75
-              ">
+              <p
+                className="
+                  text-[11px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.2em]
+                  text-white/75
+                "
+              >
                 After — one accountable team
               </p>
 
-              <h3 className="
-                mt-5
-                text-[clamp(1.6rem,3.2vw,3rem)]
-                font-semibold
-                tracking-[-0.04em]
-              ">
+              <h3
+                className="
+                  mt-5
+                  text-[clamp(1.6rem,3.2vw,3rem)]
+                  font-semibold
+                  tracking-[-0.04em]
+                "
+              >
                 Answered. Assigned. Followed through.
               </h3>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div
+                className="
+                  mt-8
+                  grid
+                  gap-3
+
+                  sm:grid-cols-3
+                "
+              >
                 {[
                   'Support across channels',
                   'Clear case ownership',
@@ -1165,14 +1620,23 @@ export default function CustomerSupportPage() {
                   <div
                     key={item}
                     className="
-                      flex items-center gap-3
+                      flex
+                      items-center
+                      gap-3
                       rounded-2xl
-                      border border-white/20
-                      bg-white/10 p-5
-                      text-[12px] font-medium
+                      border
+                      border-white/20
+                      bg-white/10
+                      p-5
+                      text-[12px]
+                      font-medium
                     "
                   >
-                    <Check size={20} className="shrink-0" />
+                    <Check
+                      size={20}
+                      className="shrink-0"
+                    />
+
                     {item}
                   </div>
                 ))}
@@ -1184,6 +1648,18 @@ export default function CustomerSupportPage() {
 
       {/* =================================================
           SECTION 06 — HORIZONTAL PROCESS SCROLL
+
+          MOBILE:
+          - REDUCED SECTION WHITESPACE
+          - SMALLER HEADING
+          - SMALLER DESCRIPTION
+          - SMALLER CARDS
+          - SMALLER ICONS
+          - HORIZONTAL SWIPE
+
+          TABLET / DESKTOP:
+          - ORIGINAL DESIGN
+          - DESKTOP GSAP PINNING REMAINS
       ================================================= */}
 
       <section
@@ -1191,62 +1667,121 @@ export default function CustomerSupportPage() {
         className="
           overflow-hidden
           bg-[#FAF9F9]
-          px-5 py-20
+          px-5
+          py-20
+
+          max-sm:px-4
+          max-sm:py-10
+
           sm:px-8
+
           lg:px-14
         "
       >
         <div className="mx-auto max-w-[1400px]">
 
-          <div data-cs-reveal className="mb-11 max-w-[840px]">
+          {/* ===============================================
+              PROCESS HEADING
+          =============================================== */}
 
-            <p className="
-              text-[11px] font-semibold
-              uppercase tracking-[0.19em]
-              text-[#B12025]
-            ">
+          <div
+            data-cs-reveal
+            className="
+              mb-11
+              max-w-[840px]
+
+              max-sm:mb-6
+            "
+          >
+            <p
+              className="
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.19em]
+                text-[#B12025]
+
+                max-sm:text-[8px]
+                max-sm:tracking-[0.15em]
+              "
+            >
               Designed around your business
             </p>
 
-            <h2 className="
-              mt-4
-              text-[clamp(2.2rem,4.5vw,4.7rem)]
-              font-semibold
-              leading-[1.1]
-              tracking-[-0.055em]
-            ">
+            <h2
+              className="
+                mt-4
+                text-[clamp(2.2rem,4.5vw,4.7rem)]
+                font-semibold
+                leading-[1.1]
+                tracking-[-0.055em]
+
+                max-sm:mt-2
+                max-sm:text-[28px]
+                max-sm:leading-[1.04]
+                max-sm:tracking-[-0.045em]
+              "
+            >
               How your support team is set up
-              <span className="text-[#B12025]">.</span>
+
+              <span className="text-[#B12025]">
+                .
+              </span>
             </h2>
 
-            <p className="
-              mt-5 max-w-[650px]
-              text-[14px] leading-[1.85]
-              text-[#17191C]/65
-            ">
+            <p
+              className="
+                mt-5
+                max-w-[650px]
+                text-[14px]
+                leading-[1.85]
+                text-[#17191C]/65
+
+                max-sm:mt-3
+                max-sm:max-w-[310px]
+                max-sm:text-[9px]
+                max-sm:leading-[1.5]
+              "
+            >
               The biggest risk with outsourced support is
-              agents who do not know your business.
-              The steps below prevent that.
+              agents who do not know your business. The
+              steps below prevent that.
             </p>
           </div>
 
-          {/* HORIZONTAL TRACK */}
+          {/* ===============================================
+              HORIZONTAL PROCESS TRACK
+          =============================================== */}
 
           <div
             data-cs-process-viewport
             className="
-              snap-x snap-mandatory
-              overflow-x-auto pb-5
+              snap-x
+              snap-mandatory
+              overflow-x-auto
+              scroll-smooth
+              pb-5
+
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+
+              max-sm:pb-3
 
               lg:snap-none
               lg:overflow-hidden
             "
-            style={{ scrollbarWidth: 'none' }}
           >
             <div
               data-cs-process-track
               className="
-                flex w-max gap-5 pb-3
+                flex
+                w-max
+                gap-5
+                pb-3
+
+                max-sm:gap-3
+                max-sm:pb-1
+
                 lg:gap-7
               "
             >
@@ -1262,13 +1797,17 @@ export default function CustomerSupportPage() {
                       shrink-0
                       snap-start
                       flex-col
-
                       rounded-[26px]
-                      border border-[#17191C]/10
+                      border
+                      border-[#17191C]/10
                       bg-white
                       p-7
-
                       shadow-[0_12px_42px_rgba(23,25,28,0.04)]
+
+                      max-sm:w-[72vw]
+                      max-sm:max-w-[245px]
+                      max-sm:rounded-[18px]
+                      max-sm:p-4
 
                       sm:p-10
 
@@ -1276,51 +1815,115 @@ export default function CustomerSupportPage() {
                       lg:w-[min(62vw,610px)]
                     "
                   >
-                    <div className="flex items-start justify-between">
+                    {/* =====================================
+                        CARD TOP
+                    ===================================== */}
 
-                      <span className="
-                        text-[64px]
-                        font-semibold
-                        leading-none
-                        tracking-[-0.07em]
-                        text-[#B12025]
-                      ">
+                    <div
+                      className="
+                        flex
+                        items-start
+                        justify-between
+                      "
+                    >
+                      <span
+                        className="
+                          text-[64px]
+                          font-semibold
+                          leading-none
+                          tracking-[-0.07em]
+                          text-[#B12025]
+
+                          max-sm:text-[38px]
+                          max-sm:tracking-[-0.06em]
+                        "
+                      >
                         {step.number}
                       </span>
 
-                      <span className="
-                        flex h-12 w-12
-                        items-center justify-center
-                        rounded-full bg-[#B12025]/10
-                        text-[#B12025]
-                      ">
-                        <Icon size={24} />
+                      <span
+                        className="
+                          flex
+                          h-12
+                          w-12
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-[#B12025]/10
+                          text-[#B12025]
+
+                          max-sm:h-9
+                          max-sm:w-9
+                        "
+                      >
+                        <Icon
+                          size={24}
+                          className="
+                            max-sm:h-[17px]
+                            max-sm:w-[17px]
+                          "
+                        />
                       </span>
                     </div>
 
-                    <p className="
-                      mt-5
-                      text-[10px] font-semibold
-                      uppercase tracking-[0.17em]
-                      text-[#B12025]
-                    ">
+                    {/* =====================================
+                        CARD LABEL
+                    ===================================== */}
+
+                    <p
+                      className="
+                        mt-5
+                        text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.17em]
+                        text-[#B12025]
+
+                        max-sm:mt-4
+                        max-sm:text-[7px]
+                        max-sm:tracking-[0.13em]
+                      "
+                    >
                       {step.note}
                     </p>
 
-                    <h3 className="
-                      mt-3
-                      text-[clamp(1.45rem,2.4vw,2.4rem)]
-                      font-semibold
-                      tracking-[-0.045em]
-                    ">
+                    {/* =====================================
+                        CARD TITLE
+                    ===================================== */}
+
+                    <h3
+                      className="
+                        mt-3
+                        text-[clamp(1.45rem,2.4vw,2.4rem)]
+                        font-semibold
+                        tracking-[-0.045em]
+
+                        max-sm:mt-2
+                        max-sm:text-[18px]
+                        max-sm:leading-[1.1]
+                        max-sm:tracking-[-0.035em]
+                      "
+                    >
                       {step.title}
                     </h3>
 
-                    <p className="
-                      mt-4 max-w-[490px]
-                      text-[13px] leading-[1.9]
-                      text-[#17191C]/65
-                    ">
+                    {/* =====================================
+                        CARD DESCRIPTION
+                    ===================================== */}
+
+                    <p
+                      className="
+                        mt-4
+                        max-w-[490px]
+                        text-[13px]
+                        leading-[1.9]
+                        text-[#17191C]/65
+
+                        max-sm:mt-3
+                        max-sm:text-[8.5px]
+                        max-sm:leading-[1.5]
+                      "
+                    >
                       {step.body}
                     </p>
                   </article>
@@ -1329,41 +1932,80 @@ export default function CustomerSupportPage() {
             </div>
           </div>
 
-          {/* PROCESS PROGRESS LINE */}
+          {/* ===============================================
+              PROCESS PROGRESS LINE
+          =============================================== */}
 
-          <div className="
-            mt-4 h-[3px] w-full
-            overflow-hidden rounded-full
-            bg-[#B12025]/10
-          ">
+          <div
+            className="
+              mt-4
+              h-[3px]
+              w-full
+              overflow-hidden
+              rounded-full
+              bg-[#B12025]/10
+
+              max-sm:mt-3
+              max-sm:h-[2px]
+            "
+          >
             <div
               data-cs-process-progress
               className="
-                h-full w-full
-                origin-left scale-x-0
+                h-full
+                w-full
+                origin-left
+                scale-x-0
                 bg-[#B12025]
               "
             />
           </div>
 
-          <p className="mt-4 text-[11px] text-[#17191C]/40 lg:hidden">
+          {/* ===============================================
+              MOBILE / TABLET SWIPE TEXT
+          =============================================== */}
+
+          <p
+            className="
+              mt-4
+              text-[11px]
+              text-[#17191C]/40
+
+              max-sm:mt-2
+              max-sm:text-[7px]
+
+              lg:hidden
+            "
+          >
             Swipe to explore the four steps →
           </p>
         </div>
       </section>
 
-      {/* =================================================
+            {/* =================================================
           SECTION 07 — TESTIMONIAL BAND
+
+          MOBILE:
+          - COMPLETELY HIDDEN
+
+          TABLET / DESKTOP:
+          - ORIGINAL DESIGN
       ================================================= */}
 
       <section
         data-cs-quote
         className="
+          hidden
           overflow-hidden
           bg-white
-          px-5 py-20
+          px-5
+          py-20
+
+          sm:block
           sm:px-8
-          lg:px-14 lg:py-28
+
+          lg:px-14
+          lg:py-28
         "
       >
         <div
@@ -1372,10 +2014,10 @@ export default function CustomerSupportPage() {
             mx-auto
             max-w-[1400px]
             origin-center
-
             rounded-[28px]
             bg-[#B12025]
-            px-7 py-14
+            px-7
+            py-14
             text-white
 
             sm:px-12
@@ -1388,8 +2030,10 @@ export default function CustomerSupportPage() {
           <p
             data-cs-reveal
             className="
-              text-[11px] font-semibold
-              uppercase tracking-[0.2em]
+              text-[11px]
+              font-semibold
+              uppercase
+              tracking-[0.2em]
               text-white/70
             "
           >
@@ -1415,7 +2059,12 @@ export default function CustomerSupportPage() {
 
           <p
             data-cs-reveal
-            className="mt-9 text-[12px] font-semibold text-white/75"
+            className="
+              mt-9
+              text-[12px]
+              font-semibold
+              text-white/75
+            "
           >
             — Internet service provider
           </p>
@@ -1424,53 +2073,98 @@ export default function CustomerSupportPage() {
 
       {/* =================================================
           SECTION 08 — INTERACTIVE FAQ
+
+          MOBILE:
+          - SMALLER SECTION
+          - SMALLER HEADING
+          - LESS WHITESPACE
+          - HORIZONTAL FAQ CARDS
+          - SWIPE ENABLED
+          - ACCORDION STILL WORKS
+
+          TABLET / DESKTOP:
+          - ORIGINAL VERTICAL FAQ
       ================================================= */}
 
-      <section className="
-        bg-[#FAF9F9]
-        px-5 py-20
-        sm:px-8
-        lg:px-14 lg:py-28
-      ">
-        <div className="
-          mx-auto
-          grid max-w-[1300px]
-          gap-12
+      <section
+        className="
+          bg-[#FAF9F9]
+          px-5
+          py-20
 
-          lg:grid-cols-[.85fr_1.15fr]
-          lg:gap-20
-        ">
+          max-sm:px-4
+          max-sm:py-10
 
-          {/* FAQ HEADING */}
+          sm:px-8
+
+          lg:px-14
+          lg:py-28
+        "
+      >
+        <div
+          className="
+            mx-auto
+            grid
+            max-w-[1300px]
+            gap-12
+
+            max-sm:gap-7
+
+            lg:grid-cols-[.85fr_1.15fr]
+            lg:gap-20
+          "
+        >
+          {/* ===============================================
+              FAQ HEADING
+          =============================================== */}
 
           <div data-cs-reveal>
+            <p
+              className="
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.2em]
+                text-[#B12025]
 
-            <p className="
-              text-[11px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-[#B12025]
-            ">
+                max-sm:text-[8px]
+                max-sm:tracking-[0.16em]
+              "
+            >
               Common questions
             </p>
 
-            <h2 className="
-              mt-5
-              text-[clamp(2.3rem,4.5vw,4.5rem)]
-              font-semibold
-              leading-[1.1]
-              tracking-[-0.055em]
-            ">
+            <h2
+              className="
+                mt-5
+                text-[clamp(2.3rem,4.5vw,4.5rem)]
+                font-semibold
+                leading-[1.1]
+                tracking-[-0.055em]
+
+                max-sm:mt-3
+                max-sm:max-w-[310px]
+                max-sm:text-[29px]
+                max-sm:leading-[1.03]
+                max-sm:tracking-[-0.045em]
+              "
+            >
               Customer support, clearly explained.
             </h2>
 
-            <p className="
-              mt-6
-              text-[14px]
-              leading-[1.9]
-              text-[#17191C]/60
-            ">
+            <p
+              className="
+                mt-6
+                text-[14px]
+                leading-[1.9]
+                text-[#17191C]/60
+
+                max-sm:mt-4
+                max-sm:max-w-[310px]
+                max-sm:text-[9px]
+                max-sm:leading-[1.55]
+              "
+            >
               Everything you need to know about working
               with a FirstNotch support team.
             </p>
@@ -1478,12 +2172,18 @@ export default function CustomerSupportPage() {
             <a
               href="#contact"
               className="
-                group mt-8
+                group
+                mt-8
                 inline-flex
-                items-center gap-2
+                items-center
+                gap-2
                 text-[12px]
                 font-semibold
                 text-[#B12025]
+
+                max-sm:mt-5
+                max-sm:gap-1.5
+                max-sm:text-[9px]
               "
             >
               Still have a question? Talk to us
@@ -1492,28 +2192,64 @@ export default function CustomerSupportPage() {
                 size={16}
                 className="
                   transition-transform
-                  group-hover:translate-x-1
                   group-hover:-translate-y-1
+                  group-hover:translate-x-1
+
+                  max-sm:h-[12px]
+                  max-sm:w-[12px]
                 "
               />
             </a>
           </div>
 
-          {/* FAQ ITEMS */}
+          {/* ===============================================
+              FAQ ITEMS
 
-          <div className="space-y-3">
+              MOBILE:
+              HORIZONTAL SWIPE
 
+              SM+:
+              ORIGINAL VERTICAL LIST
+          =============================================== */}
+
+          <div
+            className="
+              flex
+              gap-3
+              overflow-x-auto
+              snap-x
+              snap-mandatory
+              scroll-smooth
+              pb-3
+
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+
+              sm:block
+              sm:space-y-3
+              sm:overflow-visible
+              sm:pb-0
+            "
+          >
             {faqs.map((faq, index) => {
-              const expanded = openFaq === index;
+              const expanded =
+                openFaq === index;
 
               return (
                 <div
                   key={faq.q}
                   className={`
                     rounded-[20px]
-                    border bg-white
+                    border
+                    bg-white
                     transition-colors
                     duration-300
+
+                    max-sm:w-[76vw]
+                    max-sm:max-w-[270px]
+                    max-sm:shrink-0
+                    max-sm:snap-center
+                    max-sm:rounded-[16px]
 
                     ${
                       expanded
@@ -1529,18 +2265,28 @@ export default function CustomerSupportPage() {
                       aria-controls={`cs-faq-${index}`}
                       onClick={() =>
                         setOpenFaq(
-                          expanded ? null : index
+                          expanded
+                            ? null
+                            : index
                         )
                       }
                       className="
-                        flex w-full
-                        items-center justify-between
+                        flex
+                        w-full
+                        items-center
+                        justify-between
                         gap-5
-
-                        px-6 py-6
+                        px-6
+                        py-6
                         text-left
                         text-[13px]
                         font-semibold
+
+                        max-sm:gap-3
+                        max-sm:px-4
+                        max-sm:py-4
+                        max-sm:text-[10px]
+                        max-sm:leading-[1.4]
 
                         sm:px-7
                         sm:text-[15px]
@@ -1550,15 +2296,23 @@ export default function CustomerSupportPage() {
                         focus-visible:outline-[#B12025]
                       "
                     >
-                      {faq.q}
+                      <span className="min-w-0">
+                        {faq.q}
+                      </span>
 
                       <span
                         className={`
-                          flex h-9 w-9
+                          flex
+                          h-9
+                          w-9
                           shrink-0
-                          items-center justify-center
+                          items-center
+                          justify-center
                           rounded-full
                           transition-colors
+
+                          max-sm:h-7
+                          max-sm:w-7
 
                           ${
                             expanded
@@ -1573,6 +2327,9 @@ export default function CustomerSupportPage() {
                             transition-transform
                             duration-300
 
+                            max-sm:h-[13px]
+                            max-sm:w-[13px]
+
                             ${
                               expanded
                                 ? 'rotate-180'
@@ -1583,6 +2340,10 @@ export default function CustomerSupportPage() {
                       </span>
                     </button>
                   </h3>
+
+                  {/* =========================================
+                      FAQ ANSWER
+                  ========================================= */}
 
                   <div
                     id={`cs-faq-${index}`}
@@ -1599,14 +2360,28 @@ export default function CustomerSupportPage() {
                       }
                     `}
                   >
-                    <div className="min-h-0 overflow-hidden">
-                      <p className="
-                        px-6 pb-7
-                        text-[13px]
-                        leading-[1.95]
-                        text-[#17191C]/65
-                        sm:px-7
-                      ">
+                    <div
+                      className="
+                        min-h-0
+                        overflow-hidden
+                      "
+                    >
+                      <p
+                        className="
+                          px-6
+                          pb-7
+                          text-[13px]
+                          leading-[1.95]
+                          text-[#17191C]/65
+
+                          max-sm:px-4
+                          max-sm:pb-4
+                          max-sm:text-[9px]
+                          max-sm:leading-[1.6]
+
+                          sm:px-7
+                        "
+                      >
                         {faq.a}
                       </p>
                     </div>
@@ -1615,9 +2390,26 @@ export default function CustomerSupportPage() {
               );
             })}
           </div>
+
+          {/* ===============================================
+              MOBILE SWIPE HELP
+          =============================================== */}
+
+          <p
+            className="
+              hidden
+
+              max-sm:-mt-4
+              max-sm:block
+              max-sm:text-[7px]
+              max-sm:font-medium
+              max-sm:text-[#17191C]/40
+            "
+          >
+            Swipe to explore more questions →
+          </p>
         </div>
       </section>
-
     </div>
   );
 }
