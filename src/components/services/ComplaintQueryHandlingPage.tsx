@@ -329,15 +329,12 @@ function FoodDeliveryQuote() {
   return (
     <section
       aria-label="Food delivery app testimonial"
-      className="bg-[#B12025] px-5 py-[110px] text-white sm:px-8 lg:px-12 lg:py-[155px]"
-    >
+className="bg-[#B12025] px-5 py-[110px] text-white max-sm:px-[20px] max-sm:py-[32px] sm:px-8 lg:px-12 lg:py-[155px]"   >
       <div className="mx-auto max-w-[1350px]">
-        <div className="mb-9 flex flex-wrap items-center gap-4">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/35">
-            <MessageCircle size={23} />
-          </span>
+       <div className="mb-9 flex flex-wrap items-center gap-4 max-sm:mb-5 max-sm:gap-2">
+          
 
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
+         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 max-sm:text-[9px] max-sm:tracking-[0.18em]">
             Food delivery app
           </p>
         </div>
@@ -347,8 +344,7 @@ function FoodDeliveryQuote() {
             ref={quoteRef}
             role="text"
             aria-label={QUOTE}
-            className="max-w-[1130px] text-[clamp(1.9rem,3.7vw,4.4rem)] font-semibold leading-[1.45] tracking-[-0.055em]"
-          >
+className="max-w-[1130px] text-[clamp(1.9rem,3.7vw,4.4rem)] font-semibold leading-[1.45] tracking-[-0.055em] max-sm:text-[19px] max-sm:leading-[1.42] max-sm:tracking-[-0.025em]"        >
             <span aria-hidden="true">“</span>
 
             {QUOTE.split(/\s+/).map((word, index) => (
@@ -367,14 +363,14 @@ function FoodDeliveryQuote() {
           </p>
         </blockquote>
 
-        <div className="mt-9 flex flex-wrap gap-3">
-          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold">
+       <div className="mt-9 flex flex-wrap gap-3 max-sm:mt-5 max-sm:flex-nowrap max-sm:gap-1.5">
+          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold max-sm:px-2.5 max-sm:py-[5px] max-sm:text-[7px] max-sm:whitespace-nowrap">
             Written reply
           </span>
-          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold">
+          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold max-sm:px-2.5 max-sm:py-[5px] max-sm:text-[7px] max-sm:whitespace-nowrap">
             Causes tracked
           </span>
-          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold">
+          <span className="rounded-full border border-white/35 px-4 py-2 text-[11px] font-semibold max-sm:px-2.5 max-sm:py-[5px] max-sm:text-[7px] max-sm:whitespace-nowrap">
             Case history
           </span>
         </div>
@@ -725,8 +721,7 @@ export default function ComplaintQueryHandlingPage() {
 
       <section
         id="complaint-hero"
-        className="relative overflow-hidden bg-white px-5 pb-[100px] pt-[150px] sm:px-8 lg:px-12 lg:pt-[180px]"
-      >
+className="relative overflow-hidden bg-white px-5 pb-[100px] pt-[150px] max-sm:pb-[45px] max-sm:pt-[120px] sm:px-8 lg:px-12 lg:pt-[180px]"      >
         <div className="mx-auto grid max-w-[1450px] items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
           <div>
             <p data-ch-reveal className={eyebrow}>
@@ -735,8 +730,7 @@ export default function ComplaintQueryHandlingPage() {
 
             <h1
               data-ch-title
-              className="mt-7 text-[clamp(3rem,5.3vw,6.3rem)] font-semibold leading-[1.06] tracking-[-.07em]"
-            >
+className="mt-7 text-[clamp(3rem,5.3vw,6.3rem)] font-semibold leading-[1.06] tracking-[-.07em] max-sm:mt-4 max-sm:text-[38px] max-sm:leading-[1.06] max-sm:tracking-[-.055em]"            >
               <AnimatedWords
                 text="Complaints answered and closed"
               />{' '}
@@ -750,8 +744,7 @@ export default function ComplaintQueryHandlingPage() {
 
             <p
               data-ch-reveal
-              className="mt-7 max-w-[680px] text-[15px] leading-[1.95] text-[#17191C]/70 sm:text-[16px]"
-            >
+className="mt-7 max-w-[680px] text-[15px] leading-[1.95] text-[#17191C]/70 max-sm:mt-5 max-sm:text-[12px] max-sm:leading-[1.7] sm:text-[16px]"            >
               FirstNotch handles your complaints and
               customer queries from Colombo. Agents
               work to the rules you set for refunds
@@ -763,20 +756,18 @@ export default function ComplaintQueryHandlingPage() {
 
             <div
               data-ch-reveal
-              className="mt-9 flex flex-wrap gap-3"
+            className="mt-9 flex flex-wrap gap-3 max-sm:mt-6 max-sm:flex-nowrap max-sm:gap-2"
             >
               <a
                 href="#contact"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#981b20]"
-              >
+className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#981b20] max-sm:min-h-[42px] max-sm:flex-1 max-sm:justify-center max-sm:gap-2 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 Book a free discovery call
                 <ArrowUpRight size={17} />
               </a>
 
               <a
                 href="#included"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/25 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff3f3]"
-              >
+className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/25 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff3f3] max-sm:min-h-[42px] max-sm:flex-1 max-sm:justify-center max-sm:gap-2 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
                 <ArrowDownRight size={17} />
               </a>
@@ -841,9 +832,8 @@ export default function ComplaintQueryHandlingPage() {
 
           <div
             data-ch-reveal
-            className="rounded-[32px] bg-[#fff8f8] p-5 shadow-[0_20px_70px_rgba(177,32,37,.08)] sm:p-8"
-          >
-            <div className="rounded-[25px] border border-[#B12025]/15 bg-white p-6 sm:p-8">
+className="rounded-[32px] bg-[#fff8f8] p-5 shadow-[0_20px_70px_rgba(177,32,37,.08)] max-sm:rounded-[22px] max-sm:p-3 sm:p-8"          >
+            <div className="rounded-[25px] border border-[#B12025]/15 bg-white p-6 max-sm:rounded-[18px] max-sm:p-4 sm:p-8">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[.18em] text-[#B12025]">
                   Complaint case file
@@ -855,16 +845,16 @@ export default function ComplaintQueryHandlingPage() {
                 />
               </div>
 
-              <div className="relative mt-7 rounded-[20px] border border-[#B12025]/15 bg-[#fffafa] p-6">
+              <div className="relative mt-7 rounded-[20px] border border-[#B12025]/15 bg-[#fffafa] p-6 max-sm:mt-4 max-sm:rounded-[16px] max-sm:p-4">
                 <span className="font-mono text-[11px] text-[#B12025]">
                   SAMPLE RECORD
                 </span>
 
-                <h2 className="mt-3 font-mono text-[clamp(1.7rem,3vw,2.7rem)] font-bold tracking-[-.05em]">
+                <h2 className="mt-3 font-mono text-[clamp(1.7rem,3vw,2.7rem)] font-bold tracking-[-.05em] max-sm:mt-2 max-sm:text-[22px]">
                   FN-20418
                 </h2>
 
-                <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="mt-6 grid grid-cols-2 gap-4 max-sm:mt-4 max-sm:gap-3">
                   <div>
                     <span className="text-[10px] text-[#17191C]/45">
                       Channel
@@ -937,7 +927,7 @@ export default function ComplaintQueryHandlingPage() {
 
       {/* ONE SYSTEM / FOUR CHANNELS */}
 
-      <section className="border-y border-[#B12025]/10 bg-[#fff9f9] px-5 py-14 sm:px-8 lg:px-12">
+      <section className="border-y border-[#B12025]/10 bg-[#fff9f9] px-5 py-14 max-sm:py-8 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[1350px] flex-wrap items-center justify-between gap-6">
           <div>
             <p className={eyebrow}>
@@ -949,7 +939,7 @@ export default function ComplaintQueryHandlingPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 max-sm:w-full max-sm:flex-nowrap max-sm:gap-1.5">
             {[
               { title: 'Phone', Icon: PhoneCall },
               { title: 'Email', Icon: Mail },
@@ -958,9 +948,9 @@ export default function ComplaintQueryHandlingPage() {
             ].map(({ title, Icon }) => (
               <span
                 key={title}
-                className="inline-flex items-center gap-2 rounded-full border border-[#B12025]/15 bg-white px-4 py-3 text-[12px] font-semibold"
+               className="inline-flex items-center gap-2 rounded-full border border-[#B12025]/15 bg-white px-4 py-3 text-[12px] font-semibold max-sm:flex-1 max-sm:justify-center max-sm:gap-1 max-sm:px-2 max-sm:py-2 max-sm:text-[8px] max-sm:whitespace-nowrap"
               >
-                <Icon size={16} className="text-[#B12025]" />
+                <Icon size={16} className="text-[#B12025] max-sm:h-[12px] max-sm:w-[12px]" />
                 {title}
               </span>
             ))}
@@ -973,7 +963,7 @@ export default function ComplaintQueryHandlingPage() {
       <section
         id="included"
         ref={featuresSectionRef}
-        className="relative scroll-mt-[110px] bg-white py-[90px] lg:flex lg:min-h-[710px] lg:flex-col lg:justify-center"
+       className="relative scroll-mt-[110px] bg-white py-[90px] max-sm:py-[45px] lg:flex lg:min-h-[710px] lg:flex-col lg:justify-center"
       >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p data-ch-reveal className={eyebrow}>
@@ -982,7 +972,7 @@ export default function ComplaintQueryHandlingPage() {
 
           <h2
             data-ch-title
-            className={`mt-5 max-w-[950px] ${heading}`}
+           className={`mt-5 max-w-[950px] ${heading} max-sm:mt-3 max-sm:text-[32px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}
           >
             <AnimatedWords
               text="What the complaint and query handling service includes"
@@ -990,7 +980,7 @@ export default function ComplaintQueryHandlingPage() {
           </h2>
         </div>
 
-        <div className="mt-10 w-full overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible">
+        <div className="mt-10 w-full overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-sm:mt-6 lg:overflow-visible">
           <div
             ref={featuresTrackRef}
             className="flex w-max gap-4 pl-5 pr-5 sm:pl-8 sm:pr-8 lg:gap-5 lg:pl-12 lg:pr-12"
@@ -1002,14 +992,14 @@ export default function ComplaintQueryHandlingPage() {
                 <article
                   key={title}
                   data-ch-card
-                  className={`group flex min-h-[400px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[28px] border p-8 sm:w-[430px] lg:w-[455px] lg:p-9 ${
+                  className={`group flex min-h-[400px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[28px] border p-8 max-sm:min-h-[255px] max-sm:w-[72vw] max-sm:max-w-[260px] max-sm:rounded-[20px] max-sm:p-5 sm:w-[430px] lg:w-[455px] lg:p-9 ${
                     red
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-[#fff9f9] text-[#17191C]'
                   }`}
                 >
                   <div className="flex items-start justify-between">
-                    <span className={`flex h-14 w-14 items-center justify-center rounded-[18px] ${
+                    <span className={`flex h-14 w-14 items-center justify-center rounded-[18px] max-sm:h-10 max-sm:w-10 max-sm:rounded-[13px] ${
                       red ? 'bg-white/20' : 'bg-white text-[#B12025]'
                     }`}>
                       <Icon
@@ -1026,17 +1016,17 @@ export default function ComplaintQueryHandlingPage() {
                     </span>
                   </div>
 
-                  <div className="mt-auto pt-12">
+                  <div className="mt-auto pt-12 max-sm:pt-6">
                     <h3
                       data-ch-card-text
-                      className="text-[27px] font-semibold leading-[1.2] tracking-[-.04em]"
+                      className="text-[27px] font-semibold leading-[1.2] tracking-[-.04em] max-sm:text-[19px] max-sm:leading-[1.15]"
                     >
                       {title}
                     </h3>
 
                     <p
                       data-ch-card-text
-                      className={`mt-5 text-[13px] leading-[1.85] ${
+                      className={`mt-5 text-[13px] leading-[1.85] max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.6] ${
                         red ? 'text-white/85' : 'text-[#17191C]/70'
                       }`}
                     >
@@ -1049,7 +1039,7 @@ export default function ComplaintQueryHandlingPage() {
           </div>
         </div>
 
-        <div className="mx-auto mt-8 w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
+       <div className="mx-auto mt-8 w-full max-w-[1450px] px-5 max-sm:mt-4 sm:px-8 lg:px-12">
           <div className="hidden h-[3px] overflow-hidden bg-[#B12025]/10 lg:block">
             <div
               ref={featureProgressRef}
@@ -1065,7 +1055,7 @@ export default function ComplaintQueryHandlingPage() {
 
       {/* INTERACTIVE CASE TIMELINE */}
 
-      <section className="bg-[#fff8f8] px-5 py-[100px] sm:px-8 lg:px-12 lg:py-[125px]">
+      <section className="bg-[#fff8f8] px-5 py-[100px] max-sm:py-[45px] sm:px-8 lg:px-12 lg:py-[125px]">
         <div className="mx-auto grid max-w-[1350px] gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-20">
           <div>
             <p data-ch-reveal className={eyebrow}>
@@ -1074,8 +1064,7 @@ export default function ComplaintQueryHandlingPage() {
 
             <h2
               data-ch-title
-              className={`mt-5 ${heading}`}
-            >
+className={`mt-5 ${heading} max-sm:mt-3 max-sm:max-w-full max-sm:text-[26px] max-sm:leading-[1.12] max-sm:tracking-[-.04em] max-sm:break-normal`}            >
               <AnimatedWords
                 text="One complaint. Clear ownership until the final reply."
               />
@@ -1083,8 +1072,7 @@ export default function ComplaintQueryHandlingPage() {
 
             <p
               data-ch-reveal
-              className="mt-6 max-w-[480px] text-[14px] leading-8 text-[#17191C]/65"
-            >
+className="mt-6 max-w-[480px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-3 max-sm:w-full max-sm:max-w-full max-sm:text-[10px] max-sm:leading-[1.7] max-sm:whitespace-normal"            >
               Explore how a complaint moves from the
               first message through acknowledgement,
               updates, the written final answer and
@@ -1092,25 +1080,24 @@ export default function ComplaintQueryHandlingPage() {
             </p>
           </div>
 
-          <div className="rounded-[28px] border border-[#B12025]/15 bg-white p-6 sm:p-9">
-            <p className="font-mono text-[11px] font-semibold text-[#B12025]">
+         <div className="rounded-[28px] border border-[#B12025]/15 bg-white p-6 max-sm:rounded-[18px] max-sm:p-3 sm:p-9">
+           <p className="font-mono text-[11px] font-semibold text-[#B12025] max-sm:text-[9px]">
               SAMPLE CASE / FN-20418
             </p>
 
-            <div className="mt-7 space-y-3">
-              {caseStages.map((item, index) => (
+<div className="mt-7 space-y-3 max-sm:mt-5 max-sm:space-y-2">
+                {caseStages.map((item, index) => (
                 <button
                   key={item.title}
                   type="button"
                   onClick={() => setCaseStep(index)}
                   aria-pressed={caseStep === index}
-                  className={`flex w-full items-start gap-4 rounded-[17px] border p-5 text-left transition ${
-                    caseStep === index
+className={`flex w-full items-start gap-4 rounded-[17px] border p-5 text-left transition max-sm:w-full max-sm:gap-3 max-sm:rounded-[14px] max-sm:p-3 ${                    caseStep === index
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-white hover:border-[#B12025]/50'
                   }`}
                 >
-                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-mono text-[12px] font-semibold ${
+                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-mono text-[12px] font-semibold max-sm:h-8 max-sm:w-8 max-sm:text-[10px] ${
                     caseStep === index
                       ? 'bg-white text-[#B12025]'
                       : 'bg-[#fff0f0] text-[#B12025]'
@@ -1119,11 +1106,11 @@ export default function ComplaintQueryHandlingPage() {
                   </span>
 
                   <span className="flex-1">
-                    <span className="block text-[14px] font-semibold">
+                    <span className="block text-[14px] font-semibold max-sm:text-[12px]">
                       {item.title}
                     </span>
 
-                    <span className={`mt-2 block text-[12px] leading-6 ${
+                    <span className={`mt-2 block text-[12px] leading-6 max-sm:mt-1 max-sm:text-[9px] max-sm:leading-5 ${
                       caseStep === index
                         ? 'text-white/85'
                         : 'text-[#17191C]/60'
@@ -1144,7 +1131,7 @@ export default function ComplaintQueryHandlingPage() {
 
       {/* REMEDY RULEBOOK + ESCALATION */}
 
-      <section className="bg-white px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]">
+      <section className="bg-white px-5 py-[95px] max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[125px]">
         <div className="mx-auto max-w-[1350px]">
           <p data-ch-reveal className={eyebrow}>
             Rules you set
@@ -1152,17 +1139,17 @@ export default function ComplaintQueryHandlingPage() {
 
           <h2
             data-ch-title
-            className={`mt-5 max-w-[1050px] ${heading}`}
+            className={`mt-5 max-w-[1050px] ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}
           >
             <AnimatedWords
               text="Approved remedies. Serious cases routed to your team."
             />
           </h2>
 
-          <div className="mt-11 grid gap-5 lg:grid-cols-2">
+          <div className="mt-11 grid gap-5 max-sm:hidden lg:grid-cols-2">
             {/* REMEDY RULEBOOK */}
 
-            <article className="rounded-[27px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-9">
+            <article className="rounded-[27px] border border-[#B12025]/15 bg-[#fff9f9] p-7 max-sm:rounded-[20px] max-sm:p-5 sm:p-9">
               <div className="flex items-center justify-between">
                 <p className={eyebrow}>
                   Remedy rulebook
@@ -1174,11 +1161,11 @@ export default function ComplaintQueryHandlingPage() {
                 />
               </div>
 
-              <h3 className="mt-5 text-[26px] font-semibold tracking-[-.04em]">
+             <h3 className="mt-5 text-[26px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[21px]">
                 Agents work within your limits.
               </h3>
 
-              <p className="mt-3 text-[13px] leading-7 text-[#17191C]/65">
+              <p className="mt-3 text-[13px] leading-7 text-[#17191C]/65 max-sm:text-[10px] max-sm:leading-5">
                 Select a complaint type and adjust
                 a sample approval limit to see when
                 a remedy needs your team's decision.
@@ -1281,7 +1268,7 @@ export default function ComplaintQueryHandlingPage() {
 
             {/* ESCALATION SWITCHBOARD */}
 
-            <article className="rounded-[27px] bg-[#B12025] p-7 text-white sm:p-9">
+           <article className="rounded-[27px] bg-[#B12025] p-7 text-white max-sm:rounded-[20px] max-sm:p-5 sm:p-9">
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/80">
                   Escalation switchboard
@@ -1290,7 +1277,7 @@ export default function ComplaintQueryHandlingPage() {
                 <AlertTriangle size={25} />
               </div>
 
-              <h3 className="mt-5 text-[26px] font-semibold tracking-[-.04em]">
+             <h3 className="mt-5 text-[26px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[21px]">
                 Serious complaints receive priority.
               </h3>
 
@@ -1311,8 +1298,7 @@ export default function ComplaintQueryHandlingPage() {
                     type="button"
                     aria-pressed={escalation === item}
                     onClick={() => setEscalation(item)}
-                    className={`flex w-full items-center justify-between rounded-[15px] border px-4 py-3.5 text-left text-[12px] font-semibold transition ${
-                      escalation === item
+className={`flex w-full items-center justify-between rounded-[15px] border px-4 py-3.5 text-left text-[12px] font-semibold transition max-sm:rounded-[12px] max-sm:px-3 max-sm:py-2.5 max-sm:text-[10px] ${                      escalation === item
                         ? 'border-white bg-white text-[#B12025]'
                         : 'border-white/25 bg-white/10 text-white hover:bg-white/20'
                     }`}
@@ -1370,8 +1356,7 @@ export default function ComplaintQueryHandlingPage() {
 
       <section
         id="reporting"
-        className="bg-[#fff9f9] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]"
-      >
+className="bg-[#fff9f9] px-5 py-[95px] max-sm:py-[45px] sm:px-8 lg:px-12 lg:py-[125px]"      >
         <div className="mx-auto max-w-[1350px]">
           <p data-ch-reveal className={eyebrow}>
             The numbers you will see
@@ -1379,8 +1364,7 @@ export default function ComplaintQueryHandlingPage() {
 
           <h2
             data-ch-title
-            className={`mt-5 max-w-[1000px] ${heading}`}
-          >
+className={`mt-5 max-w-[1000px] ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}          >
             <AnimatedWords
               text="Understand resolution times and what causes complaints."
             />
@@ -1388,27 +1372,23 @@ export default function ComplaintQueryHandlingPage() {
 
           <p
             data-ch-reveal
-            className="mt-5 max-w-[760px] text-[14px] leading-8 text-[#17191C]/65"
-          >
+className="mt-5 max-w-[760px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-5"          >
             Your monthly report shows how long
             complaints took to resolve and which
             causes came up most.
           </p>
 
-          <div className="mt-11 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {metrics.map((item, index) => (
+<div className="mt-11 grid gap-4 max-sm:-mx-1 max-sm:mt-6 max-sm:flex max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:px-1 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden md:grid-cols-2 xl:grid-cols-3">            {metrics.map((item, index) => (
               <article
                 key={item.title}
                 data-ch-reveal
-                className={`flex min-h-[260px] flex-col rounded-[24px] border p-7 ${
-                  index === 0
+className={`flex min-h-[260px] flex-col rounded-[24px] border p-7 max-sm:min-h-[190px] max-sm:w-[70vw] max-sm:max-w-[235px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:p-5 ${                  index === 0
                     ? 'border-[#B12025] bg-[#B12025] text-white'
                     : 'border-[#B12025]/15 bg-white text-[#17191C]'
                 }`}
               >
                 <span
-                  className={`font-mono text-[42px] font-semibold ${
-                    index === 0
+className={`font-mono text-[42px] font-semibold max-sm:text-[30px] ${                    index === 0
                       ? 'text-white/40'
                       : 'text-[#B12025]/25'
                   }`}
@@ -1416,8 +1396,7 @@ export default function ComplaintQueryHandlingPage() {
                   0{index + 1}
                 </span>
 
-                <h3 className="mt-4 text-[21px] font-semibold">
-                  {item.title}
+<h3 className="mt-4 text-[21px] font-semibold max-sm:mt-3 max-sm:text-[17px]">                  {item.title}
                 </h3>
 
                 <p className={`mt-4 text-[12px] leading-7 ${
@@ -1441,9 +1420,8 @@ export default function ComplaintQueryHandlingPage() {
 
           {/* CAUSE RANKING */}
 
-          <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
-            <div className="rounded-[26px] border border-[#B12025]/15 bg-white p-7 sm:p-9">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+<div className="mt-5 grid gap-5 max-sm:hidden lg:grid-cols-[1.1fr_.9fr]">
+  <div className="rounded-[26px] border border-[#B12025]/15 bg-white p-7 max-sm:w-[78vw] max-sm:max-w-[265px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:p-5 sm:p-9">              <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-[20px] font-semibold">
                   Most common causes
                 </h3>
@@ -1487,8 +1465,7 @@ export default function ComplaintQueryHandlingPage() {
               </p>
             </div>
 
-            <div className="rounded-[26px] bg-[#B12025] p-7 text-white sm:p-9">
-              <RotateCcw size={30} strokeWidth={1.5} />
+<div className="rounded-[26px] bg-[#B12025] p-7 text-white max-sm:w-[78vw] max-sm:max-w-[265px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:p-5 sm:p-9">              <RotateCcw size={30} strokeWidth={1.5} />
 
               <h3 className="mt-5 text-[24px] font-semibold">
                 Reopened cases
@@ -1526,7 +1503,7 @@ export default function ComplaintQueryHandlingPage() {
 
           {/* COMPANY FIGURES */}
 
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div className="mt-5 grid gap-4 max-sm:hidden md:grid-cols-3">
             {[
               ['85%', 'client retention rate'],
               ['98%', 'accuracy rate'],
@@ -1562,8 +1539,7 @@ export default function ComplaintQueryHandlingPage() {
       <section
         id="setup"
         ref={setupSectionRef}
-        className="relative scroll-mt-[110px] bg-white py-[85px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center"
-      >
+className="relative scroll-mt-[110px] bg-white py-[85px] max-sm:py-[45px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center"      >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p data-ch-reveal className={eyebrow}>
             How your support team is set up
@@ -1571,14 +1547,13 @@ export default function ComplaintQueryHandlingPage() {
 
           <h2
             data-ch-title
-            className={`mt-5 max-w-[980px] ${heading}`}
-          >
+className={`mt-5 max-w-[980px] ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}          >
             <AnimatedWords
               text="A trained team with a clear process."
             />
           </h2>
 
-          <p className="mt-5 max-w-[720px] text-[13px] leading-7 text-[#17191C]/65">
+          <p className="mt-5 max-w-[720px] text-[13px] leading-7 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-5">
             The biggest risk with outsourced support
             is agents who do not know your business.
             The steps below prevent that.
@@ -1597,13 +1572,12 @@ export default function ComplaintQueryHandlingPage() {
                 <article
                   key={step.title}
                   data-ch-card
-                  className={`flex min-h-[370px] w-[min(85vw,410px)] shrink-0 flex-col rounded-[28px] border p-8 sm:w-[450px] lg:w-[490px] lg:p-9 ${
-                    red
+className={`flex min-h-[370px] w-[min(85vw,410px)] shrink-0 flex-col rounded-[28px] border p-8 max-sm:min-h-[235px] max-sm:w-[72vw] max-sm:max-w-[250px] max-sm:rounded-[19px] max-sm:p-5 sm:w-[450px] lg:w-[490px] lg:p-9 ${                    red
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-[#fff9f9]'
                   }`}
                 >
-                  <span className={`font-mono text-[84px] font-semibold leading-none tracking-[-.08em] ${
+                  <span className={`font-mono text-[84px] font-semibold leading-none tracking-[-.08em] max-sm:text-[48px] ${
                     red ? 'text-white/35' : 'text-[#B12025]/20'
                   }`}>
                     0{index + 1}
@@ -1612,7 +1586,7 @@ export default function ComplaintQueryHandlingPage() {
                   <div className="mt-auto pt-10">
                     <h3
                       data-ch-card-text
-                      className="text-[27px] font-semibold tracking-[-.04em]"
+                      className="text-[27px] font-semibold tracking-[-.04em] max-sm:text-[18px]"
                     >
                       {step.title}
                     </h3>
@@ -1650,9 +1624,9 @@ export default function ComplaintQueryHandlingPage() {
             />
           </div>
 
-          <p className="text-[11px] text-[#B12025] lg:hidden">
-            Swipe sideways to see the four steps →
-          </p>
+         <p className="text-[11px] text-[#B12025] max-sm:text-[9px] max-sm:whitespace-nowrap lg:hidden">
+  Swipe sideways to see the four steps →
+</p>
         </div>
       </section>
 
@@ -1660,7 +1634,7 @@ export default function ComplaintQueryHandlingPage() {
 
       <section
         id="faq"
-        className="bg-[#fff9f9] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]"
+        className="bg-[#fff9f9] px-5 py-[95px] max-sm:py-[45px] sm:px-8 lg:px-12 lg:py-[125px]"
       >
         <div className="mx-auto grid max-w-[1350px] gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
           <div>
@@ -1670,7 +1644,7 @@ export default function ComplaintQueryHandlingPage() {
 
             <h2
               data-ch-title
-              className={`mt-5 ${heading}`}
+           className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}
             >
               <AnimatedWords
                 text="Common questions about complaint handling."
@@ -1678,11 +1652,11 @@ export default function ComplaintQueryHandlingPage() {
             </h2>
           </div>
 
-          <div className="space-y-3">
+         <div className="space-y-3 max-sm:space-y-2">
             {faqs.map((item, index) => (
               <div
                 key={item.q}
-                className="overflow-hidden rounded-[20px] border border-[#B12025]/15 bg-white"
+              className="overflow-hidden rounded-[20px] border border-[#B12025]/15 bg-white max-sm:rounded-[16px]"
               >
                 <button
                   type="button"
@@ -1690,9 +1664,9 @@ export default function ComplaintQueryHandlingPage() {
                   onClick={() =>
                     setOpenFaq(openFaq === index ? null : index)
                   }
-                  className="flex w-full items-start justify-between gap-4 p-6 text-left"
+                 className="flex w-full items-start justify-between gap-4 p-6 text-left max-sm:gap-3 max-sm:p-4"
                 >
-                  <span className="text-[14px] font-semibold leading-6">
+                 <span className="text-[14px] font-semibold leading-6 max-sm:text-[11px] max-sm:leading-5">
                     {item.q}
                   </span>
 
@@ -1710,7 +1684,7 @@ export default function ComplaintQueryHandlingPage() {
                     : 'grid-rows-[0fr]'
                 }`}>
                   <div className="min-h-0 overflow-hidden">
-                    <p className="px-6 pb-6 text-[12px] leading-8 text-[#17191C]/65">
+                   <p className="px-6 pb-6 text-[12px] leading-8 text-[#17191C]/65 max-sm:px-4 max-sm:pb-4 max-sm:text-[9px] max-sm:leading-6">
                       {item.a}
                     </p>
                   </div>
@@ -1723,7 +1697,7 @@ export default function ComplaintQueryHandlingPage() {
 
       {/* RELATED SERVICES */}
 
-      <section className="bg-white px-5 py-[90px] sm:px-8 lg:px-12 lg:py-[110px]">
+     <section className="bg-white px-5 py-[90px] max-sm:py-[45px] sm:px-8 lg:px-12 lg:py-[110px]">
         <div className="mx-auto max-w-[1350px]">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -1731,7 +1705,7 @@ export default function ComplaintQueryHandlingPage() {
 
               <h2
                 data-ch-title
-                className={`mt-5 ${heading}`}
+               className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]`}
               >
                 <AnimatedWords
                   text="Other customer support services"
@@ -1748,19 +1722,18 @@ export default function ComplaintQueryHandlingPage() {
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
+         <div className="mt-10 grid gap-3 max-sm:mt-6 max-sm:gap-2 sm:grid-cols-2">
             {related.map((item, index) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="group flex min-h-[110px] items-center justify-between gap-4 rounded-[22px] border border-[#B12025]/15 bg-[#fff9f9] p-6 transition hover:border-[#B12025]"
-              >
-                <span className="flex items-center gap-5">
-                  <span className="font-mono text-[12px] font-semibold text-[#B12025]">
+className="group flex min-h-[110px] items-center justify-between gap-4 rounded-[22px] border border-[#B12025]/15 bg-[#fff9f9] p-6 transition hover:border-[#B12025] max-sm:min-h-[76px] max-sm:gap-3 max-sm:rounded-[16px] max-sm:p-4"              >
+<span className="flex items-center gap-5 max-sm:gap-3">
+                    <span className="font-mono text-[12px] font-semibold text-[#B12025]">
                     0{index + 1}
                   </span>
 
-                  <span className="text-[16px] font-semibold">
+                 <span className="text-[16px] font-semibold max-sm:text-[12px]">
                     {item.label}
                   </span>
                 </span>
@@ -1777,7 +1750,7 @@ export default function ComplaintQueryHandlingPage() {
 
       {/* TWO-STEP ENQUIRY PLANNER */}
 
-      <section className="bg-[#fff9f9] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[115px]">
+      <section className="hidden bg-[#fff9f9] px-5 py-[95px] sm:block sm:px-8 lg:px-12 lg:py-[115px]">
         <div className="mx-auto grid max-w-[1350px] gap-10 rounded-[30px] border border-[#B12025]/15 bg-white p-7 sm:p-10 lg:grid-cols-[.85fr_1.15fr] lg:p-14">
           <div>
             <p className={eyebrow}>Free discovery call</p>

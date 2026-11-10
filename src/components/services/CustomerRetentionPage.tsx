@@ -355,16 +355,11 @@ function FitnessQuote() {
   return (
     <section
       aria-label="Fitness club chain testimonial"
-      className="bg-[#B12025] px-5 py-[105px] text-white sm:px-8 lg:px-12 lg:py-[145px]"
+className="bg-[#B12025] px-5 py-[105px] text-white max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[145px]"
     >
       <div className="mx-auto grid max-w-[1350px] gap-10 lg:grid-cols-[.23fr_.77fr]">
         <div className="flex flex-col items-start gap-5">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/35">
-            <Pause
-              size={28}
-              fill="currentColor"
-            />
-          </span>
+          
 
           <span className="text-[11px] font-semibold uppercase tracking-[.22em] text-white/80">
             Fitness club chain
@@ -377,7 +372,7 @@ function FitnessQuote() {
               ref={quoteRef}
               role="text"
               aria-label={QUOTE}
-              className="max-w-[1050px] text-[clamp(1.9rem,3.6vw,4.2rem)] font-semibold leading-[1.43] tracking-[-.052em]"
+             className="max-w-[1050px] text-[clamp(1.9rem,3.6vw,4.2rem)] font-semibold leading-[1.43] tracking-[-.052em] max-sm:text-[21px] max-sm:leading-[1.45] max-sm:tracking-[-.035em]"
             >
               <span aria-hidden="true">“</span>
 
@@ -399,10 +394,7 @@ function FitnessQuote() {
             </p>
           </blockquote>
 
-          <p className="mt-9 inline-flex items-center gap-2 rounded-full border border-white/30 px-4 py-2 text-[11px] font-semibold">
-            <RefreshCw size={14} />
-            Pause → Welcome back
-          </p>
+          
         </div>
       </div>
     </section>
@@ -417,7 +409,7 @@ const smallLabel =
   'text-[11px] font-semibold uppercase tracking-[.21em] text-[#B12025]';
 
 const sectionHeading =
-  'text-[clamp(2.6rem,4.9vw,5.5rem)] font-semibold leading-[1.075] tracking-[-.06em] text-[#17191C]';
+  'text-[clamp(2.6rem,4.9vw,5.5rem)] font-semibold leading-[1.075] tracking-[-.06em] text-[#17191C] max-sm:text-[29px] max-sm:leading-[1.05] max-sm:tracking-[-.05em]';
 
 // ======================================================
 // MAIN COMPONENT
@@ -810,8 +802,7 @@ export default function CustomerRetentionPage() {
 
       <section
         id="retention-hero"
-        className="relative overflow-hidden bg-white px-5 pb-[100px] pt-[150px] sm:px-8 lg:px-12 lg:pt-[185px]"
-      >
+className="relative overflow-hidden bg-white px-5 pb-[100px] pt-[150px] max-sm:pb-[45px] max-sm:pt-[115px] sm:px-8 lg:px-12 lg:pt-[185px]"      >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-[120px] top-12 h-[440px] w-[440px] rounded-full border border-[#B12025]/10"
@@ -828,8 +819,7 @@ export default function CustomerRetentionPage() {
 
             <h1
               data-ret-title
-              className="mt-6 max-w-[810px] text-[clamp(3rem,5.3vw,6.5rem)] font-semibold leading-[1.06] tracking-[-.07em]"
-            >
+className="mt-6 max-w-[810px] text-[clamp(3rem,5.3vw,6.5rem)] font-semibold leading-[1.06] tracking-[-.07em] max-sm:mt-4 max-sm:text-[35px] max-sm:leading-[1.02] max-sm:tracking-[-.055em]"            >
               <WordTitle
                 text="Keep more of your customers,"
               />{' '}
@@ -847,8 +837,7 @@ export default function CustomerRetentionPage() {
 
             <p
               data-ret-reveal
-              className="mt-8 max-w-[650px] text-[15px] leading-[1.95] text-[#17191C]/70 sm:text-[16px]"
-            >
+className="mt-8 max-w-[650px] text-[15px] leading-[1.95] text-[#17191C]/70 max-sm:mt-5 max-sm:text-[11px] max-sm:leading-[1.7] sm:text-[16px]"            >
               FirstNotch runs your customer retention
               program from Colombo. Agents check in
               with new and long-standing customers on
@@ -860,20 +849,17 @@ export default function CustomerRetentionPage() {
 
             <div
               data-ret-reveal
-              className="mt-9 flex flex-wrap gap-3"
-            >
+className="mt-9 flex flex-wrap gap-3 max-sm:mt-6 max-sm:flex-nowrap max-sm:gap-2"            >
               <a
                 href="#contact"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#981a20]"
-              >
+className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#981a20] max-sm:min-h-[40px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 Book a free discovery call
                 <ArrowUpRight size={17} />
               </a>
 
               <a
                 href="#included"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/30 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff3f3]"
-              >
+className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/30 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff3f3] max-sm:min-h-[40px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
                 <ArrowDownRight size={17} />
               </a>
@@ -884,8 +870,7 @@ export default function CustomerRetentionPage() {
 
           <div
             data-ret-reveal
-            className="relative overflow-hidden rounded-[35px] bg-[#B12025] p-6 text-white shadow-[0_32px_70px_rgba(177,32,37,.12)] sm:p-9"
-          >
+className="relative overflow-hidden rounded-[35px] bg-[#B12025] p-6 text-white shadow-[0_32px_70px_rgba(177,32,37,.12)] max-sm:rounded-[24px] max-sm:p-4 sm:p-9"          >
             <div className="flex items-center justify-between gap-4 border-b border-white/20 pb-5">
               <span className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/80">
                 The customer lifeline
@@ -897,7 +882,7 @@ export default function CustomerRetentionPage() {
               />
             </div>
 
-            <div className="relative mt-10 flex min-h-[185px] items-center justify-center overflow-hidden">
+            <div className="relative mt-10 flex min-h-[185px] items-center justify-center overflow-hidden max-sm:mt-4 max-sm:min-h-[100px]">
               <svg
                 viewBox="0 0 500 185"
                 className="w-full"
@@ -964,7 +949,7 @@ export default function CustomerRetentionPage() {
 
             {/* ACTIVE LIFECYCLE CARD */}
 
-            <div className="rounded-[24px] bg-white p-6 text-[#17191C]">
+            <div className="rounded-[24px] bg-white p-6 text-[#17191C] max-sm:rounded-[18px] max-sm:p-4">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-[.15em] text-[#B12025]">
                   Stage 0{stage + 1} / 05
@@ -976,7 +961,7 @@ export default function CustomerRetentionPage() {
                 />
               </div>
 
-              <h2 className="mt-4 text-[24px] font-semibold tracking-[-.04em]">
+              <h2 className="mt-4 text-[24px] font-semibold tracking-[-.04em] max-sm:mt-3 max-sm:text-[18px]">
                 {chosenStage.title}
               </h2>
 
@@ -984,7 +969,7 @@ export default function CustomerRetentionPage() {
                 {chosenStage.timing}
               </p>
 
-              <p className="mt-3 min-h-[75px] text-[12px] leading-7 text-[#17191C]/65">
+              <p className="mt-3 min-h-[75px] text-[12px] leading-7 text-[#17191C]/65 max-sm:min-h-0 max-sm:text-[9px] max-sm:leading-[1.55]">
                 {chosenStage.description}
               </p>
             </div>
@@ -1019,8 +1004,8 @@ export default function CustomerRetentionPage() {
           CUSTOMER LIFECYCLE TABS
       ================================================ */}
 
-      <section className="bg-[#fff8f8] px-5 py-[90px] sm:px-8 lg:px-12 lg:py-[115px]">
-        <div className="mx-auto max-w-[1350px]">
+<section className="bg-[#fff8f8] px-5 py-[90px] max-sm:py-[35px] sm:px-8 lg:px-12 lg:py-[115px]">
+          <div className="mx-auto max-w-[1350px]">
           <p
             data-ret-reveal
             className={smallLabel}
@@ -1037,8 +1022,7 @@ export default function CustomerRetentionPage() {
             />
           </h2>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-            {lifecycle.map(
+<div className="mt-10 grid gap-3 max-sm:mt-5 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:gap-[10px] max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-[12px] max-sm:scroll-px-[12px] max-sm:pb-1 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-2 xl:grid-cols-5">            {lifecycle.map(
               ({ title, timing, Icon }, index) => (
                 <button
                   key={title}
@@ -1055,8 +1039,7 @@ export default function CustomerRetentionPage() {
                         behavior: 'smooth',
                       });
                   }}
-                  className={`flex min-h-[180px] flex-col items-start rounded-[23px] border p-6 text-left transition ${
-                    stage === index
+className={`flex min-h-[180px] flex-col items-start rounded-[23px] border p-6 text-left transition max-sm:min-h-[115px] max-sm:w-[58vw] max-sm:max-w-[195px] max-sm:shrink-0 max-sm:snap-start max-sm:rounded-[16px] max-sm:p-[14px] ${                    stage === index
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-white text-[#17191C] hover:border-[#B12025]/60'
                   }`}
@@ -1070,12 +1053,12 @@ export default function CustomerRetentionPage() {
                     }
                   />
 
-                  <span className="mt-auto pt-5 text-[17px] font-semibold">
-                    {title}
+<span className="mt-auto pt-5 text-[17px] font-semibold max-sm:pt-2 max-sm:text-[12px]">
+                      {title}
                   </span>
 
                   <span
-                    className={`mt-2 text-[11px] leading-5 ${
+                  className={`mt-2 text-[11px] leading-5 max-sm:mt-1 max-sm:text-[8px] max-sm:leading-[1.4] ${
                       stage === index
                         ? 'text-white/75'
                         : 'text-[#17191C]/55'
@@ -1097,8 +1080,7 @@ export default function CustomerRetentionPage() {
       <section
         ref={featuresRef}
         id="included"
-        className="relative scroll-mt-[112px] bg-white py-[80px] lg:flex lg:min-h-[730px] lg:flex-col lg:justify-center lg:py-[85px]"
-      >
+className="relative scroll-mt-[112px] bg-white py-[80px] max-sm:py-[40px] lg:flex lg:min-h-[730px] lg:flex-col lg:justify-center lg:py-[85px]"      >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p
             data-ret-reveal
@@ -1137,25 +1119,36 @@ export default function CustomerRetentionPage() {
                   <article
                     key={title}
                     data-ret-card
-                    className={`group flex min-h-[405px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[30px] border p-8 sm:w-[430px] lg:min-h-[435px] lg:w-[455px] lg:p-9 ${
-                      red
+className={`group flex min-h-[405px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[30px] border p-8
+  max-sm:min-h-[250px]
+  max-sm:w-[72vw]
+  max-sm:max-w-[245px]
+  max-sm:rounded-[20px]
+  max-sm:p-[18px]
+  sm:w-[430px]
+  lg:min-h-[435px]
+  lg:w-[455px]
+  lg:p-9 ${                      red
                         ? 'border-[#B12025] bg-[#B12025] text-white'
                         : 'border-[#B12025]/15 bg-[#fff9f9] text-[#17191C]'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <span
-                        className={`flex h-14 w-14 items-center justify-center rounded-[18px] ${
-                          red
+className={`flex h-14 w-14 items-center justify-center rounded-[18px]
+  max-sm:h-[40px]
+  max-sm:w-[40px]
+  max-sm:rounded-[13px]
+  ${                          red
                             ? 'bg-white/20'
                             : 'bg-white text-[#B12025]'
                         }`}
                       >
                         <Icon
-                          size={26}
-                          strokeWidth={1.5}
-                          className="transition-transform duration-300 group-hover:scale-110"
-                        />
+  size={26}
+  strokeWidth={1.5}
+  className="transition-transform duration-300 group-hover:scale-110 max-sm:h-[18px] max-sm:w-[18px]"
+/>
                       </span>
 
                       <span
@@ -1169,18 +1162,17 @@ export default function CustomerRetentionPage() {
                       </span>
                     </div>
 
-                    <div className="mt-auto pt-10">
+                   <div className="mt-auto pt-10 max-sm:pt-5">
                       <h3
                         data-ret-card-text
-                        className="max-w-[350px] text-[27px] font-semibold leading-[1.2] tracking-[-.045em]"
+                      className="max-w-[350px] text-[27px] font-semibold leading-[1.2] tracking-[-.045em] max-sm:text-[18px] max-sm:leading-[1.15]"
                       >
                         {title}
                       </h3>
 
                       <p
                         data-ret-card-text
-                        className={`mt-5 text-[13px] leading-[1.85] ${
-                          red
+className={`mt-5 text-[13px] leading-[1.85] max-sm:mt-3 max-sm:text-[9px] max-sm:leading-[1.55] ${                          red
                             ? 'text-white/85'
                             : 'text-[#17191C]/65'
                         }`}
@@ -1218,7 +1210,7 @@ export default function CustomerRetentionPage() {
           WARNING SIGNS + APPROVED OFFERS
       ================================================ */}
 
-      <section className="bg-[#fff8f8] px-5 py-[100px] sm:px-8 lg:px-12 lg:py-[125px]">
+      <section className="bg-[#fff8f8] px-5 py-[100px] max-sm:py-[40px] sm:px-8 lg:px-12 lg:py-[125px]">
         <div className="mx-auto max-w-[1350px]">
           <p
             data-ret-reveal
@@ -1236,37 +1228,32 @@ export default function CustomerRetentionPage() {
             />
           </h2>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {/* WARNING SIGNALS */}
-
+<div className="mt-10 grid gap-5 max-sm:mx-0 max-sm:mt-4 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:gap-[10px] max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-px-[10px] max-sm:px-[10px] max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden lg:grid-cols-3">
             <article
               data-ret-reveal
-              className="rounded-[28px] border border-[#B12025]/15 bg-white p-7 sm:p-8"
-            >
-              <div className="flex justify-between gap-4">
-                <span className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#B12025]">
+className="rounded-[28px] border border-[#B12025]/15 bg-white p-7 max-sm:w-[68vw] max-sm:max-w-[215px] max-sm:min-h-0 max-sm:shrink-0 max-sm:snap-start max-sm:rounded-[17px] max-sm:p-[12px] sm:p-8"   >           <div className="flex justify-between gap-4">
+               <span className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#B12025] max-sm:text-[8px] max-sm:tracking-[.15em]">
                   Warning signs
                 </span>
 
                 <Clock3
-                  size={21}
-                  className="text-[#B12025]"
-                />
+  size={21}
+  className="text-[#B12025] max-sm:h-[16px] max-sm:w-[16px]"
+/>
               </div>
 
-              <h3 className="mt-5 text-[24px] font-semibold">
-                Know when to check in.
-              </h3>
-
-              <p className="mt-3 text-[12px] leading-7 text-[#17191C]/65">
-                Your system can flag a warning sign
-                before a customer leaves.
-              </p>
+              <h3 className="mt-5 text-[24px] font-semibold max-sm:mt-3 max-sm:text-[16px] max-sm:leading-[1.3]">
+  Know when to check in.
+</h3>
+<p className="mt-3 text-[12px] leading-7 text-[#17191C]/65 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.55]">
+  Your system can flag a warning sign
+  before a customer leaves.
+</p>
 
               <div
                 role="group"
                 aria-label="Example warning signal"
-                className="mt-7 space-y-2"
+               className="mt-7 space-y-2 max-sm:mt-4 max-sm:space-y-[6px]"
               >
                 {[
                   'Falling usage',
@@ -1281,7 +1268,7 @@ export default function CustomerRetentionPage() {
                     aria-pressed={
                       signal === item
                     }
-                    className={`flex w-full items-center justify-between rounded-[15px] border px-4 py-3 text-left text-[12px] font-semibold ${
+className={`flex w-full items-center justify-between rounded-[15px] border px-4 py-3 text-left text-[12px] font-semibold max-sm:min-h-[34px] max-sm:rounded-[11px] max-sm:px-3 max-sm:py-[7px] max-sm:text-[8px] ${
                       signal === item
                         ? 'border-[#B12025] bg-[#fff2f2] text-[#B12025]'
                         : 'border-[#B12025]/15'
@@ -1296,15 +1283,14 @@ export default function CustomerRetentionPage() {
                 ))}
               </div>
 
-              <div className="mt-6 rounded-[16px] bg-[#B12025] p-4 text-white">
-                <p className="text-[11px] font-semibold">
-                  {signal}
-                </p>
+             <div className="mt-6 rounded-[16px] bg-[#B12025] p-4 text-white max-sm:mt-3 max-sm:rounded-[12px] max-sm:p-[10px]">
+               <p className="text-[11px] font-semibold max-sm:text-[8px]">
+  {signal}
+</p>
 
-                <p className="mt-1 text-[12px] text-white/85">
-                  Check-in call planned on your
-                  agreed schedule
-                </p>
+             <p className="mt-3 text-[10px] text-[#17191C]/45 max-sm:mt-2 max-sm:text-[7px] max-sm:leading-[1.4]">
+  Illustrative workflow — not live CRM signals.
+</p>
               </div>
 
               <p className="mt-3 text-[10px] text-[#17191C]/45">
@@ -1316,7 +1302,7 @@ export default function CustomerRetentionPage() {
 
             <article
               data-ret-reveal
-              className="rounded-[28px] border border-[#B12025]/15 bg-white p-7 sm:p-8"
+            className="rounded-[28px] border border-[#B12025]/15 bg-white p-7 max-sm:w-[68vw] max-sm:max-w-[215px] max-sm:min-h-0 max-sm:shrink-0 max-sm:snap-start max-sm:rounded-[17px] max-sm:p-[12px] sm:p-8"
             >
               <div className="flex justify-between gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[.17em] text-[#B12025]">
@@ -1329,14 +1315,14 @@ export default function CustomerRetentionPage() {
                 />
               </div>
 
-              <h3 className="mt-5 text-[24px] font-semibold">
-                No unauthorised offers.
-              </h3>
+              <h3 className="mt-5 text-[24px] font-semibold max-sm:mt-3 max-sm:text-[16px] max-sm:leading-[1.3]">
+  No unauthorised offers.
+</h3>
 
-              <p className="mt-3 text-[12px] leading-7 text-[#17191C]/65">
-                Turn example offers on or off to
-                preview an agreed offer list.
-              </p>
+            <p className="mt-3 text-[12px] leading-7 text-[#17191C]/65 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.55]">
+  Turn example offers on or off to
+  preview an agreed offer list.
+</p>
 
               <div className="mt-6 space-y-2">
                 {approvedOfferNames.map(
@@ -1357,8 +1343,7 @@ export default function CustomerRetentionPage() {
                           )
                         )
                       }
-                      className="flex w-full items-center justify-between rounded-[15px] border border-[#B12025]/15 px-4 py-3 text-left text-[12px] font-semibold"
-                    >
+className="flex w-full items-center justify-between rounded-[15px] border border-[#B12025]/15 px-4 py-3 text-left text-[12px] font-semibold max-sm:min-h-[34px] max-sm:rounded-[11px] max-sm:px-3 max-sm:py-[7px] max-sm:text-[8px]"                    >
                       {name}
 
                       <span
@@ -1406,9 +1391,7 @@ export default function CustomerRetentionPage() {
 
             <article
               data-ret-reveal
-              className="rounded-[28px] bg-[#B12025] p-7 text-white sm:p-8"
-            >
-              <div className="flex justify-between gap-4">
+className="rounded-[28px] bg-[#B12025] p-7 text-white max-sm:w-[68vw] max-sm:max-w-[215px] max-sm:min-h-0 max-sm:shrink-0 max-sm:snap-start max-sm:rounded-[17px] max-sm:p-[12px] sm:p-8">              <div className="flex justify-between gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[.17em] text-white/80">
                   Requests to cancel
                 </span>
@@ -1416,31 +1399,31 @@ export default function CustomerRetentionPage() {
                 <HeartHandshake size={21} />
               </div>
 
-              <h3 className="mt-5 text-[24px] font-semibold">
+              <h3 className="mt-5 text-[24px] font-semibold max-sm:mt-2.5 max-sm:text-[15px] max-sm:leading-[1.25]">
                 Listen first. No pressure.
               </h3>
 
-              <p className="mt-3 text-[12px] leading-7 text-white/85">
+              <p className="mt-3 text-[12px] leading-7 text-white/85 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.55]">
                 Cancellation calls go to agents
                 with at least six months on your
                 account.
               </p>
 
-              <div className="mt-6 space-y-3 text-[12px]">
-                <div className="rounded-[15px] bg-white/15 p-4">
+             <div className="mt-6 space-y-3 text-[12px] max-sm:mt-4 max-sm:space-y-[6px] max-sm:text-[8px]">
+                <div className="rounded-[15px] bg-white/15 p-4 max-sm:rounded-[11px] max-sm:p-[9px] max-sm:leading-[1.45]">
                   01. Customer asks to cancel
                 </div>
 
-                <div className="rounded-[15px] bg-white/15 p-4">
+                <div className="rounded-[15px] bg-white/15 p-4 max-sm:rounded-[11px] max-sm:p-[9px] max-sm:leading-[1.45]">
                   02. Agent listens and asks why
                 </div>
 
-                <div className="rounded-[15px] bg-white/15 p-4">
+                <div className="rounded-[15px] bg-white/15 p-4 max-sm:rounded-[11px] max-sm:p-[9px] max-sm:leading-[1.45]">
                   03. Only agreed options can
                   be offered
                 </div>
 
-                <div className="rounded-[15px] bg-white p-4 font-semibold text-[#B12025]">
+                <div className="rounded-[15px] bg-white p-4 max-sm:rounded-[11px] max-sm:p-[9px] max-sm:leading-[1.45] font-semibold text-[#B12025]">
                   04. If they still want to leave:
                   cancel straight away
                 </div>
@@ -1461,7 +1444,7 @@ export default function CustomerRetentionPage() {
 
       <section
         id="reporting"
-        className="bg-white px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[130px]"
+        className="bg-white px-5 py-[95px] max-sm:py-[40px] sm:px-8 lg:px-12 lg:py-[130px]"
       >
         <div className="mx-auto max-w-[1350px]">
           <p
@@ -1482,7 +1465,7 @@ export default function CustomerRetentionPage() {
 
           <p
             data-ret-reveal
-            className="mt-5 max-w-[790px] text-[14px] leading-8 text-[#17191C]/65"
+          className="mt-5 max-w-[790px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.65]"
           >
             A retention program is judged on how
             many customers stay with you.
@@ -1490,7 +1473,7 @@ export default function CustomerRetentionPage() {
             figures below.
           </p>
 
-          <div className="mt-11 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-11 grid gap-4 max-sm:-mx-5 max-sm:mt-6 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:gap-[10px] max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:px-[22px] max-sm:scroll-px-[22px] max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden md:grid-cols-2 xl:grid-cols-3">
             {metrics.map(
               (
                 { title, body, note, Icon },
@@ -1499,7 +1482,7 @@ export default function CustomerRetentionPage() {
                 <article
                   key={title}
                   data-ret-reveal
-                  className={`flex min-h-[290px] flex-col rounded-[27px] border p-7 sm:p-8 ${
+                className={`flex min-h-[290px] flex-col rounded-[27px] border p-7 max-sm:min-h-[195px] max-sm:w-[70vw] max-sm:max-w-[235px] max-sm:shrink-0 max-sm:snap-start max-sm:rounded-[18px] max-sm:p-4 sm:p-8 ${
                     index === 0
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-[#fff9f9]'
@@ -1527,7 +1510,7 @@ export default function CustomerRetentionPage() {
                     </span>
                   </div>
 
-                  <h3 className="mt-6 text-[22px] font-semibold">
+                 <h3 className="mt-6 text-[22px] font-semibold max-sm:mt-4 max-sm:text-[16px]">
                     {title}
                   </h3>
 
@@ -1559,7 +1542,7 @@ export default function CustomerRetentionPage() {
 
           <div
             data-ret-reveal
-            className="mt-5 rounded-[28px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-9"
+            className="mt-5 rounded-[28px] border border-[#B12025]/15 bg-[#fff9f9] p-7 max-sm:hidden sm:p-9"
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <h3 className="text-[22px] font-semibold">
@@ -1640,7 +1623,7 @@ export default function CustomerRetentionPage() {
 
           {/* COMPANY FIGURES */}
 
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div className="mt-5 grid gap-4 max-sm:-mx-5 max-sm:flex max-sm:snap-x max-sm:gap-[10px] max-sm:overflow-x-auto max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden md:grid-cols-3">
             {[
               {
                 value: '85%',
@@ -1659,9 +1642,9 @@ export default function CustomerRetentionPage() {
               <div
                 key={item.label}
                 data-ret-reveal
-                className="rounded-[24px] border border-[#B12025]/15 p-7"
+               className="rounded-[24px] border border-[#B12025]/15 p-7 max-sm:w-[48vw] max-sm:min-w-[150px] max-sm:shrink-0 max-sm:rounded-[16px] max-sm:p-4"
               >
-                <p className="text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-[-.06em] text-[#B12025]">
+                <p className="text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-[-.06em] text-[#B12025] max-sm:text-[25px]">
                   {item.value}
                 </p>
 
@@ -1687,8 +1670,7 @@ export default function CustomerRetentionPage() {
       <section
         id="setup"
         ref={setupRef}
-        className="relative scroll-mt-[112px] bg-[#fff9f9] py-[80px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center lg:py-[85px]"
-      >
+className="relative scroll-mt-[112px] bg-[#fff9f9] py-[80px] max-sm:py-[40px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center lg:py-[85px]"      >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p
             data-ret-reveal
@@ -1727,14 +1709,13 @@ export default function CustomerRetentionPage() {
                   <article
                     key={title}
                     data-ret-card
-                    className={`flex min-h-[370px] w-[min(86vw,420px)] shrink-0 flex-col rounded-[28px] border p-8 sm:w-[450px] lg:min-h-[400px] lg:w-[490px] lg:p-9 ${
-                      red
+className={`flex min-h-[370px] w-[min(86vw,420px)] shrink-0 flex-col rounded-[28px] border p-8 max-sm:min-h-[215px] max-sm:w-[70vw] max-sm:max-w-[235px] max-sm:rounded-[18px] max-sm:p-4 sm:w-[450px] lg:min-h-[400px] lg:w-[490px] lg:p-9 ${                      red
                         ? 'border-[#B12025] bg-[#B12025] text-white'
                         : 'border-[#B12025]/15 bg-white'
                     }`}
                   >
                     <span
-                      className={`text-[85px] font-semibold leading-none tracking-[-.09em] ${
+                     className={`text-[85px] font-semibold leading-none tracking-[-.09em] max-sm:text-[45px] ${
                         red
                           ? 'text-white/30'
                           : 'text-[#B12025]/20'
@@ -1746,7 +1727,7 @@ export default function CustomerRetentionPage() {
                     <div className="mt-auto pt-10">
                       <h3
                         data-ret-card-text
-                        className="text-[26px] font-semibold tracking-[-.045em]"
+                       className="text-[26px] font-semibold tracking-[-.045em] max-sm:text-[16px] max-sm:leading-[1.2]"
                       >
                         {title}
                       </h3>
@@ -1802,7 +1783,7 @@ export default function CustomerRetentionPage() {
           CUSTOMER GROUP PICKER
       ================================================ */}
 
-      <section className="bg-white px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]">
+      <section className="bg-white px-5 py-[95px] max-sm:hidden sm:px-8 lg:px-12 lg:py-[125px]">
         <div className="mx-auto grid max-w-[1350px] gap-5 lg:grid-cols-2">
           <div
             data-ret-reveal
@@ -1928,7 +1909,7 @@ export default function CustomerRetentionPage() {
 
       <section
         id="faq"
-        className="bg-[#fff8f8] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]"
+       className="bg-[#fff8f8] px-5 py-[95px] max-sm:py-[40px] sm:px-8 lg:px-12 lg:py-[125px]"
       >
         <div className="mx-auto grid max-w-[1350px] gap-11 lg:grid-cols-[.75fr_1.25fr] lg:gap-16">
           <div>
@@ -1968,9 +1949,9 @@ export default function CustomerRetentionPage() {
                         : index
                     )
                   }
-                  className="flex w-full items-start justify-between gap-4 p-6 text-left"
+                 className="flex w-full items-start justify-between gap-4 p-6 text-left max-sm:gap-3 max-sm:p-4"
                 >
-                  <span className="text-[14px] font-semibold leading-6">
+                 <span className="text-[14px] font-semibold leading-6 max-sm:text-[11px] max-sm:leading-[1.5]">
                     {item.q}
                   </span>
 
@@ -1992,7 +1973,7 @@ export default function CustomerRetentionPage() {
                   }`}
                 >
                   <div className="min-h-0 overflow-hidden">
-                    <p className="px-6 pb-6 text-[12px] leading-8 text-[#17191C]/65">
+                  <p className="px-6 pb-6 text-[12px] leading-8 text-[#17191C]/65 max-sm:px-4 max-sm:pb-4 max-sm:text-[9px] max-sm:leading-[1.7]">
                       {item.a}
                     </p>
                   </div>
@@ -2007,7 +1988,7 @@ export default function CustomerRetentionPage() {
           RELATED SERVICES
       ================================================ */}
 
-      <section className="bg-white px-5 py-[85px] sm:px-8 lg:px-12 lg:py-[110px]">
+    <section className="bg-white px-5 py-[85px] max-sm:py-[40px] sm:px-8 lg:px-12 lg:py-[110px]">
         <div className="mx-auto max-w-[1350px]">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -2034,20 +2015,18 @@ export default function CustomerRetentionPage() {
             </Link>
           </div>
 
-          <div className="mt-9 grid gap-3 sm:grid-cols-2">
-            {related.map(
+<div className="mt-9 grid gap-3 max-sm:mx-0 max-sm:mt-6 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:gap-[10px] max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-[16px] max-sm:scroll-px-[16px] max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-2">            {related.map(
               (item, index) => (
                 <Link
                   href={item.href}
                   key={item.title}
-                  className="group flex min-h-[105px] items-center justify-between gap-4 rounded-[21px] border border-[#B12025]/15 bg-[#fff9f9] p-6 transition hover:border-[#B12025]"
-                >
-                  <span className="flex items-center gap-5">
-                    <span className="text-[12px] font-semibold text-[#B12025]">
+className="group flex min-h-[105px] items-center justify-between gap-4 rounded-[21px] border border-[#B12025]/15 bg-[#fff9f9] p-6 transition hover:border-[#B12025] max-sm:min-h-[72px] max-sm:w-[65vw] max-sm:max-w-[215px] max-sm:shrink-0 max-sm:snap-start max-sm:gap-2 max-sm:rounded-[16px] max-sm:px-4 max-sm:py-3"                >
+<span className="flex min-w-0 items-center gap-5 max-sm:gap-3">
+                      <span className="text-[12px] font-semibold text-[#B12025]">
                       0{index + 1}
                     </span>
 
-                    <span className="text-[16px] font-semibold">
+                   <span className="text-[16px] font-semibold max-sm:text-[11px] max-sm:leading-[1.3]">
                       {item.title}
                     </span>
                   </span>
@@ -2067,7 +2046,7 @@ export default function CustomerRetentionPage() {
           DISCOVERY CALL PLANNER
       ================================================ */}
 
-      <section className="bg-[#fff9f9] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[110px]">
+     <section className="bg-[#fff9f9] px-5 py-[95px] max-sm:hidden sm:px-8 lg:px-12 lg:py-[110px]">
         <div className="mx-auto grid max-w-[1350px] gap-10 rounded-[30px] border border-[#B12025]/15 bg-white p-7 sm:p-10 lg:grid-cols-[.8fr_1.2fr] lg:p-14">
           <div>
             <p className={smallLabel}>
@@ -2121,7 +2100,7 @@ export default function CustomerRetentionPage() {
                 : 'When would you like to start?'}
             </h3>
 
-            <div className="mt-6 space-y-2">
+        <div className="mt-6 space-y-2 max-sm:mt-4 max-sm:space-y-[6px]">
               {plannerStep === 0
                 ? audienceOptions.map(
                     (item, index) => (

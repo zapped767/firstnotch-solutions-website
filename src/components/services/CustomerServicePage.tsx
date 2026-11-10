@@ -369,10 +369,10 @@ function ScrollQuote() {
   return (
     <section
       aria-label="Parcel delivery service testimonial"
-      className="bg-[#B12025] px-5 py-[92px] text-white sm:px-8 lg:px-12 lg:py-[140px]"
+      className="bg-[#B12025] px-5 py-[92px] text-white max-sm:py-[45px] sm:px-8 lg:px-12 lg:py-[140px]"
     >
       <div className="mx-auto max-w-[1350px]">
-        <p className="mb-10 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80">
+        <p className="mb-10 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80 max-sm:mb-5 max-sm:text-[8px]">
           Parcel delivery service
         </p>
 
@@ -381,7 +381,7 @@ function ScrollQuote() {
             ref={ref}
             role="text"
             aria-label={QUOTE}
-            className="max-w-[1170px] text-[clamp(1.9rem,3.8vw,4.4rem)] font-semibold leading-[1.42] tracking-[-0.055em]"
+            className="max-w-[1170px] text-[clamp(1.9rem,3.8vw,4.4rem)] font-semibold leading-[1.42] tracking-[-0.055em] max-sm:text-[24px] max-sm:leading-[1.32] max-sm:tracking-[-0.04em]"
           >
             <span aria-hidden="true">“</span>
 
@@ -401,7 +401,7 @@ function ScrollQuote() {
           </p>
         </blockquote>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3 text-[12px] text-white/90">
+        <div className="mt-10 flex flex-wrap items-center gap-3 text-[12px] text-white/90 max-sm:mt-6 max-sm:gap-2 max-sm:text-[9px]">
           <Package size={19} />
 
           Parcel delivery service
@@ -812,6 +812,57 @@ export default function CustomerServicePage() {
     };
   }, []);
 
+
+  useEffect(() => {
+  const mobile = window.matchMedia('(max-width: 639px)');
+
+  if (!mobile.matches) return;
+
+  const container =
+    document.querySelector<HTMLElement>(
+      '[data-metric-auto-scroll]'
+    );
+
+  if (!container) return;
+
+  const cards = Array.from(
+    container.children
+  ) as HTMLElement[];
+
+  if (cards.length < 2) return;
+
+  let currentIndex = 0;
+
+  const timer = window.setInterval(() => {
+    currentIndex++;
+
+    // 05 → back to 01
+    if (currentIndex >= cards.length) {
+      currentIndex = 0;
+
+      container.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+
+      return;
+    }
+
+    const firstCard = cards[0];
+    const nextCard = cards[currentIndex];
+
+    container.scrollTo({
+      left:
+        nextCard.offsetLeft -
+        firstCard.offsetLeft,
+      behavior: 'smooth',
+    });
+  }, 2500);
+
+  return () => {
+    window.clearInterval(timer);
+  };
+}, []);
   // ====================================================
   // FLOATING CONTACT CTA
   // ====================================================
@@ -890,8 +941,7 @@ export default function CustomerServicePage() {
 
       <section
         id="customer-service-hero"
-        className="relative overflow-hidden bg-white px-5 pb-20 pt-[150px] sm:px-8 lg:px-12 lg:pb-[115px] lg:pt-[180px]"
-      >
+className="relative overflow-hidden bg-white px-5 pb-20 pt-[150px] max-sm:pb-[42px] max-sm:pt-[118px] sm:px-8 lg:px-12 lg:pb-[115px] lg:pt-[180px]"      >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-[160px] top-[50px] h-[480px] w-[480px] rounded-full border border-[#B12025]/10"
@@ -908,8 +958,7 @@ export default function CustomerServicePage() {
 
             <h1
               data-cs-title
-              className="mt-6 max-w-[750px] text-[clamp(3rem,5.2vw,6.3rem)] font-semibold leading-[1.06] tracking-[-0.07em]"
-            >
+className="mt-6 max-w-[750px] text-[clamp(3rem,5.2vw,6.3rem)] font-semibold leading-[1.06] tracking-[-0.07em] max-sm:mt-4 max-sm:text-[38px] max-sm:leading-[1.02] max-sm:tracking-[-0.055em]"            >
               <AnimatedWords
                 text="One team for your emails, chats and calls,"
               />{' '}
@@ -923,8 +972,7 @@ export default function CustomerServicePage() {
 
             <p
               data-cs-reveal
-              className="mt-8 max-w-[620px] text-[15px] leading-[1.9] text-[#17191C]/70 sm:text-[16px]"
-            >
+className="mt-8 max-w-[620px] text-[15px] leading-[1.9] text-[#17191C]/70 max-sm:mt-5 max-sm:text-[12px] max-sm:leading-[1.65] sm:text-[16px]"            >
               FirstNotch runs your customer service
               from Colombo, inside your help desk
               and under your brand. Agents handle
@@ -938,12 +986,10 @@ export default function CustomerServicePage() {
 
             <div
               data-cs-reveal
-              className="mt-9 flex flex-wrap gap-3"
-            >
+className="mt-9 flex flex-wrap gap-3 max-sm:mt-6 max-sm:flex-nowrap max-sm:gap-2"            >
               <a
                 href="#contact"
-                className="group inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 py-3 text-[12px] font-semibold text-white transition hover:bg-[#971b20]"
-              >
+className="group inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 py-3 text-[12px] font-semibold text-white transition hover:bg-[#971b20] max-sm:min-h-[42px] max-sm:flex-1 max-sm:justify-center max-sm:gap-2 max-sm:px-3 max-sm:py-2 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 Book a free discovery call
 
                 <ArrowUpRight
@@ -954,8 +1000,7 @@ export default function CustomerServicePage() {
 
               <a
                 href="#included"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/25 px-6 py-3 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff4f4]"
-              >
+className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-[#B12025]/25 px-6 py-3 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff4f4] max-sm:min-h-[42px] max-sm:flex-1 max-sm:justify-center max-sm:gap-2 max-sm:px-3 max-sm:py-2 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
                 <ArrowDownRight size={17} />
               </a>
@@ -965,8 +1010,7 @@ export default function CustomerServicePage() {
 
             <div
               data-cs-reveal
-              className="mt-12 border-t border-[#B12025]/15 pt-6"
-            >
+className="mt-12 border-t border-[#B12025]/15 pt-6 max-sm:mt-7 max-sm:pt-4"            >
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#B12025]">
                 Under your brand — demo preview
               </p>
@@ -974,8 +1018,7 @@ export default function CustomerServicePage() {
               <div
                 role="group"
                 aria-label="Select example business"
-                className="mt-3 flex flex-wrap gap-2"
-              >
+className="mt-3 flex flex-wrap gap-2 max-sm:flex-nowrap max-sm:gap-1.5"              >
                 {industries.map((item, index) => (
                   <button
                     key={item.name}
@@ -986,8 +1029,7 @@ export default function CustomerServicePage() {
                     onClick={() =>
                       setIndustryIndex(index)
                     }
-                    className={`rounded-full border px-4 py-2.5 text-[11px] font-semibold transition ${
-                      industryIndex === index
+className={`rounded-full border px-4 py-2.5 text-[11px] font-semibold transition max-sm:px-3 max-sm:py-2 max-sm:text-[8px] max-sm:whitespace-nowrap ${                      industryIndex === index
                         ? 'border-[#B12025] bg-[#B12025] text-white'
                         : 'border-[#B12025]/20 text-[#B12025] hover:bg-[#fff4f4]'
                     }`}
@@ -1003,8 +1045,7 @@ export default function CustomerServicePage() {
 
           <div
             data-cs-reveal
-            className="relative rounded-[32px] border border-[#B12025]/15 bg-[#fff9f9] p-5 shadow-[0_28px_75px_rgba(177,32,37,.08)] sm:p-7"
-          >
+className="relative rounded-[32px] border border-[#B12025]/15 bg-[#fff9f9] p-5 shadow-[0_28px_75px_rgba(177,32,37,.08)] max-sm:rounded-[22px] max-sm:p-4 sm:p-7"          >
             <div className="flex items-center justify-between gap-3 border-b border-[#B12025]/10 pb-5">
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-[#B12025] text-xl font-bold text-white">
@@ -1030,12 +1071,12 @@ export default function CustomerServicePage() {
 
             {/* SIX CHANNELS */}
 
-            <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            <div className="mt-6 grid grid-cols-3 gap-2 max-sm:mt-4 max-sm:gap-1.5 sm:grid-cols-6">
               {channels.map(({ name, Icon }) => (
                 <div
                   data-cs-channel
                   key={name}
-                  className="flex flex-col items-center gap-2 rounded-[14px] border border-[#B12025]/10 bg-white px-1 py-3 text-center"
+                  className="flex flex-col items-center gap-2 rounded-[14px] border border-[#B12025]/10 bg-white px-1 py-3 text-center max-sm:gap-1 max-sm:rounded-[11px] max-sm:py-2"
                 >
                   <Icon
                     size={18}
@@ -1062,7 +1103,7 @@ export default function CustomerServicePage() {
 
             {/* ONE CUSTOMER THREAD */}
 
-            <div className="rounded-[23px] bg-[#B12025] p-5 text-white sm:p-6">
+            <div className="rounded-[23px] bg-[#B12025] p-5 text-white max-sm:rounded-[18px] max-sm:p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-2 text-[12px] font-semibold">
                   <Inbox size={17} />
@@ -1147,8 +1188,7 @@ export default function CustomerServicePage() {
 
       <section
         aria-label="Sample customer chat demo"
-        className="bg-[#fff8f8] px-5 py-[90px] sm:px-8 lg:px-12"
-      >
+className="bg-[#fff8f8] px-5 py-[90px] max-sm:py-[42px] sm:px-8 lg:px-12"      >
         <div className="mx-auto grid max-w-[1350px] gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:gap-20">
           <div>
             <p
@@ -1160,7 +1200,7 @@ export default function CustomerServicePage() {
 
             <h2
               data-cs-title
-              className={`mt-5 ${heading}`}
+             className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[32px] max-sm:leading-[1.05]`}
             >
               <AnimatedWords
                 text="See the conversation, with the history already there."
@@ -1169,7 +1209,7 @@ export default function CustomerServicePage() {
 
             <p
               data-cs-reveal
-              className="mt-6 max-w-[480px] text-[14px] leading-8 text-[#17191C]/65"
+             className="mt-6 max-w-[480px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"
             >
               Choose a sample customer question
               to preview how a reply appears in a
@@ -1219,14 +1259,14 @@ export default function CustomerServicePage() {
               </span>
             </div>
 
-            <div className="min-h-[270px] space-y-4 p-6 sm:p-8">
-              <div className="ml-auto max-w-[80%] rounded-[20px] rounded-br-[5px] bg-[#fff0f0] p-4 text-[13px] leading-7 text-[#17191C]">
+            <div className="min-h-[270px] space-y-4 p-6 max-sm:min-h-0 max-sm:space-y-3 max-sm:p-4 sm:p-8">
+              <div className="ml-auto max-w-[80%] rounded-[20px] rounded-br-[5px] bg-[#fff0f0] p-4 text-[13px] leading-7 text-[#17191C] max-sm:rounded-[15px] max-sm:p-3 max-sm:text-[10px] max-sm:leading-5">
                 {questions[sampleQuestion]}
               </div>
 
               <div
                 key={`${industryIndex}-${sampleQuestion}`}
-                className="mr-auto max-w-[85%] rounded-[20px] rounded-bl-[5px] bg-[#B12025] p-4 text-[13px] leading-7 text-white"
+                className="mr-auto max-w-[85%] rounded-[20px] rounded-bl-[5px] bg-[#B12025] p-4 text-[13px] leading-7 text-white max-sm:rounded-[15px] max-sm:p-3 max-sm:text-[10px] max-sm:leading-5"
               >
                 {sampleQuestion === 0
                   ? brand.answer
@@ -1266,7 +1306,7 @@ export default function CustomerServicePage() {
       <section
         ref={featuresSectionRef}
         id="included"
-        className="relative scroll-mt-[115px] bg-white py-[85px] lg:flex lg:min-h-[700px] lg:flex-col lg:justify-center lg:py-[85px]"
+       className="relative scroll-mt-[115px] bg-white py-[85px] max-sm:py-[42px] lg:flex lg:min-h-[700px] lg:flex-col lg:justify-center lg:py-[85px]"
       >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p
@@ -1278,14 +1318,14 @@ export default function CustomerServicePage() {
 
           <h2
             data-cs-title
-            className={`mt-5 max-w-[920px] ${heading}`}
+            className={`mt-5 max-w-[920px] ${heading} max-sm:mt-3 max-sm:text-[32px] max-sm:leading-[1.05]`}
           >
             <AnimatedWords
               text="One connected team across every channel."
             />
           </h2>
 
-          <p className="mt-4 max-w-[700px] text-[13px] leading-7 text-[#17191C]/60">
+          <p className="mt-4 max-w-[700px] text-[13px] leading-7 text-[#17191C]/60 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.6]">
             Eight essentials, from shared inboxes
             and full conversation history to reviewed
             replies and organised hand-offs.
@@ -1311,7 +1351,7 @@ export default function CustomerServicePage() {
                   <article
                     key={title}
                     data-cs-card
-                    className={`group flex min-h-[410px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[29px] border p-8 sm:w-[430px] sm:p-9 lg:min-h-[430px] lg:w-[460px] ${
+                   className={`group flex min-h-[410px] w-[min(85vw,395px)] shrink-0 flex-col rounded-[29px] border p-8 max-sm:min-h-[245px] max-sm:w-[72vw] max-sm:max-w-[270px] max-sm:rounded-[20px] max-sm:p-5 sm:w-[430px] sm:p-9 lg:min-h-[430px] lg:w-[460px] ${
                       red
                         ? 'border-[#B12025] bg-[#B12025] text-white'
                         : 'border-[#B12025]/15 bg-[#fff9f9] text-[#17191C]'
@@ -1319,7 +1359,7 @@ export default function CustomerServicePage() {
                   >
                     <div className="flex items-start justify-between">
                       <span
-                        className={`flex h-[62px] w-[62px] items-center justify-center rounded-[20px] ${
+                       className={`flex h-[62px] w-[62px] items-center justify-center rounded-[20px] max-sm:h-[42px] max-sm:w-[42px] max-sm:rounded-[13px] ${
                           red
                             ? 'bg-white/15'
                             : 'bg-white text-[#B12025]'
@@ -1343,7 +1383,7 @@ export default function CustomerServicePage() {
                       </span>
                     </div>
 
-                    <div className="mt-auto pt-12">
+                    <div className="mt-auto pt-12 max-sm:pt-5">
                       <p
                         className={`mb-4 text-[10px] font-semibold uppercase tracking-[0.15em] ${
                           red
@@ -1404,7 +1444,7 @@ export default function CustomerServicePage() {
 
       <section
         id="history"
-        className="bg-[#fff8f8] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[130px]"
+       className="bg-[#fff8f8] px-5 py-[95px] max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[130px]"
       >
         <div className="mx-auto grid max-w-[1350px] gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div>
@@ -1417,7 +1457,7 @@ export default function CustomerServicePage() {
 
             <h2
               data-cs-title
-              className={`mt-5 ${heading}`}
+              className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.05]`}
             >
               <AnimatedWords
                 text="From first email to final hand-off. All in one thread."
@@ -1426,7 +1466,7 @@ export default function CustomerServicePage() {
 
             <p
               data-cs-reveal
-              className="mt-6 max-w-[495px] text-[14px] leading-8 text-[#17191C]/65"
+             className="mt-6 max-w-[495px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-[1.65]"
             >
               Agents see the previous conversation
               before they reply. When your own staff
@@ -1452,13 +1492,13 @@ export default function CustomerServicePage() {
 
           <div
             data-cs-reveal
-            className="rounded-[27px] border border-[#B12025]/15 bg-white p-6 sm:p-9"
+            className="rounded-[27px] border border-[#B12025]/15 bg-white p-6 max-sm:rounded-[20px] max-sm:p-4 sm:p-9"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B12025]">
               Customer journey · Example
             </p>
 
-            <div className="relative mt-8 space-y-7 border-l-2 border-[#B12025]/20 pl-7">
+            <div className="relative mt-8 space-y-7 border-l-2 border-[#B12025]/20 pl-7 max-sm:mt-5 max-sm:space-y-4 max-sm:pl-6">
               {[
                 {
                   time: '09:00',
@@ -1550,7 +1590,7 @@ export default function CustomerServicePage() {
           HELP DESK TOOL PREVIEW + TONE EDITOR
       ================================================= */}
 
-      <section className="bg-white px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]">
+      <section className="bg-white px-5 py-[95px] max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[125px]">
         <div className="mx-auto max-w-[1350px]">
           <p
             data-cs-reveal
@@ -1571,7 +1611,7 @@ export default function CustomerServicePage() {
           <div
             role="group"
             aria-label="Choose a help desk preview"
-            className="mt-10 flex flex-wrap gap-2"
+           className="mt-10 flex flex-wrap gap-2 max-sm:mt-6 max-sm:flex-nowrap max-sm:gap-1"
           >
             {helpdeskTools.map((tool, index) => (
               <button
@@ -1583,7 +1623,7 @@ export default function CustomerServicePage() {
                 onClick={() =>
                   setChosenTool(index)
                 }
-                className={`rounded-full border px-5 py-3 text-[12px] font-semibold transition ${
+               className={`rounded-full border px-5 py-3 text-[12px] font-semibold transition max-sm:min-w-0 max-sm:flex-1 max-sm:px-1 max-sm:py-2 max-sm:text-[7px] max-sm:whitespace-nowrap ${
                   chosenTool === index
                     ? 'border-[#B12025] bg-[#B12025] text-white'
                     : 'border-[#B12025]/15 bg-white text-[#B12025] hover:border-[#B12025]'
@@ -1597,7 +1637,7 @@ export default function CustomerServicePage() {
           <div className="mt-5 grid gap-5 lg:grid-cols-2">
             {/* GENERIC HELP DESK UI */}
 
-            <div className="rounded-[25px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-9">
+            <div className="rounded-[25px] border border-[#B12025]/15 bg-[#fff9f9] p-7 max-sm:rounded-[18px] max-sm:p-4 sm:p-9">
               <div className="flex items-center justify-between">
                 <span className="text-[12px] font-semibold">
                   {helpdeskTools[chosenTool]} · Generic help desk preview
@@ -1617,8 +1657,7 @@ export default function CustomerServicePage() {
                 ].map((row, index) => (
                   <div
                     key={row}
-                    className={`flex items-center justify-between rounded-[15px] border p-4 text-[12px] ${
-                      index === chosenTool % 3
+className={`flex items-center justify-between rounded-[15px] border p-4 text-[12px] max-sm:rounded-[11px] max-sm:p-3 max-sm:text-[9px] ${                      index === chosenTool % 3
                         ? 'border-[#B12025] bg-white'
                         : 'border-[#B12025]/10 bg-white/70'
                     }`}
@@ -1642,25 +1681,25 @@ export default function CustomerServicePage() {
 
             {/* TONE GUIDE EDITOR */}
 
-            <div className="rounded-[25px] bg-[#B12025] p-7 text-white sm:p-9">
+            <div className="rounded-[25px] bg-[#B12025] p-7 text-white max-sm:rounded-[18px] max-sm:p-4 sm:p-9">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
                 Replies written in your style
               </p>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[16px] bg-white/10 p-5">
+              <div className="mt-6 grid gap-4 max-sm:mt-4 max-sm:gap-3 sm:grid-cols-2">
+                <div className="rounded-[16px] bg-white/10 p-5 text-[#ffffff] max-sm:p-3">
                   <p className="text-[10px] font-semibold text-white/75">
                     Plain draft · Example
                   </p>
 
-                  <p className="mt-4 text-[13px] leading-7">
+                  <p className="mt-4 text-[13px] leading-7 max-sm:mt-2 max-sm:text-[9px] max-sm:leading-5">
                     Got your message. Send order
                     number. We can check.
                   </p>
                 </div>
 
-                <div className="rounded-[16px] bg-white p-5 text-[#17191C]">
-                  <p className="text-[10px] font-semibold text-[#B12025]">
+                <div className="rounded-[16px] bg-white/10 p-5 text-[#ffffff] max-sm:p-3">
+                  <p className="text-[10px] font-semibold text-white/75">
                     In your tone · Example
                   </p>
 
@@ -1688,7 +1727,7 @@ export default function CustomerServicePage() {
 
       <section
         id="reporting"
-        className="bg-[#fff8f8] px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[130px]"
+       className="bg-[#fff8f8] px-5 py-[95px] max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[130px]"
       >
         <div className="mx-auto max-w-[1350px]">
           <p
@@ -1700,7 +1739,7 @@ export default function CustomerServicePage() {
 
           <h2
             data-cs-title
-            className={`mt-5 ${heading}`}
+            className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.05]`}
           >
             <AnimatedWords
               text="Each channel measured on its own."
@@ -1709,7 +1748,7 @@ export default function CustomerServicePage() {
 
           <p
             data-cs-reveal
-            className="mt-6 max-w-[760px] text-[14px] leading-8 text-[#17191C]/65"
+            className="mt-6 max-w-[760px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-[1.65]"
           >
             Each channel is measured on its own,
             so slow email replies are not hidden
@@ -1720,19 +1759,38 @@ export default function CustomerServicePage() {
 
           {/* FIVE METRICS */}
 
-          <div className="mt-11 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+<div
+  data-metric-auto-scroll
+  className="
+    mt-11 grid gap-4
+
+    max-sm:-mx-5
+    max-sm:mt-6
+    max-sm:flex
+    max-sm:gap-3
+    max-sm:overflow-x-auto
+    max-sm:scroll-smooth
+    max-sm:px-5
+    max-sm:pb-2
+    max-sm:[scrollbar-width:none]
+    max-sm:[&::-webkit-scrollbar]:hidden
+
+    md:grid-cols-2
+    xl:grid-cols-3
+  "
+>
             {metricData.map((item, index) => (
               <article
                 data-cs-reveal
                 key={item.title}
-                className={`flex min-h-[267px] flex-col rounded-[25px] border p-7 ${
+              className={`flex min-h-[267px] flex-col rounded-[25px] border p-7 max-sm:min-h-[180px] max-sm:w-[72vw] max-sm:max-w-[245px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:p-4 ${
                   index === 0
                     ? 'border-[#B12025] bg-[#B12025] text-white'
                     : 'border-[#B12025]/15 bg-white'
                 }`}
               >
                 <p
-                  className={`text-[44px] font-bold leading-none ${
+                  className={`text-[44px] font-bold leading-none max-sm:text-[30px] ${
                     index === 0
                       ? 'text-white/40'
                       : 'text-[#B12025]/20'
@@ -1741,12 +1799,12 @@ export default function CustomerServicePage() {
                   0{index + 1}
                 </p>
 
-                <h3 className="mt-5 text-[20px] font-semibold">
+                <h3 className="mt-5 text-[20px] font-semibold max-sm:mt-4 max-sm:text-[15px]">
                   {item.title}
                 </h3>
 
                 <p
-                  className={`mt-3 text-[12px] leading-7 ${
+                  className={`mt-3 text-[12px] leading-7 max-sm:mt-2 max-sm:text-[9px] max-sm:leading-5 ${
                     index === 0
                       ? 'text-white/85'
                       : 'text-[#17191C]/65'
@@ -1756,7 +1814,7 @@ export default function CustomerServicePage() {
                 </p>
 
                 <p
-                  className={`mt-auto border-t pt-4 text-[11px] font-semibold ${
+                  className={`mt-auto border-t pt-4 text-[11px] font-semibold max-sm:pt-3 max-sm:text-[8px] ${
                     index === 0
                       ? 'border-white/20 text-white'
                       : 'border-[#B12025]/15 text-[#B12025]'
@@ -1770,8 +1828,7 @@ export default function CustomerServicePage() {
 
           {/* PER-CHANNEL SCOREBOARD */}
 
-          <div className="mt-5 rounded-[26px] border border-[#B12025]/15 bg-white p-6 sm:p-9">
-            <div className="flex flex-wrap items-start justify-between gap-3">
+<div className="mt-5 rounded-[26px] border border-[#B12025]/15 bg-white p-6 max-sm:hidden sm:p-9">            <div className="flex flex-wrap items-start justify-between gap-3">
               <h3 className="text-[20px] font-semibold">
                 Per-channel scoreboard
               </h3>
@@ -1829,7 +1886,7 @@ export default function CustomerServicePage() {
 
           {/* REPEAT CONTACT TREND + HIRING */}
 
-          <div className="mt-5 grid gap-5 lg:grid-cols-[1.15fr_.85fr]">
+          <div className="mt-5 grid gap-5 max-sm:hidden lg:grid-cols-[1.15fr_.85fr]">
             <div className="rounded-[26px] border border-[#B12025]/15 bg-white p-7 sm:p-9">
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-[19px] font-semibold">
@@ -1910,7 +1967,10 @@ export default function CustomerServicePage() {
 
           {/* COMPANY-PROVIDED FIGURES */}
 
-          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+         <div
+  data-mobile-auto-scroll
+  className="mt-5 grid gap-4 max-sm:-mx-5 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-3"
+>
             {[
               {
                 value: '85%',
@@ -1929,13 +1989,13 @@ export default function CustomerServicePage() {
               <div
                 data-cs-reveal
                 key={item.text}
-                className="rounded-[22px] border border-[#B12025]/15 bg-white p-7"
+                className="rounded-[22px] border border-[#B12025]/15 bg-white p-7 max-sm:w-[62vw] max-sm:max-w-[215px] max-sm:shrink-0 max-sm:rounded-[17px] max-sm:p-4"
               >
-                <p className="text-[clamp(2.3rem,3.4vw,4rem)] font-bold tracking-[-0.05em] text-[#B12025]">
+                <p className="text-[clamp(2.3rem,3.4vw,4rem)] font-bold tracking-[-0.05em] text-[#B12025] max-sm:text-[26px]">
                   {item.value}
                 </p>
 
-                <p className="mt-2 text-[12px] text-[#17191C]/65">
+                <p className="mt-2 text-[12px] text-[#B12025] max-sm:text-[9px] max-sm:leading-4">
                   {item.text}
                 </p>
               </div>
@@ -1955,7 +2015,7 @@ export default function CustomerServicePage() {
       <section
         ref={setupSectionRef}
         id="setup"
-        className="relative scroll-mt-[110px] bg-white py-[88px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center lg:py-[85px]"
+        className="relative scroll-mt-[110px] bg-white py-[88px] max-sm:py-[42px] lg:flex lg:min-h-[690px] lg:flex-col lg:justify-center lg:py-[85px]"
       >
         <div className="mx-auto w-full max-w-[1450px] px-5 sm:px-8 lg:px-12">
           <p
@@ -1967,14 +2027,14 @@ export default function CustomerServicePage() {
 
           <h2
             data-cs-title
-            className={`mt-5 max-w-[930px] ${heading}`}
+            className={`mt-5 max-w-[930px] ${heading} max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.05]`}
           >
             <AnimatedWords
               text="A clear start, then quality you can check."
             />
           </h2>
 
-          <p className="mt-5 max-w-[740px] text-[14px] leading-8 text-[#17191C]/65">
+          <p className="mt-5 max-w-[740px] text-[14px] leading-8 text-[#17191C]/65 max-sm:mt-4 max-sm:text-[10px] max-sm:leading-[1.6]">
             The biggest risk with outsourced
             support is agents who do not know
             your business. The steps below
@@ -1982,7 +2042,10 @@ export default function CustomerServicePage() {
           </p>
         </div>
 
-        <div className="mt-9 w-full overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible">
+        <div
+  data-mobile-auto-scroll
+  className="mt-9 w-full overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-sm:mt-6 lg:overflow-visible"
+>
           <div
             ref={setupTrackRef}
             className="flex w-max gap-4 pl-5 pr-5 sm:pl-8 sm:pr-8 lg:gap-5 lg:pl-[48px] lg:pr-[48px]"
@@ -1995,14 +2058,14 @@ export default function CustomerServicePage() {
                 <article
                   key={item.title}
                   data-cs-card
-                  className={`flex min-h-[365px] w-[min(85vw,420px)] shrink-0 flex-col rounded-[29px] border p-8 sm:w-[460px] sm:p-9 lg:min-h-[390px] lg:w-[500px] ${
+                 className={`flex min-h-[365px] w-[min(85vw,420px)] shrink-0 flex-col rounded-[29px] border p-8 max-sm:min-h-[230px] max-sm:w-[72vw] max-sm:max-w-[255px] max-sm:rounded-[19px] max-sm:p-5 sm:w-[460px] sm:p-9 lg:min-h-[390px] lg:w-[500px] ${
                     red
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/15 bg-[#fff9f9]'
                   }`}
                 >
                   <span
-                    className={`text-[85px] font-bold leading-none tracking-[-0.08em] ${
+                    className={`text-[85px] font-bold leading-none tracking-[-0.08em] max-sm:text-[48px] ${
                       red
                         ? 'text-white/35'
                         : 'text-[#B12025]/20'
@@ -2011,17 +2074,17 @@ export default function CustomerServicePage() {
                     0{index + 1}
                   </span>
 
-                  <div className="mt-auto pt-8">
+                  <div className="mt-auto pt-8 max-sm:pt-4">
                     <h3
                       data-cs-card-text
-                      className="text-[27px] font-semibold tracking-[-0.04em]"
+                      className="text-[27px] font-semibold tracking-[-0.04em] max-sm:text-[17px]"
                     >
                       {item.title}
                     </h3>
 
                     <p
                       data-cs-card-text
-                      className={`mt-5 text-[13px] leading-8 ${
+                      className={`mt-5 text-[13px] leading-8 max-sm:mt-3 max-sm:text-[9px] max-sm:leading-[1.55] ${
                         red
                           ? 'text-white/90'
                           : 'text-[#17191C]/70'
@@ -2070,9 +2133,9 @@ export default function CustomerServicePage() {
       ================================================= */}
 
       <section
-        id="channel-picker"
-        className="bg-[#fff8f8] px-5 py-[90px] sm:px-8 lg:px-12 lg:py-[120px]"
-      >
+  id="channel-picker"
+  className="bg-[#fff8f8] px-5 py-[90px] max-sm:hidden sm:px-8 lg:px-12 lg:py-[120px]"
+>
         <div className="mx-auto grid max-w-[1350px] gap-5 lg:grid-cols-2">
           <div className="rounded-[27px] border border-[#B12025]/15 bg-white p-7 sm:p-10">
             <p className={eyebrow}>
@@ -2175,9 +2238,9 @@ export default function CustomerServicePage() {
 
       <section
         id="faq"
-        className="bg-white px-5 py-[95px] sm:px-8 lg:px-12 lg:py-[125px]"
+        className="bg-white px-5 py-[95px] max-sm:py-[42px] sm:px-8 lg:px-12 lg:py-[125px]"
       >
-        <div className="mx-auto grid max-w-[1350px] gap-12 lg:grid-cols-[.82fr_1.18fr] lg:gap-[72px]">
+        <div className="mx-auto grid max-w-[1350px] gap-12 max-sm:gap-6 lg:grid-cols-[.82fr_1.18fr] lg:gap-[72px]">
           <div>
             <p
               data-cs-reveal
@@ -2188,8 +2251,7 @@ export default function CustomerServicePage() {
 
             <h2
               data-cs-title
-              className={`mt-5 ${heading}`}
-            >
+className={`mt-5 ${heading} max-sm:mt-3 max-sm:text-[29px] max-sm:leading-[1.04] max-sm:tracking-[-0.05em]`}            >
               <AnimatedWords
                 text="Common questions about outsourced customer service."
               />
@@ -2200,8 +2262,7 @@ export default function CustomerServicePage() {
             <div
               role="group"
               aria-label="FAQ categories"
-              className="mb-6 flex flex-wrap gap-2"
-            >
+className="mb-6 flex flex-wrap gap-2 max-sm:mb-4 max-sm:flex-nowrap max-sm:gap-1.5"            >
               {faqCategories.map((category) => (
                 <button
                   key={category}
@@ -2213,7 +2274,7 @@ export default function CustomerServicePage() {
                     setFaqCategory(category);
                     setOpenFaq(null);
                   }}
-                  className={`rounded-full border px-4 py-3 text-[11px] font-semibold ${
+                  className={`rounded-full border px-4 py-3 text-[11px] max-sm:flex-1 max-sm:px-2 max-sm:py-2 max-sm:text-[8px] max-sm:whitespace-nowrap font-semibold ${
                     faqCategory === category
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/20 text-[#B12025] hover:bg-[#fff8f8]'
@@ -2282,8 +2343,7 @@ export default function CustomerServicePage() {
           RELATED CUSTOMER SUPPORT SERVICES
       ================================================= */}
 
-      <section className="bg-[#fff8f8] px-5 py-[90px] sm:px-8 lg:px-12 lg:py-[110px]">
-        <div className="mx-auto max-w-[1350px]">
+<section className="bg-[#fff8f8] px-5 py-[90px] max-sm:py-[38px] sm:px-8 lg:px-12 lg:py-[110px]">        <div className="mx-auto max-w-[1350px]">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div>
               <p className={eyebrow}>
@@ -2292,8 +2352,7 @@ export default function CustomerServicePage() {
 
               <h2
                 data-cs-title
-                className={`mt-4 ${heading}`}
-              >
+className={`mt-4 ${heading} max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.04] max-sm:tracking-[-0.05em]`}              >
                 <AnimatedWords
                   text="Other customer support services"
                 />
@@ -2310,27 +2369,23 @@ export default function CustomerServicePage() {
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
-            {related.map((item, index) => (
+<div className="mt-10 grid gap-3 max-sm:mt-6 max-sm:gap-2 sm:grid-cols-2">            {related.map((item, index) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="group flex min-h-[116px] items-center justify-between gap-4 rounded-[22px] border border-[#B12025]/15 bg-white p-6 transition hover:border-[#B12025] hover:bg-[#fff2f2]"
-              >
-                <span className="flex items-center gap-5">
-                  <span className="text-[12px] font-bold text-[#B12025]">
-                    0{index + 1}
+className="group flex min-h-[116px] items-center justify-between gap-4 rounded-[22px] border border-[#B12025]/15 bg-white p-6 transition hover:border-[#B12025] hover:bg-[#fff2f2] max-sm:min-h-[72px] max-sm:gap-2 max-sm:rounded-[16px] max-sm:px-4 max-sm:py-3"              >
+<span className="flex min-w-0 items-center gap-5 max-sm:gap-3">
+<span className="text-[12px] font-bold text-[#B12025] max-sm:text-[9px]">                    0{index + 1}
                   </span>
 
-                  <span className="text-[16px] font-semibold">
-                    {item.title}
+<span className="text-[16px] font-semibold max-sm:text-[12px] max-sm:leading-[1.25]">                    {item.title}
                   </span>
                 </span>
 
                 <ArrowUpRight
-                  size={20}
-                  className="text-[#B12025] transition group-hover:translate-x-1 group-hover:-translate-y-1"
-                />
+  size={20}
+  className="shrink-0 text-[#B12025] transition group-hover:translate-x-1 group-hover:-translate-y-1 max-sm:h-[14px] max-sm:w-[14px]"
+/>
               </Link>
             ))}
           </div>
@@ -2341,7 +2396,7 @@ export default function CustomerServicePage() {
           STEP-BY-STEP DISCOVERY CALL BRIEF
       ================================================= */}
 
-      <section className="bg-white px-5 py-[90px] sm:px-8 lg:px-12 lg:py-[110px]">
+     <section className="bg-white px-5 py-[90px] max-sm:hidden sm:px-8 lg:px-12 lg:py-[110px]">
         <div className="mx-auto grid max-w-[1350px] gap-10 rounded-[30px] border border-[#B12025]/15 bg-[#fff9f9] p-7 sm:p-11 lg:grid-cols-[.8fr_1.2fr] lg:gap-16 lg:p-14">
           <div>
             <p className={eyebrow}>
@@ -2502,15 +2557,7 @@ export default function CustomerServicePage() {
 
       {/* CONTACT FORM AND FOOTER ARE IN StoryContact */}
 
-      {showFloatingCTA && (
-        <a
-          href="#contact"
-          className="fixed bottom-5 left-1/2 z-40 inline-flex min-h-[52px] -translate-x-1/2 items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white shadow-[0_15px_45px_rgba(177,32,37,.22)] sm:bottom-8"
-        >
-          Book a free discovery call
-          <ArrowUpRight size={17} />
-        </a>
-      )}
+     
     </div>
   );
 }
