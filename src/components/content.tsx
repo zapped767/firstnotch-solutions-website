@@ -27,10 +27,10 @@ export const CONTACT = {
 } as const;
 
 export const COPY = {
-  eyebrow: 'BPO company in Sri Lanka',
+  eyebrow: 'Your Global Outsourcing Partner from Sri Lanka',
   headline: "Outsourcing that works like it's in-house.",
   intro:
-    'Customer support, back office and IT services for businesses in Sri Lanka and overseas. Handled by a Colombo team that learns your processes and meets your standards.',
+    'Customer Support | Sales & Lead Generation | Back Office | KYC/AML | IT Support,Serving businesses across the UAE, UK, Australia, Europe and Asia.',
   cta: 'Book a free discovery call',
   aboutTitle: 'Why outsource to Sri Lanka',
   about:

@@ -476,19 +476,48 @@ function FAQItem({
     >
       <summary
         onClick={toggle}
-        className="flex cursor-pointer list-none items-start justify-between gap-4 py-6 focus-visible:outline-2 focus-visible:outline-[#B12025] [&::-webkit-details-marker]:hidden"
-      >
+className="
+  flex cursor-pointer list-none items-start justify-between
+  gap-4 py-6
+
+  max-sm:gap-3
+  max-sm:py-[13px]
+
+  focus-visible:outline-2
+  focus-visible:outline-[#B12025]
+  [&::-webkit-details-marker]:hidden
+"      >
         <span>
-          <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.18em] text-[#B12025]">
+          <span className="
+  mb-2 block text-[10px] font-bold uppercase
+  tracking-[.18em] text-[#B12025]
+
+  max-sm:mb-1.5
+  max-sm:text-[8px]
+">
             {faq.tag}
           </span>
 
-          <span className="text-[17px] font-semibold tracking-[-.03em] sm:text-[19px]">
+          <span className="
+  text-[17px] font-semibold tracking-[-.03em]
+
+  max-sm:text-[14px]
+  max-sm:leading-[1.3]
+
+  sm:text-[19px]
+">
             {faq.q}
           </span>
         </span>
 
-        <span className="mt-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#B12025]/20 text-[#B12025]">
+        <span className="
+  mt-2 flex h-8 w-8 shrink-0 items-center justify-center
+  rounded-full border border-[#B12025]/20 text-[#B12025]
+
+  max-sm:mt-1
+  max-sm:h-[28px]
+  max-sm:w-[28px]
+">
           <Plus
             size={17}
             className="transition-transform duration-300 group-open:rotate-45"
@@ -500,7 +529,14 @@ function FAQItem({
         ref={answerRef}
         className="overflow-hidden"
       >
-        <p className="max-w-[700px] pb-5 text-[14px] leading-[1.85] text-[#17191C]/70">
+        <p className="
+  max-w-[700px] pb-5 text-[14px] leading-[1.85]
+  text-[#17191C]/70
+
+  max-sm:pb-3
+  max-sm:text-[10px]
+  max-sm:leading-[1.6]
+">
           {faq.a}
         </p>
 
@@ -1066,8 +1102,8 @@ export default function DataVerificationPage() {
           01 — HERO
       ================================================= */}
 
-      <section className="relative bg-white px-5 pb-24 pt-[150px] sm:px-8 lg:px-14 lg:pb-32 lg:pt-[180px]">
-        <div className="mx-auto grid max-w-[1420px] items-center gap-12 lg:grid-cols-[1.08fr_.92fr] lg:gap-16">
+      <section className="relative bg-white px-5 pb-24 pt-[150px] max-sm:pb-9 max-sm:pt-[94px] sm:px-8 lg:px-14 lg:pb-32 lg:pt-[180px]">
+        <div className="mx-auto grid max-w-[1420px] items-center gap-12 max-sm:gap-6 lg:grid-cols-[1.08fr_.92fr] lg:gap-16">
           {/* LEFT SIDE TEXT */}
 
           <div>
@@ -1075,14 +1111,14 @@ export default function DataVerificationPage() {
 
             <p
               data-dv-intro
-              className="mt-8 text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025]"
+              className="mt-8 text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025] max-sm:mt-3 max-sm:text-[9px] max-sm:tracking-[.12em]"
             >
               Data verification services in Sri Lanka
             </p>
 
             {/* MASKED HEADING RISE */}
 
-            <h1 className="mt-5 max-w-[800px] text-[clamp(2.65rem,5vw,5.6rem)] font-semibold leading-[1.08] tracking-[-.065em]">
+            <h1 className="mt-5 max-w-[800px] text-[clamp(2.65rem,5vw,5.6rem)] max-sm:mt-3 max-sm:text-[clamp(1.85rem,7.6vw,2.35rem)] max-sm:leading-[1.13] font-semibold leading-[1.08] tracking-[-.065em]">
               {[
                 'Duplicates and errors',
                 'found in your records,',
@@ -1111,7 +1147,7 @@ export default function DataVerificationPage() {
 
             <p
               data-dv-intro
-              className="mt-7 max-w-[650px] text-[15px] leading-[1.9] text-[#17191C]/70"
+              className="mt-7 max-w-[650px] text-[15px] leading-[1.9] max-sm:mt-3 max-sm:text-[12px] max-sm:leading-[1.65] text-[#17191C]/70"
             >
               Errors build up in every database
               over time. Customers move house
@@ -1127,12 +1163,20 @@ export default function DataVerificationPage() {
 
             <div
               data-dv-intro
-              className="mt-8 flex flex-wrap gap-3"
-            >
+className="mt-8 flex flex-wrap gap-3 max-sm:mt-4 max-sm:flex-nowrap max-sm:gap-2"            >
               <a
                 href="#contact"
-                className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#931A1F]"
-              >
+className="
+  inline-flex min-h-[50px] items-center gap-2 rounded-full
+  bg-[#B12025] px-6 text-[12px] font-semibold text-white
+  transition hover:bg-[#931A1F]
+
+  max-sm:min-h-[38px]
+  max-sm:shrink-0
+  max-sm:gap-1
+  max-sm:px-[12px]
+  max-sm:text-[9px]
+"              >
                 Book a free discovery call
 
                 <ArrowUpRight size={16} />
@@ -1140,8 +1184,17 @@ export default function DataVerificationPage() {
 
               <a
                 href="#dv-included"
-                className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/25 px-6 text-[12px] font-semibold text-[#B12025] hover:bg-[#FFF2F2]"
-              >
+className="
+  inline-flex min-h-[50px] items-center gap-2 rounded-full
+  border border-[#B12025]/25 px-6 text-[12px] font-semibold
+  text-[#B12025] hover:bg-[#FFF2F2]
+
+  max-sm:min-h-[38px]
+  max-sm:shrink-0
+  max-sm:gap-1
+  max-sm:px-[12px]
+  max-sm:text-[9px]
+"              >
                 See what is included
 
                 <ArrowDown size={16} />
@@ -1153,7 +1206,7 @@ export default function DataVerificationPage() {
               HERO REVIEW DEMO
           ========================================== */}
 
-          <div className="min-w-0 rounded-[27px] border border-[#17191C]/10 bg-[#F4F4F5] p-4 shadow-[0_30px_85px_rgba(23,25,28,.08)] sm:p-7">
+          <div className="min-w-0 rounded-[27px] border max-sm:rounded-[18px] max-sm:p-3 border-[#17191C]/10 bg-[#F4F4F5] p-4 shadow-[0_30px_85px_rgba(23,25,28,.08)] sm:p-7">
             <div className="flex items-center justify-between gap-3">
               <span className="text-[11px] font-bold uppercase tracking-[.15em] text-[#B12025]">
                 Review before changing
@@ -1166,7 +1219,7 @@ export default function DataVerificationPage() {
 
             {/* CHANGE TYPE TOGGLE */}
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2 max-sm:mt-3">
               {(
                 [
                   'duplicate',
@@ -1195,11 +1248,11 @@ export default function DataVerificationPage() {
 
             {/* TWO RECORD CARDS */}
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="mt-5 grid gap-3 max-sm:mt-3 max-sm:grid-cols-2 max-sm:gap-2 sm:grid-cols-2">
               {[0, 1].map((i) => (
                 <div
                   key={i}
-                  className={`rounded-[15px] border bg-white p-4 transition-all duration-500 ${
+                  className={`rounded-[15px] border bg-white p-4 max-sm:p-3 transition-all duration-500 ${
                     heroApproved && i === 1
                       ? 'scale-[.95] border-[#17191C]/10 opacity-30'
                       : 'border-[#17191C]/10'
@@ -1216,7 +1269,7 @@ export default function DataVerificationPage() {
                     </span>
                   </div>
 
-                  <p className="mt-4 text-[15px] font-semibold">
+                  <p className="mt-4 text-[15px] font-semibold max-sm:mt-2 max-sm:text-[13px]">
                     {heroVariant === 'duplicate'
                       ? i === 0
                         ? 'S. Perera'
@@ -1245,7 +1298,7 @@ export default function DataVerificationPage() {
 
             {/* APPROVAL STATUS */}
 
-            <div className="mt-4 rounded-[14px] border border-[#B12025]/20 bg-white p-4">
+            <div className="mt-4 rounded-[14px] border max-sm:mt-3 max-sm:p-3 border-[#B12025]/20 bg-white p-4">
               <p className="flex items-center gap-2 text-[12px] font-semibold text-[#B12025]">
                 {heroApproved ? (
                   <Check size={17} />
@@ -1271,7 +1324,7 @@ export default function DataVerificationPage() {
 
             {/* DEMO CONTROLS */}
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2 max-sm:mt-3 max-sm:flex-nowrap">
               <button
                 type="button"
                 onClick={() =>
@@ -1317,9 +1370,21 @@ export default function DataVerificationPage() {
       ================================================= */}
 
       <section
-        id="dv-included"
-        className="scroll-mt-24 bg-[#B12025] px-5 py-24 text-white sm:px-8 lg:px-14 lg:py-32"
-      >
+  id="dv-included"
+  className="
+    scroll-mt-24
+    bg-[#B12025]
+    px-5
+    py-24
+    text-white
+
+    max-sm:hidden
+
+    sm:px-8
+    lg:px-14
+    lg:py-32
+  "
+>
         <div className="mx-auto max-w-[1420px]">
           <p
             data-dv-reveal
@@ -1330,7 +1395,7 @@ export default function DataVerificationPage() {
 
           <h2
             data-dv-reveal
-            className="mt-5 max-w-[960px] text-[clamp(2.55rem,4.6vw,5rem)] font-semibold leading-[1.1] tracking-[-.06em]"
+            className="mt-5 max-w-[960px] text-[clamp(2.55rem,4.6vw,5rem)] max-sm:mt-3 max-sm:text-[29px] font-semibold leading-[1.1] tracking-[-.06em]"
           >
             Every change checked. Every decision
             yours
@@ -1339,11 +1404,11 @@ export default function DataVerificationPage() {
             </span>
           </h2>
 
-          <div className="mt-14 grid gap-10 lg:grid-cols-[.86fr_1.14fr] lg:gap-16">
+          <div className="mt-14 grid gap-10 max-sm:mt-6 max-sm:gap-5 lg:grid-cols-[.86fr_1.14fr] lg:gap-16">
             {/* DESKTOP STICKY REVIEW PANEL */}
 
-            <div className="self-start lg:sticky lg:top-[115px]">
-              <div className="rounded-[22px] border border-white/15 bg-[#ffffff] p-5 sm:p-7">
+           <div className="self-start max-sm:hidden lg:sticky lg:top-[115px]">
+              <div className="rounded-[22px] border border-white/15 bg-[#ffffff] p-5 max-sm:rounded-[15px] max-sm:p-3 sm:p-7">
                 <div className="flex items-center justify-between gap-4">
                   <span className="font-mono text-[11px] text-white/65">
                     REVIEW QUEUE / PREVIEW
@@ -1359,7 +1424,7 @@ export default function DataVerificationPage() {
 
                 {/* ACTIVE REVIEW RECORD */}
 
-                <div className="mt-7 rounded-[16px] bg-[#B12025] p-6 text-[#17191C]">
+                <div className="mt-7 rounded-[16px] bg-[#B12025] p-6 max-sm:mt-3 max-sm:p-3 text-[#17191C]">
                   <div className="flex items-center gap-3 text-[#B12025]">
                     {(() => {
                       const Icon =
@@ -1404,14 +1469,16 @@ export default function DataVerificationPage() {
               </div>
             </div>
 
+            <p className="mb-2 text-[11px] font-medium text-white/75 sm:hidden">Swipe cards sideways to explore →</p>
+
             {/* EIGHT SERVICE ITEMS */}
 
-            <ul className="relative space-y-3 border-l border-white/20 pl-7 sm:pl-10">
+            <ul className="relative space-y-3 border-l border-white/20 pl-7 max-sm:flex max-sm:w-full max-sm:snap-x max-sm:snap-mandatory max-sm:gap-3 max-sm:space-y-0 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:border-l-0 max-sm:pl-0 max-sm:pb-3 sm:pl-10">
               {features.map((feature, i) => (
                 <li
                   key={feature.title}
                   data-dv-pipeline
-                  className={`relative min-h-[205px] rounded-[20px] border p-6 transition-colors sm:p-8 ${
+                  className={`relative min-h-[205px] rounded-[20px] border p-6 max-sm:min-h-[175px] max-sm:w-[82%] max-sm:min-w-[82%] max-sm:flex-none max-sm:snap-start max-sm:rounded-[15px] max-sm:p-4 transition-colors sm:p-8 ${
                     activeStage === i
                       ? 'border-[#E78185]/65 bg-white/10'
                       : 'border-white/10 bg-white/[.035]'
@@ -1419,7 +1486,7 @@ export default function DataVerificationPage() {
                 >
                   <span
                     aria-hidden="true"
-                    className={`absolute -left-[33px] top-9 h-3 w-3 rounded-full border-2 sm:-left-[45px] ${
+                    className={`absolute -left-[33px] top-9 h-3 w-3 max-sm:hidden rounded-full border-2 sm:-left-[45px] ${
                       activeStage >= i
                         ? 'border-[#E78185] bg-[#B12025]'
                         : 'border-white/30 bg-[#ffffff]'
@@ -1437,11 +1504,11 @@ export default function DataVerificationPage() {
                     />
                   </div>
 
-                  <h3 className="mt-5 text-[23px] font-semibold tracking-[-.04em]">
+                  <h3 className="mt-5 text-[23px] font-semibold tracking-[-.04em] max-sm:mt-3 max-sm:text-[18px]">
                     {feature.title}
                   </h3>
 
-                  <p className="mt-3 max-w-[580px] text-[14px] leading-[1.9] text-white/75">
+                  <p className="mt-3 max-w-[580px] text-[14px] leading-[1.9] max-sm:mt-2 max-sm:text-[12px] max-sm:leading-[1.6] text-white/75">
                     {feature.text}
                   </p>
                 </li>
@@ -1457,29 +1524,60 @@ export default function DataVerificationPage() {
 
       <section
         id="dv-demo"
-        className="bg-white px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+       className="
+  bg-[#F4F4F5]
+  px-5
+  py-24
+
+  max-sm:py-[34px]
+
+  sm:px-8
+  lg:px-14
+  lg:py-32
+"
       >
         <div className="mx-auto max-w-[1420px]">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p
                 data-dv-reveal
-                className="text-[11px] font-bold uppercase tracking-[.18em] text-[#B12025]"
+                className="
+  text-[11px] font-bold uppercase tracking-[.18em] text-[#B12025]
+  max-sm:text-[9px]
+"
               >
                 Interactive sample
               </p>
 
               <h2
                 data-dv-reveal
-                className="mt-4 text-[clamp(2.6rem,4.5vw,4.9rem)] font-semibold tracking-[-.06em]"
-              >
+className="
+  mt-4
+  text-[clamp(2.5rem,4.5vw,4.8rem)]
+  font-semibold
+  tracking-[-.06em]
+
+  max-sm:mt-2
+  max-sm:text-[27px]
+  max-sm:leading-[1.08]
+"     >
                 Approve the changes
                 <span className="text-[#B12025]">
                   .
                 </span>
               </h2>
 
-              <p className="mt-4 max-w-[670px] text-[14px] leading-7 text-[#17191C]/65">
+              <p className="
+  mt-4
+  max-w-[750px]
+  text-[14px]
+  leading-7
+  text-[#17191C]/65
+
+  max-sm:mt-3
+  max-sm:text-[10px]
+  max-sm:leading-[1.65]
+">
                 Eight example records. Review each
                 suggestion, approve it, refer it to
                 your team, or undo your decision.
@@ -1487,14 +1585,29 @@ export default function DataVerificationPage() {
               </p>
             </div>
 
-            <span className="rounded-full border border-[#B12025]/20 px-4 py-2 text-[11px] font-semibold text-[#B12025]">
+            <span className="
+  rounded-full bg-white px-4 py-2 text-[11px] font-bold text-[#B12025]
+
+  max-sm:px-3
+  max-sm:py-[7px]
+  max-sm:text-[9px]
+">
               EXAMPLE DATA · LOCAL DEMO
             </span>
           </div>
 
           {/* APPROVAL CONTROLS */}
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-[#B12025]/15 bg-[#F4F4F5] p-4">
+          <div className="
+  mt-8 flex flex-wrap items-center justify-between gap-3
+  rounded-[18px] border border-[#B12025]/15
+  bg-[#F4F4F5] p-4
+
+  max-sm:mt-4
+  max-sm:gap-2
+  max-sm:rounded-[15px]
+  max-sm:p-3
+">
             <p
               role="status"
               aria-live="polite"
@@ -1524,12 +1637,12 @@ export default function DataVerificationPage() {
 
           {/* LIVE SAMPLE COUNTERS */}
 
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-xl bg-[#F4F4F5] p-4">
-              <p className="text-[26px] font-bold text-[#B12025]">
+          <div className="mt-5 grid grid-cols-2 gap-3 max-sm:gap-2 sm:grid-cols-4">
+            <div className="rounded-xl bg-[#F4F4F5] p-4 max-sm:p-3">
+              <p className="text-[26px] font-bold text-[#B12025] max-sm:text-[21px]">
                 8
               </p>
-              <p className="text-[11px]">
+              <p className="text-[11px] max-sm:text-[9px]">
                 Records checked
               </p>
             </div>
@@ -1562,9 +1675,11 @@ export default function DataVerificationPage() {
             </div>
           </div>
 
+          <p className="mt-4 text-[11px] font-medium text-[#17191C]/60 sm:hidden">Swipe sideways to review all eight records →</p>
+
           {/* SAMPLE RECORD CARDS */}
 
-          <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          <div className="mt-5 grid gap-3 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:pb-3 lg:grid-cols-2">
             {proposals.map((p) => {
               const decision =
                 decisionFor(p.id);
@@ -1572,7 +1687,7 @@ export default function DataVerificationPage() {
               return (
                 <article
                   key={p.id}
-                  className={`rounded-[19px] border p-5 transition-all duration-300 ${
+                  className={`rounded-[19px] border p-5 max-sm:w-[86%] max-sm:min-w-[86%] max-sm:flex-none max-sm:snap-start max-sm:rounded-[15px] max-sm:p-4 transition-all duration-300 ${
                     decision === 'approved'
                       ? 'border-[#B12025]/35 bg-[#FFF9F9]'
                       : 'border-[#17191C]/10 bg-white'
@@ -1623,7 +1738,7 @@ export default function DataVerificationPage() {
 
                   {/* APPROVE / REFER / UNDO */}
 
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="mt-5 flex flex-wrap gap-2 max-sm:mt-3">
                     {decision === 'pending' ? (
                       <>
                         <button
@@ -1681,7 +1796,15 @@ export default function DataVerificationPage() {
 
           {/* CHANGE LOG */}
 
-          <div className="mt-6 rounded-[18px] border border-[#B12025]/20 bg-[#FFF8F8] p-5">
+          <div className="
+  mt-6
+  rounded-[18px]
+  border border-[#B12025]/20
+  bg-[#FFF8F8]
+  p-5
+
+  max-sm:hidden
+">
             <button
               type="button"
               onClick={() =>
@@ -1745,7 +1868,7 @@ export default function DataVerificationPage() {
 
       <section
         id="dv-report"
-        className="bg-[#F4F4F5] px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+        className="bg-[#F4F4F5] px-5 py-24 max-sm:py-12 sm:px-8 lg:px-14 lg:py-32"
       >
         <div className="mx-auto max-w-[1420px]">
           <div className="flex flex-wrap items-center justify-between gap-5">
@@ -1778,14 +1901,26 @@ export default function DataVerificationPage() {
             </span>
           </div>
 
+         <p className="hidden">
+  Swipe sideways to view report cards →
+</p>
+
           {/* FIVE REPORT METRICS */}
 
-          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {metricCopy.map((m, i) => (
+<div className="
+  mt-9
+  grid
+  gap-4
+
+  max-sm:hidden
+
+  sm:grid-cols-2
+  lg:grid-cols-4
+">            {metricCopy.map((m, i) => (
               <article
                 data-dv-report
                 key={m.title}
-                className={`rounded-[18px] border border-[#17191C]/10 bg-white p-6 ${
+                className={`rounded-[18px] border border-[#17191C]/10 bg-white p-6 max-sm:w-[78%] max-sm:min-w-[78%] max-sm:flex-none max-sm:snap-start max-sm:p-4 ${
                   i === 4
                     ? 'sm:col-span-2 lg:col-span-4'
                     : ''
@@ -1808,17 +1943,41 @@ export default function DataVerificationPage() {
 
           {/* SAMPLE ERROR REPORT VISUAL */}
 
-          <div className="mt-5 grid gap-8 rounded-[20px] border border-[#17191C]/10 bg-white p-6 sm:p-8 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <div>
+<div
+  className="
+    mt-5
+    grid
+    gap-8
+    rounded-[20px]
+    border border-[#17191C]/10
+    bg-white
+    p-6
+
+    max-sm:mt-4
+    max-sm:gap-3
+    max-sm:rounded-[16px]
+    max-sm:p-4
+
+    sm:p-8
+    lg:grid-cols-[1fr_1fr]
+    lg:items-center
+  "
+>            <div>
               <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#B12025]">
                 Illustrative batch breakdown
               </p>
 
-              <h3 className="mt-3 text-[22px] font-semibold tracking-[-.04em]">
+              <h3 className="
+  mt-3 text-[22px] font-semibold tracking-[-.04em]
+  max-sm:mt-2 max-sm:text-[18px]
+">
                 Error types, explained clearly.
               </h3>
 
-              <p className="mt-4 max-w-[420px] text-[13px] leading-7 text-[#17191C]/60">
+              <p className="
+  mt-4 max-w-[420px] text-[13px] leading-7 text-[#17191C]/60
+  max-sm:mt-2 max-sm:text-[10px] max-sm:leading-[1.6]
+">
                 Example report visualisation —
                 not live results. Your delivered
                 figures come from your own checked
@@ -1832,7 +1991,8 @@ export default function DataVerificationPage() {
                   Format · Duplicate · Missing · Source
                 </p>
 
-                <div className="mt-5 flex h-[105px] items-end gap-3 border-b border-[#17191C]/10">
+                <div className="mt-5 flex h-[105px] items-end gap-3 border-b border-[#17191C]/10
+           max-sm:mt-3 max-sm:h-[75px] max-sm:gap-2">
                   {[58, 85, 44, 72].map(
                     (v, i) => (
                       <div
@@ -1853,8 +2013,7 @@ export default function DataVerificationPage() {
               <div className="text-center">
                 <svg
                   viewBox="0 0 110 110"
-                  className="h-[82px] w-[82px] -rotate-90"
-                  aria-hidden="true"
+                  className="h-[82px] w-[82px] -rotate-90 max-sm:h-[62px] max-sm:w-[62px]"
                 >
                   <circle
                     cx="55"
@@ -1888,22 +2047,44 @@ export default function DataVerificationPage() {
 
           {/* BUSINESS STATS */}
 
-          <div className="mt-9 grid grid-cols-2 gap-6 border-t border-[#17191C]/10 pt-9 sm:grid-cols-3">
-            <div>
-              <p className="text-[clamp(2.3rem,4vw,4.4rem)] font-semibold tracking-[-.06em] text-[#B12025]">
+<div
+  className="
+    mt-9
+    grid
+    grid-cols-2
+    gap-6
+    border-t
+    border-[#17191C]/10
+    pt-9
+
+    max-sm:mt-5
+    max-sm:grid-cols-3
+    max-sm:gap-2
+    max-sm:pt-5
+
+    sm:grid-cols-3
+  "
+>            <div>
+              <p className="text-[clamp(2.3rem,4vw,4.4rem)] font-semibold tracking-[-.06em] text-[#B12025] max-sm:text-[20px]
+max-sm:leading-none
+max-sm:tracking-[-.04em]
+max-sm:whitespace-nowrap">
                 <span data-dv-count="85">
                   85
                 </span>
                 %
               </p>
 
-              <p className="text-[12px] text-[#17191C]/60">
+              <p className="text-[12px] text-[#17191C]/60 ">
                 client retention rate
               </p>
             </div>
 
             <div>
-              <p className="text-[clamp(2.3rem,4vw,4.4rem)] font-semibold tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2.3rem,4vw,4.4rem)] font-semibold tracking-[-.06em] text-[#B12025] max-sm:text-[20px]
+max-sm:leading-none
+max-sm:tracking-[-.04em]
+max-sm:whitespace-nowrap">
                 <span data-dv-count="98">
                   98
                 </span>
@@ -1916,7 +2097,10 @@ export default function DataVerificationPage() {
             </div>
 
             <div>
-              <p className="text-[clamp(2.2rem,4vw,4.2rem)] font-semibold tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2.2rem,4vw,4.2rem)] font-semibold tracking-[-.06em] text-[#B12025] max-sm:text-[20px]
+max-sm:leading-none
+max-sm:tracking-[-.04em]
+max-sm:whitespace-nowrap">
                 <span data-dv-count="15">
                   15
                 </span>
@@ -1929,7 +2113,7 @@ export default function DataVerificationPage() {
 
               <Link
                 href="/how-we-hire"
-                className="inline-flex items-center gap-1 text-[12px] text-[#B12025] hover:underline"
+                className="inline-flex items-center gap-1 text-[12px] text-[#17191C]/60 hover:underline"
               >
                 of applicants pass hiring checks
 
@@ -1946,7 +2130,7 @@ export default function DataVerificationPage() {
 
       <section
         id="dv-quote"
-        className="relative overflow-hidden bg-[#17191C] px-5 py-28 text-white sm:px-8 lg:px-14 lg:py-40"
+        className="relative overflow-hidden bg-[#17191C] px-5 py-28 text-white max-sm:py-14 sm:px-8 lg:px-14 lg:py-40"
       >
         <div
           aria-hidden="true"
@@ -1956,11 +2140,9 @@ export default function DataVerificationPage() {
         </div>
 
         <div className="relative mx-auto max-w-[1120px]">
-          <p className="text-[11px] font-bold uppercase tracking-[.2em] text-white/60">
-            Wholesale distributor / Client experience
-          </p>
+          
 
-          <blockquote className="mt-9 text-[clamp(2rem,4.2vw,4.7rem)] font-semibold leading-[1.27] tracking-[-.055em]">
+          <blockquote className="mt-9 text-[clamp(2rem,4.2vw,4.7rem)] max-sm:mt-5 max-sm:text-[25px] font-semibold leading-[1.27] tracking-[-.055em]">
             {[
               '“Our customer database had thousands of duplicate accounts.',
               'After the clean-up, invoices go to the right address',
@@ -1980,12 +2162,7 @@ export default function DataVerificationPage() {
             ))}
           </blockquote>
 
-          <p
-            data-dv-reveal
-            className="mt-8 text-[12px] font-semibold uppercase tracking-[.16em] text-[#EE9A9D]"
-          >
-            Wholesale distributor
-          </p>
+          
         </div>
       </section>
 
@@ -1993,18 +2170,24 @@ export default function DataVerificationPage() {
           06 — FAQ AND RELATED SERVICES
       ================================================= */}
 
-      <section className="bg-white px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+      <section className="
+  bg-white px-5 py-24
+  max-sm:py-[34px]
+  sm:px-8
+  lg:px-14
+  lg:py-32
+">
+        <div className="mx-auto grid max-w-[1420px] gap-12 max-sm:gap-5 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
           {/* STICKY FAQ HEADING */}
 
           <div className="self-start lg:sticky lg:top-[120px]">
-            <p className="text-[11px] font-bold uppercase tracking-[.19em] text-[#B12025]">
+            <p className="text-[11px] font-bold uppercase tracking-[.19em] text-[#B12025] ">
               Questions answered
             </p>
 
             <h2
               data-dv-reveal
-              className="mt-5 text-[clamp(2.5rem,4.2vw,4.6rem)] font-semibold leading-[1.12] tracking-[-.06em]"
+              className="mt-5 text-[clamp(2.5rem,4.2vw,4.6rem)] max-sm:mt-2 max-sm:text-[25px] max-sm:leading-[1.08] font-semibold leading-[1.12] tracking-[-.06em] "
             >
               Common questions about data
               verification
@@ -2031,12 +2214,18 @@ export default function DataVerificationPage() {
             RELATED SERVICES
         ========================================== */}
 
-        <div
-          id="dv-related"
-          className="mx-auto mt-28 max-w-[1420px]"
-        >
+       <div
+  id="dv-related"
+  className="
+    mx-auto
+    mt-28
+    max-w-[1420px]
+
+    max-sm:hidden
+  "
+>
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-[clamp(2rem,3.4vw,3.5rem)] font-semibold tracking-[-.06em]">
+            <h2 className="text-[clamp(2rem,3.4vw,3.5rem)] max-sm:text-[26px] font-semibold tracking-[-.06em]">
               Other BPO and back office services
             </h2>
 
@@ -2050,13 +2239,15 @@ export default function DataVerificationPage() {
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="mt-4 text-[11px] text-[#17191C]/60 sm:hidden">Swipe sideways for more services →</p>
+
+          <div className="mt-8 grid gap-3 max-sm:mt-5 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:pb-3 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((item) => (
               <Link
                 key={item.slug}
                 href={`${BASE}/${item.slug}`}
                 data-dv-related
-                className="group rounded-[16px] border border-[#17191C]/10 bg-[#F4F4F5] p-5 transition-all hover:border-[#B12025]/55 hover:bg-white"
+                className="group rounded-[16px] border border-[#17191C]/10 bg-[#F4F4F5] p-5 max-sm:w-[78%] max-sm:min-w-[78%] max-sm:flex-none max-sm:snap-start max-sm:p-4 transition-all hover:border-[#B12025]/55 hover:bg-white"
               >
                 <span className="flex items-center justify-between gap-4 text-[14px] font-semibold">
                   {item.title}
@@ -2087,7 +2278,7 @@ export default function DataVerificationPage() {
 
       <section
         id="dv-process"
-        className="bg-[#F4F4F5] px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+        className="bg-[#F4F4F5] px-5 py-24 max-sm:py-12 sm:px-8 lg:px-14 lg:py-32"
       >
         <div className="mx-auto max-w-[1420px]">
           <p
@@ -2099,7 +2290,7 @@ export default function DataVerificationPage() {
 
           <h2
             data-dv-reveal
-            className="mt-5 text-[clamp(2.45rem,4.4vw,4.8rem)] font-semibold tracking-[-.06em]"
+            className="mt-5 text-[clamp(2.45rem,4.4vw,4.8rem)] max-sm:mt-3 max-sm:text-[29px] font-semibold tracking-[-.06em]"
           >
             How your back office team is set up
             <span className="text-[#B12025]">
@@ -2116,9 +2307,11 @@ export default function DataVerificationPage() {
             These steps are there to stop that.
           </p>
 
+          <p className="mt-4 text-[11px] text-[#17191C]/60 sm:hidden">Swipe sideways through the four steps →</p>
+
           {/* DESKTOP HORIZONTAL TIMELINE */}
 
-          <div className="relative mt-12">
+          <div className="relative mt-12 max-sm:mt-6">
             <div
               aria-hidden="true"
               className="absolute inset-x-0 top-0 hidden h-[2px] bg-[#B12025]/15 lg:block"
@@ -2130,11 +2323,11 @@ export default function DataVerificationPage() {
               className="absolute inset-x-0 top-0 hidden h-[2px] origin-left bg-[#B12025] lg:block"
             />
 
-            <ol className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-9">
+            <ol className="grid gap-7 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:pb-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-9">
               {steps.map((s) => (
                 <li
                   key={s.n}
-                  className="border-l-2 border-[#B12025]/35 pl-5 lg:border-l-0 lg:pl-0 lg:pt-7"
+                  className="border-l-2 border-[#B12025]/35 pl-5 max-sm:w-[83%] max-sm:min-w-[83%] max-sm:flex-none max-sm:snap-start max-sm:rounded-r-[14px] max-sm:bg-white max-sm:p-4 lg:border-l-0 lg:pl-0 lg:pt-7"
                 >
                   <div className="flex items-center gap-3 text-[#B12025]">
                     <s.Icon size={23} />
@@ -2144,11 +2337,11 @@ export default function DataVerificationPage() {
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-[21px] font-semibold tracking-[-.04em]">
+                  <h3 className="mt-5 text-[21px] font-semibold max-sm:mt-3 max-sm:text-[18px] tracking-[-.04em]">
                     {s.title}
                   </h3>
 
-                  <p className="mt-4 text-[13px] leading-[1.85] text-[#17191C]/65">
+                  <p className="mt-4 text-[13px] leading-[1.85] max-sm:mt-2 max-sm:text-[12px] max-sm:leading-[1.65] text-[#17191C]/65">
                     {s.text}
                   </p>
 
@@ -2169,7 +2362,7 @@ export default function DataVerificationPage() {
 
           {/* FINAL CTA */}
 
-          <div className="mt-14 flex flex-wrap items-center justify-between gap-5 border-t border-[#17191C]/15 pt-7">
+          <div className="mt-14 flex flex-wrap items-center justify-between gap-5 border-t max-sm:mt-7 border-[#17191C]/15 pt-7">
             <p className="text-[14px] text-[#17191C]/65">
               Need a review plan for your current records?
             </p>

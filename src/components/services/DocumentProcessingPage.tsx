@@ -507,14 +507,30 @@ function FaqItem({
     >
       <summary
         onClick={onSummary}
-        className="flex cursor-pointer list-none items-start justify-between gap-4 py-6 marker:hidden [&::-webkit-details-marker]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B12025]"
-      >
+className="
+  flex
+  cursor-pointer
+  list-none
+  items-start
+  justify-between
+  gap-4
+  py-6
+
+  max-sm:gap-3
+  max-sm:py-4
+
+  marker:hidden
+  [&::-webkit-details-marker]:hidden
+  focus-visible:outline-2
+  focus-visible:outline-offset-2
+  focus-visible:outline-[#B12025]
+"      >
         <span>
-          <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[.18em] text-[#B12025]">
+          <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[.18em] text-[#B12025] max-sm:mb-1 max-sm:text-[8px]">
             {faq.tag}
           </span>
 
-          <span className="text-[17px] font-semibold tracking-[-.03em] text-[#17191C] sm:text-[20px]">
+          <span className="text-[17px] font-semibold tracking-[-.03em] text-[#17191C] max-sm:text-[14px] max-sm:leading-[1.3] sm:text-[20px]">
             {faq.q}
           </span>
         </span>
@@ -528,7 +544,7 @@ function FaqItem({
       </summary>
 
       <div ref={answer} className="overflow-hidden">
-        <p className="max-w-[720px] pb-6 pr-10 text-[14px] leading-[1.9] text-[#17191C]/70">
+        <p className="max-w-[720px] pb-6 pr-10 text-[14px] leading-[1.9] text-[#17191C]/70 max-sm:pb-4 max-sm:pr-7 max-sm:text-[10px] max-sm:leading-[1.65]">
           {faq.a}
         </p>
 
@@ -549,12 +565,15 @@ function FaqItem({
 // ======================================================
 
 export default function DocumentProcessingPage() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const scannerRef = useRef<HTMLDivElement>(null);
-  const pipelineRef = useRef<HTMLElement>(null);
-  const quoteRef = useRef<HTMLElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
+const rootRef = useRef<HTMLDivElement>(null);
+const heroRef = useRef<HTMLElement>(null);
+const scannerRef = useRef<HTMLDivElement>(null);
+const pipelineRef = useRef<HTMLElement>(null);
+const quoteRef = useRef<HTMLElement>(null);
+const timelineRef = useRef<HTMLDivElement>(null);
+
+// Mobile report cards auto-scroll
+const reportTrackRef = useRef<HTMLDivElement>(null);
 
   const [docIndex, setDocIndex] = useState(1);
   const [filename, setFilename] = useState('');
@@ -1018,9 +1037,48 @@ export default function DocumentProcessingPage() {
     };
   }, []);
 
-  // ====================================================
-  // FAQ JSON-LD
-  // ====================================================
+// ====================================================
+// MOBILE REPORT CARDS — AUTO SIDE SCROLL
+// MOBILE ONLY: < 640px
+// ====================================================
+
+useEffect(() => {
+  const track = reportTrackRef.current;
+
+  if (!track) return;
+
+  const mobile = window.matchMedia('(max-width: 639px)');
+
+  if (!mobile.matches) return;
+
+  const cards = Array.from(
+    track.querySelectorAll<HTMLElement>('[data-report-card]')
+  );
+
+  if (cards.length < 2) return;
+
+  let currentIndex = 0;
+
+  const timer = window.setInterval(() => {
+    currentIndex = (currentIndex + 1) % cards.length;
+
+    const firstCard = cards[0];
+    const currentCard = cards[currentIndex];
+
+    track.scrollTo({
+      left: currentCard.offsetLeft - firstCard.offsetLeft,
+      behavior: 'smooth',
+    });
+  }, 2800);
+
+  return () => {
+    window.clearInterval(timer);
+  };
+}, []);
+
+// ====================================================
+// FAQ JSON-LD
+// ====================================================
 
   const faqJson = {
     '@context': 'https://schema.org',
@@ -1062,9 +1120,9 @@ export default function DocumentProcessingPage() {
 
       <section
         ref={heroRef}
-        className="relative overflow-hidden bg-white px-5 pb-24 pt-[150px] sm:px-8 lg:px-14 lg:pb-32 lg:pt-[175px]"
+        className="relative overflow-hidden bg-white px-5 pb-24 pt-[150px] max-sm:pb-[36px] max-sm:pt-[105px] sm:px-8 lg:px-14 lg:pb-32 lg:pt-[175px]"
       >
-        <div className="mx-auto grid max-w-[1420px] items-center gap-14 lg:grid-cols-[1.08fr_.92fr]">
+        <div className="mx-auto grid max-w-[1420px] items-center gap-14 max-sm:gap-7 lg:grid-cols-[1.08fr_.92fr]">
           {/* HERO TEXT */}
 
           <div>
@@ -1072,14 +1130,13 @@ export default function DocumentProcessingPage() {
 
             <p
               data-doc-intro
-              className="mt-8 text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025]"
-            >
+className="mt-8 text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025] max-sm:mt-4 max-sm:text-[9px] max-sm:leading-[1.5]"            >
               Document processing services in Sri Lanka
             </p>
 
             {/* MASKED H1 */}
 
-            <h1 className="mt-5 max-w-[770px] text-[clamp(2.55rem,5.1vw,5.4rem)] font-semibold leading-[1.07] tracking-[-.065em]">
+            <h1 className="mt-5 max-w-[770px] text-[clamp(2.55rem,5.1vw,5.4rem)] font-semibold leading-[1.07] tracking-[-.065em] max-sm:mt-4 max-sm:text-[31px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]">
               {[
                 'Paper files and PDFs',
                 'turned into organised',
@@ -1101,7 +1158,7 @@ export default function DocumentProcessingPage() {
 
             <p
               data-doc-intro
-              className="mt-7 max-w-[640px] text-[15px] leading-[1.9] text-[#17191C]/70"
+              className="mt-7 max-w-[640px] text-[15px] leading-[1.9] text-[#17191C]/70 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.65]"
             >
               FirstNotch digitises your paper files
               and organises your PDFs. Each document
@@ -1117,12 +1174,12 @@ export default function DocumentProcessingPage() {
 
             <div
               data-doc-intro
-              className="mt-8 flex flex-wrap gap-3"
+              className="mt-8 flex flex-wrap gap-3 max-sm:mt-5 max-sm:flex-nowrap max-sm:gap-2"
             >
               <a
                 href="#contact"
                 data-doc-magnetic
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#941A1F]"
+                className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#941A1F] max-sm:min-h-[40px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"
               >
                 Book a free discovery call
 
@@ -1131,8 +1188,7 @@ export default function DocumentProcessingPage() {
 
               <a
                 href="#doc-pipeline"
-                className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-[#B12025]/25 px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF4F4]"
-              >
+className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-[#B12025]/25 px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF4F4] max-sm:min-h-[40px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
 
                 <ArrowDown size={16} />
@@ -1140,128 +1196,7 @@ export default function DocumentProcessingPage() {
             </div>
           </div>
 
-          {/* SCANNER VISUAL */}
-
-          <div className="min-w-0 rounded-[28px] border border-[#B12025]/15 bg-[#F4F4F5] p-4 shadow-[0_30px_90px_rgba(23,25,28,.07)] sm:p-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className="text-[11px] font-semibold uppercase tracking-[.13em] text-[#B12025]">
-                Paper → searchable record
-              </span>
-
-              <span className="rounded-full bg-white px-3 py-1 text-[10px] text-[#17191C]/60">
-                Example documents
-              </span>
-            </div>
-
-            {/* PAPER DOCUMENTS */}
-
-            <div className="relative mt-5 overflow-hidden rounded-[18px] border border-[#17191C]/10 bg-white p-4 sm:p-6">
-              <div className="grid grid-cols-2 gap-3">
-                {documentTypes
-                  .slice(0, 4)
-                  .map((doc) => (
-                    <div
-                      data-doc-paper
-                      key={doc.label}
-                      className="relative min-h-[105px] rounded-[12px] border border-[#17191C]/10 bg-[#FAFAFB] p-3 shadow-sm"
-                    >
-                      <doc.icon
-                        size={21}
-                        className="text-[#B12025]"
-                      />
-
-                      <p className="mt-3 text-[11px] font-semibold">
-                        {doc.label}
-                      </p>
-
-                      <div className="mt-3 h-1 w-full rounded-full bg-[#E6E7E9]" />
-
-                      <div className="mt-2 h-1 w-3/5 rounded-full bg-[#E6E7E9]" />
-                    </div>
-                  ))}
-              </div>
-
-              {/* ANIMATED SCAN LINE */}
-
-              <div
-                ref={scannerRef}
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-3 top-3 z-10 h-[2px] bg-[#B12025] shadow-[0_0_14px_4px_rgba(177,32,37,.19)]"
-              />
-            </div>
-
-            {/* DOCUMENT SELECTOR */}
-
-            <div
-              className="mt-5 flex flex-wrap gap-2"
-              role="group"
-              aria-label="Preview a document type"
-            >
-              {documentTypes.map((doc, i) => (
-                <button
-                  key={doc.label}
-                  type="button"
-                  aria-pressed={docIndex === i}
-                  onClick={() => setDocIndex(i)}
-                  className={`rounded-full border px-3 py-2 text-[10px] font-semibold transition focus-visible:outline-2 focus-visible:outline-[#B12025] ${
-                    docIndex === i
-                      ? 'border-[#B12025] bg-[#B12025] text-white'
-                      : 'border-[#B12025]/20 bg-white text-[#17191C] hover:border-[#B12025]'
-                  }`}
-                >
-                  {doc.label}
-                </button>
-              ))}
-            </div>
-
-            {/* EXTRACTED RECORD */}
-
-            <div className="mt-4 rounded-[16px] border border-[#B12025]/15 bg-white p-4">
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-[11px] font-semibold text-[#B12025]">
-                  Extracted record
-                </span>
-
-                <CheckCircle2
-                  size={18}
-                  className="text-[#B12025]"
-                />
-              </div>
-
-              <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-3 text-[11px]">
-                {[
-                  ['Reference', selected.number],
-                  ['Date', selected.date],
-                  ['Name', selected.name],
-                  ['Type', selected.amount],
-                ].map(([label, value]) => (
-                  <div key={label}>
-                    <dt className="text-[#17191C]/45">
-                      {label}
-                    </dt>
-
-                    <dd className="mt-1 font-semibold">
-                      {value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <p
-                className="mt-4 break-all rounded-[8px] bg-[#FFF4F4] p-3 font-mono text-[10px] text-[#B12025]"
-                aria-label={`Example filename ${selected.file}`}
-              >
-                {filename}
-
-                <span
-                  aria-hidden="true"
-                  className="ml-0.5 animate-pulse"
-                >
-                  |
-                </span>
-              </p>
-            </div>
-          </div>
+          
         </div>
       </section>
 
@@ -1272,28 +1207,25 @@ export default function DocumentProcessingPage() {
       <section
         id="doc-pipeline"
         ref={pipelineRef}
-        className="scroll-mt-[96px] bg-[#17191C] px-5 py-24 text-white sm:px-8 lg:px-14 lg:py-32"
-      >
+        className="scroll-mt-[96px] bg-[#17191C] px-5 py-24 text-white max-sm:py-[45px] sm:px-8 lg:px-14 lg:py-32"      >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-doc-reveal
-            className="text-[11px] font-semibold uppercase tracking-[.19em] text-white/65"
-          >
+className="text-[11px] font-semibold uppercase tracking-[.19em] text-white/65 max-sm:text-[9px]"          >
             What the service includes
           </p>
 
           <h2
             data-doc-reveal
-            className="mt-4 max-w-[950px] text-[clamp(2.45rem,4.8vw,5rem)] font-semibold leading-[1.08] tracking-[-.065em]"
-          >
+className="mt-4 max-w-[950px] text-[clamp(2.45rem,4.8vw,5rem)] font-semibold leading-[1.08] tracking-[-.065em] max-sm:mt-3 max-sm:text-[28px] max-sm:leading-[1.08] max-sm:tracking-[-.045em]"          >
             Eight steps. One searchable record
             <span className="text-[#EF7376]">.</span>
           </h2>
 
-          <div className="mt-14 grid gap-10 lg:grid-cols-[.88fr_1.12fr] lg:gap-20">
+          <div className="mt-14 grid gap-10 max-sm:mt-7 max-sm:gap-5 lg:grid-cols-[.88fr_1.12fr] lg:gap-20">
             {/* STICKY DOCUMENT PREVIEW */}
 
-            <div className="self-start lg:sticky lg:top-[115px]">
+<div className="self-start max-sm:hidden lg:sticky lg:top-[115px]">
               <div className="overflow-hidden rounded-[25px] border border-white/15 bg-[#26292C] p-5 sm:p-7">
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-[11px] font-semibold tracking-[.14em] text-white/70">
@@ -1384,12 +1316,53 @@ export default function DocumentProcessingPage() {
 
             {/* EIGHT PIPELINE CARDS */}
 
-            <ol className="relative space-y-4 border-l border-white/15 pl-6 sm:pl-9">
-              {stages.map((stage, i) => (
+<ol
+  className="
+    relative
+    space-y-4
+    border-l
+    border-white/15
+    pl-6
+
+    max-sm:mx-0
+    max-sm:flex
+    max-sm:snap-x
+    max-sm:snap-mandatory
+    max-sm:space-y-0
+    max-sm:gap-3
+    max-sm:overflow-x-auto
+    max-sm:border-l-0
+    max-sm:px-2
+    max-sm:pb-2
+    max-sm:[scrollbar-width:none]
+    max-sm:[&::-webkit-scrollbar]:hidden
+
+    sm:pl-9
+  "
+>           {stages.map((stage, i) => (
                 <li
                   data-doc-pipeline-item
                   key={stage.title}
-                  className={`relative scroll-mt-28 rounded-[20px] border p-6 transition-all duration-300 sm:p-8 ${
+                  className={`
+  relative
+  scroll-mt-28
+  rounded-[20px]
+  border
+  p-6
+  transition-all
+  duration-300
+
+  max-sm:w-[78vw]
+  max-sm:max-w-[270px]
+  max-sm:min-h-[220px]
+  max-sm:shrink-0
+  max-sm:snap-start
+  max-sm:rounded-[16px]
+  max-sm:p-4
+
+  sm:p-8
+
+  ${
                     activeStage === i
                       ? 'border-[#EF7376]/50 bg-white/10'
                       : 'border-white/10 bg-[#222426]'
@@ -1397,7 +1370,7 @@ export default function DocumentProcessingPage() {
                 >
                   <span
                     aria-hidden="true"
-                    className={`absolute -left-[31px] top-9 h-[12px] w-[12px] rounded-full border-2 sm:-left-[43px] ${
+                    className={`absolute -left-[31px] top-9 h-[12px] w-[12px] rounded-full border-2 max-sm:hidden sm:-left-[43px] ${
                       activeStage >= i
                         ? 'border-[#EF7376] bg-[#B12025]'
                         : 'border-white/25 bg-[#17191C]'
@@ -1411,16 +1384,16 @@ export default function DocumentProcessingPage() {
                     </span>
 
                     <stage.Icon
-                      size={23}
+size={20}
                       className="text-[#EF7376]"
                     />
                   </div>
 
-                  <h3 className="mt-4 text-[22px] font-semibold tracking-[-.035em] sm:text-[26px]">
+                  <h3 className="mt-4 text-[22px] font-semibold tracking-[-.035em] max-sm:mt-3 max-sm:text-[17px] max-sm:leading-[1.15] sm:text-[26px]">
                     {stage.title}
                   </h3>
 
-                  <p className="mt-3 max-w-[590px] text-[14px] leading-[1.9] text-white/70">
+                  <p className="mt-3 max-w-[590px] text-[14px] leading-[1.9] text-white/70 max-sm:mt-2 max-sm:text-[10px] max-sm:leading-[1.6]">
                     {stage.text}
                   </p>
                 </li>
@@ -1436,7 +1409,7 @@ export default function DocumentProcessingPage() {
 
       <section
         id="doc-search"
-        className="bg-white px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+        className="bg-white px-5 py-24 max-sm:hidden sm:px-8 lg:px-14 lg:py-32"
       >
         <div className="mx-auto max-w-[1420px]">
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -1587,19 +1560,50 @@ export default function DocumentProcessingPage() {
 
       <section
         id="doc-report"
-        className="bg-[#F4F4F5] px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+        className="
+  bg-[#F4F4F5]
+  px-5
+  py-24
+
+  max-sm:py-[32px]
+
+  sm:px-8
+  lg:px-14
+  lg:py-32
+"
       >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-doc-reveal
-            className="text-[11px] font-semibold uppercase tracking-[.2em] text-[#B12025]"
+            className="
+  mt-4
+  text-[clamp(2.5rem,4.7vw,4.9rem)]
+  font-semibold
+  leading-[1.1]
+  tracking-[-.06em]
+
+  max-sm:mt-2
+  max-sm:text-[25px]
+  max-sm:leading-[1.05]
+
+"
           >
             What you can measure
           </p>
 
           <h2
             data-doc-reveal
-            className="mt-4 text-[clamp(2.5rem,4.7vw,4.9rem)] font-semibold leading-[1.1] tracking-[-.06em]"
+            className="
+  mt-5
+  max-w-[750px]
+  text-[14px]
+  leading-[1.8]
+  text-[#17191C]/65
+
+  max-sm:mt-3
+  max-sm:text-[9px]
+  max-sm:leading-[1.55]
+"
           >
             The numbers you will see
             <span className="text-[#B12025]">.</span>
@@ -1607,7 +1611,7 @@ export default function DocumentProcessingPage() {
 
           <p
             data-doc-reveal
-            className="mt-5 max-w-[750px] text-[14px] leading-[1.8] text-[#17191C]/65"
+           className="mt-5 max-w-[750px] text-[14px] leading-[1.8] text-[#17191C]/65 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.65]"
           >
             Each batch is measured on speed and on
             how closely the captured details match
@@ -1616,58 +1620,131 @@ export default function DocumentProcessingPage() {
           </p>
 
           {/* FIVE METRIC CARDS */}
+<div
+  ref={reportTrackRef}
+  className="
+    mt-10
+    grid
+    gap-4
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {report.map((metric, i) => (
-              <article
-                data-doc-report
-                key={metric.title}
-                className={`group relative overflow-hidden rounded-[20px] border border-[#17191C]/10 bg-white p-6 transition hover:-translate-y-1 hover:border-[#B12025]/45 hover:shadow-[0_18px_45px_rgba(23,25,28,.08)] ${
-                  i === 4 ? 'lg:col-span-4' : ''
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <metric.Icon
-                    size={24}
-                    className="text-[#B12025]"
-                  />
+    max-sm:mx-0
+    max-sm:mt-5
+    max-sm:flex
+    max-sm:snap-x
+    max-sm:snap-mandatory
+    max-sm:gap-3
+    max-sm:overflow-x-auto
+    max-sm:overscroll-x-contain
+    max-sm:scroll-smooth
+    max-sm:px-2
+    max-sm:pb-2
+    max-sm:[scrollbar-width:none]
+    max-sm:[&::-webkit-scrollbar]:hidden
 
-                  <span className="text-[10px] text-[#17191C]/40">
-                    0{i + 1}
-                  </span>
-                </div>
+    sm:grid-cols-2
+    lg:grid-cols-4
+  "
+>
+  {report.map((metric, i) => (
+    <article
+      data-doc-report
+      data-report-card
+      key={metric.title}
+      className={`
+        group
+        relative
+        overflow-hidden
+        rounded-[20px]
+        border
+        border-[#17191C]/10
+        bg-white
+        p-6
 
-                <h3 className="mt-5 text-[19px] font-semibold tracking-[-.03em]">
-                  {metric.title}
-                </h3>
+        max-sm:w-[78vw]
+        max-sm:max-w-[270px]
+        max-sm:min-h-[220px]
+        max-sm:shrink-0
+        max-sm:snap-start
+        max-sm:rounded-[16px]
+        max-sm:p-4
 
-                <p className="mt-3 max-w-[630px] text-[13px] leading-[1.8] text-[#17191C]/65">
-                  {metric.description}
-                </p>
+        ${i === 4 ? 'lg:col-span-4' : ''}
+      `}
+    >
+      <div className="flex items-center justify-between">
+        <metric.Icon
+          size={24}
+          className="text-[#B12025] max-sm:h-[20px] max-sm:w-[20px]"
+        />
 
-                <p className="mt-5 border-t border-[#B12025]/15 pt-3 text-[11px] font-medium text-[#B12025]">
-                  {metric.note}
-                </p>
-              </article>
-            ))}
-          </div>
+        <span className="text-[10px] text-[#17191C]/40 max-sm:text-[8px]">
+          0{i + 1}
+        </span>
+      </div>
+
+      <h3 className="
+        mt-5
+        text-[19px]
+        font-semibold
+        tracking-[-.03em]
+
+        max-sm:mt-4
+        max-sm:text-[17px]
+        max-sm:leading-[1.2]
+      ">
+        {metric.title}
+      </h3>
+
+      <p className="
+        mt-3
+        max-w-[630px]
+        text-[13px]
+        leading-[1.8]
+        text-[#17191C]/65
+
+        max-sm:mt-2
+        max-sm:text-[10px]
+        max-sm:leading-[1.6]
+      ">
+        {metric.description}
+      </p>
+
+      <p className="
+        mt-5
+        border-t
+        border-[#B12025]/15
+        pt-3
+        text-[11px]
+        font-medium
+        text-[#B12025]
+
+        max-sm:mt-4
+        max-sm:pt-3
+        max-sm:text-[9px]
+        max-sm:leading-[1.4]
+      ">
+        {metric.note}
+      </p>
+    </article>
+  ))}
+</div>
 
           {/* LIVE DASHBOARD PREVIEW */}
 
           <div
             id="doc-report-chart"
-            className="mt-5 grid gap-6 rounded-[22px] border border-[#17191C]/10 bg-white p-6 sm:p-8 lg:grid-cols-[.8fr_1.2fr]"
+            className="mt-5 grid gap-6 rounded-[22px] border border-[#17191C]/10 bg-white p-6 max-sm:gap-4 max-sm:rounded-[18px] max-sm:p-4 sm:p-8 lg:grid-cols-[.8fr_1.2fr]"
           >
             <div>
               <span className="rounded-full bg-[#FFF1F1] px-3 py-1 text-[10px] font-semibold text-[#B12025]">
                 SAMPLE REPORT
               </span>
 
-              <h3 className="mt-5 text-[24px] font-semibold tracking-[-.04em]">
+              <h3 className="mt-5 text-[24px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[19px] max-sm:leading-[1.2]">
                 A clearer view of every batch.
               </h3>
 
-              <p className="mt-3 text-[13px] leading-[1.8] text-[#17191C]/60">
+              <p className="mt-3 text-[13px] leading-[1.8] text-[#17191C]/60 max-sm:mt-2 max-sm:text-[10px] max-sm:leading-[1.6]">
                 Illustrative dashboard only.
                 Your actual volume, turnaround,
                 flags and scores come from
@@ -1675,13 +1752,13 @@ export default function DocumentProcessingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-[1fr_auto] items-center gap-6">
+            <div className="grid grid-cols-[1fr_auto] items-center gap-6 max-sm:gap-3">
               <div>
                 <p className="text-[11px] font-semibold">
                   Documents by type · example
                 </p>
 
-                <div className="mt-4 flex h-[120px] items-end gap-4 border-b border-[#17191C]/10">
+                <div className="mt-4 flex h-[120px] items-end gap-4 border-b border-[#17191C]/10 max-sm:mt-3 max-sm:h-[85px] max-sm:gap-2">
                   {[45, 83, 58, 95, 71].map(
                     (height, i) => (
                       <div
@@ -1703,7 +1780,7 @@ export default function DocumentProcessingPage() {
 
               <div className="text-center">
                 <svg
-                  className="mx-auto h-[75px] w-[75px] -rotate-90"
+                className="mx-auto h-[75px] w-[75px] -rotate-90 max-sm:h-[58px] max-sm:w-[58px]"
                   viewBox="0 0 110 110"
                   aria-hidden="true"
                 >
@@ -1736,47 +1813,142 @@ export default function DocumentProcessingPage() {
               </div>
             </div>
           </div>
+{/* BUSINESS STATISTICS */}
 
-          {/* BUSINESS STATISTICS */}
+<div
+  className="
+    mt-10
+    grid
+    grid-cols-2
+    gap-7
+    border-t
+    border-[#17191C]/10
+    pt-9
 
-          <div className="mt-10 grid grid-cols-2 gap-7 border-t border-[#17191C]/10 pt-9 sm:grid-cols-3">
-            <div>
-              <p className="text-[clamp(2.5rem,4vw,4.5rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-                <span data-doc-count="85">85</span>%
-              </p>
+    max-sm:mt-6
+    max-sm:grid-cols-3
+    max-sm:gap-3
+    max-sm:pt-5
 
-              <p className="mt-3 text-[12px] text-[#17191C]/60">
-                client retention rate
-              </p>
-            </div>
+    sm:grid-cols-3
+  "
+>
+  {/* 85% */}
+  <div className="max-sm:min-w-0">
+    <p
+      className="
+        text-[clamp(2.5rem,4vw,4.5rem)]
+        font-semibold
+        leading-none
+        tracking-[-.06em]
+        text-[#B12025]
 
-            <div>
-              <p className="text-[clamp(2.5rem,4vw,4.5rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-                <span data-doc-count="98">98</span>%
-              </p>
+        max-sm:text-[22px]
+        max-sm:leading-none
+        max-sm:tracking-[-.04em]
+        max-sm:whitespace-nowrap
+      "
+    >
+      <span data-doc-count="85">85</span>%
+    </p>
 
-              <p className="mt-3 text-[12px] text-[#17191C]/60">
-                accuracy rate
-              </p>
-            </div>
+    <p
+      className="
+        mt-3
+        text-[12px]
+        text-[#17191C]/60
 
-            <div>
-              <p className="text-[clamp(2.1rem,3.7vw,4.2rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
-                <span data-doc-count="15">15</span>
-                –
-                <span data-doc-count="20">20</span>%
-              </p>
+        max-sm:mt-2
+        max-sm:text-[9px]
+        max-sm:leading-[1.45]
+      "
+    >
+      client retention rate
+    </p>
+  </div>
 
-              <Link
-                href="/how-we-hire"
-                className="mt-3 inline-flex items-center gap-1 text-[12px] text-[#B12025] hover:underline"
-              >
-                of applicants pass hiring checks
+  {/* 98% */}
+  <div className="max-sm:min-w-0">
+    <p
+      className="
+        text-[clamp(2.5rem,4vw,4.5rem)]
+        font-semibold
+        leading-none
+        tracking-[-.06em]
+        text-[#B12025]
 
-                <ArrowUpRight size={14} />
-              </Link>
-            </div>
-          </div>
+        max-sm:text-[22px]
+        max-sm:leading-none
+        max-sm:tracking-[-.04em]
+        max-sm:whitespace-nowrap
+      "
+    >
+      <span data-doc-count="98">98</span>%
+    </p>
+
+    <p
+      className="
+        mt-3
+        text-[12px]
+        text-[#17191C]/60
+
+        max-sm:mt-2
+        max-sm:text-[9px]
+        max-sm:leading-[1.45]
+      "
+    >
+      accuracy rate
+    </p>
+  </div>
+
+  {/* 15–20% */}
+  <div className="max-sm:min-w-0">
+    <p
+      className="
+        text-[clamp(2.1rem,3.7vw,4.2rem)]
+        font-semibold
+        leading-none
+        tracking-[-.06em]
+        text-[#B12025]
+
+        max-sm:text-[22px]
+        max-sm:leading-none
+        max-sm:tracking-[-.04em]
+        max-sm:whitespace-nowrap
+      "
+    >
+      <span data-doc-count="15">15</span>
+      <span>–</span>
+      <span data-doc-count="20">20</span>%
+    </p>
+
+    <Link
+      href="/how-we-hire"
+      className="
+        mt-3
+        inline-flex
+        items-start
+        gap-2
+        text-[12px]
+        text-[#17191C]/60
+        transition-colors
+        hover:text-[#B12025]
+
+        max-sm:mt-2
+        max-sm:gap-1
+        max-sm:text-[9px]
+        max-sm:leading-[1.45]
+      "
+    >
+      <span>of applicants pass hiring checks</span>
+
+      <ArrowUpRight
+        size={13}
+        className="mt-[1px] shrink-0 text-[#B12025] max-sm:h-[10px] max-sm:w-[10px]"
+      />
+    </Link>
+  </div>
+</div>
         </div>
       </section>
 
@@ -1786,8 +1958,20 @@ export default function DocumentProcessingPage() {
 
       <section
         ref={quoteRef}
-        className="relative overflow-hidden bg-[#17191C] px-5 py-28 text-white sm:px-8 lg:px-14 lg:py-40"
-      >
+className="
+  relative
+  overflow-hidden
+  bg-[#17191C]
+  px-5
+  py-28
+  text-white
+
+  max-sm:py-[42px]
+
+  sm:px-8
+  lg:px-14
+  lg:py-40
+"      >
         <div
           className="pointer-events-none absolute -right-12 top-6 text-[270px] font-bold leading-none text-[#B12025]/15"
           aria-hidden="true"
@@ -1796,12 +1980,20 @@ export default function DocumentProcessingPage() {
         </div>
 
         <div className="relative mx-auto max-w-[1120px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/55">
-            A private school / Client experience
-          </p>
 
-          <blockquote className="mt-9 text-[clamp(2rem,4.3vw,4.8rem)] font-semibold leading-[1.28] tracking-[-.056em]">
-            {[
+
+<blockquote className="
+  mt-9
+  text-[clamp(2rem,4.3vw,4.8rem)]
+  font-semibold
+  leading-[1.28]
+  tracking-[-.056em]
+
+  max-sm:mt-5
+  max-sm:text-[22px]
+  max-sm:leading-[1.22]
+  max-sm:tracking-[-.04em]
+">            {[
               '“Student records and enrolment forms used to be kept in boxes.',
               'Now every file is scanned, named and easy to find',
               'when parents or inspectors ask.”',
@@ -1820,8 +2012,7 @@ export default function DocumentProcessingPage() {
             ))}
           </blockquote>
 
-          <p className="mt-7 text-[12px] font-semibold uppercase tracking-[.17em] text-[#EF9A9C]">
-            Private school
+<p className="mt-7 text-[12px] font-semibold uppercase tracking-[.17em] text-[#EF9A9C] max-sm:mt-5 max-sm:text-[9px]">            Private school
           </p>
         </div>
       </section>
@@ -1830,20 +2021,28 @@ export default function DocumentProcessingPage() {
           06 — FAQ AND RELATED SERVICES
       ================================================= */}
 
-      <section className="bg-white px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
-          <div className="self-start lg:sticky lg:top-[115px]">
+     <section className="bg-white px-5 py-24 max-sm:py-[38px] sm:px-8 lg:px-14 lg:py-32">
+<div className="mx-auto grid max-w-[1420px] gap-12 max-sm:gap-6 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">          <div className="self-start lg:sticky lg:top-[115px]">
             <p
               data-doc-reveal
-              className="text-[11px] font-semibold uppercase tracking-[.19em] text-[#B12025]"
-            >
+className="text-[11px] font-semibold uppercase tracking-[.19em] text-[#B12025] max-sm:text-[8px]"            >
               Questions answered
             </p>
 
             <h2
               data-doc-reveal
-              className="mt-4 max-w-[450px] text-[clamp(2.45rem,4.5vw,4.7rem)] font-semibold leading-[1.1] tracking-[-.06em]"
-            >
+className="
+  mt-4
+  max-w-[450px]
+  text-[clamp(2.45rem,4.5vw,4.7rem)]
+  font-semibold
+  leading-[1.1]
+  tracking-[-.06em]
+
+  max-sm:mt-3
+  max-sm:text-[27px]
+  max-sm:leading-[1.08]
+"            >
               Common questions about document processing
               <span className="text-[#B12025]">.</span>
             </h2>
@@ -1863,9 +2062,9 @@ export default function DocumentProcessingPage() {
         {/* RELATED SERVICES */}
 
         <div
-          id="doc-related"
-          className="mx-auto mt-28 max-w-[1420px]"
-        >
+  id="doc-related"
+  className="mx-auto mt-28 max-w-[1420px] max-sm:hidden"
+>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="text-[clamp(2rem,3.4vw,3.4rem)] font-semibold leading-[1.1] tracking-[-.05em]">
               Other BPO and back office services
@@ -1918,28 +2117,45 @@ export default function DocumentProcessingPage() {
 
       <section
         id="doc-process"
-        className="bg-[#F4F4F5] px-5 py-24 sm:px-8 lg:px-14 lg:py-32"
+        className="bg-[#F4F4F5] px-5 py-24 max-sm:py-[38px] sm:px-8 lg:px-14 lg:py-32"
       >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-doc-reveal
-            className="text-[11px] font-semibold uppercase tracking-[.18em] text-[#B12025]"
-          >
+className="text-[11px] font-semibold uppercase tracking-[.18em] text-[#B12025] max-sm:text-[8px]"          >
             How we work
           </p>
 
           <h2
             data-doc-reveal
-            className="mt-4 text-[clamp(2.4rem,4.6vw,4.8rem)] font-semibold leading-[1.1] tracking-[-.06em]"
-          >
+className="
+  mt-4
+  text-[clamp(2.4rem,4.6vw,4.8rem)]
+  font-semibold
+  leading-[1.1]
+  tracking-[-.06em]
+
+  max-sm:mt-3
+  max-sm:text-[27px]
+  max-sm:leading-[1.08]
+"          >
             How your back office team is set up
             <span className="text-[#B12025]">.</span>
           </h2>
 
           <p
             data-doc-reveal
-            className="mt-5 max-w-[730px] text-[14px] leading-[1.8] text-[#17191C]/65"
-          >
+className="
+  mt-5
+  max-w-[730px]
+  text-[14px]
+  leading-[1.8]
+  text-[#17191C]/65
+
+  max-sm:mt-3
+  max-sm:text-[10px]
+  max-sm:leading-[1.6]
+"          >
             The biggest risk with outsourced admin
             is mistakes that reach your systems.
             These steps are there to stop that.
@@ -1947,7 +2163,7 @@ export default function DocumentProcessingPage() {
 
           {/* DESKTOP HORIZONTAL / MOBILE VERTICAL */}
 
-          <div className="relative mt-12">
+        <div className="relative mt-12 max-sm:mt-7">
             <div
               className="absolute inset-x-0 top-0 hidden h-[2px] bg-[#B12025]/15 lg:block"
               aria-hidden="true"
@@ -1959,12 +2175,22 @@ export default function DocumentProcessingPage() {
               className="absolute inset-x-0 top-0 hidden h-[2px] origin-left bg-[#B12025] lg:block"
             />
 
-            <ol className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-9">
+            <ol className="grid gap-7 max-sm:gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-9">
               {setup.map((step) => (
                 <li
                   key={step.number}
-                  className="border-l-2 border-[#B12025]/35 pl-5 lg:border-l-0 lg:pl-0 lg:pt-7"
-                >
+className="
+  border-l-2
+  border-[#B12025]/35
+  pl-5
+
+  max-sm:pl-4
+  max-sm:py-1
+
+  lg:border-l-0
+  lg:pl-0
+  lg:pt-7
+"                >
                   <div className="flex items-center gap-3 text-[#B12025]">
                     <step.Icon size={23} />
 
@@ -1973,24 +2199,15 @@ export default function DocumentProcessingPage() {
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-[21px] font-semibold tracking-[-.04em]">
+                  <h3 className="mt-5 text-[21px] font-semibold tracking-[-.04em] max-sm:mt-3 max-sm:text-[16px]">
                     {step.title}
                   </h3>
 
-                  <p className="mt-3 text-[13px] leading-[1.9] text-[#17191C]/65">
+                  <p className="mt-3 text-[13px] leading-[1.9] text-[#17191C]/65 max-sm:mt-2 max-sm:text-[9px] max-sm:leading-[1.6]">
                     {step.text}
                   </p>
 
-                  {step.number === '02' && (
-                    <Link
-                      href="/how-we-hire"
-                      className="mt-4 inline-flex items-center gap-2 text-[12px] font-semibold text-[#B12025] hover:underline"
-                    >
-                      See how we hire
-
-                      <ArrowUpRight size={15} />
-                    </Link>
-                  )}
+                  
                 </li>
               ))}
             </ol>
@@ -1998,8 +2215,7 @@ export default function DocumentProcessingPage() {
 
           {/* FINAL CTA */}
 
-          <div className="mt-16 flex flex-wrap items-center justify-between gap-5 border-t border-[#17191C]/15 pt-7">
-            <p className="text-[14px] text-[#17191C]/60">
+<div className="mt-16 flex flex-wrap items-center justify-between gap-5 border-t border-[#17191C]/15 pt-7 max-sm:hidden">            <p className="text-[14px] text-[#17191C]/60">
               Ready to turn your document backlog
               into searchable records?
             </p>

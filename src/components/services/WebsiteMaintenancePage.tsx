@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Check,
@@ -23,6 +22,7 @@ import {
   TimerReset,
   Wrench,
 } from "lucide-react";
+import MaintenanceScrollHero from "../../components/services/Maintenancescrollhero";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -202,23 +202,6 @@ const relatedServices = [
     text: "Customer-facing help for software and devices.",
   },
 ] as const;
-
-function RisingWords({ text }: { text: string }) {
-  return (
-    <span role="text" aria-label={text}>
-      {text.split(/\s+/).map((word, index) => (
-        <span key={`${word}-${index}`} aria-hidden="true">
-          {index > 0 ? " " : null}
-          <span className="inline-block overflow-hidden align-bottom">
-            <span data-maint-hero-word className="inline-block">
-              {word}
-            </span>
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
 
 function ScrollRevealHeading({
   text,
@@ -642,207 +625,10 @@ export default function WebsiteMaintenancePage() {
       className="overflow-x-clip bg-white font-sans text-[#17191C]"
     >
       {/* =====================================================
-          01 — HERO
+          01 — HERO (scroll-pinned, see MaintenanceScrollHero.tsx)
       ===================================================== */}
 
-      <section
-        aria-labelledby="maintenance-title"
-        className="
-          relative isolate min-h-[760px] overflow-hidden bg-white
-          px-5 pb-[100px] pt-[135px]
-          sm:px-8 sm:pb-[120px] sm:pt-[165px]
-          lg:min-h-[880px] lg:px-14 lg:pb-[150px] lg:pt-[190px]
-        "
-      >
-        {/* Parallax background cards */}
-
-        <div
-          data-maint-parallax="0.2"
-          aria-hidden="true"
-          className="
-            pointer-events-none absolute left-[3%] top-[32%] z-0
-            hidden w-[220px] -rotate-[7deg] rounded-[22px]
-            border border-[#B12025]/10 bg-[#FFF8F8] p-5
-            opacity-60 shadow-[0_20px_60px_rgba(177,32,37,0.06)]
-            xl:block
-          "
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-[.16em] text-[#B12025]">
-              Uptime
-            </span>
-            <Gauge size={18} className="text-[#B12025]" />
-          </div>
-          <p className="mt-5 text-[34px] font-semibold tracking-[-.06em] text-[#B12025]">
-            99.9%
-          </p>
-          <p className="mt-2 text-[10px] leading-5 text-[#17191C]/45">
-            Monitored across the month.
-          </p>
-        </div>
-
-        <div
-          data-maint-parallax="0.38"
-          aria-hidden="true"
-          className="
-            pointer-events-none absolute right-[4%] top-[29%] z-0
-            hidden w-[235px] rotate-[6deg] rounded-[22px]
-            border border-[#17191C]/10 bg-white p-5
-            opacity-55 shadow-[0_20px_60px_rgba(23,25,28,0.06)]
-            xl:block
-          "
-        >
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#B12025] text-white">
-              <HardDrive size={17} />
-            </span>
-            <div>
-              <p className="text-[10px] font-semibold text-[#17191C]">
-                Backup checked
-              </p>
-              <p className="mt-1 text-[9px] text-[#17191C]/45">
-                Recovery point ready
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          data-maint-parallax="0.55"
-          aria-hidden="true"
-          className="
-            pointer-events-none absolute bottom-[13%] left-[12%] z-0
-            hidden w-[245px] -rotate-[3deg] rounded-[22px]
-            border border-[#B12025]/10 bg-white p-5
-            opacity-45 shadow-[0_20px_60px_rgba(177,32,37,0.05)]
-            lg:block
-          "
-        >
-          <div className="flex items-center gap-3">
-            <CheckCircle2 size={20} className="text-[#B12025]" />
-            <p className="text-[10px] font-semibold text-[#17191C]">
-              7 updates completed
-            </p>
-          </div>
-        </div>
-
-        <div
-          data-maint-parallax="0.3"
-          aria-hidden="true"
-          className="
-            pointer-events-none absolute bottom-[10%] right-[10%] z-0
-            hidden w-[250px] rotate-[3deg] rounded-[22px]
-            border border-[#B12025]/10 bg-[#FFF8F8] p-5
-            opacity-45 shadow-[0_20px_60px_rgba(177,32,37,0.05)]
-            lg:block
-          "
-        >
-          <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#B12025]">
-            Monthly report
-          </p>
-          <div className="mt-4 space-y-2">
-            <div className="h-2 w-full rounded-full bg-[#B12025]/15" />
-            <div className="h-2 w-[82%] rounded-full bg-[#B12025]/10" />
-            <div className="h-2 w-[64%] rounded-full bg-[#B12025]/10" />
-          </div>
-        </div>
-
-        {/* Soft centre wash */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none absolute left-1/2 top-[50%] z-[1]
-            h-[520px] w-[92%] max-w-[1180px]
-            -translate-x-1/2 -translate-y-1/2
-            rounded-[50%] bg-white/85 blur-[55px]
-          "
-        />
-
-        <div className="relative z-10 mx-auto max-w-[1450px] text-center">
-          <p
-            data-maint-eyebrow
-            className="
-              text-[9px] font-bold uppercase tracking-[0.25em]
-              text-[#B12025] sm:text-[11px]
-            "
-          >
-            WEBSITE MAINTENANCE SERVICES IN SRI LANKA
-          </p>
-
-          <h1
-            id="maintenance-title"
-            className="
-              mx-auto mt-6 max-w-[1280px]
-              text-[clamp(2.65rem,10vw,4.4rem)]
-              font-semibold leading-[1.01]
-              tracking-[-0.07em] text-[#B12025]
-              sm:mt-8 sm:text-[clamp(4.2rem,7vw,7.2rem)]
-              lg:text-[clamp(4.8rem,6.2vw,7.4rem)]
-            "
-          >
-            <RisingWords text="Your Website Kept Secure and Online." />
-          </h1>
-
-          <p
-            data-maint-hero-copy
-            className="
-              mx-auto mt-5 max-w-[1000px]
-              text-[clamp(1.35rem,5.5vw,2rem)]
-              font-semibold leading-[1.12]
-              tracking-[-0.045em] text-[#B12025]
-              sm:mt-6 sm:text-[clamp(2rem,3.2vw,3.3rem)]
-            "
-          >
-            With a short report each month.
-          </p>
-
-          <p
-            data-maint-hero-copy
-            className="
-              mx-auto mt-7 max-w-[780px]
-              text-[12px] leading-[1.8] text-[#17191C]/62
-              sm:mt-9 sm:text-[15px] sm:leading-[1.9]
-            "
-          >
-            Website software goes out of date, updates can fail,
-            security notices appear and small changes build up.
-            FirstNotch handles the routine maintenance so your team
-            does not have to keep chasing it.
-          </p>
-
-          <div
-            data-maint-hero-copy
-            className="mt-8 flex flex-wrap items-center justify-center gap-3"
-          >
-            <a
-              href="#contact"
-              className="
-                inline-flex min-h-[50px] items-center gap-2 rounded-full
-                bg-[#B12025] px-6 text-[12px] font-semibold text-white
-                transition hover:bg-[#981A1F]
-              "
-            >
-              Book a free discovery call
-              <ArrowUpRight size={16} />
-            </a>
-
-            <button
-              type="button"
-              onClick={scrollToIncluded}
-              className="
-                inline-flex min-h-[50px] items-center gap-2 rounded-full
-                border border-[#B12025]/20 bg-white px-6
-                text-[12px] font-semibold text-[#B12025]
-                transition hover:border-[#B12025]
-              "
-            >
-              See what is included
-              <ArrowDown data-maint-down size={16} />
-            </button>
-          </div>
-        </div>
-      </section>
+      <MaintenanceScrollHero onSeeIncluded={scrollToIncluded} />
 
       {/* =====================================================
           02 — INCLUDED / GSAP CARDS
@@ -900,6 +686,21 @@ export default function WebsiteMaintenancePage() {
           lg:px-14 lg:py-[150px]
         "
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=78')",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
+        />
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-white/90"
+        />
         <div
           data-maint-parallax="0.45"
           aria-hidden="true"

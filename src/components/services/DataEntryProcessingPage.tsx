@@ -308,14 +308,14 @@ function FaqItem({
   }, [open]);
 
   return (
-    <article className="border-b border-[#B12025]/15 py-5">
+    <article className="border-b border-[#B12025]/15 py-5 max-sm:py-4">
       <h3>
         <button
           type="button"
           aria-expanded={open}
           aria-controls={`de-answer-${index}`}
           onClick={toggle}
-          className="group flex w-full items-center justify-between gap-5 text-left text-[16px] font-semibold leading-[1.45] text-[#17191C] transition-colors hover:text-[#B12025] focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-[#B12025] sm:text-[18px]"
+          className="group flex w-full items-center justify-between gap-5 text-left text-[16px] font-semibold leading-[1.45] text-[#17191C] transition-colors hover:text-[#B12025] focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-[#B12025] max-sm:gap-3 max-sm:text-[13px] max-sm:leading-[1.35] sm:text-[18px]"
         >
           {item.question}
 
@@ -335,7 +335,7 @@ function FaqItem({
         aria-hidden={!open}
         className="overflow-hidden"
       >
-        <p className="max-w-[670px] pb-2 pt-4 text-[13px] leading-[1.9] text-[#17191C]/70 sm:text-[14px]">
+        <p className="max-w-[670px] pb-2 pt-4 text-[13px] leading-[1.9] text-[#17191C]/70 max-sm:pt-3 max-sm:text-[10px] max-sm:leading-[1.65] sm:text-[14px]">
           {item.answer}
         </p>
       </div>
@@ -353,7 +353,10 @@ export default function DataEntryProcessingPage() {
   const quoteRef = useRef<HTMLElement>(null);
   const processRef = useRef<HTMLElement>(null);
   const processLine = useRef<HTMLDivElement>(null);
-  const sheetRef = useRef<HTMLDivElement>(null);
+const sheetRef = useRef<HTMLDivElement>(null);
+
+const featureTrackRef = useRef<HTMLDivElement>(null);
+const processTrackRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -1030,9 +1033,66 @@ export default function DataEntryProcessingPage() {
     };
   }, []);
 
-  // ====================================================
-  // PAGE JSX
-  // ====================================================
+// ====================================================
+// MOBILE AUTO SCROLL
+// ====================================================
+
+useEffect(() => {
+  const media = window.matchMedia('(max-width: 639px)');
+
+  if (!media.matches) return;
+
+  const createAutoScroll = (
+    container: HTMLDivElement | null,
+    selector: string,
+    delay: number,
+  ) => {
+    if (!container) return () => {};
+
+    const cards = Array.from(
+      container.querySelectorAll<HTMLElement>(selector),
+    );
+
+    if (cards.length < 2) return () => {};
+
+    let index = 0;
+
+    const timer = window.setInterval(() => {
+      index = (index + 1) % cards.length;
+
+      const firstCard = cards[0];
+      const currentCard = cards[index];
+
+      container.scrollTo({
+        left: currentCard.offsetLeft - firstCard.offsetLeft,
+        behavior: 'smooth',
+      });
+    }, delay);
+
+    return () => window.clearInterval(timer);
+  };
+
+  const stopFeatures = createAutoScroll(
+    featureTrackRef.current,
+    '[data-mobile-feature-card]',
+    2800,
+  );
+
+  const stopProcess = createAutoScroll(
+    processTrackRef.current,
+    '[data-mobile-process-card]',
+    3000,
+  );
+
+  return () => {
+    stopFeatures();
+    stopProcess();
+  };
+}, []);
+
+// ====================================================
+// PAGE JSX
+// ====================================================
 
   return (
     <div
@@ -1057,8 +1117,7 @@ export default function DataEntryProcessingPage() {
 
       <section
         ref={heroRef}
-        className="relative isolate overflow-hidden bg-[#FFF9F6] px-5 pb-[95px] pt-[155px] sm:px-8 lg:px-14 lg:pb-[125px] lg:pt-[170px]"
-      >
+className="relative isolate overflow-hidden bg-[#FFF9F6] px-5 pb-[95px] pt-[155px] max-sm:pb-[28px] max-sm:pt-[105px] sm:px-8 lg:px-14 lg:pb-[125px] lg:pt-[170px]"    >
         <div
           data-de-ambient
           aria-hidden="true"
@@ -1073,15 +1132,13 @@ export default function DataEntryProcessingPage() {
 
             <p
               data-de-intro
-              className="mt-8 text-[10px] font-semibold uppercase tracking-[.22em] text-[#B12025]"
-            >
+className="mt-8 text-[10px] font-semibold uppercase tracking-[.22em] text-[#B12025] max-sm:mt-4 max-sm:text-[8px] max-sm:tracking-[.2em]"            >
               Data entry services in Sri Lanka
             </p>
 
             {/* MASKED RISING H1 */}
 
-            <h1 className="mt-5 max-w-[770px] text-[clamp(2.65rem,4.9vw,5.8rem)] font-semibold leading-[1.08] tracking-[-.067em]">
-              <span className="block overflow-hidden pb-[.12em]">
+<h1 className="mt-5 max-w-[770px] text-[clamp(2.65rem,4.9vw,5.8rem)] font-semibold leading-[1.08] tracking-[-.067em] max-sm:mt-3 max-sm:text-[29px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]">              <span className="block overflow-hidden pb-[.12em]">
                 <span data-de-rise className="block">
                   Clean data in your systems,
                 </span>
@@ -1107,44 +1164,15 @@ export default function DataEntryProcessingPage() {
               </span>
             </h1>
 
-            {/* SVG UNDERLINE + CHECK */}
+         
 
-            <div
-              data-de-intro
-              className="mt-1 flex items-center gap-2 text-[#B12025]"
-            >
-              <svg
-                viewBox="0 0 320 16"
-                className="h-4 w-[min(55vw,320px)]"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  data-de-underline
-                  d="M3 11 C75 2 150 14 317 5"
-                  stroke={RED}
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  pathLength={1}
-                  strokeDasharray={1}
-                  strokeDashoffset={0}
-                />
-              </svg>
-
-              <Check
-                data-de-underline-check
-                size={19}
-                strokeWidth={3}
-                aria-hidden="true"
-              />
-            </div>
+            
 
             {/* INTRO WITH SCROLL-REVEALED PHRASES */}
 
             <p
               data-de-intro
-              className="mt-6 max-w-[630px] text-[14px] leading-[1.95] text-[#17191C]/70 sm:text-[15px]"
-            >
+className="mt-6 max-w-[630px] text-[14px] leading-[1.95] text-[#17191C]/70 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.6] sm:text-[15px]"            >
               FirstNotch enters and processes data for
               you, inside your own systems. Software
               tools handle the repetitive parts, and
@@ -1163,13 +1191,11 @@ export default function DataEntryProcessingPage() {
 
             <div
               data-de-intro
-              className="mt-8 flex flex-wrap items-center gap-3"
-            >
+className="mt-8 flex flex-wrap items-center gap-3 max-sm:mt-4 max-sm:flex-nowrap max-sm:gap-2"            >
               <a
                 data-de-magnetic
                 href="#contact"
-                className="inline-flex min-h-[50px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition-colors hover:bg-[#961B20] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025]"
-              >
+className="inline-flex min-h-[50px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition-colors hover:bg-[#961B20] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 Book a free discovery call
 
                 <ArrowUpRight
@@ -1180,8 +1206,7 @@ export default function DataEntryProcessingPage() {
 
               <a
                 href="#de-included"
-                className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/25 bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF3F3]"
-              >
+className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/25 bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF3F3] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
 
                 <ArrowDown
@@ -1197,8 +1222,7 @@ export default function DataEntryProcessingPage() {
           ========================================== */}
 
           <div
-            className="min-w-0 rounded-[28px] border border-[#B12025]/15 bg-white p-4 shadow-[0_30px_90px_rgba(177,32,37,.08)] sm:p-7"
-            aria-label="Illustrative data entry workflow"
+className="hidden min-w-0 rounded-[28px] border border-[#B12025]/15 bg-white p-4 shadow-[0_30px_90px_rgba(177,32,37,.08)] sm:block sm:p-7"            aria-label="Illustrative data entry workflow"
           >
             <div className="flex items-center justify-between border-b border-[#B12025]/10 pb-4">
               <div className="flex items-center gap-2">
@@ -1333,8 +1357,7 @@ export default function DataEntryProcessingPage() {
 
       <section
         id="de-included"
-        className="scroll-mt-[105px] bg-white px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[130px]"
-      >
+className="scroll-mt-[105px] bg-white px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"      >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-de-reveal
@@ -1345,28 +1368,31 @@ export default function DataEntryProcessingPage() {
 
           <h2
             data-de-reveal
-            className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold leading-[1.1] tracking-[-.06em]"
-          >
+className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold leading-[1.1] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"          >
             What the data entry service includes
             <span className="text-[#B12025]">.</span>
           </h2>
 
           {/* TWO-COLUMN CHECKLIST */}
 
-          <div className="mt-12 grid gap-x-12 gap-y-0 lg:grid-cols-2">
-            {[0, 1].map((col) => (
-              <div
-                key={col}
-                data-de-column
-              >
+<div
+  ref={featureTrackRef}
+  className="mt-12 grid gap-x-12 gap-y-0 max-sm:-mx-5 max-sm:mt-7 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden lg:grid-cols-2"
+>            {[0, 1].map((col) => (
+             <div
+  key={col}
+  data-de-column
+  className="max-sm:contents"
+>
                 {FEATURES.filter(
                   (_, i) => i % 2 === col
                 ).map((feature) => (
                   <article
-                    key={feature.title}
-                    data-de-feature
-                    className="group flex gap-4 border-b border-[#B12025]/15 py-6"
-                  >
+  key={feature.title}
+  data-de-feature
+  data-mobile-feature-card
+  className="group flex gap-4 border-b border-[#B12025]/15 py-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:bg-[#FFF9F6] max-sm:p-4"
+>
                     <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#B12025]/20 bg-[#FFF5F5] text-[#B12025]">
                       <svg
                         viewBox="0 0 24 24"
@@ -1396,13 +1422,11 @@ export default function DataEntryProcessingPage() {
                           className="text-[#B12025]"
                         />
 
-                        <h3 className="text-[17px] font-semibold tracking-[-.03em]">
-                          {feature.title}
+<h3 className="text-[17px] font-semibold tracking-[-.03em] max-sm:text-[14px]">                          {feature.title}
                         </h3>
                       </div>
 
-                      <p className="mt-2 max-w-[535px] text-[13px] leading-[1.85] text-[#17191C]/65">
-                        {feature.text}
+<p className="mt-2 max-w-[535px] text-[13px] leading-[1.85] text-[#17191C]/65 max-sm:text-[10px] max-sm:leading-[1.65]">                        {feature.text}
                       </p>
                     </div>
                   </article>
@@ -1415,8 +1439,7 @@ export default function DataEntryProcessingPage() {
 
           <div
             id="de-pass"
-            className="mt-12 grid gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF9F6] p-5 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:p-8"
-          >
+className="hidden mt-12 gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF9F6] p-5 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:p-8"          >
             <div
               data-de-pass
               className="flex items-center gap-4"
@@ -1472,8 +1495,7 @@ export default function DataEntryProcessingPage() {
 
       <section
         id="de-metrics"
-        className="bg-[#FFF9F6] px-5 py-[100px] sm:px-8 lg:px-14 lg:py-[130px]"
-      >
+className="bg-[#FFF9F6] px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"      >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-de-reveal
@@ -1484,16 +1506,14 @@ export default function DataEntryProcessingPage() {
 
           <h2
             data-de-reveal
-            className="mt-4 text-[clamp(2.6rem,5vw,5.1rem)] font-semibold leading-[1.09] tracking-[-.06em]"
-          >
+className="mt-4 text-[clamp(2.6rem,5vw,5.1rem)] font-semibold leading-[1.09] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"          >
             The numbers you will see
             <span className="text-[#B12025]">.</span>
           </h2>
 
           <p
             data-de-reveal
-            className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65"
-          >
+className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"          >
             Speed only matters when the records
             are correct. Your weekly report shows
             turnaround and accuracy side by side.
@@ -1501,7 +1521,7 @@ export default function DataEntryProcessingPage() {
 
           {/* 5 METRIC CARDS */}
 
-          <div className="mt-11 grid gap-4 [perspective:1100px] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="hidden mt-11 gap-4 [perspective:1100px] sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {METRICS.map((m, i) => (
               <article
                 key={m.title}
@@ -1532,7 +1552,7 @@ export default function DataEntryProcessingPage() {
           <div
             id="de-dashboard"
             data-de-reveal
-            className="mt-6 grid gap-6 rounded-[24px] border border-[#B12025]/10 bg-white p-6 sm:p-8 lg:grid-cols-[1fr_1fr] lg:items-center"
+            className="hidden mt-6 gap-6 rounded-[24px] border border-[#B12025]/10 bg-white p-6 sm:grid sm:p-8 lg:grid-cols-[1fr_1fr] lg:items-center"
           >
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#B12025]">
@@ -1615,10 +1635,10 @@ export default function DataEntryProcessingPage() {
 
           <div
             id="de-stats"
-            className="mt-12 grid grid-cols-2 gap-6 border-t border-[#B12025]/20 pt-9 sm:grid-cols-3"
+            className="mt-12 grid grid-cols-2 gap-6 border-t border-[#B12025]/20 pt-9 max-sm:mt-7 max-sm:grid-cols-3 max-sm:gap-3 max-sm:pt-6 sm:grid-cols-3"
           >
             <div>
-              <p className="text-[clamp(2.5rem,4vw,4.3rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2.5rem,4vw,4.3rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[24px]">
                 <span data-de-count="85">85</span>%
               </p>
 
@@ -1627,10 +1647,10 @@ export default function DataEntryProcessingPage() {
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 max-sm:block">
               <svg
                 aria-hidden="true"
-                className="h-[63px] w-[63px] shrink-0 -rotate-90"
+                className="h-[63px] w-[63px] shrink-0 -rotate-90 max-sm:hidden"
                 viewBox="0 0 110 110"
               >
                 <circle
@@ -1657,7 +1677,7 @@ export default function DataEntryProcessingPage() {
               </svg>
 
               <div>
-                <p className="text-[clamp(2.1rem,3.6vw,4rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
+                <p className="text-[clamp(2.1rem,3.6vw,4rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[24px]">
                   <span data-de-count="98">98</span>%
                 </p>
 
@@ -1668,13 +1688,13 @@ export default function DataEntryProcessingPage() {
             </div>
 
             <div>
-              <p className="text-[clamp(2.2rem,4vw,4.3rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2.2rem,4vw,4.3rem)] font-semibold leading-none tracking-[-.06em] text-[#B12025] max-sm:text-[22px] max-sm:whitespace-nowrap">
                 <span data-de-count="15">15</span>
                 –
                 <span data-de-count="20">20</span>%
               </p>
 
-              <p className="mt-3 text-[12px] text-[#17191C]/60">
+              <p className="mt-3 text-[12px] text-[#17191C]/60 max-sm:mt-2 max-sm:text-[9px] max-sm:leading-[1.45]">
                 of job applicants pass the hiring checks
               </p>
             </div>
@@ -1688,20 +1708,18 @@ export default function DataEntryProcessingPage() {
 
       <section
         ref={quoteRef}
-        className="relative flex min-h-[520px] items-center overflow-hidden bg-[#B12025] px-5 py-[95px] text-white sm:px-8 lg:min-h-[620px] lg:px-14"
+        className="relative flex min-h-[520px] items-center overflow-hidden bg-[#B12025] px-5 py-[95px] text-white max-sm:min-h-0 max-sm:px-4 max-sm:py-[38px] sm:px-8 lg:min-h-[620px] lg:px-14"
         aria-label="Car dealership client quotation"
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 h-[470px] w-[470px] rounded-full border border-white/20"
+          className="pointer-events-none absolute -right-24 -top-24 h-[470px] w-[470px] rounded-full border border-white/20 max-sm:hidden"
         />
 
         <div className="relative mx-auto w-full max-w-[1120px] text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/70">
-            Client experience / Car dealership
-          </p>
+          
 
-          <blockquote className="mt-8 text-[clamp(1.8rem,4.2vw,4.5rem)] font-semibold leading-[1.35] tracking-[-.053em]">
+          <blockquote className="mt-8 text-[clamp(1.8rem,4.2vw,4.5rem)] font-semibold leading-[1.35] tracking-[-.053em] max-sm:mt-0 max-sm:mx-auto max-sm:max-w-[285px] max-sm:text-[19px] max-sm:leading-[1.32] max-sm:tracking-[-.035em]">
             {[
               '“Vehicle details used to be typed in by our sales staff after hours.',
               'Now the listings are updated each morning,',
@@ -1717,13 +1735,11 @@ export default function DataEntryProcessingPage() {
             ))}
           </blockquote>
 
-          <p className="mt-7 text-[12px] font-semibold uppercase tracking-[.17em] text-white/85">
-            Car dealership
-          </p>
+          
 
           {/* BEFORE / AFTER */}
 
-          <div className="mx-auto mt-9 flex max-w-[570px] flex-wrap justify-center gap-3 text-[11px]">
+          <div className="mx-auto mt-9 hidden max-w-[570px] flex-wrap justify-center gap-3 text-[11px] sm:flex">
             <span className="rounded-full border border-white/35 px-4 py-2">
               Before: after hours
             </span>
@@ -1751,9 +1767,9 @@ export default function DataEntryProcessingPage() {
 
       <section
         id="de-faq"
-        className="bg-[#FFF9F6] px-5 py-[105px] sm:px-8 lg:px-14 lg:py-[135px]"
+        className="bg-[#FFF9F6] px-5 py-[105px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[135px]"
       >
-        <div className="mx-auto grid max-w-[1420px] gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
+        <div className="mx-auto grid max-w-[1420px] gap-12 max-sm:gap-6 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
           {/* STICKY HEADING */}
 
           <div className="self-start lg:sticky lg:top-[120px]">
@@ -1761,7 +1777,7 @@ export default function DataEntryProcessingPage() {
               Questions, answered
             </p>
 
-            <h2 className="mt-4 max-w-[470px] text-[clamp(2.5rem,4.5vw,4.9rem)] font-semibold leading-[1.1] tracking-[-.06em]">
+            <h2 className="mt-4 max-w-[470px] text-[clamp(2.5rem,4.5vw,4.9rem)] font-semibold leading-[1.1] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]">
               Common questions about data entry services
               <span className="text-[#B12025]">.</span>
             </h2>
@@ -1791,11 +1807,11 @@ export default function DataEntryProcessingPage() {
         ========================================== */}
 
         <div
-          id="de-other"
-          className="mx-auto mt-[105px] max-w-[1420px]"
-        >
+  id="de-other"
+  className="mx-auto mt-[105px] hidden max-w-[1420px] sm:block"
+>
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-[clamp(1.9rem,3.5vw,3.3rem)] font-semibold tracking-[-.055em]">
+            <h2 className="text-[clamp(1.9rem,3.5vw,3.3rem)] font-semibold tracking-[-.055em] max-sm:text-[24px] max-sm:leading-[1.15]">
               Other BPO and back office services
             </h2>
 
@@ -1808,13 +1824,13 @@ export default function DataEntryProcessingPage() {
             </Link>
           </div>
 
-          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-7 grid gap-3 max-sm:mt-5 max-sm:gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {OTHER_SERVICES.map((item) => (
               <Link
                 data-de-other
                 key={item.slug}
                 href={`${ROOT}/${item.slug}`}
-                className="group flex min-h-[65px] items-center justify-between gap-3 rounded-[15px] border border-[#B12025]/10 bg-white px-5 text-[13px] font-semibold transition-all hover:border-[#B12025]/55 hover:shadow-[0_10px_25px_rgba(177,32,37,.08)]"
+                className="group flex min-h-[65px] items-center justify-between gap-3 rounded-[15px] border border-[#B12025]/10 bg-white px-5 text-[13px] font-semibold transition-all hover:border-[#B12025]/55 hover:shadow-[0_10px_25px_rgba(177,32,37,.08)] max-sm:min-h-[48px] max-sm:px-4 max-sm:text-[11px]"
               >
                 {item.name}
 
@@ -1835,7 +1851,7 @@ export default function DataEntryProcessingPage() {
       <section
         ref={processRef}
         id="de-process"
-        className="flex min-h-[580px] items-center bg-white px-5 py-[100px] sm:px-8 lg:min-h-[710px] lg:px-14"
+        className="flex min-h-[580px] items-center bg-white px-5 py-[100px] max-sm:min-h-0 max-sm:py-[48px] sm:px-8 lg:min-h-[710px] lg:px-14"
       >
         <div className="mx-auto w-full max-w-[1420px]">
           <p
@@ -1847,7 +1863,7 @@ export default function DataEntryProcessingPage() {
 
           <h2
             data-de-reveal
-            className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.6vw,5rem)] font-semibold leading-[1.08] tracking-[-.06em]"
+            className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.6vw,5rem)] font-semibold leading-[1.08] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"
           >
             How your back office team is set up
             <span className="text-[#B12025]">.</span>
@@ -1855,7 +1871,7 @@ export default function DataEntryProcessingPage() {
 
           <p
             data-de-reveal
-            className="mt-5 max-w-[680px] text-[14px] leading-[1.85] text-[#17191C]/65"
+            className="mt-5 max-w-[680px] text-[14px] leading-[1.85] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"
           >
             The biggest risk with outsourced admin
             is mistakes that reach your systems.
@@ -1864,7 +1880,7 @@ export default function DataEntryProcessingPage() {
 
           {/* ANIMATED PROGRESS LINE */}
 
-          <div className="relative mt-12">
+          <div className="relative mt-12 max-sm:mt-7">
             <div
               aria-hidden="true"
               className="absolute left-0 right-0 top-0 hidden h-[2px] bg-[#B12025]/15 lg:block"
@@ -1878,13 +1894,17 @@ export default function DataEntryProcessingPage() {
 
             {/* FOUR STEPS */}
 
-            <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <div
+  ref={processTrackRef}
+  className="grid gap-9 max-sm:-mx-5 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
+>
               {STEPS.map((step) => (
                 <article
-                  data-de-step
-                  key={step.num}
-                  className="border-t-2 border-[#B12025]/30 pt-6 lg:border-0"
-                >
+  data-de-step
+  data-mobile-process-card
+  key={step.num}
+  className="border-t-2 border-[#B12025]/30 pt-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:border-[#B12025]/15 max-sm:bg-[#FFF9F6] max-sm:p-5 lg:border-0"
+>
                   <div className="flex items-center gap-3 text-[#B12025]">
                     <step.Icon
                       data-de-step-icon
@@ -1897,11 +1917,11 @@ export default function DataEntryProcessingPage() {
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-[20px] font-semibold tracking-[-.04em]">
+                  <h3 className="mt-5 text-[20px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[16px]">
                     {step.title}
                   </h3>
 
-                  <p className="mt-4 text-[13px] leading-[1.85] text-[#17191C]/65">
+                  <p className="mt-4 text-[13px] leading-[1.85] text-[#17191C]/65 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.65]">
                     {step.text}
                   </p>
                 </article>
@@ -1913,7 +1933,7 @@ export default function DataEntryProcessingPage() {
 
           <div
             data-de-reveal
-            className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#B12025]/15 pt-7"
+            className="mt-12 hidden flex-wrap items-center justify-between gap-4 border-t border-[#B12025]/15 pt-7 sm:flex"
           >
             <p className="text-[13px] text-[#17191C]/60">
               Ready to discuss the work your team

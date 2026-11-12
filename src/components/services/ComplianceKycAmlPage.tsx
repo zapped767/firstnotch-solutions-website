@@ -353,7 +353,7 @@ function RevealHeading({
   return (
     <h2
       data-kyc-heading
-      className={`text-[clamp(2rem,4.05vw,4.3rem)] font-semibold leading-[1.12] tracking-[-.06em] ${
+      className={`text-[clamp(2rem,4.05vw,4.3rem)] font-semibold leading-[1.12] tracking-[-.06em] max-sm:text-[25px] max-sm:leading-[1.08] max-sm:tracking-[-.045em] ${
         light
           ? 'text-white'
           : 'text-[#B12025]'
@@ -391,7 +391,7 @@ function SectionHeading({
     <div>
       <p
         data-kyc-fade
-        className={`text-[10px] font-bold uppercase tracking-[.19em] ${
+        className={`text-[10px] font-bold uppercase tracking-[.19em] max-sm:text-[8px] max-sm:tracking-[.16em] ${
           light
             ? 'text-white/75'
             : 'text-[#B12025]/75'
@@ -409,7 +409,7 @@ function SectionHeading({
       {subtitle && (
         <p
           data-kyc-fade
-          className={`mt-3 max-w-[750px] text-[14px] leading-[1.75] ${
+          className={`mt-3 max-w-[750px] text-[14px] leading-[1.75] max-sm:mt-2 max-sm:text-[10px] max-sm:leading-[1.6] ${
             light
               ? 'text-white/80'
               : 'text-[#17191C]/70'
@@ -540,11 +540,11 @@ export default function ComplianceKycAmlPage() {
     const root = rootRef.current;
     if (!root) return;
 
-    const mm = gsap.matchMedia();
+const mm = gsap.matchMedia();
 
-    mm.add(
-      '(prefers-reduced-motion: no-preference)',
-      () => {
+mm.add(
+  '(min-width: 640px) and (prefers-reduced-motion: no-preference)',
+  () => {
         const ctx = gsap.context(() => {
           // Hero heading: rising line by line
 
@@ -807,8 +807,7 @@ export default function ComplianceKycAmlPage() {
           RED BACKGROUND + WHITE TEXT
       ============================================= */}
 
-      <section className="relative overflow-hidden bg-[#B12025] px-5 pb-16 pt-16 text-white sm:px-8 lg:px-14 lg:pb-[84px] lg:pt-[76px]">
-        <div
+<section className="relative overflow-hidden bg-[#B12025] px-5 pb-16 pt-16 text-white max-sm:pb-[34px] max-sm:pt-[90px] sm:px-8 lg:px-14 lg:pb-[84px] lg:pt-[76px]">        <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-[170px] -top-[100px] h-[550px] w-[550px] rounded-full border border-white/15"
         />
@@ -819,15 +818,14 @@ export default function ComplianceKycAmlPage() {
 
             <p
               data-kyc-hero-small
-              className="mt-6 text-[10px] font-bold uppercase tracking-[.2em] text-white/80"
+              className="mt-6 text-[10px] font-bold uppercase tracking-[.2em] text-white/80 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.4] max-sm:tracking-[.16em]"
             >
               KYC and AML support services in Sri Lanka
             </p>
 
             {/* Rising heading */}
 
-            <h1 className="mt-5 max-w-[820px] text-[clamp(2.3rem,4.35vw,4.9rem)] font-semibold leading-[1.08] tracking-[-.064em]">
-              {[
+<h1 className="mt-5 max-w-[820px] text-[clamp(2.3rem,4.35vw,4.9rem)] font-semibold leading-[1.08] tracking-[-.064em] max-sm:mt-3 max-sm:text-[31px] max-sm:leading-[1.02] max-sm:tracking-[-.055em]">              {[
                 'KYC and AML checks',
                 'prepared by specialists,',
                 'with final decisions left',
@@ -849,7 +847,7 @@ export default function ComplianceKycAmlPage() {
 
             <p
               data-kyc-hero-small
-              className="mt-5 max-w-[670px] text-[14px] leading-[1.8] text-white/85"
+              className="mt-5 max-w-[670px] text-[14px] leading-[1.8] text-white/85 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.65]"
             >
               New customers often wait days while
               their checks are done, and each
@@ -863,11 +861,11 @@ export default function ComplianceKycAmlPage() {
 
             <div
               data-kyc-hero-small
-              className="mt-6 flex flex-wrap gap-3"
+              className="mt-6 flex flex-wrap gap-3 max-sm:mt-5 max-sm:flex-nowrap max-sm:gap-2"
             >
               <a
                 href="#contact"
-                className="inline-flex min-h-[47px] items-center gap-2 rounded-full bg-white px-6 text-[12px] font-bold text-[#B12025] transition hover:bg-[#FFEAEA]"
+                className="inline-flex min-h-[47px] items-center gap-2 rounded-full bg-white px-6 text-[12px] font-bold text-[#B12025] transition hover:bg-[#FFEAEA] max-sm:min-h-[38px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"
               >
                 Book a free discovery call
                 <ArrowUpRight size={16} />
@@ -875,7 +873,7 @@ export default function ComplianceKycAmlPage() {
 
               <a
                 href="#kyc-features"
-                className="inline-flex min-h-[47px] items-center gap-2 rounded-full border border-white/60 px-6 text-[12px] font-semibold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-[47px] items-center gap-2 rounded-full border border-white/60 px-6 text-[12px] font-semibold text-white transition hover:bg-white/10 max-sm:min-h-[38px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"
               >
                 See what is included
                 <ArrowDown size={16} />
@@ -885,7 +883,7 @@ export default function ComplianceKycAmlPage() {
 
           {/* Open case preview, no square container */}
 
-          <div className="relative mx-auto w-full max-w-[510px]">
+          <div className="relative mx-auto w-full max-w-[510px] max-sm:hidden">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-3 rounded-full border border-white/15"
@@ -960,7 +958,7 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-features"
-        className="scroll-mt-[90px] bg-white px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+        className="scroll-mt-[90px] bg-white px-5 py-16 max-sm:py-[34px] sm:px-8 lg:px-14 lg:py-20"
       >
         <div className="mx-auto max-w-[1420px]">
           <SectionHeading
@@ -969,7 +967,7 @@ export default function ComplianceKycAmlPage() {
             subtitle="Eight connected checks, documented for your compliance team. Choose a check to see the sample case notes."
           />
 
-          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[1.08fr_.92fr] lg:gap-12">
+          <div className="mt-8 grid items-start gap-8 max-sm:mt-5 max-sm:gap-4 lg:grid-cols-[1.08fr_.92fr] lg:gap-12">
             <ul className="divide-y divide-[#B12025]/20 border-t border-[#B12025]/20">
               {features.map((f, i) => (
                 <li key={f.title}>
@@ -981,15 +979,15 @@ export default function ComplianceKycAmlPage() {
                     aria-pressed={
                       featureIndex === i
                     }
-                    className="group flex w-full items-start gap-3 py-3.5 text-left focus-visible:outline-2 focus-visible:outline-[#B12025]"
+                    className="group flex w-full items-start gap-3 py-3.5 text-left focus-visible:outline-2 focus-visible:outline-[#B12025] max-sm:gap-2 max-sm:py-[10px]"
                   >
-                    <span className="mt-1 font-mono text-[10px] text-[#B12025]/60">
+                    <span className="mt-1 font-mono text-[10px] text-[#B12025]/60 max-sm:text-[8px]">
                       {String(i + 1).padStart(2, '0')}
                     </span>
 
                     <span className="flex-1">
                       <span
-                        className={`block text-[16px] font-semibold transition group-hover:translate-x-1 ${
+                        className={`block text-[16px] font-semibold transition group-hover:translate-x-1 max-sm:text-[13px] max-sm:leading-[1.3] ${
                           featureIndex === i
                             ? 'text-[#B12025]'
                             : 'text-[#17191C]'
@@ -999,22 +997,22 @@ export default function ComplianceKycAmlPage() {
                       </span>
 
                       {featureIndex === i && (
-                        <span className="mt-1 block text-[12px] leading-6 text-[#17191C]/70">
+                        <span className="mt-1 block text-[12px] leading-6 text-[#17191C]/70 max-sm:text-[9px] max-sm:leading-[1.55]">
                           {f.description}
                         </span>
                       )}
                     </span>
 
                     <f.Icon
-                      size={19}
-                      className="shrink-0 text-[#B12025]"
-                    />
+  size={19}
+  className="shrink-0 text-[#B12025] max-sm:h-[15px] max-sm:w-[15px]"
+/>
                   </button>
                 </li>
               ))}
             </ul>
 
-            <div className="self-start lg:sticky lg:top-[115px]">
+            <div className="self-start max-sm:hidden lg:sticky lg:top-[115px]">
               <div className="relative mx-auto flex aspect-square w-full max-w-[385px] flex-col justify-center rounded-full border border-[#B12025]/30 p-7 text-center sm:p-10">
                 <div
                   aria-hidden="true"
@@ -1062,7 +1060,7 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-alerts"
-        className="bg-[#FFF7F7] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+        className="bg-[#FFF7F7] px-5 py-16 max-sm:py-[34px] sm:px-8 lg:px-14 lg:py-20"
       >
         <div className="mx-auto max-w-[1420px]">
           <SectionHeading
@@ -1071,22 +1069,22 @@ export default function ComplianceKycAmlPage() {
             subtitle="Drag an example alert to a tray or use its buttons. False matches are cleared with a reason; possible real matches go to your compliance team. No customer is approved here."
           />
 
-          <p className="mt-4 inline-flex rounded-full border border-[#B12025]/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[.1em] text-[#B12025]">
+          <p className="mt-4 inline-flex rounded-full border border-[#B12025]/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[.1em] text-[#B12025] max-sm:mt-3 max-sm:px-3 max-sm:py-1.5 max-sm:text-[8px]">
             Fictional data · not live screening
           </p>
 
           <p
             role="status"
             aria-live="polite"
-            className="mt-4 border-l-[3px] border-[#B12025] pl-3 text-[12px] text-[#17191C]/70"
+            className="mt-4 border-l-[3px] border-[#B12025] pl-3 text-[12px] text-[#17191C]/70 max-sm:mt-3 max-sm:text-[9px]"
           >
             {notice}
           </p>
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-12">
+          <div className="mt-8 grid gap-8 max-sm:mt-5 max-sm:gap-4 lg:grid-cols-[1.05fr_.95fr] lg:gap-12">
             <div>
               <div className="flex items-center justify-between border-b border-[#B12025]/30 pb-3">
-                <h3 className="text-[23px] font-semibold text-[#B12025]">
+                <h3 className="text-[23px] font-semibold text-[#B12025] max-sm:text-[18px]">
                   Review queue
                 </h3>
 
@@ -1109,7 +1107,7 @@ export default function ComplianceKycAmlPage() {
                       e.dataTransfer.effectAllowed =
                         'move';
                     }}
-                    className="cursor-grab py-4 active:cursor-grabbing"
+                   className="cursor-grab py-4 active:cursor-grabbing max-sm:py-3"
                   >
                     <div className="flex flex-wrap justify-between gap-2">
                       <span className="font-mono text-[10px] text-[#17191C]/55">
@@ -1121,17 +1119,17 @@ export default function ComplianceKycAmlPage() {
                       </span>
                     </div>
 
-                    <h4 className="mt-2 text-[19px] font-semibold">
+                    <h4 className="mt-2 text-[19px] font-semibold max-sm:mt-1.5 max-sm:text-[15px]">
                       {item.issue}
                     </h4>
 
-                    <div className="mt-3 flex flex-wrap gap-2">
+                   <div className="mt-3 flex flex-wrap gap-2 max-sm:mt-2 max-sm:flex-nowrap">
                       <button
                         type="button"
                         onClick={() =>
                           sortAlert(item.id, 'clear')
                         }
-                        className="rounded-full bg-[#B12025] px-4 py-2 text-[11px] font-semibold text-white"
+                        className="rounded-full bg-[#B12025] px-4 py-2 text-[11px] font-semibold text-white max-sm:px-3 max-sm:py-2 max-sm:text-[9px] max-sm:whitespace-nowrap"
                       >
                         Clear with reason
                       </button>
@@ -1141,7 +1139,7 @@ export default function ComplianceKycAmlPage() {
                         onClick={() =>
                           sortAlert(item.id, 'refer')
                         }
-                        className="rounded-full border border-[#B12025]/50 px-4 py-2 text-[11px] font-semibold text-[#B12025]"
+                        className="rounded-full border border-[#B12025]/50 px-4 py-2 text-[11px] font-semibold text-[#B12025] max-sm:px-3 max-sm:py-2 max-sm:text-[9px] max-sm:whitespace-nowrap"
                       >
                         Refer with notes
                       </button>
@@ -1157,7 +1155,7 @@ export default function ComplianceKycAmlPage() {
               </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-5 max-sm:hidden">
               {(
                 [
                   [
@@ -1263,7 +1261,7 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-policy"
-        className="bg-[#B12025] px-5 py-16 text-white sm:px-8 lg:px-14 lg:py-20"
+        className="bg-[#B12025] px-5 py-16 text-white max-sm:hidden sm:px-8 lg:px-14 lg:py-20"
       >
         <div className="mx-auto grid max-w-[1420px] gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
           <SectionHeading
@@ -1382,7 +1380,7 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-metrics"
-        className="bg-white px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+        className="bg-white px-5 py-16 max-sm:py-[34px] sm:px-8 lg:px-14 lg:py-20"
       >
         <div className="mx-auto max-w-[1420px]">
           <SectionHeading
@@ -1391,8 +1389,8 @@ export default function ComplianceKycAmlPage() {
             subtitle="Faster checks only help if every case can be audited. Your monthly report tracks speed and quality together."
           />
 
-          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-b border-[#B12025]/25 pb-4">
-            <p className="font-mono text-[10px] uppercase tracking-[.1em] text-[#B12025]">
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-b border-[#B12025]/25 pb-4 max-sm:mt-4 max-sm:gap-2 max-sm:pb-3">
+            <p className="font-mono text-[10px] uppercase tracking-[.1em] text-[#B12025] max-sm:text-[8px]">
               Monthly case ledger · sample report
             </p>
 
@@ -1404,7 +1402,7 @@ export default function ComplianceKycAmlPage() {
                   key={r}
                   type="button"
                   onClick={() => setRisk(r)}
-                  className={`rounded-full border px-3 py-1.5 text-[11px] capitalize ${
+                  className={`rounded-full border px-3 py-1.5 text-[11px] capitalize max-sm:px-2.5 max-sm:py-1 max-sm:text-[9px] ${
                     risk === r
                       ? 'border-[#B12025] bg-[#B12025] text-white'
                       : 'border-[#B12025]/30 text-[#B12025]'
@@ -1420,17 +1418,17 @@ export default function ComplianceKycAmlPage() {
             {metrics.map((m, i) => (
               <div
                 key={m.name}
-                className="grid gap-2 py-4 md:grid-cols-[.85fr_1.4fr_.8fr] md:items-center"
+                className="grid gap-2 py-4 max-sm:gap-1 max-sm:py-3 md:grid-cols-[.85fr_1.4fr_.8fr] md:items-center"
               >
                 <dt className="text-[17px] font-semibold text-[#B12025]">
                   {m.name}
                 </dt>
 
-                <dd className="text-[13px] leading-6 text-[#17191C]/70">
+                <dd className="text-[13px] leading-6 text-[#17191C]/70 max-sm:text-[10px] max-sm:leading-[1.55]">
                   {m.detail}
                 </dd>
 
-                <dd className="text-[12px] font-semibold text-[#B12025]">
+                <dd className="text-[12px] font-semibold text-[#B12025] max-sm:text-[9px]">
                   {i === 0
                     ? sampleByRisk[risk][0]
                     : i === 2
@@ -1448,35 +1446,35 @@ export default function ComplianceKycAmlPage() {
             are based on your completed cases.
           </p>
 
-          <div className="mt-7 grid grid-cols-2 gap-5 border-t border-[#B12025]/20 pt-6 sm:grid-cols-3">
+          <div className="mt-7 grid grid-cols-2 gap-5 border-t border-[#B12025]/20 pt-6 max-sm:mt-5 max-sm:grid-cols-3 max-sm:gap-2 max-sm:pt-4 sm:grid-cols-3">
             <div>
-              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025] max-sm:text-[20px] max-sm:leading-none max-sm:tracking-[-.04em] max-sm:whitespace-nowrap">
                 <span data-kyc-stat="85">
                   85
                 </span>
                 %
               </p>
 
-              <p className="text-[11px] text-[#17191C]/65">
+              <p className="text-[11px] text-[#17191C]/65 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.35]">
                 client retention rate
               </p>
             </div>
 
             <div>
-              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025] max-sm:text-[20px] max-sm:leading-none max-sm:tracking-[-.04em] max-sm:whitespace-nowrap">
                 <span data-kyc-stat="98">
                   98
                 </span>
                 %
               </p>
 
-              <p className="text-[11px] text-[#17191C]/65">
+              <p className="text-[11px] text-[#17191C]/65 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.35]">
                 accuracy rate across client work
               </p>
             </div>
 
             <div>
-              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025]">
+              <p className="text-[clamp(2rem,4vw,3.8rem)] font-bold tracking-[-.06em] text-[#B12025] max-sm:text-[20px] max-sm:leading-none max-sm:tracking-[-.04em] max-sm:whitespace-nowrap">
                 <span data-kyc-stat="15">
                   15
                 </span>
@@ -1489,7 +1487,7 @@ export default function ComplianceKycAmlPage() {
 
               <Link
                 href="/how-we-hire"
-                className="inline-flex items-center gap-1 text-[11px] text-[#B12025] underline underline-offset-4"
+               className="inline-flex items-start gap-1 text-[11px] text-[#B12025] underline underline-offset-4 max-sm:mt-2 max-sm:text-[8px] max-sm:leading-[1.35]"
               >
                 of applicants pass hiring checks
                 <ArrowUpRight size={13} />
@@ -1504,10 +1502,10 @@ export default function ComplianceKycAmlPage() {
           HOVER AND TAP ANIMATION
       ============================================= */}
 
-      <section
-        id="kyc-audit"
-        className="bg-[#B12025] px-5 py-16 text-white sm:px-8 lg:px-14 lg:py-20"
-      >
+<section
+  id="kyc-audit"
+  className="bg-[#B12025] px-5 py-16 text-white max-sm:hidden sm:px-8 lg:px-14 lg:py-20"
+>
         <div className="mx-auto grid max-w-[1420px] items-start gap-7 lg:grid-cols-[1fr_1fr] lg:gap-12">
           <div>
             <SectionHeading
@@ -1631,18 +1629,16 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-quote"
-        className="relative overflow-hidden bg-white px-5 py-16 text-[#B12025] sm:px-8 lg:px-14 lg:py-20"
-      >
+className="relative overflow-hidden bg-white px-5 py-16 text-[#B12025] max-sm:py-[34px] sm:px-8 lg:px-14 lg:py-20"      >
         <div className="mx-auto max-w-[1150px]">
           <p
             data-kyc-fade
-            className="text-[11px] font-bold uppercase tracking-[.17em] text-[#B12025]/65"
+            className="text-[11px] font-bold uppercase tracking-[.17em] text-[#B12025]/65 max-sm:text-[8px] max-sm:leading-[1.4] max-sm:tracking-[.14em]"
           >
             Online marketplace / Client experience
           </p>
 
-          <blockquote className="mt-5 text-[clamp(1.9rem,3.75vw,4.1rem)] font-semibold leading-[1.2] tracking-[-.05em]">
-            {(
+<blockquote className="mt-5 text-[clamp(1.9rem,3.75vw,4.1rem)] font-semibold leading-[1.2] tracking-[-.05em] max-sm:mt-3 max-sm:text-[22px] max-sm:leading-[1.16] max-sm:tracking-[-.04em]">            {(
               '“New sellers used to wait a week to be approved. Their checks are now ready for our team within a day, and each case file is complete.”'
             )
               .split(' ')
@@ -1663,7 +1659,7 @@ export default function ComplianceKycAmlPage() {
 
           <p
             data-kyc-fade
-            className="mt-5 text-[11px] font-semibold uppercase tracking-[.17em] text-[#B12025]/70"
+            className="mt-5 text-[11px] font-semibold uppercase tracking-[.17em] text-[#B12025]/70 max-sm:mt-3 max-sm:text-[8px]"
           >
             Online marketplace
           </p>
@@ -1677,7 +1673,7 @@ export default function ComplianceKycAmlPage() {
 
       <section
         id="kyc-faq"
-        className="bg-[#F6F6F7] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+        className="bg-[#F6F6F7] px-5 py-16 max-sm:py-[34px] sm:px-8 lg:px-14 lg:py-20"
       >
         <div className="mx-auto max-w-[1420px]">
           <SectionHeading
@@ -1685,7 +1681,7 @@ export default function ComplianceKycAmlPage() {
             title="Common questions about KYC and AML support"
           />
 
-          <div className="mt-6 flex items-center gap-3 border-b border-[#B12025]/35 pb-3">
+          <div className="mt-6 flex items-center gap-3 border-b border-[#B12025]/35 pb-3 max-sm:mt-4 max-sm:gap-2 max-sm:pb-2">
             <Search
               size={18}
               className="text-[#B12025]"
@@ -1699,7 +1695,7 @@ export default function ComplianceKycAmlPage() {
               }
               placeholder="Search questions"
               aria-label="Search KYC questions"
-              className="w-full bg-transparent py-2 text-[13px] text-[#17191C] outline-none placeholder:text-[#17191C]/50"
+              className="w-full bg-transparent py-2 text-[13px] text-[#17191C] outline-none placeholder:text-[#17191C]/50 max-sm:py-1.5 max-sm:text-[10px]"
             />
 
             {faqQuery && (
@@ -1791,22 +1787,22 @@ export default function ComplianceKycAmlPage() {
 
           {/* Mobile FAQ */}
 
-          <div className="mt-5 divide-y divide-[#B12025]/20 lg:hidden">
+          <div className="mt-5 divide-y divide-[#B12025]/20 max-sm:mt-3 lg:hidden">
             {matchedFaqs.map((f) => (
               <details
                 key={f.question}
-                className="group py-4"
+                className="group py-4 max-sm:py-[11px]"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-[15px] font-semibold text-[#B12025] [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-[15px] font-semibold text-[#B12025] [&::-webkit-details-marker]:hidden max-sm:gap-2 max-sm:text-[12px] max-sm:leading-[1.35]">
                   {f.question}
 
-                  <ChevronDown
-                    size={17}
-                    className="shrink-0 transition-transform group-open:rotate-180"
-                  />
+             <ChevronDown
+  size={17}
+  className="shrink-0 transition-transform group-open:rotate-180 max-sm:h-[14px] max-sm:w-[14px]"
+/>
                 </summary>
 
-                <p className="pt-3 text-[13px] leading-7 text-[#17191C]/75">
+                <p className="pt-3 text-[13px] leading-7 text-[#17191C]/75 max-sm:pt-2 max-sm:text-[10px] max-sm:leading-[1.55]">
                   {f.answer}
                 </p>
               </details>
@@ -1826,10 +1822,10 @@ export default function ComplianceKycAmlPage() {
           WHITE BACKGROUND
       ============================================= */}
 
-      <section
-        id="kyc-related"
-        className="bg-white px-5 py-14 sm:px-8 lg:px-14 lg:py-16"
-      >
+<section
+  id="kyc-related"
+  className="bg-white px-5 py-14 max-sm:hidden sm:px-8 lg:px-14 lg:py-16"
+>
         <div className="mx-auto max-w-[1420px]">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <RevealHeading
@@ -1930,7 +1926,7 @@ export default function ComplianceKycAmlPage() {
             </ol>
           </div>
 
-          <div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-t border-white/30 pt-6">
+          <div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-t border-white/30 pt-6 max-sm:hidden">
             <p className="text-[13px] text-white/85">
               Need help preparing KYC and AML
               case files?

@@ -1,987 +1,902 @@
+'use client';
 
-"use client";
+import { useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
+import { gsap } from 'gsap';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
-import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Code2,
-  Rocket,
-} from "lucide-react";
+// ======================================================
+// FIRSTNOTCH BRAND COLOURS
+// ======================================================
+const RED = 0xb12025; // FirstNotch Red   #B12025
+const CHARCOAL = 0x17191c; // Midnight Charcoal #17191C
+const WHITE = 0xffffff; // Pure White        #FFFFFF
 
-gsap.registerPlugin(ScrollTrigger);
-
-// =====================================================
-// HERO SCENES
-// =====================================================
-
-const SLIDES = [
+// ======================================================
+// CONTENT (3 scroll stages)
+// ======================================================
+const SECTIONS = [
   {
-    eyebrow: "WEB DEVELOPMENT SERVICES IN SRI LANKA",
-    title: "WEB DEVELOPMENT",
-    subtitle:
-      "A fast, custom website that brings in enquiries, built by a team in Colombo.",
-    index: "01",
+    title: 'WEB DEVELOPMENT',
+    line1: 'Websites built around your brand,',
+    line2: 'fast and clear on every screen',
   },
   {
-    eyebrow: "DESIGNED AROUND YOUR BUSINESS",
-    title: "DESIGN & BUILD",
-    subtitle:
-      "Custom design, modern technology and responsive experiences that work on every screen.",
-    index: "02",
+    title: 'BUILT TO PERFORM',
+    line1: 'Custom design, modern frameworks',
+    line2: 'and pages tested before launch',
   },
   {
-    eyebrow: "FROM CONCEPT TO LAUNCH",
-    title: "READY TO LAUNCH",
-    subtitle:
-      "A clear process from your first brief to testing, training and a supported launch.",
-    index: "03",
+    title: 'READY TO LAUNCH',
+    line1: 'A date agreed with you, training for your team',
+    line2: 'and 30 days of fixes after launch',
   },
 ] as const;
 
-// =====================================================
-// MAIN HERO
-// =====================================================
+const TOTAL = SECTIONS.length;
+
+// Camera keyframes, one per stage
+const CAMERA_POSITIONS = [
+  { x: 0, y: 30, z: 300 },
+  { x: 0, y: 40, z: -50 },
+  { x: 0, y: 50, z: -700 },
+];
+
+type Refs = {
+  scene: THREE.Scene | null;
+  camera: THREE.PerspectiveCamera | null;
+  renderer: THREE.WebGLRenderer | null;
+  composer: EffectComposer | null;
+  stars: THREE.Points[];
+  nebula: THREE.Mesh | null;
+  mountains: THREE.Mesh[];
+  animationId: number | null;
+  targetCameraX: number;
+  targetCameraY: number;
+  targetCameraZ: number;
+  progress: number;
+};
 
 export default function WebCosmosHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const activeRef = useRef(0);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const scrollUiRef = useRef<HTMLDivElement>(null);
 
-  const [active, setActive] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const smoothCameraPos = useRef({ x: 0, y: 30, z: 300 });
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+
+  const threeRefs = useRef<Refs>({
+    scene: null,
+    camera: null,
+    renderer: null,
+    composer: null,
+    stars: [],
+    nebula: null,
+    mountains: [],
+    animationId: null,
+    targetCameraX: CAMERA_POSITIONS[0].x,
+    targetCameraY: CAMERA_POSITIONS[0].y,
+    targetCameraZ: CAMERA_POSITIONS[0].z,
+    progress: 0,
+  });
+
+  // ====================================================
+  // THREE.JS SCENE
+  // ====================================================
   useEffect(() => {
-    const section = sectionRef.current;
     const canvas = canvasRef.current;
+    const stage = stageRef.current;
+    if (!canvas || !stage) return;
 
-    if (!section || !canvas) return;
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+    const refs = threeRefs.current;
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
     ).matches;
+    const isMobile = window.innerWidth < 768;
 
-    // =================================================
-    // THREE.JS SCENE
-    // =================================================
+    const getSize = () => ({
+      w: stage.clientWidth || window.innerWidth,
+      h: stage.clientHeight || window.innerHeight,
+    });
 
-    const scene = new THREE.Scene();
+    const { w, h } = getSize();
 
-    scene.fog = new THREE.FogExp2(
-      0x17191c,
-      0.00055
-    );
+    // Scene
+    refs.scene = new THREE.Scene();
+    refs.scene.fog = new THREE.FogExp2(CHARCOAL, 0.00025);
 
-    const camera = new THREE.PerspectiveCamera(
-      70,
-      1,
-      0.1,
-      2500
-    );
+    // Camera
+    refs.camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 2000);
+    refs.camera.position.set(0, 20, 300);
 
-    camera.position.set(0, 25, 280);
-    camera.lookAt(0, 0, -500);
-
-    const renderer = new THREE.WebGLRenderer({
+    // Renderer
+    refs.renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
       alpha: true,
-      powerPreference: "high-performance",
     });
+    refs.renderer.setSize(w, h, false);
+    refs.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    refs.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    refs.renderer.toneMappingExposure = 0.5;
 
-    renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio || 1, 1.75)
+    // Post-processing (red glow)
+    refs.composer = new EffectComposer(refs.renderer);
+    refs.composer.addPass(new RenderPass(refs.scene, refs.camera));
+    refs.composer.addPass(
+      new UnrealBloomPass(new THREE.Vector2(w, h), 0.8, 0.4, 0.85)
     );
 
-    renderer.setClearColor(0x17191c, 0);
+    // ---------------- STARS ----------------
+    const createStarField = () => {
+      const starCount = isMobile ? 2200 : 5000;
 
-    renderer.toneMapping =
-      THREE.ACESFilmicToneMapping;
+      for (let i = 0; i < 3; i++) {
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(starCount * 3);
+        const colors = new Float32Array(starCount * 3);
+        const sizes = new Float32Array(starCount);
 
-    renderer.toneMappingExposure = 1.15;
+        const white = new THREE.Color(WHITE);
+        const softRed = new THREE.Color(WHITE).lerp(new THREE.Color(RED), 0.35);
+        const brandRed = new THREE.Color(RED).lerp(new THREE.Color(WHITE), 0.2);
 
-    // =================================================
-    // BLOOM
-    // =================================================
+        for (let j = 0; j < starCount; j++) {
+          const radius = 200 + Math.random() * 800;
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(Math.random() * 2 - 1);
 
-    const composer = new EffectComposer(renderer);
+          positions[j * 3] = radius * Math.sin(phi) * Math.cos(theta);
+          positions[j * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+          positions[j * 3 + 2] = radius * Math.cos(phi);
 
-    composer.addPass(
-      new RenderPass(scene, camera)
-    );
+          const choice = Math.random();
+          const color =
+            choice < 0.7 ? white : choice < 0.9 ? softRed : brandRed;
 
-    const bloom = new UnrealBloomPass(
-      new THREE.Vector2(1, 1),
-      0.75,
-      0.45,
-      0.88
-    );
+          colors[j * 3] = color.r;
+          colors[j * 3 + 1] = color.g;
+          colors[j * 3 + 2] = color.b;
 
-    composer.addPass(bloom);
-
-    // =================================================
-    // COSMIC STARS
-    // =================================================
-
-    const stars: THREE.Points[] = [];
-
-    for (let layer = 0; layer < 3; layer++) {
-      const count = 1800;
-
-      const positions = new Float32Array(
-        count * 3
-      );
-
-      const colors = new Float32Array(
-        count * 3
-      );
-
-      for (let i = 0; i < count; i++) {
-        const radius =
-          260 + Math.random() * 1100;
-
-        const theta =
-          Math.random() * Math.PI * 2;
-
-        const phi = Math.acos(
-          2 * Math.random() - 1
-        );
-
-        positions[i * 3] =
-          radius *
-          Math.sin(phi) *
-          Math.cos(theta);
-
-        positions[i * 3 + 1] =
-          radius *
-          Math.sin(phi) *
-          Math.sin(theta);
-
-        positions[i * 3 + 2] =
-          radius * Math.cos(phi) - 400;
-
-        const color = new THREE.Color();
-
-        if (Math.random() > 0.85) {
-          color.set("#B12025");
-        } else {
-          color.set("#FFFFFF");
+          sizes[j] = Math.random() * 2 + 0.5;
         }
 
-        const brightness =
-          0.5 + Math.random() * 0.5;
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-        colors[i * 3] =
-          color.r * brightness;
+        const material = new THREE.ShaderMaterial({
+          uniforms: {
+            time: { value: 0 },
+            depth: { value: i },
+          },
+          vertexShader: `
+            attribute float size;
+            attribute vec3 color;
+            varying vec3 vColor;
+            uniform float time;
+            uniform float depth;
 
-        colors[i * 3 + 1] =
-          color.g * brightness;
+            void main() {
+              vColor = color;
+              vec3 pos = position;
 
-        colors[i * 3 + 2] =
-          color.b * brightness;
-      }
+              float angle = time * 0.05 * (1.0 - depth * 0.3);
+              mat2 rot = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+              pos.xy = rot * pos.xy;
 
-      const geometry =
-        new THREE.BufferGeometry();
+              vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+              gl_PointSize = size * (300.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            varying vec3 vColor;
 
-      geometry.setAttribute(
-        "position",
-        new THREE.BufferAttribute(
-          positions,
-          3
-        )
-      );
+            void main() {
+              float dist = length(gl_PointCoord - vec2(0.5));
+              if (dist > 0.5) discard;
 
-      geometry.setAttribute(
-        "color",
-        new THREE.BufferAttribute(
-          colors,
-          3
-        )
-      );
-
-      const material =
-        new THREE.PointsMaterial({
-          size: 1.5 + layer * 0.5,
-          vertexColors: true,
+              float opacity = 1.0 - smoothstep(0.0, 0.5, dist);
+              gl_FragColor = vec4(vColor, opacity);
+            }
+          `,
           transparent: true,
-          opacity: 0.85,
-          sizeAttenuation: true,
           blending: THREE.AdditiveBlending,
           depthWrite: false,
         });
 
-      const points = new THREE.Points(
-        geometry,
-        material
-      );
+        const stars = new THREE.Points(geometry, material);
+        refs.scene!.add(stars);
+        refs.stars.push(stars);
+      }
+    };
 
-      scene.add(points);
-      stars.push(points);
-    }
-
-    // =================================================
-    // RED NEBULA BACKGROUND
-    // =================================================
-
-    const nebulaGeometry =
-      new THREE.PlaneGeometry(
-        1900,
-        1100,
-        32,
-        20
-      );
-
-    const nebulaMaterial =
-      new THREE.ShaderMaterial({
+    // ---------------- NEBULA ----------------
+    const createNebula = () => {
+      const geometry = new THREE.PlaneGeometry(8000, 4000, 100, 100);
+      const material = new THREE.ShaderMaterial({
         uniforms: {
-          uTime: { value: 0 },
-
-          uRed: {
-            value: new THREE.Color("#B12025"),
+          time: { value: 0 },
+          color1: { value: new THREE.Color(RED) },
+          color2: {
+            value: new THREE.Color(RED).lerp(new THREE.Color(WHITE), 0.3),
           },
+          opacity: { value: 0.3 },
         },
-
         vertexShader: `
           varying vec2 vUv;
-          uniform float uTime;
+          varying float vElevation;
+          uniform float time;
 
           void main() {
             vUv = uv;
+            vec3 pos = position;
 
-            vec3 p = position;
+            float elevation = sin(pos.x * 0.01 + time) * cos(pos.y * 0.01 + time) * 20.0;
+            pos.z += elevation;
+            vElevation = elevation;
 
-            p.z += sin(
-              p.x * 0.006 + uTime * 0.2
-            ) * cos(p.y * 0.006) * 18.0;
-
-            gl_Position =
-              projectionMatrix *
-              modelViewMatrix *
-              vec4(p, 1.0);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
           }
         `,
-
         fragmentShader: `
+          uniform vec3 color1;
+          uniform vec3 color2;
+          uniform float opacity;
+          uniform float time;
           varying vec2 vUv;
-          uniform float uTime;
-          uniform vec3 uRed;
+          varying float vElevation;
 
           void main() {
-            vec2 center =
-              vUv - vec2(0.55, 0.5);
+            float mixFactor = sin(vUv.x * 10.0 + time) * cos(vUv.y * 10.0 + time);
+            vec3 color = mix(color1, color2, mixFactor * 0.5 + 0.5);
 
-            float radial = max(
-              0.0,
-              1.0 - length(center) * 1.8
-            );
+            float alpha = opacity * (1.0 - length(vUv - 0.5) * 2.0);
+            alpha *= 1.0 + vElevation * 0.01;
 
-            float waves = sin(
-              vUv.x * 13.0 + uTime * 0.2
-            ) * cos(
-              vUv.y * 9.0 - uTime * 0.15
-            );
-
-            float alpha =
-              radial * (0.12 + waves * 0.035);
-
-            gl_FragColor = vec4(
-              uRed,
-              max(alpha, 0.0)
-            );
+            gl_FragColor = vec4(color, alpha);
           }
         `,
-
         transparent: true,
         blending: THREE.AdditiveBlending,
-        depthWrite: false,
         side: THREE.DoubleSide,
+        depthWrite: false,
       });
 
-    const nebula = new THREE.Mesh(
-      nebulaGeometry,
-      nebulaMaterial
-    );
+      const nebula = new THREE.Mesh(geometry, material);
+      nebula.position.z = -1050;
+      refs.scene!.add(nebula);
+      refs.nebula = nebula;
+    };
 
-    nebula.position.z = -850;
+    // ---------------- MOUNTAINS (charcoal → red depth) ----------------
+    const createMountains = () => {
+      const base = new THREE.Color(CHARCOAL);
+      const red = new THREE.Color(RED);
 
-    scene.add(nebula);
+      const layers = [
+        { distance: -50, height: 60, color: base.clone(), opacity: 1 },
+        { distance: -100, height: 80, color: base.clone().lerp(red, 0.18), opacity: 0.8 },
+        { distance: -150, height: 100, color: base.clone().lerp(red, 0.36), opacity: 0.6 },
+        { distance: -200, height: 120, color: base.clone().lerp(red, 0.55), opacity: 0.4 },
+      ];
 
-    // =================================================
-    // LAYERED MOUNTAIN BACKGROUND
-    // =================================================
-
-    const mountains: THREE.Mesh[] = [];
-
-    const mountainLayers = [
-      {
-        z: -150,
-        color: "#090B0E",
-        height: 55,
-      },
-      {
-        z: -300,
-        color: "#111316",
-        height: 78,
-      },
-      {
-        z: -470,
-        color: "#241316",
-        height: 98,
-      },
-      {
-        z: -650,
-        color: "#40191E",
-        height: 115,
-      },
-    ];
-
-    mountainLayers.forEach(
-      (layer, index) => {
+      layers.forEach((layer, index) => {
         const points: THREE.Vector2[] = [];
+        const segments = 50;
 
-        for (let i = 0; i <= 90; i++) {
-          const x =
-            (i / 90 - 0.5) * 1800;
-
+        for (let i = 0; i <= segments; i++) {
+          const x = (i / segments - 0.5) * 1000;
           const y =
-            Math.sin(
-              i * 0.12 + index
-            ) *
-              layer.height +
-            Math.cos(i * 0.055) *
-              layer.height *
-              0.5 -
-            135;
-
-          points.push(
-            new THREE.Vector2(x, y)
-          );
+            Math.sin(i * 0.1) * layer.height +
+            Math.sin(i * 0.05) * layer.height * 0.5 +
+            Math.random() * layer.height * 0.2 -
+            100;
+          points.push(new THREE.Vector2(x, y));
         }
 
-        points.push(
-          new THREE.Vector2(950, -600)
-        );
+        points.push(new THREE.Vector2(5000, -300));
+        points.push(new THREE.Vector2(-5000, -300));
 
-        points.push(
-          new THREE.Vector2(-950, -600)
-        );
+        const geometry = new THREE.ShapeGeometry(new THREE.Shape(points));
+        const material = new THREE.MeshBasicMaterial({
+          color: layer.color,
+          transparent: true,
+          opacity: layer.opacity,
+          side: THREE.DoubleSide,
+        });
 
-        const shape = new THREE.Shape(
-          points
-        );
-
-        const geometry =
-          new THREE.ShapeGeometry(shape);
-
-        const material =
-          new THREE.MeshBasicMaterial({
-            color: layer.color,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.95 - index * 0.1,
-            depthWrite: false,
-          });
-
-        const mesh = new THREE.Mesh(
-          geometry,
-          material
-        );
-
-        mesh.position.z = layer.z;
-
-        scene.add(mesh);
-        mountains.push(mesh);
-      }
-    );
-
-    // =================================================
-    // CAMERA AND RESIZE
-    // =================================================
-
-    const cameraTarget = {
-      x: 0,
-      y: 25,
-      z: 280,
-    };
-
-    const resize = () => {
-      const width = section.clientWidth;
-
-      const height = Math.max(
-        window.innerHeight,
-        1
-      );
-
-      camera.aspect = width / height;
-
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(
-        width,
-        height,
-        false
-      );
-
-      composer.setSize(
-        width,
-        height
-      );
-    };
-
-    resize();
-
-    const resizeObserver =
-      new ResizeObserver(resize);
-
-    resizeObserver.observe(section);
-
-    // =================================================
-    // NEW: VERTICAL SCROLL HEADING ANIMATIONS
-    // =================================================
-
-    const slides =
-      gsap.utils.toArray<HTMLElement>(
-        section.querySelectorAll(
-          "[data-cosmos-slide]"
-        )
-      );
-
-    // Keep every heading mounted.
-    // First heading starts visible.
-    // Second and third start below.
-
-    gsap.set(slides[0], {
-      yPercent: 0,
-      autoAlpha: 1,
-    });
-
-    gsap.set(slides.slice(1), {
-      yPercent: 110,
-      autoAlpha: 0,
-    });
-
-    const headingTimeline =
-      gsap.timeline({
-        paused: true,
+        const mountain = new THREE.Mesh(geometry, material);
+        mountain.position.z = layer.distance;
+        mountain.position.y = layer.distance;
+        mountain.userData = {
+          baseZ: layer.distance,
+          baseOpacity: layer.opacity,
+          index,
+        };
+        refs.scene!.add(mountain);
+        refs.mountains.push(mountain);
       });
+    };
 
-    if (
-      !reducedMotion &&
-      slides.length === 3
-    ) {
-      // Full timeline length = 10 units.
-      // Scroll position drives timeline progress.
-
-      const spacer = {
-        position: 0,
-      };
-
-      headingTimeline.to(
-        spacer,
-        {
-          position: 1,
-          duration: 10,
+    // ---------------- ATMOSPHERE (red glow) ----------------
+    const createAtmosphere = () => {
+      const geometry = new THREE.SphereGeometry(600, 32, 32);
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          glow: { value: new THREE.Color(RED) },
         },
-        0
-      );
+        vertexShader: `
+          varying vec3 vNormal;
 
-      // -----------------------------------------
-      // SCENE 01 -> SCENE 02
-      // WEB DEVELOPMENT goes UP
-      // DESIGN & BUILD rises from BELOW
-      // -----------------------------------------
-
-      headingTimeline.to(
-        slides[0],
-        {
-          yPercent: -110,
-          autoAlpha: 0,
-          ease: "power2.inOut",
-          duration: 1.45,
-        },
-        2.0
-      );
-
-      headingTimeline.fromTo(
-        slides[1],
-        {
-          yPercent: 110,
-          autoAlpha: 0,
-        },
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          ease: "power2.inOut",
-          duration: 1.45,
-        },
-        2.0
-      );
-
-      // -----------------------------------------
-      // SCENE 02 -> SCENE 03
-      // DESIGN & BUILD goes UP
-      // READY TO LAUNCH rises from BELOW
-      // -----------------------------------------
-
-      headingTimeline.to(
-        slides[1],
-        {
-          yPercent: -110,
-          autoAlpha: 0,
-          ease: "power2.inOut",
-          duration: 1.45,
-        },
-        5.55
-      );
-
-      headingTimeline.fromTo(
-        slides[2],
-        {
-          yPercent: 110,
-          autoAlpha: 0,
-        },
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          ease: "power2.inOut",
-          duration: 1.45,
-        },
-        5.55
-      );
-    }
-
-    // =================================================
-    // SCROLL CONTROL
-    // =================================================
-
-    const updateScroll = (p: number) => {
-      setProgress(
-        Math.round(p * 100)
-      );
-
-      const next =
-        p < 0.27
-          ? 0
-          : p < 0.63
-            ? 1
-            : 2;
-
-      if (activeRef.current !== next) {
-        activeRef.current = next;
-        setActive(next);
-      }
-
-      slides.forEach(
-        (slide, index) => {
-          slide.style.pointerEvents =
-            next === index
-              ? "auto"
-              : "none";
-        }
-      );
-
-      if (reducedMotion) {
-        // Accessible static scene switching.
-
-        slides.forEach(
-          (slide, index) => {
-            gsap.set(slide, {
-              yPercent: 0,
-              autoAlpha:
-                next === index
-                  ? 1
-                  : 0,
-            });
+          void main() {
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
           }
-        );
-      } else {
-        // Scroll controls vertical headings.
-        // Reverses when scrolling upward.
+        `,
+        fragmentShader: `
+          varying vec3 vNormal;
+          uniform float time;
+          uniform vec3 glow;
 
-        headingTimeline.progress(p);
+          void main() {
+            float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+            vec3 atmosphere = glow * 1.4 * intensity;
 
-        // Scroll also controls camera depth.
+            float pulse = sin(time * 2.0) * 0.1 + 0.9;
+            atmosphere *= pulse;
 
-        cameraTarget.z =
-          280 - p * 720;
-
-        cameraTarget.y =
-          25 + p * 45;
-
-        cameraTarget.x =
-          Math.sin(p * Math.PI) * 30;
-      }
-    };
-
-    const trigger =
-      ScrollTrigger.create({
-        trigger: section,
-
-        start: "top top",
-        end: "bottom bottom",
-
-        invalidateOnRefresh: true,
-
-        onUpdate: (self) => {
-          updateScroll(
-            self.progress
-          );
-        },
-
-        onRefresh: (self) => {
-          updateScroll(
-            self.progress
-          );
-        },
+            gl_FragColor = vec4(atmosphere, intensity * 0.25);
+          }
+        `,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
       });
 
-    // =================================================
-    // THREE.JS ANIMATION LOOP
-    // =================================================
+      refs.scene!.add(new THREE.Mesh(geometry, material));
+    };
 
-    const clock = new THREE.Clock();
+    createStarField();
+    createNebula();
+    createMountains();
+    createAtmosphere();
 
-    let animationFrame = 0;
-    let disposed = false;
-
+    // ---------------- ANIMATION LOOP ----------------
     const animate = () => {
-      if (disposed) return;
+      refs.animationId = requestAnimationFrame(animate);
 
-      animationFrame =
-        requestAnimationFrame(animate);
+      const time = performance.now() * 0.001;
+      const progress = refs.progress;
 
-      const elapsed =
-        clock.getElapsedTime();
+      refs.stars.forEach((field) => {
+        (field.material as THREE.ShaderMaterial).uniforms.time.value = time;
+      });
 
-      stars.forEach(
-        (group, index) => {
-          if (!reducedMotion) {
-            group.rotation.z =
-              elapsed *
-              0.003 *
-              (index % 2 === 0
-                ? 1
-                : -1);
-          }
-        }
-      );
+      if (refs.nebula) {
+        (refs.nebula.material as THREE.ShaderMaterial).uniforms.time.value =
+          time * 0.5;
+      }
 
-      nebulaMaterial.uniforms.uTime.value =
-        elapsed;
+      // Smooth camera
+      const smoothing = 0.05;
+      const s = smoothCameraPos.current;
+      s.x += (refs.targetCameraX - s.x) * smoothing;
+      s.y += (refs.targetCameraY - s.y) * smoothing;
+      s.z += (refs.targetCameraZ - s.z) * smoothing;
 
-      camera.position.x +=
-        (cameraTarget.x -
-          camera.position.x) *
-        0.055;
+      const floatX = reduceMotion ? 0 : Math.sin(time * 0.1) * 2;
+      const floatY = reduceMotion ? 0 : Math.cos(time * 0.15) * 1;
 
-      camera.position.y +=
-        (cameraTarget.y -
-          camera.position.y) *
-        0.055;
+      if (refs.camera) {
+        refs.camera.position.set(s.x + floatX, s.y + floatY, s.z);
+        refs.camera.lookAt(0, 10, s.z - 600);
+      }
 
-      camera.position.z +=
-        (cameraTarget.z -
-          camera.position.z) *
-        0.055;
+      // Mountains: parallax float, then fade out as the camera flies through
+      const fade = THREE.MathUtils.smoothstep(progress, 0.5, 0.75);
+      refs.mountains.forEach((mountain, i) => {
+        const parallax = 1 + i * 0.5;
+        mountain.position.x = reduceMotion ? 0 : Math.sin(time * 0.1) * 2 * parallax;
+        mountain.position.y = 50 + (reduceMotion ? 0 : Math.cos(time * 0.15) * parallax);
 
-      camera.lookAt(
-        0,
-        0,
-        -600
-      );
+        const mat = mountain.material as THREE.MeshBasicMaterial;
+        mat.opacity = mountain.userData.baseOpacity * (1 - fade);
+        mountain.visible = mat.opacity > 0.01;
+      });
 
-      composer.render();
+      refs.composer?.render();
     };
 
     animate();
+    setIsReady(true);
 
-    // =================================================
-    // CLEANUP
-    // =================================================
+    // ---------------- RESIZE ----------------
+    const handleResize = () => {
+      const { w: nw, h: nh } = getSize();
+      if (!refs.camera || !refs.renderer || !refs.composer) return;
+      refs.camera.aspect = nw / nh;
+      refs.camera.updateProjectionMatrix();
+      refs.renderer.setSize(nw, nh, false);
+      refs.composer.setSize(nw, nh);
+    };
 
+    window.addEventListener('resize', handleResize);
+
+    // ---------------- CLEANUP ----------------
     return () => {
-      disposed = true;
+      if (refs.animationId) cancelAnimationFrame(refs.animationId);
+      window.removeEventListener('resize', handleResize);
 
-      cancelAnimationFrame(
-        animationFrame
-      );
+      refs.scene?.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.geometry) mesh.geometry.dispose();
+        const mat = mesh.material as THREE.Material | THREE.Material[] | undefined;
+        if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
+        else if (mat) mat.dispose();
+      });
 
-      trigger.kill();
-      headingTimeline.kill();
+      refs.composer?.dispose?.();
+      refs.renderer?.dispose();
 
-      resizeObserver.disconnect();
-
-      stars.forEach(
-        (group) => {
-          group.geometry.dispose();
-
-          const material =
-            group.material;
-
-          if (
-            Array.isArray(material)
-          ) {
-            material.forEach(
-              (m) => m.dispose()
-            );
-          } else {
-            material.dispose();
-          }
-
-          scene.remove(group);
-        }
-      );
-
-      mountains.forEach(
-        (mesh) => {
-          mesh.geometry.dispose();
-
-          const material =
-            mesh.material;
-
-          if (
-            Array.isArray(material)
-          ) {
-            material.forEach(
-              (m) => m.dispose()
-            );
-          } else {
-            material.dispose();
-          }
-
-          scene.remove(mesh);
-        }
-      );
-
-      nebulaGeometry.dispose();
-      nebulaMaterial.dispose();
-
-      scene.remove(nebula);
-
-      composer.dispose();
-      renderer.dispose();
+      refs.stars = [];
+      refs.mountains = [];
+      refs.nebula = null;
+      refs.scene = null;
+      refs.camera = null;
+      refs.renderer = null;
+      refs.composer = null;
     };
   }, []);
 
-  // ===================================================
-  // RENDER
-  // ===================================================
+  // ====================================================
+  // SCROLL → PROGRESS INSIDE THE HERO ONLY
+  // ====================================================
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const scrollable = Math.max(1, rect.height - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+
+      const refs = threeRefs.current;
+      refs.progress = progress;
+
+      setScrollProgress(progress);
+      setCurrentSection(Math.min(TOTAL - 1, Math.floor(progress * TOTAL)));
+
+      // Interpolate between keyframes
+      const t = progress * (TOTAL - 1);
+      const index = Math.min(TOTAL - 2, Math.floor(t));
+      const frac = t - index;
+      const a = CAMERA_POSITIONS[index];
+      const b = CAMERA_POSITIONS[index + 1];
+
+      refs.targetCameraX = a.x + (b.x - a.x) * frac;
+      refs.targetCameraY = a.y + (b.y - a.y) * frac;
+      refs.targetCameraZ = a.z + (b.z - a.z) * frac;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  // ====================================================
+  // GSAP — INTRO (menu + scroll indicator)
+  // ====================================================
+  useEffect(() => {
+    if (!isReady) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ctx = gsap.context(() => {
+      gsap.set([menuRef.current, scrollUiRef.current], { visibility: 'visible' });
+
+      const tl = gsap.timeline();
+      tl.from(menuRef.current, {
+        x: -100,
+        opacity: 0,
+        duration: reduce ? 0 : 1,
+        ease: 'power3.out',
+      }).from(
+        scrollUiRef.current,
+        {
+          opacity: 0,
+          y: 50,
+          duration: reduce ? 0 : 1,
+          ease: 'power2.out',
+        },
+        '-=0.5'
+      );
+    }, stageRef);
+
+    return () => ctx.revert();
+  }, [isReady]);
+
+  // ====================================================
+  // GSAP — TEXT TRANSITIONS PER STAGE
+  // ====================================================
+  useEffect(() => {
+    if (!isReady || !stageRef.current) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dur = reduce ? 0 : 1;
+
+    const ctx = gsap.context(() => {
+      const blocks = gsap.utils.toArray<HTMLElement>('[data-wch-block]');
+
+      blocks.forEach((block, i) => {
+        const chars = block.querySelectorAll('[data-wch-char]');
+        const lines = block.querySelectorAll('[data-wch-line]');
+
+        if (i === currentSection) {
+          gsap.set(block, { visibility: 'visible' });
+          gsap.killTweensOf([chars, lines]);
+
+          gsap.fromTo(
+            chars,
+            { yPercent: 115, opacity: 0 },
+            {
+              yPercent: 0,
+              opacity: 1,
+              duration: dur * 1.3,
+              stagger: reduce ? 0 : 0.035,
+              ease: 'power4.out',
+            }
+          );
+
+          gsap.fromTo(
+            lines,
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: dur * 0.9,
+              delay: reduce ? 0 : 0.35,
+              stagger: reduce ? 0 : 0.18,
+              ease: 'power3.out',
+            }
+          );
+        } else {
+          gsap.killTweensOf([chars, lines]);
+          gsap.to([...chars, ...lines], {
+            opacity: 0,
+            y: -30,
+            yPercent: 0,
+            duration: dur * 0.35,
+            ease: 'power2.in',
+            overwrite: true,
+            onComplete: () => {
+              gsap.set(block, { visibility: 'hidden' });
+            },
+          });
+        }
+      });
+    }, stageRef);
+
+    return () => ctx.revert();
+  }, [currentSection, isReady]);
 
   return (
     <section
       ref={sectionRef}
       id="wd-hero"
-      className="relative h-[240vh] bg-[#17191C] text-white"
+      aria-label="Web development"
+      className="wch-section"
     >
-      <div className="sticky top-0 h-[100svh] min-h-[600px] overflow-hidden">
-        {/* THREE.JS COSMIC BACKGROUND */}
+      <style>{css}</style>
 
-        <canvas
-          ref={canvasRef}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full"
-        />
+      <div ref={stageRef} className="wch-stage">
+        <canvas ref={canvasRef} className="wch-canvas" aria-hidden="true" />
 
-        {/* BACKGROUND OVERLAYS */}
+        {/* Vignette + red glow */}
+        <div className="wch-vignette" aria-hidden="true" />
+        <div className="wch-glow" aria-hidden="true" />
 
+        {/* Side menu */}
         <div
+          ref={menuRef}
+          className="wch-side-menu"
+          style={{ visibility: 'hidden' }}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(23,25,28,.74)_0%,rgba(23,25,28,.35)_55%,rgba(23,25,28,.28)_100%)]"
-        />
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-[#17191C] to-transparent"
-        />
-
-        {/* ============================================
-            VERTICAL ROLLING HERO HEADINGS
-        ============================================ */}
-
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1536px] flex-col px-5 pb-10 pt-[125px] sm:px-8 lg:px-14 lg:pb-14 lg:pt-[145px]">
-          <div className="relative min-h-0 flex-1">
-            {SLIDES.map(
-              (slide, index) => (
-                <div
-                  key={slide.index}
-                  data-cosmos-slide
-                  aria-hidden={
-                    active !== index
-                  }
-                  className="absolute inset-x-0 top-0 max-w-[1150px]"
-                  style={{
-                    opacity:
-                      index === 0
-                        ? 1
-                        : 0,
-
-                    visibility:
-                      index === 0
-                        ? "visible"
-                        : "hidden",
-
-                    pointerEvents:
-                      index === active
-                        ? "auto"
-                        : "none",
-                  }}
-                >
-                  {/* EYEBROW */}
-
-                  <p className="mb-5 text-[10px] font-bold uppercase tracking-[.22em] text-[#EF9A9C] sm:text-[12px]">
-                    {slide.eyebrow}
-                  </p>
-
-                  {/* HEADING */}
-
-                  {index === 0 ? (
-                    <h1 className="max-w-[1100px] text-[clamp(2.8rem,8vw,9rem)] font-black uppercase leading-[.94] tracking-[-.075em] text-white">
-                      {slide.title}
-                    </h1>
-                  ) : (
-                    <h2 className="max-w-[1100px] text-[clamp(2.8rem,8vw,9rem)] font-black uppercase leading-[.94] tracking-[-.075em] text-white">
-                      {slide.title}
-                    </h2>
-                  )}
-
-                  {/* DESCRIPTION */}
-
-                  <p className="mt-6 max-w-[700px] text-[clamp(14px,1.5vw,19px)] leading-[1.8] text-white/80">
-                    {slide.subtitle}
-                  </p>
-
-                  {/* SCENE 01 BUTTONS */}
-
-                  {index === 0 && (
-                    <div className="mt-8 flex flex-wrap gap-3">
-                      <a
-                        href="#contact"
-                        tabIndex={
-                          active === 0
-                            ? 0
-                            : -1
-                        }
-                        className="inline-flex min-h-[48px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#941A1F]"
-                      >
-                        Book a free discovery call
-
-                        <ArrowUpRight
-                          size={16}
-                        />
-                      </a>
-
-                      <a
-                        href="#wd-included"
-                        tabIndex={
-                          active === 0
-                            ? 0
-                            : -1
-                        }
-                        className="inline-flex min-h-[48px] items-center gap-2 rounded-full border border-white/40 px-6 text-[12px] font-semibold text-white transition hover:bg-white/10"
-                      >
-                        See what is included
-
-                        <ArrowDown
-                          size={16}
-                        />
-                      </a>
-                    </div>
-                  )}
-
-                  {/* SCENE 02 LABEL */}
-
-                  {index === 1 && (
-                    <div className="mt-8 flex items-center gap-3 text-[#EF9A9C]">
-                      <Code2
-                        size={22}
-                      />
-
-                      <span className="text-[12px] font-semibold uppercase tracking-[.16em]">
-                        Creative design / Modern code
-                      </span>
-                    </div>
-                  )}
-
-                  {/* SCENE 03 BUTTON */}
-
-                  {index === 2 && (
-                    <a
-                      href="#wd-process"
-                      tabIndex={
-                        active === 2
-                          ? 0
-                          : -1
-                      }
-                      className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#B12025] px-6 py-4 text-[12px] font-semibold text-white"
-                    >
-                      <Rocket
-                        size={17}
-                      />
-
-                      Explore our development process
-
-                      <ArrowUpRight
-                        size={16}
-                      />
-                    </a>
-                  )}
-                </div>
-              )
-            )}
+        >
+          <div className="wch-menu-icon">
+            <span />
+            <span />
+            <span />
           </div>
+          <div className="wch-vertical-text">WEB</div>
+        </div>
 
-          {/* ============================================
-              BOTTOM SCROLL PROGRESS
-          ============================================ */}
+        {/* Text stages */}
+        <div className="wch-content">
+          {SECTIONS.map((item, i) => {
+            const Heading = i === 0 ? 'h1' : 'h2';
+            return (
+              <div
+                key={item.title}
+                data-wch-block
+                className="wch-block"
+                style={{ visibility: 'hidden' }}
+                aria-hidden={i !== currentSection}
+              >
+                <Heading className="wch-title" aria-label={item.title}>
+                  {item.title.split(' ').map((word, w) => (
+                    <span key={`${word}-${w}`} className="wch-word" aria-hidden="true">
+                      {word.split('').map((char, c) => (
+                        <span key={c} data-wch-char className="wch-char">
+                          {char}
+                        </span>
+                      ))}
+                      {'\u00a0'}
+                    </span>
+                  ))}
+                </Heading>
 
-          <div className="relative z-20 flex shrink-0 items-end justify-between gap-5">
-            <div className="flex items-center gap-3 sm:gap-5">
-              <span className="text-[10px] font-bold uppercase tracking-[.18em] text-white/70">
-                Scroll to explore
-              </span>
-
-              {/* PROGRESS BAR */}
-
-              <div className="hidden h-[2px] w-[130px] overflow-hidden bg-white/20 sm:block">
-                <div
-                  className="h-full bg-[#B12025]"
-                  style={{
-                    width: `${progress}%`,
-                  }}
-                />
+                <div className="wch-subtitle">
+                  <p data-wch-line className="wch-line">
+                    {item.line1}
+                  </p>
+                  <p data-wch-line className="wch-line">
+                    {item.line2}
+                  </p>
+                </div>
               </div>
+            );
+          })}
+        </div>
 
-              <span className="font-mono text-[11px] text-white/70">
-                {progress}%
-              </span>
-            </div>
-
-            {/* SCENE INDICATORS */}
-
-            <div className="flex items-center gap-3">
-              {SLIDES.map(
-                (item, index) => (
-                  <div
-                    key={item.index}
-                    className={`h-[3px] rounded-full transition-all duration-300 ${
-                      index === active
-                        ? "w-9 bg-[#B12025]"
-                        : "w-4 bg-white/30"
-                    }`}
-                  />
-                )
-              )}
-            </div>
+        {/* Scroll indicator */}
+        <div
+          ref={scrollUiRef}
+          className="wch-scroll"
+          style={{ visibility: 'hidden' }}
+          aria-hidden="true"
+        >
+          <div className="wch-scroll-text">SCROLL</div>
+          <div className="wch-track">
+            <div
+              className="wch-fill"
+              style={{ width: `${scrollProgress * 100}%` }}
+            />
+          </div>
+          <div className="wch-counter">
+            {String(currentSection + 1).padStart(2, '0')} /{' '}
+            {String(TOTAL).padStart(2, '0')}
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+// ======================================================
+// STYLES (FirstNotch palette)
+//   Red      #B12025
+//   Charcoal #17191C
+//   White    #FFFFFF
+// ======================================================
+const css = `
+.wch-section {
+  position: relative;
+  height: 360vh;
+  background: #17191C;
+}
+
+.wch-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: #17191C;
+  color: #FFFFFF;
+}
+
+.wch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wch-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, rgba(23,25,28,0) 40%, rgba(23,25,28,.75) 100%),
+    linear-gradient(to bottom, rgba(23,25,28,.55) 0%, rgba(23,25,28,0) 22%, rgba(23,25,28,0) 70%, rgba(23,25,28,.85) 100%);
+}
+
+.wch-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -20%;
+  width: 90vw;
+  height: 55vh;
+  transform: translateX(-50%);
+  pointer-events: none;
+  border-radius: 9999px;
+  background: rgba(177,32,37,.22);
+  filter: blur(120px);
+}
+
+/* Side menu */
+.wch-side-menu {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.wch-menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wch-menu-icon span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #FFFFFF;
+}
+
+.wch-menu-icon span:nth-child(2) {
+  width: 16px;
+  background: #B12025;
+}
+
+.wch-vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .4em;
+  color: rgba(255,255,255,.7);
+}
+
+/* Content */
+.wch-content {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 96px 24px 120px;
+  pointer-events: none;
+}
+
+.wch-block {
+  grid-area: 1 / 1;
+  width: 100%;
+  max-width: 1320px;
+  text-align: center;
+}
+
+.wch-title {
+  margin: 0;
+  font-size: clamp(2.6rem, 9vw, 9rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.055em;
+  color: #FFFFFF;
+  text-shadow: 0 0 60px rgba(177,32,37,.45);
+}
+
+.wch-word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: .1em;
+  vertical-align: bottom;
+}
+
+.wch-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.wch-subtitle {
+  margin-top: 28px;
+}
+
+.wch-line {
+  margin: 0;
+  font-size: clamp(.95rem, 1.7vw, 1.5rem);
+  line-height: 1.6;
+  font-weight: 400;
+  color: rgba(255,255,255,.78);
+}
+
+.wch-line:first-child {
+  color: #FFFFFF;
+}
+
+.wch-line + .wch-line {
+  color: rgba(255,255,255,.7);
+}
+
+/* Scroll indicator */
+.wch-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wch-scroll-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3em;
+  color: rgba(255,255,255,.75);
+}
+
+.wch-track {
+  position: relative;
+  width: 110px;
+  height: 2px;
+  background: rgba(255,255,255,.2);
+}
+
+.wch-fill {
+  height: 100%;
+  background: #B12025;
+  box-shadow: 0 0 12px rgba(177,32,37,.9);
+}
+
+.wch-counter {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.75);
+}
+
+@media (max-width: 767px) {
+  .wch-side-menu { left: 14px; }
+  .wch-content { padding: 88px 20px 110px 44px; }
+  .wch-track { width: 64px; }
+  .wch-scroll { bottom: 24px; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wch-glow { filter: blur(90px); }
+}
+`;

@@ -321,6 +321,7 @@ type TaskId = (typeof taskSamples)[number]['id'];
 // WORD-BY-WORD SCROLL REVEAL
 // ======================================================
 
+
 function RevealTitle({
   text,
   light = false,
@@ -338,6 +339,9 @@ function RevealTitle({
         font-semibold
         leading-[1.11]
         tracking-[-.065em]
+        max-sm:text-[24px]
+        max-sm:leading-[1.1]
+        max-sm:tracking-[-.045em]
         ${light ? 'text-white' : 'text-[#17191C]'}
         ${className}
       `}
@@ -376,11 +380,17 @@ function SectionHeading({
     <div>
       <p
         data-va-fade
-        className={`text-[10px] font-bold uppercase tracking-[.22em] ${
-          light
-            ? 'text-white/70'
-            : 'text-[#B12025]'
-        }`}
+        className={`
+          text-[10px] font-bold uppercase
+          tracking-[.22em]
+          max-sm:text-[8px]
+          max-sm:tracking-[.15em]
+          ${
+            light
+              ? 'text-white/70'
+              : 'text-[#B12025]'
+          }
+        `}
       >
         {eyebrow}
       </p>
@@ -388,17 +398,24 @@ function SectionHeading({
       <RevealTitle
         text={text}
         light={light}
-        className="mt-3 max-w-[1060px]"
+        className="mt-3 max-w-[1060px] max-sm:mt-2"
       />
 
       {subtitle && (
         <p
           data-va-fade
-          className={`mt-4 max-w-[750px] text-[14px] leading-[1.8] ${
-            light
-              ? 'text-white/80'
-              : 'text-[#17191C]/65'
-          }`}
+          className={`
+            mt-4 max-w-[750px]
+            text-[14px] leading-[1.8]
+            max-sm:mt-3
+            max-sm:text-[10px]
+            max-sm:leading-[1.6]
+            ${
+              light
+                ? 'text-white/80'
+                : 'text-[#17191C]/65'
+            }
+          `}
         >
           {subtitle}
         </p>
@@ -456,335 +473,378 @@ export default function VirtualAssistantServicesPage() {
   // GSAP ANIMATIONS
   // ====================================================
 
-  useEffect(() => {
-    const root = rootRef.current;
+ useEffect(() => {
+  const root = rootRef.current;
 
-    if (!root) return;
+  if (!root) return;
 
-    const mm = gsap.matchMedia();
+  const mm = gsap.matchMedia();
 
-    mm.add(
-      '(prefers-reduced-motion: no-preference)',
-      () => {
-        const ctx = gsap.context(() => {
-          // ---------------------------------------------
-          // HERO HEADLINE — RISE LINE BY LINE
-          // ---------------------------------------------
+  // ==================================================
+  // MOBILE — NO TEXT RISING / REVEAL ANIMATIONS
+  // ==================================================
 
-          gsap.fromTo(
-            '[data-va-hero-line]',
-            {
-              yPercent: 110,
-              opacity: 0,
-            },
-            {
-              yPercent: 0,
-              opacity: 1,
-              duration: 1,
-              stagger: 0.13,
-              ease: 'power4.out',
-              clearProps: 'transform,opacity',
-            }
-          );
+  mm.add('(max-width: 639px)', () => {
+    const ctx = gsap.context(() => {
+      // Force all animated text/cards to their final visible state.
+      // This prevents hidden / translated text on mobile.
 
-          // HERO SUPPORTING TEXT
+      gsap.set(
+        [
+          '[data-va-hero-line]',
+          '[data-va-hero-detail]',
+          '[data-va-word]',
+          '[data-va-fade]',
+          '[data-va-rise-card]',
+          '[data-va-quote-word]',
+        ],
+        {
+          y: 0,
+          yPercent: 0,
+          opacity: 1,
+          autoAlpha: 1,
+          visibility: 'visible',
+          clearProps: 'transform',
+        }
+      );
+    }, root);
 
-          gsap.fromTo(
-            '[data-va-hero-detail]',
-            {
-              y: 20,
-              opacity: 0,
-            },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.75,
-              stagger: 0.11,
-              delay: 0.25,
-              ease: 'power3.out',
-              clearProps: 'transform,opacity',
-            }
-          );
+    return () => ctx.revert();
+  });
 
-          // HERO WORKSPACE ENTRANCE
+  // ==================================================
+  // TABLET + DESKTOP ANIMATIONS
+  // 640px AND ABOVE ONLY
+  // ==================================================
 
-          gsap.fromTo(
-            '[data-va-hero-ui]',
-            {
-              y: 42,
-              rotate: -2,
-              opacity: 0,
-            },
-            {
-              y: 0,
-              rotate: 0,
-              opacity: 1,
-              duration: 1.05,
-              delay: 0.3,
-              ease: 'power3.out',
-              clearProps: 'transform,opacity',
-            }
-          );
+  mm.add(
+    '(min-width: 640px) and (prefers-reduced-motion: no-preference)',
+    () => {
+      const ctx = gsap.context(() => {
+        // ---------------------------------------------
+        // HERO HEADLINE — RISE LINE BY LINE
+        // ---------------------------------------------
 
-          // ---------------------------------------------
-          // SCROLL HEADING REVEAL
-          // ---------------------------------------------
+        gsap.fromTo(
+          '[data-va-hero-line]',
+          {
+            yPercent: 110,
+            opacity: 0,
+          },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.13,
+            ease: 'power4.out',
+            clearProps: 'transform,opacity',
+          }
+        );
 
-          gsap.utils
-            .toArray<HTMLElement>('[data-va-title]')
-            .forEach((heading) => {
-              gsap.fromTo(
-                heading.querySelectorAll(
-                  '[data-va-word]'
-                ),
-                {
-                  yPercent: 95,
-                  opacity: 0.22,
-                },
-                {
-                  yPercent: 0,
-                  opacity: 1,
-                  stagger: 0.014,
-                  ease: 'none',
-                  scrollTrigger: {
-                    trigger: heading,
-                    start: 'top 91%',
-                    end: 'bottom 61%',
-                    scrub: 0.65,
-                  },
-                }
-              );
-            });
+        // ---------------------------------------------
+        // HERO SUPPORTING TEXT
+        // ---------------------------------------------
 
-          // EYEBROW AND SUBTITLE REVEAL
+        gsap.fromTo(
+          '[data-va-hero-detail]',
+          {
+            y: 20,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            stagger: 0.11,
+            delay: 0.25,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+          }
+        );
 
-          gsap.utils
-            .toArray<HTMLElement>('[data-va-fade]')
-            .forEach((el) => {
-              gsap.fromTo(
-                el,
-                {
-                  y: 18,
-                  opacity: 0,
-                },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.7,
-                  ease: 'power3.out',
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top 91%',
-                    once: true,
-                  },
-                }
-              );
-            });
+        // ---------------------------------------------
+        // HERO WORKSPACE ENTRANCE
+        // ---------------------------------------------
 
-          // CARD RISE EFFECT
+        gsap.fromTo(
+          '[data-va-hero-ui]',
+          {
+            y: 42,
+            rotate: -2,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            rotate: 0,
+            opacity: 1,
+            duration: 1.05,
+            delay: 0.3,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+          }
+        );
 
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-va-rise-card]'
-            )
-            .forEach((el) => {
-              gsap.fromTo(
-                el,
-                {
-                  y: 22,
-                  opacity: 0,
-                },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.7,
-                  ease: 'power3.out',
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top 92%',
-                    once: true,
-                  },
-                }
-              );
-            });
+        // ---------------------------------------------
+        // SCROLL HEADING REVEAL
+        // ---------------------------------------------
 
-          // ---------------------------------------------
-          // TESTIMONIAL SCROLL REVEAL
-          // ---------------------------------------------
-
-          gsap.fromTo(
-            '[data-va-quote-word]',
-            {
-              opacity: 0.18,
-              y: 12,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              ease: 'none',
-              stagger: 0.017,
-              scrollTrigger: {
-                trigger: '#va-quote',
-                start: 'top 79%',
-                end: 'bottom 58%',
-                scrub: 0.7,
+        gsap.utils
+          .toArray<HTMLElement>('[data-va-title]')
+          .forEach((heading) => {
+            gsap.fromTo(
+              heading.querySelectorAll('[data-va-word]'),
+              {
+                yPercent: 95,
+                opacity: 0.22,
               },
-            }
-          );
+              {
+                yPercent: 0,
+                opacity: 1,
+                stagger: 0.014,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: heading,
+                  start: 'top 91%',
+                  end: 'bottom 61%',
+                  scrub: 0.65,
+                },
+              }
+            );
+          });
 
-          // ---------------------------------------------
-          // COUNT-UP STATISTICS
-          // ---------------------------------------------
+        // ---------------------------------------------
+        // EYEBROW AND SUBTITLE REVEAL
+        // ---------------------------------------------
 
-          gsap.utils
-            .toArray<HTMLElement>('[data-va-stat]')
-            .forEach((el) => {
-              const counter = {
-                value: 0,
-              };
-
-              gsap.to(counter, {
-                value: Number(
-                  el.dataset.vaStat ?? 0
-                ),
-                duration: 1.55,
-                ease: 'power2.out',
+        gsap.utils
+          .toArray<HTMLElement>('[data-va-fade]')
+          .forEach((el) => {
+            gsap.fromTo(
+              el,
+              {
+                y: 18,
+                opacity: 0,
+              },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
                 scrollTrigger: {
                   trigger: el,
                   start: 'top 91%',
                   once: true,
                 },
-                onUpdate: () => {
-                  el.textContent = String(
-                    Math.round(counter.value)
-                  );
-                },
-              });
-            });
-
-          // PROCESS TIMELINE
-
-          gsap.fromTo(
-            '[data-va-process-progress]',
-            {
-              scaleX: 0,
-            },
-            {
-              scaleX: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: '#va-process',
-                start: 'top 83%',
-                end: 'bottom 54%',
-                scrub: true,
-              },
-            }
-          );
-
-          // PAGE SCROLL PROGRESS
-
-          gsap.fromTo(
-            '[data-va-scroll-progress]',
-            {
-              scaleX: 0,
-            },
-            {
-              scaleX: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: root,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: true,
-              },
-            }
-          );
-
-          // DECORATIVE PARALLAX
-
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-va-parallax]'
-            )
-            .forEach((el) => {
-              gsap.fromTo(
-                el,
-                {
-                  y: -18,
-                },
-                {
-                  y: 26,
-                  ease: 'none',
-                  scrollTrigger: {
-                    trigger:
-                      el.closest('section') ?? el,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1.3,
-                  },
-                }
-              );
-            });
-        }, root);
-
-        return () => ctx.revert();
-      }
-    );
-
-    // ==================================================
-    // DESKTOP PINNED GSAP HORIZONTAL CARDS
-    // MOBILE AND TABLET USE NATIVE SWIPE
-    // ==================================================
-
-    mm.add(
-      '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
-      () => {
-        const section = horizontalRef.current;
-
-        const track = trackRef.current;
-
-        if (!section || !track) return;
-
-        const ctx = gsap.context(() => {
-          const distance = () =>
-            Math.max(
-              0,
-              track.scrollWidth -
-                window.innerWidth +
-                28
+              }
             );
+          });
 
-          gsap.to(track, {
-            x: () => -distance(),
+        // ---------------------------------------------
+        // CARD RISE EFFECT
+        // ---------------------------------------------
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-va-rise-card]')
+          .forEach((el) => {
+            gsap.fromTo(
+              el,
+              {
+                y: 22,
+                opacity: 0,
+              },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 92%',
+                  once: true,
+                },
+              }
+            );
+          });
+
+        // ---------------------------------------------
+        // TESTIMONIAL SCROLL REVEAL
+        // ---------------------------------------------
+
+        gsap.fromTo(
+          '[data-va-quote-word]',
+          {
+            opacity: 0.18,
+            y: 12,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            ease: 'none',
+            stagger: 0.017,
+            scrollTrigger: {
+              trigger: '#va-quote',
+              start: 'top 79%',
+              end: 'bottom 58%',
+              scrub: 0.7,
+            },
+          }
+        );
+
+        // ---------------------------------------------
+        // COUNT-UP STATISTICS
+        // ---------------------------------------------
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-va-stat]')
+          .forEach((el) => {
+            const counter = {
+              value: 0,
+            };
+
+            gsap.to(counter, {
+              value: Number(el.dataset.vaStat ?? 0),
+              duration: 1.55,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 91%',
+                once: true,
+              },
+              onUpdate: () => {
+                el.textContent = String(
+                  Math.round(counter.value)
+                );
+              },
+            });
+          });
+
+        // ---------------------------------------------
+        // PROCESS TIMELINE
+        // ---------------------------------------------
+
+        gsap.fromTo(
+          '[data-va-process-progress]',
+          {
+            scaleX: 0,
+          },
+          {
+            scaleX: 1,
             ease: 'none',
             scrollTrigger: {
-              trigger: section,
-              start: 'top top+=80',
-              end: () =>
-                `+=${Math.max(1, distance())}`,
-              pin: true,
-              anticipatePin: 1,
-              scrub: 1,
-              invalidateOnRefresh: true,
-              onUpdate: (self) =>
-                setCardIndex(
-                  Math.min(
-                    7,
-                    Math.round(
-                      self.progress * 7
-                    )
-                  )
-                ),
+              trigger: '#va-process',
+              start: 'top 83%',
+              end: 'bottom 54%',
+              scrub: true,
             },
+          }
+        );
+
+        // ---------------------------------------------
+        // PAGE SCROLL PROGRESS
+        // ---------------------------------------------
+
+        gsap.fromTo(
+          '[data-va-scroll-progress]',
+          {
+            scaleX: 0,
+          },
+          {
+            scaleX: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: root,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: true,
+            },
+          }
+        );
+
+        // ---------------------------------------------
+        // DECORATIVE PARALLAX
+        // ---------------------------------------------
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-va-parallax]')
+          .forEach((el) => {
+            gsap.fromTo(
+              el,
+              {
+                y: -18,
+              },
+              {
+                y: 26,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger:
+                    el.closest('section') ?? el,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 1.3,
+                },
+              }
+            );
           });
-        }, section);
+      }, root);
 
-        return () => ctx.revert();
-      }
-    );
+      return () => ctx.revert();
+    }
+  );
 
-    return () => mm.revert();
-  }, []);
+  // ==================================================
+  // DESKTOP PINNED GSAP HORIZONTAL CARDS
+  // MOBILE AND TABLET USE NATIVE SWIPE
+  // ==================================================
+
+  mm.add(
+    '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
+    () => {
+      const section = horizontalRef.current;
+
+      const track = trackRef.current;
+
+      if (!section || !track) return;
+
+      const ctx = gsap.context(() => {
+        const distance = () =>
+          Math.max(
+            0,
+            track.scrollWidth -
+              window.innerWidth +
+              28
+          );
+
+        gsap.to(track, {
+          x: () => -distance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top+=80',
+            end: () =>
+              `+=${Math.max(1, distance())}`,
+            pin: true,
+            anticipatePin: 1,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) =>
+              setCardIndex(
+                Math.min(
+                  7,
+                  Math.round(
+                    self.progress * 7
+                  )
+                )
+              ),
+          },
+        });
+      }, section);
+
+      return () => ctx.revert();
+    }
+  );
+
+  return () => mm.revert();
+}, []);
 
   // ====================================================
   // FAQ JSON-LD
@@ -836,7 +896,7 @@ export default function VirtualAssistantServicesPage() {
           INTERACTIVE INBOX AND CALENDAR
       ============================================== */}
 
-      <section className="relative overflow-hidden bg-white px-5 pb-16 pt-12 sm:px-8 lg:px-14 lg:pb-[75px] lg:pt-[70px]">
+      <section className="relative overflow-hidden bg-white px-5 pb-16 pt-12 max-sm:pb-7 max-sm:pt-[72px] sm:px-8 lg:px-14 lg:pb-[75px] lg:pt-[70px]">
         {/* Decorative background */}
 
         <div
@@ -845,7 +905,7 @@ export default function VirtualAssistantServicesPage() {
           className="pointer-events-none absolute -right-[190px] -top-[190px] h-[650px] w-[650px] rounded-full border border-[#B12025]/10"
         />
 
-        <div className="relative mx-auto grid max-w-[1420px] items-center gap-10 lg:grid-cols-[1.08fr_.92fr] lg:gap-12">
+        <div className="relative mx-auto grid max-w-[1420px] items-center gap-10 max-sm:gap-5 lg:grid-cols-[1.08fr_.92fr] lg:gap-12">
           {/* LEFT HERO TEXT */}
 
           <div>
@@ -860,8 +920,7 @@ export default function VirtualAssistantServicesPage() {
 
             {/* RISING H1 */}
 
-            <h1 className="mt-5 max-w-[830px] text-[clamp(2rem,4.65vw,5.45rem)] font-semibold leading-[1.065] tracking-[-.065em] text-[#B12025]">
-              {[
+<h1 className="mt-5 max-w-[830px] text-[clamp(2rem,4.65vw,5.45rem)] font-semibold leading-[1.065] tracking-[-.065em] text-[#B12025] max-sm:mt-3 max-sm:text-[28px] max-sm:leading-[1.06] max-sm:tracking-[-.05em]">              {[
                 'An assistant who',
                 'manages your calendar',
                 'and inbox, so you can',
@@ -902,16 +961,14 @@ export default function VirtualAssistantServicesPage() {
             >
               <a
                 href="#contact"
-                className="inline-flex min-h-[47px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-bold text-white transition hover:bg-[#94191E]"
-              >
+className="inline-flex min-h-[47px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-bold text-white transition hover:bg-[#94191E] max-sm:min-h-[38px] max-sm:min-w-0 max-sm:flex-1 max-sm:justify-center max-sm:gap-1 max-sm:px-2 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 Book a free discovery call
                 <ArrowUpRight size={16} />
               </a>
 
               <a
                 href="#va-included"
-                className="inline-flex min-h-[47px] items-center gap-2 rounded-full border border-[#B12025]/35 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#FFF1F1]"
-              >
+className="inline-flex min-h-[47px] items-center gap-2 rounded-full border border-[#B12025]/35 px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#FFF1F1] max-sm:min-h-[38px] max-sm:min-w-0 max-sm:flex-1 max-sm:justify-center max-sm:gap-1 max-sm:px-2 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
                 See what is included
                 <ArrowDown size={16} />
               </a>
@@ -919,8 +976,7 @@ export default function VirtualAssistantServicesPage() {
 
             <p
               data-va-hero-detail
-              className="mt-6 flex items-center gap-2 text-[11px] text-[#17191C]/55"
-            >
+className="mt-6 flex items-center gap-2 text-[11px] text-[#17191C]/55 max-sm:mt-3 max-sm:text-[9px]"            >
               <LockKeyhole
                 size={14}
                 className="text-[#B12025]"
@@ -931,16 +987,16 @@ export default function VirtualAssistantServicesPage() {
 
           {/* RIGHT HERO INTERACTIVE WORKSPACE */}
 
-          <div
-            data-va-hero-ui
-            className="relative mx-auto w-full max-w-[570px]"
-          >
+<div
+  data-va-hero-ui
+  className="relative mx-auto w-full max-w-[570px] max-sm:hidden"
+>
             <div
               aria-hidden="true"
               className="absolute -inset-3 rounded-[36px] border border-dashed border-[#B12025]/15"
             />
 
-            <div className="relative rounded-[26px] border border-[#B12025]/15 bg-[#FAF8F8] p-4 shadow-[0_28px_65px_rgba(92,21,28,.09)] sm:p-6">
+            <div className="relative rounded-[26px] border border-[#B12025]/15 bg-[#FAF8F8] p-4 shadow-[0_28px_65px_rgba(92,21,28,.09)] max-sm:rounded-[18px] max-sm:p-3 sm:p-6">
               {/* Workspace header */}
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#B12025]/15 pb-4">
@@ -964,7 +1020,7 @@ export default function VirtualAssistantServicesPage() {
               <div
                 role="tablist"
                 aria-label="Sample assistant workspace"
-                className="mt-5 flex flex-wrap gap-2"
+                className="mt-5 flex flex-wrap gap-2 max-sm:mt-3 max-sm:gap-1.5"
               >
                 {(
                   [
@@ -994,7 +1050,7 @@ export default function VirtualAssistantServicesPage() {
 
               <div
                 role="tabpanel"
-                className="mt-4 min-h-[295px] rounded-[19px] bg-white p-5 sm:p-6"
+                className="mt-4 min-h-[295px] rounded-[19px] bg-white p-5 max-sm:mt-3 max-sm:min-h-0 max-sm:rounded-[14px] max-sm:p-3 sm:p-6"
               >
                 {/* MORNING BRIEF */}
 
@@ -1178,645 +1234,1433 @@ export default function VirtualAssistantServicesPage() {
         </div>
       </section>
 
-      {/* ==============================================
-          02 — PINNED HORIZONTAL SERVICE CARDS
-      ============================================== */}
+{/* ==============================================
+    02 — PINNED HORIZONTAL SERVICE CARDS
+============================================== */}
 
-      <section
-        ref={horizontalRef}
-        id="va-included"
-        className="relative scroll-mt-20 overflow-hidden bg-[#B12025] py-14 text-white lg:py-12"
-      >
-        <div className="mx-auto max-w-[1420px] px-5 sm:px-8 lg:px-14">
-          <SectionHeading
-            eyebrow="01 / Everything handled"
-            text="What the virtual assistant service includes"
-            light
-            subtitle="Eight ways to give yourself more time, with your processes and approvals kept in place."
-          />
+<section
+  ref={horizontalRef}
+  id="va-included"
+  className="
+    relative scroll-mt-20 overflow-hidden
+    bg-[#B12025] py-14 text-white
+    max-sm:py-8
+    lg:py-12
+  "
+>
+  <div className="mx-auto max-w-[1420px] px-5 sm:px-8 lg:px-14">
+    <SectionHeading
+      eyebrow="01 / Everything handled"
+      text="What the virtual assistant service includes"
+      light
+      subtitle="Eight ways to give yourself more time, with your processes and approvals kept in place."
+    />
 
-          <p className="mt-5 flex items-center gap-2 text-[11px] uppercase tracking-[.14em] text-white/70">
-            <ArrowRight size={15} />
+    <p
+      className="
+        mt-5 flex items-center gap-2
+        text-[11px] uppercase tracking-[.14em]
+        text-white/70
+        max-sm:mt-3
+        max-sm:text-[9px]
+        max-sm:tracking-[.1em]
+      "
+    >
+      <ArrowRight
+        size={15}
+        className="max-sm:h-[12px] max-sm:w-[12px]"
+      />
 
-            <span className="hidden lg:inline">
-              Scroll down to explore sideways
-            </span>
+      <span className="hidden lg:inline">
+        Scroll down to explore sideways
+      </span>
 
-            <span className="lg:hidden">
-              Swipe the cards to explore
-            </span>
-          </p>
-        </div>
+      <span className="lg:hidden">
+        Swipe the cards to explore
+      </span>
+    </p>
+  </div>
 
-        {/* MOBILE SWIPE / DESKTOP GSAP */}
+  {/* MOBILE SWIPE / DESKTOP GSAP */}
 
-        <div
-          className="mt-6 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:snap-none lg:overflow-visible"
-          onScroll={(e) => {
-            if (window.innerWidth >= 1024) return;
+  <div
+    className="
+      mt-6 snap-x snap-mandatory
+      overflow-x-auto overscroll-x-contain
+      max-sm:mt-4
+      [scrollbar-width:none]
+      [&::-webkit-scrollbar]:hidden
+      lg:snap-none lg:overflow-visible
+    "
+    onScroll={(e) => {
+      if (window.innerWidth >= 1024) return;
 
-            const node = e.currentTarget;
+      const node = e.currentTarget;
 
-            const max =
-              node.scrollWidth -
-              node.clientWidth;
+      const max =
+        node.scrollWidth - node.clientWidth;
 
-            if (max > 0) {
-              setCardIndex(
-                Math.min(
-                  7,
-                  Math.round(
-                    (node.scrollLeft / max) * 7
-                  )
-                )
-              );
-            }
-          }}
+      if (max > 0) {
+        setCardIndex(
+          Math.min(
+            services.length - 1,
+            Math.round(
+              (node.scrollLeft / max) *
+                (services.length - 1)
+            )
+          )
+        );
+      }
+    }}
+  >
+    <div
+      ref={trackRef}
+      className="
+        flex w-max gap-4 px-5
+        max-sm:gap-3
+        sm:gap-5 sm:px-8
+        lg:gap-6 lg:px-14
+      "
+    >
+      {services.map((s) => (
+        <article
+          key={s.n}
+          className="
+            group flex min-h-[330px]
+            w-[min(86vw,440px)] shrink-0
+            snap-center flex-col justify-between
+            rounded-[23px] bg-white p-6
+            text-[#17191C]
+            shadow-[0_16px_40px_rgba(70,12,18,.14)]
+            transition-transform duration-300
+            hover:-translate-y-1
+
+            max-sm:min-h-[230px]
+            max-sm:w-[74vw]
+            max-sm:max-w-[260px]
+            max-sm:rounded-[18px]
+            max-sm:p-4
+
+            sm:w-[440px] sm:p-8
+            lg:min-h-[360px] lg:w-[465px]
+          "
         >
-          <div
-            ref={trackRef}
-            className="flex w-max gap-4 px-5 sm:gap-5 sm:px-8 lg:gap-6 lg:px-14"
-          >
-            {services.map((s) => (
-              <article
-                key={s.n}
-                className="group flex min-h-[330px] w-[min(86vw,440px)] shrink-0 snap-center flex-col justify-between rounded-[23px] bg-white p-6 text-[#17191C] shadow-[0_16px_40px_rgba(70,12,18,.14)] transition-transform duration-300 hover:-translate-y-1 sm:w-[440px] sm:p-8 lg:min-h-[360px] lg:w-[465px]"
+          <div>
+            {/* NUMBER AND ICON */}
+
+            <div className="flex items-start justify-between gap-3">
+              <span
+                className="
+                  font-mono text-[12px] text-[#B12025]
+                  max-sm:text-[10px]
+                "
               >
-                <div>
-                  {/* CARD TOP */}
-
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="font-mono text-[12px] text-[#B12025]">
-                      {s.n} / 08
-                    </span>
-
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FFF1F1] text-[#B12025]">
-                      <s.Icon
-                        size={26}
-                        strokeWidth={1.7}
-                      />
-                    </span>
-                  </div>
-
-                  <p className="mt-5 text-[10px] font-bold tracking-[.2em] text-[#B12025]">
-                    {s.label}
-                  </p>
-
-                  <h3 className="mt-2 text-[clamp(1.7rem,2.1vw,2.35rem)] font-semibold leading-[1.13] tracking-[-.05em]">
-                    {s.title}
-                  </h3>
-
-                  <p className="mt-4 text-[13px] leading-[1.8] text-[#17191C]/65">
-                    {s.copy}
-                  </p>
-                </div>
-
-                {/* CARD CHECKLIST */}
-
-                <ul className="mt-5 space-y-2 border-t border-[#17191C]/10 pt-4">
-                  {s.checks.map((c) => (
-                    <li
-                      key={c}
-                      className="flex items-center gap-2 text-[11px] text-[#17191C]/65"
-                    >
-                      <Check
-                        size={14}
-                        className="shrink-0 text-[#B12025]"
-                      />
-
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        {/* SCROLL PROGRESS */}
-
-        <div className="mx-auto mt-6 max-w-[1420px] px-5 sm:px-8 lg:px-14">
-          <div className="h-[3px] overflow-hidden rounded-full bg-white/25">
-            <div
-              className="h-full bg-white transition-[width] duration-150"
-              style={{
-                width: `${
-                  ((cardIndex + 1) * 100) /
-                  services.length
-                }%`,
-              }}
-            />
-          </div>
-
-          <p className="mt-2 font-mono text-[10px] text-white/70">
-            {String(cardIndex + 1).padStart(
-              2,
-              '0'
-            )}{' '}
-            / 08 · {services[cardIndex].title}
-          </p>
-        </div>
-      </section>
-
-      {/* ==============================================
-          03 — INTERACTIVE TASK WORKFLOW
-      ============================================== */}
-
-      <section
-        id="va-demo"
-        className="relative overflow-hidden bg-[#F8F7F7] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
-      >
-        <div
-          data-va-parallax
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-28 top-0 h-[400px] w-[400px] rounded-full border border-[#B12025]/10"
-        />
-
-        <div className="relative mx-auto grid max-w-[1420px] items-start gap-8 lg:grid-cols-[.92fr_1.08fr] lg:gap-14">
-          {/* LEFT HEADING */}
-
-          <div className="lg:sticky lg:top-[115px]">
-            <SectionHeading
-              eyebrow="02 / Working together"
-              text="One assistant. A clear view of every task"
-              subtitle="The assistant works in the tools you already use. Try the sample task board to see how work moves from request to review."
-            />
-
-            {/* TASK SELECTOR */}
-
-            <div className="mt-7 border-t border-[#B12025]/20">
-              {taskSamples.map((task) => (
-                <button
-                  type="button"
-                  key={task.id}
-                  onClick={() =>
-                    setSelectedTask(task.id)
-                  }
-                  aria-pressed={
-                    selectedTask === task.id
-                  }
-                  className={`flex w-full items-center justify-between gap-3 border-b border-[#B12025]/15 py-4 text-left text-[13px] font-semibold transition ${
-                    selectedTask === task.id
-                      ? 'text-[#B12025]'
-                      : 'text-[#17191C]/65 hover:text-[#B12025]'
-                  }`}
-                >
-                  <span>{task.title}</span>
-
-                  <ArrowRight
-                    size={17}
-                    className="shrink-0"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT WORKFLOW PANEL */}
-
-          <div
-            data-va-rise-card
-            className="rounded-[24px] border border-[#B12025]/15 bg-white p-5 shadow-[0_15px_50px_rgba(88,15,23,.06)] sm:p-8"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#B12025]/15 pb-4">
-              <span className="font-mono text-[10px] text-[#17191C]/50">
-                {selectedTask} / SAMPLE WORKFLOW
+                {s.n} / 08
               </span>
 
-              <span className="rounded-full bg-[#FFF1F1] px-3 py-1.5 text-[10px] font-semibold text-[#B12025]">
-                Not connected to your accounts
+              <span
+                className="
+                  flex h-14 w-14 items-center
+                  justify-center rounded-full
+                  bg-[#FFF1F1] text-[#B12025]
+                  max-sm:h-9 max-sm:w-9
+                "
+              >
+                <s.Icon
+                  size={26}
+                  strokeWidth={1.7}
+                  className="
+                    max-sm:h-[17px]
+                    max-sm:w-[17px]
+                  "
+                />
               </span>
             </div>
 
-            <h3 className="mt-6 text-[clamp(1.6rem,2.7vw,2.75rem)] font-semibold tracking-[-.055em]">
-              {chosenTask.title}
-            </h3>
-
-            <p className="mt-2 text-[12px] text-[#17191C]/60">
-              {chosenTask.group} · Your approved workflow
-            </p>
-
-            {/* WORKFLOW STAGES */}
-
-            <div className="mt-6 grid grid-cols-3 gap-2">
-              {(
-                [
-                  ['new', 'Received'],
-                  ['in-progress', 'In progress'],
-                  ['done', 'QA checked'],
-                ] as const
-              ).map(([value, title], index) => (
-                <div
-                  key={value}
-                  className={`rounded-[13px] p-3 text-center ${
-                    status === value
-                      ? 'bg-[#B12025] text-white'
-                      : 'bg-[#FFF4F4] text-[#B12025]/65'
-                  }`}
-                >
-                  <span className="font-mono text-[11px]">
-                    0{index + 1}
-                  </span>
-
-                  <p className="mt-2 text-[11px] font-semibold">
-                    {title}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {/* SERVICE LABEL */}
 
             <p
-              role="status"
-              className="mt-5 flex items-center gap-2 text-[12px] text-[#17191C]/70"
+              className="
+                mt-5 text-[10px] font-bold
+                tracking-[.2em] text-[#B12025]
+                max-sm:mt-3
+                max-sm:text-[8px]
+                max-sm:tracking-[.14em]
+              "
             >
-              <CheckCircle2
-                size={17}
-                className="text-[#B12025]"
+              {s.label}
+            </p>
+
+            {/* SERVICE HEADING */}
+
+            <h3
+              className="
+                mt-2
+                text-[clamp(1.7rem,2.1vw,2.35rem)]
+                font-semibold leading-[1.13]
+                tracking-[-.05em]
+                max-sm:mt-1.5
+                max-sm:text-[17px]
+                max-sm:leading-[1.15]
+              "
+            >
+              {s.title}
+            </h3>
+
+            {/* DESCRIPTION */}
+
+            <p
+              className="
+                mt-4 text-[13px] leading-[1.8]
+                text-[#17191C]/65
+                max-sm:mt-2
+                max-sm:text-[9px]
+                max-sm:leading-[1.5]
+              "
+            >
+              {s.copy}
+            </p>
+          </div>
+
+          {/* CHECKLIST */}
+
+          <ul
+            className="
+              mt-5 space-y-2 border-t
+              border-[#17191C]/10 pt-4
+              max-sm:mt-3
+              max-sm:space-y-1.5
+              max-sm:pt-3
+            "
+          >
+            {s.checks.map((c) => (
+              <li
+                key={c}
+                className="
+                  flex items-center gap-2
+                  text-[11px] text-[#17191C]/65
+                  max-sm:gap-1.5
+                  max-sm:text-[9px]
+                  max-sm:leading-[1.35]
+                "
+              >
+                <Check
+                  size={14}
+                  className="
+                    shrink-0 text-[#B12025]
+                    max-sm:h-[11px]
+                    max-sm:w-[11px]
+                  "
+                />
+
+                {c}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  {/* SCROLL PROGRESS */}
+
+  <div
+    className="
+      mx-auto mt-6 max-w-[1420px]
+      px-5 max-sm:mt-4
+      sm:px-8 lg:px-14
+    "
+  >
+    <div className="h-[3px] overflow-hidden rounded-full bg-white/25">
+      <div
+        className="h-full bg-white transition-[width] duration-150"
+        style={{
+          width: `${
+            ((cardIndex + 1) * 100) /
+            services.length
+          }%`,
+        }}
+      />
+    </div>
+
+    <p
+      className="
+        mt-2 font-mono text-[10px] text-white/70
+        max-sm:text-[9px]
+      "
+    >
+      {String(cardIndex + 1).padStart(2, '0')}{' '}
+      / 08 · {services[cardIndex].title}
+    </p>
+  </div>
+</section>
+
+
+{/* ==============================================
+    03 — INTERACTIVE TASK WORKFLOW
+============================================== */}
+
+<section
+  id="va-demo"
+  className="
+    relative overflow-hidden bg-[#F8F7F7]
+    px-5 py-16
+    max-sm:py-8
+    sm:px-8
+    lg:px-14 lg:py-20
+  "
+>
+  {/* DECORATIVE BACKGROUND */}
+
+  <div
+    data-va-parallax
+    aria-hidden="true"
+    className="
+      pointer-events-none absolute
+      -right-28 top-0
+      h-[400px] w-[400px]
+      rounded-full border border-[#B12025]/10
+      max-sm:hidden
+    "
+  />
+
+  {/* MAIN GRID */}
+
+  <div
+    className="
+      relative mx-auto grid max-w-[1420px]
+      items-start gap-8
+      max-sm:gap-5
+      lg:grid-cols-[.92fr_1.08fr]
+      lg:gap-14
+    "
+  >
+    {/* ==========================================
+        LEFT — HEADING AND TASK SELECTOR
+    ========================================== */}
+
+    <div className="lg:sticky lg:top-[115px]">
+      <SectionHeading
+        eyebrow="02 / Working together"
+        text="One assistant. A clear view of every task"
+        subtitle="The assistant works in the tools you already use. Try the sample task board to see how work moves from request to review."
+      />
+
+      {/* TASK SELECTOR */}
+
+      <div
+        className="
+          mt-7
+          border-t border-[#B12025]/20
+          max-sm:mt-4
+        "
+      >
+        {taskSamples.map((task) => (
+          <button
+            type="button"
+            key={task.id}
+            onClick={() => setSelectedTask(task.id)}
+            aria-pressed={selectedTask === task.id}
+            className={`
+              flex w-full items-center
+              justify-between gap-3
+              border-b border-[#B12025]/15
+              py-4 text-left text-[13px]
+              font-semibold transition
+
+              max-sm:gap-2
+              max-sm:py-2.5
+              max-sm:text-[11px]
+
+              ${
+                selectedTask === task.id
+                  ? 'text-[#B12025]'
+                  : 'text-[#17191C]/65 hover:text-[#B12025]'
+              }
+            `}
+          >
+            <span className="min-w-0 flex-1">
+              {task.title}
+            </span>
+
+            <ArrowRight
+              size={17}
+              className="
+                shrink-0
+                max-sm:h-[13px]
+                max-sm:w-[13px]
+              "
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* ==========================================
+        RIGHT — INTERACTIVE WORKFLOW PANEL
+    ========================================== */}
+
+    <div
+      data-va-rise-card
+      className="
+        rounded-[24px]
+        border border-[#B12025]/15
+        bg-white p-5
+        shadow-[0_15px_50px_rgba(88,15,23,.06)]
+
+        max-sm:rounded-[18px]
+        max-sm:p-4
+
+        sm:p-8
+      "
+    >
+      {/* WORKFLOW HEADER */}
+
+      <div
+        className="
+          flex flex-wrap items-center
+          justify-between gap-2
+          border-b border-[#B12025]/15
+          pb-4
+
+          max-sm:gap-2
+          max-sm:pb-3
+        "
+      >
+        <span
+          className="
+            font-mono text-[10px]
+            text-[#17191C]/50
+            max-sm:text-[9px]
+          "
+        >
+          {selectedTask} / SAMPLE WORKFLOW
+        </span>
+
+        <span
+          className="
+            rounded-full
+            bg-[#FFF1F1]
+            px-3 py-1.5
+            text-[10px]
+            font-semibold
+            text-[#B12025]
+
+            max-sm:px-2
+            max-sm:py-1
+            max-sm:text-[8px]
+          "
+        >
+          Not connected to your accounts
+        </span>
+      </div>
+
+      {/* SELECTED TASK HEADING */}
+
+      <h3
+        className="
+          mt-6
+          text-[clamp(1.6rem,2.7vw,2.75rem)]
+          font-semibold
+          tracking-[-.055em]
+
+          max-sm:mt-4
+          max-sm:text-[20px]
+          max-sm:leading-[1.15]
+          max-sm:tracking-[-.04em]
+        "
+      >
+        {chosenTask.title}
+      </h3>
+
+      {/* TASK DESCRIPTION */}
+
+      <p
+        className="
+          mt-2 text-[12px]
+          text-[#17191C]/60
+
+          max-sm:mt-1
+          max-sm:text-[9px]
+          max-sm:leading-[1.5]
+        "
+      >
+        {chosenTask.group} · Your approved workflow
+      </p>
+
+      {/* ==========================================
+          WORKFLOW STAGES
+
+          MOBILE:
+          THREE COMPACT CARDS IN ONE ROW
+      ========================================== */}
+
+      <div
+        className="
+          mt-6
+          grid grid-cols-3
+          gap-2
+
+          max-sm:mt-4
+          max-sm:gap-1.5
+        "
+      >
+        {(
+          [
+            ['new', 'Received'],
+            ['in-progress', 'In progress'],
+            ['done', 'QA checked'],
+          ] as const
+        ).map(([value, title], index) => (
+          <div
+            key={value}
+            className={`
+              rounded-[13px]
+              p-3
+              text-center
+
+              max-sm:rounded-[10px]
+              max-sm:p-2
+
+              ${
+                status === value
+                  ? 'bg-[#B12025] text-white'
+                  : 'bg-[#FFF4F4] text-[#B12025]/65'
+              }
+            `}
+          >
+            {/* STAGE NUMBER */}
+
+            <span
+              className="
+                font-mono text-[11px]
+                max-sm:text-[9px]
+              "
+            >
+              0{index + 1}
+            </span>
+
+            {/* STAGE NAME */}
+
+            <p
+              className="
+                mt-2
+                text-[11px]
+                font-semibold
+
+                max-sm:mt-1
+                max-sm:text-[9px]
+                max-sm:leading-[1.25]
+              "
+            >
+              {title}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* ==========================================
+          CURRENT STATUS
+      ========================================== */}
+
+      <p
+        role="status"
+        aria-live="polite"
+        className="
+          mt-5
+          flex items-center gap-2
+          text-[12px]
+          text-[#17191C]/70
+
+          max-sm:mt-3
+          max-sm:gap-1.5
+          max-sm:text-[10px]
+        "
+      >
+        <CheckCircle2
+          size={17}
+          className="
+            shrink-0
+            text-[#B12025]
+            max-sm:h-[14px]
+            max-sm:w-[14px]
+          "
+        />
+
+        Current state: {statusLabel[status]}
+      </p>
+
+      {/* ==========================================
+          TASK ACTION BUTTONS
+
+          MOBILE:
+          BOTH BUTTONS IN ONE ROW
+      ========================================== */}
+
+      <div
+        className="
+          mt-6
+          flex flex-wrap gap-2
+          border-t border-[#B12025]/15
+          pt-5
+
+          max-sm:mt-4
+          max-sm:flex-nowrap
+          max-sm:gap-2
+          max-sm:pt-3
+        "
+      >
+        {/* MOVE TO NEXT STAGE */}
+
+        <button
+          type="button"
+          disabled={status === 'done'}
+          onClick={() =>
+            setTasks((old) => ({
+              ...old,
+              [selectedTask]:
+                old[selectedTask] === 'new'
+                  ? 'in-progress'
+                  : 'done',
+            }))
+          }
+          className="
+            inline-flex
+            min-h-[43px]
+            items-center gap-2
+            rounded-full
+            bg-[#B12025]
+            px-5
+            text-[11px]
+            font-bold text-white
+            transition
+            hover:bg-[#94191E]
+
+            disabled:cursor-not-allowed
+            disabled:opacity-50
+
+            max-sm:min-h-[36px]
+            max-sm:min-w-0
+            max-sm:flex-1
+            max-sm:justify-center
+            max-sm:gap-1
+            max-sm:px-2
+            max-sm:text-[9px]
+            max-sm:whitespace-nowrap
+          "
+        >
+          <span>
+            {status === 'done'
+              ? 'Review completed'
+              : 'Move to next stage'}
+          </span>
+
+          <ArrowRight
+            size={15}
+            className="
+              shrink-0
+              max-sm:h-[12px]
+              max-sm:w-[12px]
+            "
+          />
+        </button>
+
+        {/* RESET EXAMPLE */}
+
+        <button
+          type="button"
+          onClick={() =>
+            setTasks((old) => ({
+              ...old,
+              [selectedTask]: 'new',
+            }))
+          }
+          className="
+            inline-flex
+            min-h-[43px]
+            items-center gap-2
+            rounded-full
+            border border-[#B12025]/35
+            px-5
+            text-[11px]
+            font-bold
+            text-[#B12025]
+            transition
+            hover:bg-[#FFF1F1]
+
+            max-sm:min-h-[36px]
+            max-sm:shrink-0
+            max-sm:justify-center
+            max-sm:gap-1
+            max-sm:px-3
+            max-sm:text-[9px]
+            max-sm:whitespace-nowrap
+          "
+        >
+          <RotateCcw
+            size={14}
+            className="
+              shrink-0
+              max-sm:h-[12px]
+              max-sm:w-[12px]
+            "
+          />
+
+          Reset example
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      
+{/* ==============================================
+    04 — NUMBERS / REPORTING
+============================================== */}
+
+<section
+  id="va-reporting"
+  className="
+    bg-white px-5 py-16
+    max-sm:py-8
+    sm:px-8
+    lg:px-14 lg:py-20
+  "
+>
+  <div className="mx-auto max-w-[1420px]">
+    <SectionHeading
+      eyebrow="03 / Visibility"
+      text="The numbers you will see"
+      subtitle="Your monthly summary shows the hours used on each type of task, the work finished and what is still awaiting your attention."
+    />
+
+    {/* HORIZONTAL METRIC CARDS */}
+
+    <div
+      className="
+        mt-8 grid gap-3
+
+        max-sm:-mx-5
+        max-sm:mt-5
+        max-sm:flex
+        max-sm:snap-x
+        max-sm:snap-mandatory
+        max-sm:overflow-x-auto
+        max-sm:overscroll-x-contain
+        max-sm:touch-pan-x
+        max-sm:px-5
+        max-sm:pb-2
+        max-sm:[scrollbar-width:none]
+        max-sm:[&::-webkit-scrollbar]:hidden
+
+        sm:grid-cols-2
+        lg:grid-cols-4
+      "
+    >
+      {report.map((metric, i) => (
+        <article
+          key={metric.title}
+          data-va-rise-card
+          className={`
+            group rounded-[19px]
+            border border-[#E7E2E2]
+            bg-[#FBFAFA] p-5
+            transition-transform duration-300
+            hover:-translate-y-1
+            hover:border-[#B12025]/40
+
+max-sm:min-h-[155px]
+max-sm:w-[70vw]
+max-sm:max-w-[225px]
+max-sm:shrink-0
+max-sm:snap-start
+max-sm:first:ml-[32px]
+max-sm:last:mr-[20px]
+max-sm:rounded-[16px]
+max-sm:p-4
+
+            ${i === 4 ? 'lg:col-span-4' : ''}
+          `}
+        >
+          <div className="flex items-center justify-between">
+            <span
+              className="
+                font-mono text-[11px] text-[#B12025]
+                max-sm:text-[9px]
+              "
+            >
+              0{i + 1}
+            </span>
+
+            <metric.Icon
+              size={22}
+              className="
+                text-[#B12025]
+                max-sm:h-[17px]
+                max-sm:w-[17px]
+              "
+            />
+          </div>
+
+          <h3
+            className="
+              mt-5 text-[19px] font-semibold
+              tracking-[-.035em]
+              max-sm:mt-3
+              max-sm:text-[16px]
+              max-sm:leading-[1.2]
+            "
+          >
+            {metric.title}
+          </h3>
+
+          <p
+            className="
+              mt-2 text-[12px] leading-6
+              text-[#17191C]/65
+              max-sm:text-[9px]
+              max-sm:leading-[1.5]
+            "
+          >
+            {metric.description}
+          </p>
+
+          <p
+            className="
+              mt-4 text-[11px] font-semibold
+              text-[#B12025]
+              max-sm:mt-3
+              max-sm:text-[9px]
+              max-sm:leading-[1.4]
+            "
+          >
+            {metric.note}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    {/* THREE STATISTICS IN ONE ROW ON MOBILE */}
+
+    <div
+      className="
+        mt-8 grid grid-cols-2 gap-6
+        border-t border-[#B12025]/15 pt-7
+        max-sm:mt-5
+        max-sm:grid-cols-3
+        max-sm:gap-2
+        max-sm:pt-5
+        sm:grid-cols-3
+      "
+    >
+      {/* CLIENT RETENTION */}
+
+      <div className="min-w-0">
+        <p
+          className="
+            text-[clamp(2.25rem,4vw,4rem)]
+            font-semibold tracking-[-.07em]
+            text-[#B12025]
+            max-sm:text-[24px]
+            max-sm:leading-none
+          "
+        >
+          <span data-va-stat="85">85</span>%
+        </p>
+
+        <p
+          className="
+            text-[12px] text-[#17191C]/60
+            max-sm:mt-2
+            max-sm:text-[9px]
+            max-sm:leading-[1.3]
+          "
+        >
+          client retention rate
+        </p>
+      </div>
+
+      {/* ACCURACY */}
+
+      <div className="min-w-0">
+        <p
+          className="
+            text-[clamp(2.25rem,4vw,4rem)]
+            font-semibold tracking-[-.07em]
+            text-[#B12025]
+            max-sm:text-[24px]
+            max-sm:leading-none
+          "
+        >
+          <span data-va-stat="98">98</span>%
+        </p>
+
+        <p
+          className="
+            text-[12px] text-[#17191C]/60
+            max-sm:mt-2
+            max-sm:text-[9px]
+            max-sm:leading-[1.3]
+          "
+        >
+          accuracy rate
+        </p>
+      </div>
+
+      {/* HIRING CHECKS */}
+
+      <div className="min-w-0">
+        <p
+          className="
+            text-[clamp(2rem,3.8vw,3.8rem)]
+            font-semibold tracking-[-.07em]
+            text-[#B12025]
+            max-sm:whitespace-nowrap
+            max-sm:text-[24px]
+            max-sm:leading-none
+          "
+        >
+          <span data-va-stat="15">15</span>–
+          <span data-va-stat="20">20</span>%
+        </p>
+
+        <Link
+          href="/how-we-hire"
+          className="
+            inline-flex items-center gap-1
+            text-[12px] text-[#17191C]/60
+            hover:text-[#B12025]
+            max-sm:mt-2
+            max-sm:gap-0.5
+            max-sm:text-[8px]
+            max-sm:leading-[1.3]
+          "
+        >
+          <span>
+            of applicants pass hiring checks
+          </span>
+
+          <ArrowUpRight
+            size={13}
+            className="
+              shrink-0
+              max-sm:h-[10px]
+              max-sm:w-[10px]
+            "
+          />
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+{/* ==============================================
+    05 — TESTIMONIAL TEXT REVEAL
+============================================== */}
+
+<section
+  id="va-quote"
+  className="
+    relative overflow-hidden
+    bg-[#B12025]
+    px-5 py-20 text-white
+    max-sm:py-9
+    sm:px-8
+    lg:px-14 lg:py-24
+  "
+>
+  <div
+    data-va-parallax
+    aria-hidden="true"
+    className="
+      pointer-events-none absolute
+      -right-6 -top-28
+      text-[320px] font-bold
+      leading-none text-white/[.06]
+      max-sm:-right-2
+      max-sm:-top-10
+      max-sm:text-[150px]
+    "
+  >
+    “
+  </div>
+
+  <div className="relative mx-auto max-w-[1170px]">
+    <p
+      className="
+        text-[11px] font-semibold uppercase
+        tracking-[.2em] text-white/70
+        max-sm:text-[8px]
+        max-sm:tracking-[.14em]
+      "
+    >
+      Architecture practice / Client experience
+    </p>
+
+    <blockquote
+      className="
+        mt-6
+        text-[clamp(2rem,4.2vw,4.6rem)]
+        font-semibold leading-[1.23]
+        tracking-[-.055em]
+        max-sm:mt-4
+        max-sm:text-[22px]
+        max-sm:leading-[1.18]
+        max-sm:tracking-[-.04em]
+      "
+    >
+      {(
+        '“Our director’s calendar and inbox are now sorted every morning before she arrives. Client emails no longer wait until the evening for a reply.”'
+      )
+        .split(' ')
+        .map((word, i) => (
+          <span
+            key={`${i}-${word}`}
+            className="inline-block overflow-hidden align-bottom"
+          >
+            <span
+              data-va-quote-word
+              className="inline-block"
+            >
+              {word}
+            </span>
+            {'\u00a0'}
+          </span>
+        ))}
+    </blockquote>
+
+    <p
+      className="
+        mt-6 text-[11px] font-semibold
+        uppercase tracking-[.18em] text-white/75
+        max-sm:mt-4
+        max-sm:text-[8px]
+        max-sm:tracking-[.14em]
+      "
+    >
+      Architecture practice
+    </p>
+  </div>
+</section>
+
+
+ 
+{/* ==============================================
+    06 — FAQ SECTION
+============================================== */}
+
+<section
+  id="va-faq"
+  className="
+    bg-[#F7F7F8] px-5 py-16
+    max-sm:py-8
+    sm:px-8
+    lg:px-14 lg:py-20
+  "
+>
+  <div
+    className="
+      mx-auto grid max-w-[1420px]
+      items-start gap-8
+      max-sm:gap-5
+      lg:grid-cols-[.85fr_1.15fr]
+      lg:gap-14
+    "
+  >
+    <div className="lg:sticky lg:top-[115px]">
+      <SectionHeading
+        eyebrow="04 / Answers"
+        text="Common questions about virtual assistant services"
+      />
+    </div>
+
+    {/* FAQ ACCORDION */}
+
+    <div className="border-t border-[#17191C]/15">
+      {faqs.map((faq, i) => (
+        <div
+          key={faq.q}
+          className="border-b border-[#17191C]/15"
+        >
+          <h3>
+            <button
+              type="button"
+              onClick={() =>
+                setFaqOpen((old) =>
+                  old === i ? null : i
+                )
+              }
+              aria-expanded={faqOpen === i}
+              aria-controls={`va-faq-${i}`}
+              className="
+                flex w-full items-center
+                justify-between gap-4
+                py-5 text-left text-[15px]
+                font-semibold text-[#17191C]
+                focus-visible:outline-2
+                focus-visible:outline-[#B12025]
+                max-sm:gap-3
+                max-sm:py-3
+                max-sm:text-[11px]
+                max-sm:leading-[1.4]
+                sm:text-[17px]
+              "
+            >
+              <span className="flex-1">
+                {faq.q}
+              </span>
+
+              <ChevronDown
+                size={18}
+                className={`
+                  shrink-0 text-[#B12025]
+                  transition-transform duration-300
+                  max-sm:h-[15px]
+                  max-sm:w-[15px]
+                  ${
+                    faqOpen === i
+                      ? 'rotate-180'
+                      : ''
+                  }
+                `}
+              />
+            </button>
+          </h3>
+
+          <div
+            id={`va-faq-${i}`}
+            className={`
+              grid
+              transition-[grid-template-rows,opacity]
+              duration-300
+              ${
+                faqOpen === i
+                  ? 'grid-rows-[1fr] opacity-100'
+                  : 'grid-rows-[0fr] opacity-0'
+              }
+            `}
+          >
+            <div className="overflow-hidden">
+              <p
+                className="
+                  pb-5 text-[13px] leading-7
+                  text-[#17191C]/70
+                  max-sm:pb-3
+                  max-sm:text-[10px]
+                  max-sm:leading-[1.55]
+                "
+              >
+                {faq.a}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+{/* ==============================================
+    07 — RELATED SERVICES
+============================================== */}
+
+<section
+  id="va-related"
+  className="
+    bg-white px-5 py-14
+    max-sm:py-8
+    sm:px-8
+    lg:px-14 lg:py-16
+    max-sm:hidden
+  "
+>
+  <div className="mx-auto max-w-[1420px]">
+    <div
+      className="
+        flex flex-wrap items-end
+        justify-between gap-4
+        max-sm:gap-3
+      "
+    >
+      <RevealTitle
+        text="Other BPO and back office services"
+        className="max-w-[850px] "
+      />
+
+      <Link
+        href={BASE}
+        className="
+          inline-flex items-center gap-2
+          text-[12px] font-semibold
+          text-[#B12025]
+          max-sm:gap-1
+          max-sm:text-[10px]
+        "
+      >
+        See all services
+        <ArrowUpRight
+          size={16}
+          className="max-sm:h-[13px] max-sm:w-[13px]"
+        />
+      </Link>
+    </div>
+
+    <div
+      className="
+        mt-6 grid gap-x-12
+        max-sm:mt-4
+        md:grid-cols-2
+      "
+    >
+      {related.map(([name, slug]) => (
+        <Link
+          key={slug}
+          href={`${BASE}/${slug}`}
+          className="
+            group flex items-center
+            justify-between gap-4
+            border-b border-[#B12025]/20
+            py-4 text-[14px] font-semibold
+            transition-all
+            hover:pl-2 hover:text-[#B12025]
+            max-sm:gap-2
+            max-sm:py-3
+            max-sm:text-[11px]
+            max-sm:leading-[1.4]
+          "
+        >
+          {name}
+
+          <ArrowRight
+            size={16}
+            className="
+              shrink-0 text-[#B12025]
+              transition-transform
+              group-hover:translate-x-2
+              max-sm:h-[14px]
+              max-sm:w-[14px]
+            "
+          />
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+ 
+{/* ==============================================
+    08 — HOW YOUR BACK OFFICE TEAM IS SET UP
+============================================== */}
+
+<section
+  id="va-process"
+  className="
+    bg-[#FFF5F5] px-5 py-16
+    max-sm:py-8
+    sm:px-8
+    lg:px-14 lg:py-20
+  "
+>
+  <div className="mx-auto max-w-[1420px]">
+    <SectionHeading
+      eyebrow="05 / Onboarding"
+      text="How your back office team is set up"
+      subtitle="The biggest risk with outsourced admin is mistakes that reach your systems. These steps are there to stop that."
+    />
+
+    {/* PROCESS TIMELINE */}
+
+    <div className="relative mt-9 max-sm:mt-5">
+      {/* DESKTOP BACKGROUND LINE */}
+
+      <div
+        aria-hidden="true"
+        className="
+          absolute inset-x-0 top-0
+          hidden h-[2px]
+          bg-[#B12025]/20 lg:block
+        "
+      />
+
+      {/* GSAP PROCESS PROGRESS */}
+
+      <div
+        data-va-process-progress
+        aria-hidden="true"
+        className="
+          absolute inset-x-0 top-0
+          hidden h-[2px]
+          origin-left bg-[#B12025]
+          lg:block
+        "
+      />
+
+      {/* MOBILE HORIZONTAL CARDS */}
+
+      <ol
+        className="
+          grid gap-7
+
+          max-sm:-mx-5
+          max-sm:flex
+          max-sm:snap-x
+          max-sm:snap-mandatory
+          max-sm:gap-3
+          max-sm:overflow-x-auto
+          max-sm:overscroll-x-contain
+          max-sm:touch-pan-x
+          max-sm:px-5
+          max-sm:pb-2
+          max-sm:[scrollbar-width:none]
+          max-sm:[&::-webkit-scrollbar]:hidden
+
+          sm:grid-cols-2
+          lg:grid-cols-4
+        "
+      >
+        {steps.map((s) => (
+          <li
+            key={s.n}
+            data-va-rise-card
+            className="
+              border-l border-[#B12025]/30
+              pl-4
+
+              max-sm:min-h-[190px]
+              max-sm:w-[70vw]
+              max-sm:max-w-[225px]
+              max-sm:shrink-0
+              max-sm:snap-start
+              max-sm:rounded-[16px]
+              max-sm:border
+              max-sm:border-[#B12025]/20
+              max-sm:bg-white
+              max-sm:p-4
+
+              lg:border-l-0
+              lg:pl-0
+              lg:pt-6
+            "
+          >
+            {/* ICON AND NUMBER */}
+
+            <div
+              className="
+                flex items-center gap-3
+                text-[#B12025]
+                max-sm:gap-2
+              "
+            >
+              <s.Icon
+                size={22}
+                className="
+                  max-sm:h-[17px]
+                  max-sm:w-[17px]
+                "
               />
 
-              Current state: {statusLabel[status]}
+              <span
+                className="
+                  font-mono text-[11px] font-bold
+                  max-sm:text-[9px]
+                "
+              >
+                {s.n}
+              </span>
+            </div>
+
+            {/* TITLE */}
+
+            <h3
+              className="
+                mt-3 text-[19px]
+                font-semibold tracking-[-.04em]
+                max-sm:text-[15px]
+                max-sm:leading-[1.2]
+              "
+            >
+              {s.title}
+            </h3>
+
+            {/* DESCRIPTION */}
+
+            <p
+              className="
+                mt-3 text-[12px] leading-[1.8]
+                text-[#17191C]/70
+                max-sm:mt-2
+                max-sm:text-[9px]
+                max-sm:leading-[1.5]
+              "
+            >
+              {s.copy}
             </p>
 
-            {/* TASK ACTIONS */}
+            {/* HIRING LINK */}
 
-            <div className="mt-6 flex flex-wrap gap-2 border-t border-[#B12025]/15 pt-5">
-              <button
-                type="button"
-                disabled={status === 'done'}
-                onClick={() =>
-                  setTasks((old) => ({
-                    ...old,
-                    [selectedTask]:
-                      old[selectedTask] === 'new'
-                        ? 'in-progress'
-                        : 'done',
-                  }))
-                }
-                className="inline-flex min-h-[43px] items-center gap-2 rounded-full bg-[#B12025] px-5 text-[11px] font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {status === 'done'
-                  ? 'Review completed'
-                  : 'Move to next stage'}
-
-                <ArrowRight size={15} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  setTasks((old) => ({
-                    ...old,
-                    [selectedTask]: 'new',
-                  }))
-                }
-                className="inline-flex min-h-[43px] items-center gap-2 rounded-full border border-[#B12025]/35 px-5 text-[11px] font-bold text-[#B12025]"
-              >
-                <RotateCcw size={14} />
-                Reset example
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==============================================
-          04 — NUMBERS / REPORTING
-      ============================================== */}
-
-      <section
-        id="va-reporting"
-        className="bg-white px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
-      >
-        <div className="mx-auto max-w-[1420px]">
-          <SectionHeading
-            eyebrow="03 / Visibility"
-            text="The numbers you will see"
-            subtitle="Your monthly summary shows the hours used on each type of task, the work finished and what is still awaiting your attention."
-          />
-
-          {/* REPORT CARDS */}
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {report.map((metric, i) => (
-              <article
-                key={metric.title}
-                data-va-rise-card
-                className={`group rounded-[19px] border border-[#E7E2E2] bg-[#FBFAFA] p-5 transition-transform duration-300 hover:-translate-y-1 hover:border-[#B12025]/40 ${
-                  i === 4 ? 'lg:col-span-4' : ''
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-[#B12025]">
-                    0{i + 1}
-                  </span>
-
-                  <metric.Icon
-                    size={22}
-                    className="text-[#B12025]"
-                  />
-                </div>
-
-                <h3 className="mt-5 text-[19px] font-semibold tracking-[-.035em]">
-                  {metric.title}
-                </h3>
-
-                <p className="mt-2 text-[12px] leading-6 text-[#17191C]/65">
-                  {metric.description}
-                </p>
-
-                <p className="mt-4 text-[11px] font-semibold text-[#B12025]">
-                  {metric.note}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          {/* COMPANY STATISTICS */}
-
-          <div className="mt-8 grid grid-cols-2 gap-6 border-t border-[#B12025]/15 pt-7 sm:grid-cols-3">
-            <div>
-              <p className="text-[clamp(2.25rem,4vw,4rem)] font-semibold tracking-[-.07em] text-[#B12025]">
-                <span data-va-stat="85">85</span>%
-              </p>
-
-              <p className="text-[12px] text-[#17191C]/60">
-                client retention rate
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[clamp(2.25rem,4vw,4rem)] font-semibold tracking-[-.07em] text-[#B12025]">
-                <span data-va-stat="98">98</span>%
-              </p>
-
-              <p className="text-[12px] text-[#17191C]/60">
-                accuracy rate
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[clamp(2rem,3.8vw,3.8rem)] font-semibold tracking-[-.07em] text-[#B12025]">
-                <span data-va-stat="15">15</span>–
-                <span data-va-stat="20">20</span>%
-              </p>
-
+            {s.n === '02' && (
               <Link
                 href="/how-we-hire"
-                className="inline-flex items-center gap-1 text-[12px] text-[#17191C]/60 hover:text-[#B12025]"
+                className="
+                  mt-3 inline-flex items-center
+                  gap-1 text-[12px] font-semibold
+                  text-[#B12025]
+                  max-sm:mt-2
+                  max-sm:text-[9px]
+                "
               >
-                of applicants pass hiring checks
-                <ArrowUpRight size={13} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+                See how we hire
 
-      {/* ==============================================
-          05 — TESTIMONIAL TEXT REVEAL
-      ============================================== */}
-
-      <section
-        id="va-quote"
-        className="relative overflow-hidden bg-[#B12025] px-5 py-20 text-white sm:px-8 lg:px-14 lg:py-24"
-      >
-        <div
-          data-va-parallax
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-6 -top-28 text-[320px] font-bold leading-none text-white/[.06]"
-        >
-          “
-        </div>
-
-        <div className="relative mx-auto max-w-[1170px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/70">
-            Architecture practice / Client experience
-          </p>
-
-          <blockquote className="mt-6 text-[clamp(2rem,4.2vw,4.6rem)] font-semibold leading-[1.23] tracking-[-.055em]">
-            {(
-              '“Our director’s calendar and inbox are now sorted every morning before she arrives. Client emails no longer wait until the evening for a reply.”'
-            )
-              .split(' ')
-              .map((word, i) => (
-                <span
-                  key={`${i}-${word}`}
-                  className="inline-block overflow-hidden align-bottom"
-                >
-                  <span
-                    data-va-quote-word
-                    className="inline-block"
-                  >
-                    {word}
-                  </span>
-                  {'\u00a0'}
-                </span>
-              ))}
-          </blockquote>
-
-          <p className="mt-6 text-[11px] font-semibold uppercase tracking-[.18em] text-white/75">
-            Architecture practice
-          </p>
-        </div>
-      </section>
-
-      {/* ==============================================
-          06 — FAQ SECTION
-      ============================================== */}
-
-      <section
-        id="va-faq"
-        className="bg-[#F7F7F8] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
-      >
-        <div className="mx-auto grid max-w-[1420px] items-start gap-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-14">
-          {/* STICKY HEADING */}
-
-          <div className="lg:sticky lg:top-[115px]">
-            <SectionHeading
-              eyebrow="04 / Answers"
-              text="Common questions about virtual assistant services"
-            />
-          </div>
-
-          {/* FAQ ACCORDION */}
-
-          <div className="border-t border-[#17191C]/15">
-            {faqs.map((faq, i) => (
-              <div
-                key={faq.q}
-                className="border-b border-[#17191C]/15"
-              >
-                <h3>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFaqOpen((old) =>
-                        old === i ? null : i
-                      )
-                    }
-                    aria-expanded={faqOpen === i}
-                    aria-controls={`va-faq-${i}`}
-                    className="flex w-full items-center justify-between gap-4 py-5 text-left text-[15px] font-semibold text-[#17191C] focus-visible:outline-2 focus-visible:outline-[#B12025] sm:text-[17px]"
-                  >
-                    {faq.q}
-
-                    <ChevronDown
-                      size={18}
-                      className={`shrink-0 text-[#B12025] transition-transform duration-300 ${
-                        faqOpen === i
-                          ? 'rotate-180'
-                          : ''
-                      }`}
-                    />
-                  </button>
-                </h3>
-
-                <div
-                  id={`va-faq-${i}`}
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ${
-                    faqOpen === i
-                      ? 'grid-rows-[1fr] opacity-100'
-                      : 'grid-rows-[0fr] opacity-0'
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <p className="pb-5 text-[13px] leading-7 text-[#17191C]/70">
-                      {faq.a}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==============================================
-          07 — RELATED SERVICES
-      ============================================== */}
-
-      <section
-        id="va-related"
-        className="bg-white px-5 py-14 sm:px-8 lg:px-14 lg:py-16"
-      >
-        <div className="mx-auto max-w-[1420px]">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <RevealTitle
-              text="Other BPO and back office services"
-              className="max-w-[850px]"
-            />
-
-            <Link
-              href={BASE}
-              className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#B12025]"
-            >
-              See all services
-              <ArrowUpRight size={16} />
-            </Link>
-          </div>
-
-          <div className="mt-6 grid gap-x-12 md:grid-cols-2">
-            {related.map(([name, slug]) => (
-              <Link
-                key={slug}
-                href={`${BASE}/${slug}`}
-                className="group flex items-center justify-between gap-4 border-b border-[#B12025]/20 py-4 text-[14px] font-semibold transition-all hover:pl-2 hover:text-[#B12025]"
-              >
-                {name}
-
-                <ArrowRight
-                  size={16}
-                  className="shrink-0 text-[#B12025] transition-transform group-hover:translate-x-2"
+                <ArrowUpRight
+                  size={13}
+                  className="
+                    max-sm:h-[11px]
+                    max-sm:w-[11px]
+                  "
                 />
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
 
-      {/* ==============================================
-          08 — HOW YOUR BACK OFFICE TEAM IS SET UP
-      ============================================== */}
+    {/* BOTTOM CTA — HIDDEN ON MOBILE */}
 
-      <section
-        id="va-process"
-        className="bg-[#FFF5F5] px-5 py-16 sm:px-8 lg:px-14 lg:py-20"
+    <div
+      className="
+        mt-9 flex flex-wrap items-center
+        justify-between gap-4
+        border-t border-[#B12025]/15
+        pt-6
+        max-sm:hidden
+      "
+    >
+      <p className="text-[13px] text-[#17191C]/70">
+        Ready to hand over your calendar and inbox?
+      </p>
+
+      <a
+        href="#contact"
+        className="
+          inline-flex min-h-[44px]
+          items-center gap-2 rounded-full
+          bg-[#B12025] px-6
+          text-[12px] font-semibold text-white
+        "
       >
-        <div className="mx-auto max-w-[1420px]">
-          <SectionHeading
-            eyebrow="05 / Onboarding"
-            text="How your back office team is set up"
-            subtitle="The biggest risk with outsourced admin is mistakes that reach your systems. These steps are there to stop that."
-          />
+        Book a free discovery call
+        <ArrowUpRight size={15} />
+      </a>
+    </div>
+  </div>
+</section>
 
-          {/* HORIZONTAL PROCESS LINE */}
-
-          <div className="relative mt-9">
-            <div
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 hidden h-[2px] bg-[#B12025]/20 lg:block"
-            />
-
-            <div
-              data-va-process-progress
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 hidden h-[2px] origin-left bg-[#B12025] lg:block"
-            />
-
-            <ol className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((s) => (
-                <li
-                  key={s.n}
-                  data-va-rise-card
-                  className="border-l border-[#B12025]/30 pl-4 lg:border-l-0 lg:pl-0 lg:pt-6"
-                >
-                  <div className="flex items-center gap-3 text-[#B12025]">
-                    <s.Icon size={22} />
-
-                    <span className="font-mono text-[11px] font-bold">
-                      {s.n}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-3 text-[19px] font-semibold tracking-[-.04em]">
-                    {s.title}
-                  </h3>
-
-                  <p className="mt-3 text-[12px] leading-[1.8] text-[#17191C]/70">
-                    {s.copy}
-                  </p>
-
-                  {s.n === '02' && (
-                    <Link
-                      href="/how-we-hire"
-                      className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-[#B12025]"
-                    >
-                      See how we hire
-                      <ArrowUpRight size={13} />
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          {/* CTA */}
-
-          <div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-t border-[#B12025]/15 pt-6">
-            <p className="text-[13px] text-[#17191C]/70">
-              Ready to hand over your calendar and inbox?
-            </p>
-
-            <a
-              href="#contact"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white"
-            >
-              Book a free discovery call
-              <ArrowUpRight size={15} />
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
