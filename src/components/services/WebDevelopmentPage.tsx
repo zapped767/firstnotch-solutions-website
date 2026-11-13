@@ -6,7 +6,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import WebCosmosHero from '@/components/services/WebCosmosHero';
+import WebDevelopmentHorseHero from '@/components/services/WebDevelopmentHorseHero';
 
 import {
   ArrowDown,
@@ -867,7 +867,7 @@ export default function WebDevelopmentPage() {
     01 — THREE.JS COSMIC WEB DEVELOPMENT HERO
 ============================================== */}
 
-<WebCosmosHero />
+<WebDevelopmentHorseHero />
     
       {/* ==============================================
     02 — WHAT WEB DEVELOPMENT INCLUDES
