@@ -49,13 +49,66 @@ export function ClientStats() {
 
 export function About() {
   return (
-    <section
-      id="about"
-      aria-labelledby="fns-about-title"
-      className="scroll-mt-20 px-5 py-9 sm:scroll-mt-28 sm:px-8 sm:py-20 lg:px-14 lg:py-32"
-    >
-      <div className="mx-auto grid max-w-[1424px] gap-6 sm:gap-12 lg:grid-cols-12 lg:gap-20">
+<section
+  id="about"
+  aria-labelledby="fns-about-title"
+  className="
+    relative
+    overflow-hidden
+    scroll-mt-20
+    bg-white
+    px-5 py-9
+    sm:scroll-mt-28
+    sm:px-8 sm:py-20
+    lg:px-14 lg:py-32
+  "
+>
+  {/* LEFT FIRSTNOTCH RED BLUR CIRCLE */}
+<div
+  aria-hidden="true"
+  className="
+    pointer-events-none
+    absolute
+    left-[-170px]
+    top-[48%]
+    z-0
+    h-[340px]
+    w-[340px]
+    -translate-y-1/2
+    rounded-full
+    bg-[#B12025]/18
+    blur-[120px]
 
+    max-md:left-[-120px]
+    max-md:h-[240px]
+    max-md:w-[240px]
+    max-md:blur-[90px]
+  "
+/>
+
+{/* RIGHT FIRSTNOTCH RED BLUR CIRCLE */}
+<div
+  aria-hidden="true"
+  className="
+    pointer-events-none
+    absolute
+    right-[-170px]
+    top-[52%]
+    z-0
+    h-[340px]
+    w-[340px]
+    -translate-y-1/2
+    rounded-full
+    bg-[#B12025]/18
+    blur-[120px]
+
+    max-md:right-[-120px]
+    max-md:h-[240px]
+    max-md:w-[240px]
+    max-md:blur-[90px]
+  "
+/>
+<div className="relative z-10 mx-auto grid max-w-[1424px] gap-6 sm:gap-12 lg:grid-cols-12 lg:gap-20">
         {/* LEFT CONTENT */}
         <div className="lg:col-span-5">
           <h2
@@ -89,32 +142,208 @@ export function About() {
             <WhySriLankaMobileSlider />
           </div>
 
-          {/* DESKTOP VIEW — ORIGINAL DESIGN */}
-          <div
-            data-fns-bento-grid
-            className="hidden gap-x-8 md:grid md:grid-cols-2"
+         {/* DESKTOP VIEW — PREMIUM WHY FIRSTNOTCH CARDS */}
+<div
+  className="
+    hidden
+    md:grid
+    md:grid-cols-2
+    md:gap-5
+  "
+>
+  {ADVANTAGES.map(([number, title, body]) => (
+   <article
+  key={number}
+  className="
+        group
+        relative
+        min-h-[245px]
+        overflow-hidden
+        rounded-[22px]
+        border
+        border-black/[0.08]
+        bg-white
+        p-7
+        shadow-[0_16px_50px_rgba(23,25,28,0.05)]
+
+        transition-all
+        duration-500
+        ease-[cubic-bezier(0.22,1,0.36,1)]
+
+        hover:-translate-y-[6px]
+        hover:border-[#B12025]/25
+        hover:shadow-[0_24px_70px_rgba(177,32,37,0.10)]
+
+        lg:min-h-[260px]
+        lg:p-8
+      "
+    >
+      {/* RED HOVER GLOW */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -right-[80px]
+          -top-[80px]
+          h-[180px]
+          w-[180px]
+          rounded-full
+          bg-[#B12025]/0
+          blur-[60px]
+
+          transition-all
+          duration-500
+
+          group-hover:bg-[#B12025]/10
+        "
+      />
+
+      {/* CARD TOP */}
+      <div
+        className="
+          relative
+          z-10
+          flex
+          items-center
+          justify-between
+        "
+      >
+        <span
+          className="
+            font-mono
+            text-[10px]
+            font-semibold
+            tracking-[0.16em]
+            text-[#B12025]
+          "
+        >
+          {number}
+        </span>
+
+        <span
+          aria-hidden="true"
+          className="
+            h-[8px]
+            w-[8px]
+            rounded-full
+            border
+            border-[#B12025]/30
+
+            transition-all
+            duration-500
+
+            group-hover:scale-[1.4]
+            group-hover:bg-[#B12025]
+            group-hover:shadow-[0_0_18px_rgba(177,32,37,.35)]
+          "
+        />
+      </div>
+
+      {/* TITLE */}
+      <div
+        className="
+          relative
+          z-10
+          mt-10
+
+          transition-transform
+          duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          group-hover:-translate-y-[8px]
+        "
+      >
+        <span
+          aria-hidden="true"
+          className="
+            mb-5
+            block
+            h-[3px]
+            w-7
+            bg-[#B12025]
+
+            transition-all
+            duration-500
+
+            group-hover:w-12
+          "
+        />
+
+        <h3
+          className="
+            max-w-[320px]
+            text-[20px]
+            font-semibold
+            leading-[1.15]
+            tracking-[-0.035em]
+            text-[#17191C]
+
+            lg:text-[23px]
+          "
+        >
+          {title}
+        </h3>
+      </div>
+
+      {/* DESCRIPTION — REVEALS ON HOVER */}
+      <div
+        className="
+          relative
+          z-10
+          grid
+          grid-rows-[0fr]
+          opacity-0
+          translate-y-4
+
+          transition-all
+          duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          group-hover:grid-rows-[1fr]
+          group-hover:translate-y-0
+          group-hover:opacity-100
+        "
+      >
+        <div className="overflow-hidden">
+          <p
+            className="
+              mt-5
+              max-w-[360px]
+              text-[12px]
+              font-light
+              leading-[1.8]
+              text-[#17191C]/65
+
+              lg:text-[13px]
+            "
           >
-            {ADVANTAGES.map(([title, body]) => (
-              <article
-                key={title}
-                data-fns-bento
-                className="border-t border-black/15 py-7"
-              >
-                <span
-                  aria-hidden="true"
-                  className="mb-5 block h-1 w-6 bg-[#B12025]"
-                />
+            {body}
+          </p>
+        </div>
+      </div>
 
-                <h3 className="text-base font-semibold leading-snug tracking-tight">
-                  {title}
-                </h3>
+      {/* BOTTOM RED LINE */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          bottom-0
+          left-0
+          h-[2px]
+          w-0
+          bg-[#B12025]
 
-                <p className="mt-4 text-xs font-light leading-6 text-black/60">
-                  {body}
-                </p>
-              </article>
-            ))}
-          </div>
+          transition-all
+          duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          group-hover:w-full
+        "
+      />
+    </article>
+  ))}
+</div>
 
         </div>
       </div>

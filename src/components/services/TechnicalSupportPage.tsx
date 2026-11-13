@@ -213,7 +213,6 @@ function ScrollHeading({ text }: { text: string }) {
     </span>
   );
 }
-
 function SupportCard({
   item,
 }: {
@@ -222,45 +221,163 @@ function SupportCard({
   const Icon = item.Icon;
 
   return (
-    <article data-ts-card className="group relative min-h-[355px] sm:min-h-[390px]">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 translate-x-[14px] translate-y-[16px] -skew-y-[4deg] rounded-[26px] border border-[#B12025]/10 bg-[#B12025]/[0.025] transition-all duration-700 group-hover:translate-x-[8px] group-hover:translate-y-[10px]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 translate-x-[7px] translate-y-[8px] -skew-y-[4deg] rounded-[26px] border border-[#17191C]/10 bg-white/75 shadow-[0_18px_50px_rgba(23,25,28,.04)] transition-all duration-700 group-hover:translate-x-[4px] group-hover:translate-y-[5px]"
-      />
+    <article
+      className="
+        group
+        relative
+        h-[270px]
+        w-[290px]
+        shrink-0
+        overflow-hidden
+        rounded-[14px]
+        border
+        border-[#17191C]/10
+        bg-white
+        p-5
 
-      <div className="relative z-10 flex h-full min-h-[355px] -skew-y-[4deg] flex-col overflow-hidden rounded-[26px] border border-[#17191C]/10 bg-white/95 p-6 shadow-[0_20px_60px_rgba(23,25,28,.05)] backdrop-blur-sm transition-all duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-3 hover:skew-y-0 hover:border-[#B12025]/30 hover:shadow-[0_28px_80px_rgba(177,32,37,.11)] sm:min-h-[390px] sm:p-8">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-[10px] font-semibold tracking-[.14em] text-[#17191C]/35">
-            {item.number} / 08
-          </span>
+        shadow-[0_12px_35px_rgba(23,25,28,.055)]
 
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#17191C]/10 bg-white text-[#B12025] transition-all duration-500 group-hover:bg-[#B12025] group-hover:text-white">
-            <ArrowUpRight size={16} />
-          </span>
-        </div>
+        transition-all
+        duration-500
+        ease-[cubic-bezier(.22,1,.36,1)]
 
-        <div className="mt-9 flex h-[54px] w-[54px] items-center justify-center rounded-[17px] bg-[#B12025] text-white shadow-[0_12px_32px_rgba(177,32,37,.18)] sm:mt-11">
-          <Icon size={24} strokeWidth={1.8} />
-        </div>
+        hover:-translate-y-[4px]
+        hover:border-[#B12025]/30
+        hover:shadow-[0_20px_50px_rgba(177,32,37,.10)]
 
-        <div className="mt-auto pt-12">
-          <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#B12025]/70">
-            {item.tag}
-          </p>
+        sm:h-[285px]
+        sm:w-[310px]
+        sm:p-6
 
-          <h3 className="mt-3 text-[24px] font-semibold leading-[1.08] tracking-[-.045em] text-[#17191C]">
-            {item.title}
-          </h3>
+        lg:h-[290px]
+        lg:w-[320px]
+      "
+    >
+      {/* TOP ROW */}
+      <div className="flex items-center justify-between">
+        <span
+          className="
+            font-mono
+            text-[9px]
+            font-semibold
+            tracking-[.14em]
+            text-[#B12025]
+          "
+        >
+          {item.number} / 08
+        </span>
 
-          <p className="mt-4 text-[12px] leading-[1.85] text-[#17191C]/60 sm:text-[13px]">
-            {item.text}
-          </p>
-        </div>
+        <span
+          className="
+            flex
+            h-8
+            w-8
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#17191C]/10
+            bg-white
+            text-[#B12025]
+
+            transition-all
+            duration-300
+
+            group-hover:border-[#B12025]
+            group-hover:bg-[#B12025]
+            group-hover:text-white
+          "
+        >
+          <ArrowUpRight size={14} />
+        </span>
       </div>
+
+      {/* ICON */}
+      <div
+        className="
+          mt-6
+          flex
+          h-[44px]
+          w-[44px]
+          items-center
+          justify-center
+          rounded-[11px]
+          bg-[#B12025]
+          text-white
+
+          shadow-[0_10px_25px_rgba(177,32,37,.18)]
+
+          sm:h-[48px]
+          sm:w-[48px]
+        "
+      >
+        <Icon
+          size={20}
+          strokeWidth={1.8}
+        />
+      </div>
+
+      {/* CONTENT */}
+      <div className="mt-6">
+        <p
+          className="
+            text-[8px]
+            font-bold
+            uppercase
+            tracking-[.16em]
+            text-[#B12025]/70
+          "
+        >
+          {item.tag}
+        </p>
+
+        <h3
+          className="
+            mt-2
+            text-[19px]
+            font-semibold
+            leading-[1.08]
+            tracking-[-.04em]
+            text-[#17191C]
+
+            sm:text-[21px]
+          "
+        >
+          {item.title}
+        </h3>
+
+        <p
+          className="
+            mt-3
+            line-clamp-3
+            text-[10px]
+            leading-[1.65]
+            text-[#17191C]/58
+
+            sm:text-[11px]
+          "
+        >
+          {item.text}
+        </p>
+      </div>
+
+      {/* HOVER BOTTOM LINE */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          bottom-0
+          left-0
+          h-[2px]
+          w-0
+          bg-[#B12025]
+
+          transition-all
+          duration-500
+
+          group-hover:w-full
+        "
+      />
     </article>
   );
 }
@@ -311,10 +428,167 @@ function FAQItem({
     </div>
   );
 }
+type GradientBarsProps = {
+  numBars?: number;
+  animationDuration?: number;
+  className?: string;
+};
+
+function GradientBars({
+  numBars = 12,
+  animationDuration = 3.4,
+  className = "",
+}: GradientBarsProps) {
+  const calculateHeight = (
+    index: number,
+    total: number
+  ) => {
+    const position =
+      index / (total - 1);
+
+    const center = 0.5;
+
+    const distanceFromCenter =
+      Math.abs(position - center);
+
+    const minHeight = 20;
+    const maxHeight = 96;
+
+    const curve =
+      Math.pow(
+        distanceFromCenter * 2,
+        1.15
+      );
+
+    return (
+      minHeight +
+      (maxHeight - minHeight) *
+        curve
+    );
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes technicalBarsPulse {
+          0% {
+            transform: scaleY(var(--initial-scale));
+          }
+
+          100% {
+            transform: scaleY(
+              calc(var(--initial-scale) * 0.88)
+            );
+          }
+        }
+      `}</style>
+
+      <div
+        aria-hidden="true"
+        className={`
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+          overflow-hidden
+          bg-[#0A0A0A]
+          ${className}
+        `}
+      >
+        <div
+          className="
+            absolute
+            inset-0
+            flex
+            items-end
+          "
+          style={{
+            transform:
+              "translateZ(0)",
+
+            backfaceVisibility:
+              "hidden",
+          }}
+        >
+          {Array.from({
+            length: numBars,
+          }).map((_, index) => {
+            const height =
+              calculateHeight(
+                index,
+                numBars
+              );
+
+            return (
+              <div
+                key={index}
+                className="
+                  relative
+                  h-full
+                  overflow-hidden
+                "
+                style={{
+                  flex: `1 0 calc(100% / ${numBars})`,
+                  maxWidth: `calc(100% / ${numBars})`,
+                }}
+              >
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    origin-bottom
+                    will-change-transform
+                  "
+                  style={{
+                    background: `
+                      linear-gradient(
+                        to top,
+                        #B12025 0%,
+                        #B12025 12%,
+                        rgba(177,32,37,0.92) 24%,
+                        rgba(177,32,37,0.62) 42%,
+                        rgba(177,32,37,0.26) 65%,
+                        rgba(177,32,37,0.06) 82%,
+                        transparent 100%
+                      )
+                    `,
+
+                    transform: `scaleY(${height / 100})`,
+
+                    animation:
+                      `technicalBarsPulse ${animationDuration}s ease-in-out infinite alternate`,
+
+                    animationDelay:
+                      `${index * 0.09}s`,
+
+                    ["--initial-scale" as string]:
+                      height / 100,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* DARK TOP FADE */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[linear-gradient(to_bottom,#0A0A0A_0%,rgba(10,10,10,.96)_18%,rgba(10,10,10,.70)_42%,rgba(10,10,10,.12)_78%,transparent_100%)]
+          "
+        />
+      </div>
+    </>
+  );
+}
 
 export default function TechnicalSupportPage() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [faqOpen, setFaqOpen] = useState<number | null>(0);
+const rootRef = useRef<HTMLDivElement>(null);
+const marqueeRef = useRef<HTMLDivElement>(null);
+const marqueeGroupRef = useRef<HTMLDivElement>(null);
+
+const [faqOpen, setFaqOpen] = useState<number | null>(0);
 
   useEffect(() => {
     if (!rootRef.current) return;
@@ -384,31 +658,7 @@ export default function TechnicalSupportPage() {
             );
           });
 
-        gsap.utils
-          .toArray<HTMLElement>("[data-ts-card]")
-          .forEach((card, index) => {
-            gsap.fromTo(
-              card,
-              {
-                y: 70 + (index % 2) * 24,
-                opacity: 0,
-                rotate: index % 2 === 0 ? -1.5 : 1.5,
-              },
-              {
-                y: 0,
-                opacity: 1,
-                rotate: 0,
-                duration: 0.9,
-                ease: "power3.out",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 92%",
-                  once: true,
-                },
-              },
-            );
-          });
-
+        
         gsap.utils
           .toArray<HTMLElement>("[data-ts-parallax]")
           .forEach((layer) => {
@@ -483,11 +733,63 @@ export default function TechnicalSupportPage() {
           },
         );
       }, rootRef);
-
       return () => ctx.revert();
     });
 
     return () => mm.revert();
+  }, []);
+
+  // =====================================================
+  // INFINITE TECHNICAL SUPPORT CARD MARQUEE
+  // =====================================================
+  useEffect(() => {
+    const track = marqueeRef.current;
+    const firstGroup = marqueeGroupRef.current;
+
+    if (!track || !firstGroup) return;
+
+    let tween: gsap.core.Tween | null = null;
+
+    const startMarquee = () => {
+      tween?.kill();
+
+      const groupWidth = firstGroup.getBoundingClientRect().width;
+
+      if (!groupWidth) return;
+
+      gsap.set(track, {
+        x: -groupWidth,
+      });
+
+      tween = gsap.to(track, {
+        x: 0,
+        duration: 24,
+        ease: "none",
+        repeat: -1,
+      });
+    };
+
+    const pauseMarquee = () => {
+      tween?.pause();
+    };
+
+    const resumeMarquee = () => {
+      tween?.resume();
+    };
+
+    const frame = requestAnimationFrame(startMarquee);
+
+    window.addEventListener("resize", startMarquee);
+    track.addEventListener("mouseenter", pauseMarquee);
+    track.addEventListener("mouseleave", resumeMarquee);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", startMarquee);
+      track.removeEventListener("mouseenter", pauseMarquee);
+      track.removeEventListener("mouseleave", resumeMarquee);
+      tween?.kill();
+    };
   }, []);
 
   const scrollToIncluded = () =>
@@ -497,84 +799,69 @@ export default function TechnicalSupportPage() {
     });
 
   return (
-    <div ref={rootRef} className="overflow-x-clip bg-white font-sans text-[#17191C]">
+    <div
+      ref={rootRef}
+      className="overflow-x-clip bg-white font-sans text-[#17191C]"
+    >
       {/* HERO */}
       <section
-        aria-labelledby="technical-support-title"
-        className="relative isolate min-h-[760px] overflow-hidden bg-white px-5 pb-[100px] pt-[135px] sm:px-8 sm:pb-[120px] sm:pt-[165px] lg:min-h-[880px] lg:px-14 lg:pb-[150px] lg:pt-[190px]"
-      >
-        <div
-          data-ts-parallax="0.2"
-          aria-hidden="true"
-          className="pointer-events-none absolute left-[3%] top-[31%] z-0 hidden w-[225px] -rotate-[7deg] rounded-[22px] border border-[#B12025]/10 bg-[#FFF8F8] p-5 opacity-60 shadow-[0_20px_60px_rgba(177,32,37,.06)] xl:block"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-[.16em] text-[#B12025]">
-              Ticket status
-            </span>
-            <Headphones size={18} className="text-[#B12025]" />
-          </div>
-          <p className="mt-5 text-[30px] font-semibold tracking-[-.06em] text-[#B12025]">
-            Resolved
-          </p>
-          <p className="mt-2 text-[10px] leading-5 text-[#17191C]/45">
-            First-line issue handled by the support team.
-          </p>
-        </div>
+  aria-labelledby="technical-support-title"
+  className="
+    relative
+    isolate
+    min-h-[760px]
+    overflow-hidden
+    bg-[#0A0A0A]
+    px-5
+    pb-[100px]
+    pt-[135px]
+    text-white
 
-        <div
-          data-ts-parallax="0.42"
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[4%] top-[29%] z-0 hidden w-[240px] rotate-[6deg] rounded-[22px] border border-[#17191C]/10 bg-white p-5 opacity-55 shadow-[0_20px_60px_rgba(23,25,28,.06)] xl:block"
-        >
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#B12025] text-white">
-              <Bug size={17} />
-            </span>
-            <div>
-              <p className="text-[10px] font-semibold text-[#17191C]">
-                Bug escalated
-              </p>
-              <p className="mt-1 text-[9px] text-[#17191C]/45">
-                Reproduction steps attached
-              </p>
-            </div>
-          </div>
-        </div>
+    sm:px-8
+    sm:pb-[120px]
+    sm:pt-[165px]
 
-        <div
-          data-ts-parallax="0.55"
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[13%] left-[11%] z-0 hidden w-[250px] -rotate-[3deg] rounded-[22px] border border-[#B12025]/10 bg-white p-5 opacity-45 shadow-[0_20px_60px_rgba(177,32,37,.05)] lg:block"
-        >
-          <div className="flex items-center gap-3">
-            <CheckCircle2 size={20} className="text-[#B12025]" />
-            <p className="text-[10px] font-semibold text-[#17191C]">
-              Customer updated
-            </p>
-          </div>
-        </div>
-
-        <div
-          data-ts-parallax="0.3"
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[10%] right-[10%] z-0 hidden w-[250px] rotate-[3deg] rounded-[22px] border border-[#B12025]/10 bg-[#FFF8F8] p-5 opacity-45 shadow-[0_20px_60px_rgba(177,32,37,.05)] lg:block"
-        >
-          <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#B12025]">
-            Support dashboard
-          </p>
-          <div className="mt-4 space-y-2">
-            <div className="h-2 w-full rounded-full bg-[#B12025]/15" />
-            <div className="h-2 w-[82%] rounded-full bg-[#B12025]/10" />
-            <div className="h-2 w-[64%] rounded-full bg-[#B12025]/10" />
-          </div>
-        </div>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[50%] z-[1] h-[520px] w-[92%] max-w-[1180px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-white/85 blur-[55px]"
+    lg:min-h-[880px]
+    lg:px-14
+    lg:pb-[150px]
+    lg:pt-[190px]
+  "
+>
+        {/* FIRSTNOTCH RED ANIMATED BAR BACKGROUND */}
+        <GradientBars
+          numBars={12}
+          animationDuration={3.4}
+          className="opacity-100"
         />
 
+        {/* CHARCOAL DEPTH OVERLAY — KEEPS THE REFERENCE LOOK */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-[1]
+            bg-[linear-gradient(to_bottom,rgba(10,10,10,.18)_0%,rgba(10,10,10,.18)_24%,rgba(10,10,10,.10)_52%,rgba(10,10,10,0)_100%)]
+          "
+        />
+
+        {/* TOP BLACK FADE */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            top-0
+            z-[1]
+            h-[180px]
+            bg-gradient-to-b
+            from-[#0A0A0A]
+            via-[#0A0A0A]/90
+            to-transparent
+          "
+        />
         <div className="relative z-10 mx-auto max-w-[1450px] text-center">
           <p
             data-ts-eyebrow
@@ -585,22 +872,56 @@ export default function TechnicalSupportPage() {
 
           <h1
             id="technical-support-title"
-            className="mx-auto mt-6 max-w-[1320px] text-[clamp(2.65rem,10vw,4.4rem)] font-semibold leading-[1.01] tracking-[-.07em] text-[#B12025] sm:mt-8 sm:text-[clamp(4.2rem,7vw,7.2rem)] lg:text-[clamp(4.8rem,6.2vw,7.4rem)]"
-          >
-            <RisingWords text="A Trained Helpdesk for Your Customers." />
+className="
+  mx-auto
+  mt-6
+  max-w-[1320px]
+  text-[clamp(2.65rem,10vw,4.4rem)]
+  font-semibold
+  leading-[1.01]
+  tracking-[-.07em]
+  text-white
+
+  sm:mt-8
+  sm:text-[clamp(4.2rem,7vw,7.2rem)]
+
+  lg:text-[clamp(4.8rem,6.2vw,7.4rem)]
+"          >
+            <RisingWords text="Trained Helpdesk for Your Customers." />
           </h1>
 
           <p
             data-ts-hero-copy
-            className="mx-auto mt-5 max-w-[1100px] text-[clamp(1.35rem,5.5vw,2rem)] font-semibold leading-[1.12] tracking-[-.045em] text-[#B12025] sm:mt-6 sm:text-[clamp(2rem,3.2vw,3.3rem)]"
-          >
+className="
+  mx-auto
+  mt-5
+  max-w-[1100px]
+  text-[clamp(1.35rem,5.5vw,2rem)]
+  font-semibold
+  leading-[1.12]
+  tracking-[-.045em]
+  text-[#B12025]
+
+  sm:mt-6
+  sm:text-[clamp(2rem,3.2vw,3.3rem)]
+"          >
             So your developers can work on the product.
           </p>
 
           <p
             data-ts-hero-copy
-            className="mx-auto mt-7 max-w-[800px] text-[12px] leading-[1.8] text-[#17191C]/62 sm:mt-9 sm:text-[15px] sm:leading-[1.9]"
-          >
+className="
+  mx-auto
+  mt-7
+  max-w-[800px]
+  text-[12px]
+  leading-[1.8]
+  text-white/65
+
+  sm:mt-9
+  sm:text-[15px]
+  sm:leading-[1.9]
+"          >
             When customers have trouble with your software or device,
             the questions often go straight to developers. FirstNotch
             sets up a trained helpdesk around your product, answers
@@ -620,8 +941,26 @@ export default function TechnicalSupportPage() {
             <button
               type="button"
               onClick={scrollToIncluded}
-              className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/20 bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025]"
-            >
+className="
+  inline-flex
+  min-h-[50px]
+  items-center
+  gap-2
+  rounded-full
+  border
+  border-white/20
+  bg-white/[0.06]
+  px-6
+  text-[12px]
+  font-semibold
+  text-white
+  backdrop-blur-md
+  transition
+
+  hover:border-white/45
+  hover:bg-white
+  hover:text-[#17191C]
+"            >
               See what is included
               <ArrowDown data-ts-down size={16} />
             </button>
@@ -632,7 +971,19 @@ export default function TechnicalSupportPage() {
       {/* INCLUDED */}
       <section
         id="technical-support-included"
-        className="scroll-mt-[90px] bg-[#F7F7F6] px-5 py-[80px] sm:px-8 sm:py-[115px] lg:px-14 lg:py-[145px]"
+        className="
+  scroll-mt-[90px]
+  overflow-hidden
+  bg-[#F7F7F6]
+  px-5
+  py-[65px]
+
+  sm:px-8
+  sm:py-[90px]
+
+  lg:px-14
+  lg:py-[105px]
+"
       >
         <div className="mx-auto max-w-[1450px]">
           <div className="mx-auto max-w-[1000px] text-center">
@@ -651,11 +1002,92 @@ export default function TechnicalSupportPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-6">
-            {included.map((item) => (
-              <SupportCard key={item.title} item={item} />
-            ))}
-          </div>
+         <div
+  className="
+    relative
+    left-1/2
+    mt-10
+    w-screen
+    -translate-x-1/2
+    overflow-hidden
+
+    lg:mt-14
+  "
+>
+  {/* LEFT SOFT FADE */}
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none
+      absolute
+      inset-y-0
+      left-0
+      z-20
+      w-[45px]
+      bg-gradient-to-r
+      from-[#F7F7F6]
+      to-transparent
+
+      sm:w-[80px]
+      lg:w-[120px]
+    "
+  />
+
+  {/* RIGHT SOFT FADE */}
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none
+      absolute
+      inset-y-0
+      right-0
+      z-20
+      w-[45px]
+      bg-gradient-to-l
+      from-[#F7F7F6]
+      to-transparent
+
+      sm:w-[80px]
+      lg:w-[120px]
+    "
+  />
+<div
+  ref={marqueeRef}
+  className="
+    flex
+    w-max
+    py-3
+    will-change-transform
+    [transform:translate3d(0,0,0)]
+  "
+>
+  {/* GROUP 1 */}
+  <div
+    ref={marqueeGroupRef}
+    className="flex shrink-0 gap-5 pr-5"
+  >
+    {included.map((item) => (
+      <SupportCard
+        key={`first-${item.number}`}
+        item={item}
+      />
+    ))}
+  </div>
+
+  {/* GROUP 2 — EXACT DUPLICATE FOR INFINITE LOOP */}
+  <div
+    aria-hidden="true"
+    className="flex shrink-0 gap-5 pr-5"
+  >
+    {included.map((item) => (
+      <SupportCard
+        key={`second-${item.number}`}
+        item={item}
+      />
+    ))}
+  </div>
+</div>
+</div>
         </div>
       </section>
 

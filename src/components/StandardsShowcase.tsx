@@ -1090,6 +1090,157 @@ function FeatureCard({
 }
 
 // ==========================================
+// PREMIUM FIRSTNOTCH GRADIENT BARS BACKGROUND
+// ==========================================
+
+type GradientBarsProps = {
+  numBars?: number;
+  gradientFrom?: string;
+  gradientTo?: string;
+  animationDuration?: number;
+  className?: string;
+};
+function GradientBars({
+  numBars = 9,
+  gradientFrom = 'rgba(177,32,37,0.24)',
+  gradientTo = 'rgba(255,255,255,0)',
+  animationDuration = 3.2,
+  className = '',
+}: GradientBarsProps) {
+  const calculateHeight = (
+    index: number,
+    total: number
+  ) => {
+    const position =
+      index / (total - 1);
+
+    const maxHeight = 100;
+    const minHeight = 24;
+
+    const center = 0.5;
+
+    const distanceFromCenter =
+      Math.abs(position - center);
+
+    const heightPercentage =
+      Math.pow(
+        distanceFromCenter * 2,
+        1.2
+      );
+
+    return (
+      minHeight +
+      (maxHeight - minHeight) *
+        heightPercentage
+    );
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes firstnotchGradientPulse {
+          0% {
+            transform: scaleY(var(--initial-scale));
+          }
+
+          100% {
+            transform: scaleY(
+              calc(var(--initial-scale) * 0.72)
+            );
+          }
+        }
+      `}</style>
+
+      <div
+        aria-hidden="true"
+        className={`
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+          overflow-hidden
+          ${className}
+        `}
+      >
+        <div
+          className="flex h-full w-full"
+          style={{
+            transform:
+              'translateZ(0)',
+            backfaceVisibility:
+              'hidden',
+          }}
+        >
+          {Array.from({
+            length: numBars,
+          }).map((_, index) => {
+            const height =
+              calculateHeight(
+                index,
+                numBars
+              );
+
+            return (
+              <div
+                key={index}
+                className="
+                  relative
+                  h-full
+                  overflow-hidden
+                "
+                style={{
+                  flex: `1 0 calc(100% / ${numBars})`,
+
+                  maxWidth: `calc(100% / ${numBars})`,
+                }}
+              >
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    origin-bottom
+                    will-change-transform
+                  "
+                  style={{
+                    background: `linear-gradient(
+                      to top,
+                      ${gradientFrom},
+                      ${gradientTo}
+                    )`,
+
+                    transform: `scaleY(${height / 100})`,
+
+                    animation:
+                      `firstnotchGradientPulse ${animationDuration}s ease-in-out infinite alternate`,
+
+                    animationDelay:
+                      `${index * 0.12}s`,
+
+                    ['--initial-scale' as string]:
+                      height / 100,
+                  }}
+                />
+
+                {/* SUBTLE DIVIDER */}
+                <div
+                  className="
+                    absolute
+                    inset-y-0
+                    right-0
+                    w-px
+                    bg-[#B12025]/[0.035]
+                  "
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ==========================================
 // MAIN STANDARDS SECTION
 // ==========================================
 
@@ -1149,12 +1300,36 @@ export default function StandardsShowcase() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="standards"
-      aria-labelledby="fns-standards-title"
-     className="relative scroll-mt-28 overflow-hidden bg-white px-4 py-8 text-[#17191C] sm:px-8 sm:py-20 lg:px-12 lg:py-24"
-    >
+<section
+  ref={sectionRef}
+  id="standards"
+  aria-labelledby="fns-standards-title"
+  className="
+    relative
+    isolate
+    scroll-mt-28
+    overflow-hidden
+    bg-white
+    px-4 py-8
+    text-[#17191C]
+
+    sm:px-8 sm:py-20
+    lg:px-12 lg:py-24
+  "
+>
+  {/* ==========================================
+      FIRSTNOTCH ANIMATED GRADIENT BAR BACKGROUND
+  =========================================== */}
+
+<GradientBars
+  numBars={9}
+gradientFrom="#B12025"
+gradientTo="rgba(177,32,37,0)"
+  animationDuration={3.2}
+  className="opacity-100"
+/>
+
+
       {/* ==================================
           MAIN SECTION WIDTH ADJUSTMENT
 
@@ -1163,7 +1338,7 @@ export default function StandardsShowcase() {
           max-w-[1280px] = Wider
       ================================== */}
 
-      <div className="mx-auto max-w-[1180px]">
+      <div className="relative z-10 mx-auto max-w-[1180px]">
 
         {/* SECTION TITLE */}
        {/* SECTION TITLE */}
@@ -1232,25 +1407,7 @@ export default function StandardsShowcase() {
   <ArrowUpRight size={13} />
 </div>
 
-        {/* BOTTOM CTA */}
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-5 border-t border-[#17191C]/10 pt-7">
-          <p className="text-[13px] text-[#17191C]/60">
-            Your business processes. Our people.
-            One clear standard.
-          </p>
-
-          <a
-            href="#contact"
-            className="group inline-flex items-center gap-3 rounded-full bg-[#B12025] px-6 py-3.5 text-[12px] font-semibold text-white transition-colors hover:bg-[#981B20] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025]"
-          >
-            Book a free discovery call
-
-            <ArrowUpRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-            />
-          </a>
-        </div>
+       
       </div>
     </section>
   );

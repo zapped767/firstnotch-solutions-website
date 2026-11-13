@@ -32,9 +32,9 @@ export const COPY = {
   intro:
     'Customer Support | Sales & Lead Generation | Back Office | KYC/AML | IT Support,Serving businesses across the UAE, UK, Australia, Europe and Asia.',
   cta: 'Book a free discovery call',
-  aboutTitle: 'Why outsource to Sri Lanka',
-  about:
-    'FirstNotch has been based in Colombo since 2022. These are the reasons companies choose outsourcing to Sri Lanka.',
+aboutTitle: 'Why FirstNotch Solutions?',
+about:
+  'Flexible outsourcing support built around your business, your customers and the way your team works.',
   serviceTitle: 'Our outsourcing services',
   services: 'Offshore support in three areas. Start with one service and add more as you grow.',
   standardsTitle: 'Why clients stay with FirstNotch',
@@ -61,20 +61,24 @@ export const STATS = [
 
 export const ADVANTAGES = [
   [
-    'Strong English skills',
-    'English is widely used in Sri Lankan business and education. The FirstNotch team also speaks Sinhala, Tamil and Hindi.',
+    '01',
+    'Skilled & Professional Teams',
+    'Access trained professionals with strong English communication skills and the expertise to represent your business with confidence.',
   ],
   [
-    'Working hours that overlap with yours',
-    'Sri Lanka is on GMT+5:30, so the working day overlaps with business hours in the Middle East, Europe and Australia.',
+    '02',
+    'Flexible & Scalable Support',
+    'From a single specialist to a dedicated team, we build flexible solutions around your business hours, workload and growth.',
   ],
   [
-    'Lower costs',
-    'Salaries here are lower than in the US, the UK or Australia. You pay less and still get the same QA checks and monthly reviews.',
+    '03',
+    'Reduce Costs. Increase Efficiency.',
+    'Get high-quality outsourcing support from Sri Lanka while reducing the cost of maintaining a large in-house operation.',
   ],
   [
-    'An established industry',
-    'Sri Lanka has a large IT and BPO sector. That means many trained and experienced people to hire from.',
+    '04',
+    'Quality You Can Rely On',
+    'Our focus is simple: consistent quality, clear communication, accountability and measurable results.',
   ],
 ] as const;
 
