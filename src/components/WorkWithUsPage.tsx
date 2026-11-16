@@ -7,7 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import Footer from '@/components/FirstNotchFooter';
-
+import WorkWithUsArcHero from "../components/services/WorkWithUsArcHero";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -808,138 +808,12 @@ export default function WorkWithUsPage() {
         className="pointer-events-none fixed right-0 top-0 z-[130] h-full w-[3px] origin-top scale-y-0 bg-[#B12025]"
       />
 
-      {/* ==============================================
-          PREMIUM RED HERO
-      ============================================== */}
+{/* ==============================================
+    21ST.DEV ARC SPREAD HERO
+============================================== */}
 
-      <section
-        id="wu-top"
-        className="relative overflow-hidden bg-[#B12025] px-5 pb-[48px] pt-[78px] text-white sm:px-8 sm:pb-[105px] sm:pt-[150px] lg:px-14 lg:pb-[140px] lg:pt-[195px]"
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-[270px] top-[-250px] h-[850px] w-[850px] rounded-full border border-white/15"
-        />
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-[110px] top-[-110px] h-[570px] w-[570px] rounded-full border border-white/15"
-        />
-
-        <div className="relative mx-auto grid max-w-[1460px] gap-14 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
-          <div>
-           
-
-            <h1 className="mt-4 max-w-[920px] text-[clamp(2.35rem,11vw,3rem)] font-semibold leading-[1.02] tracking-[-.065em] sm:mt-7 sm:text-[clamp(3.2rem,6.5vw,7.8rem)] sm:leading-[1.045] sm:tracking-[-.075em]">
-              <HeroWords
-                text="Jobs in Colombo that pay a salary plus monthly incentives"
-              />
-            </h1>
-
-            <p
-              data-wu-in
-              className="mt-5 max-w-[690px] text-[12px] leading-[1.7] text-white/95 sm:mt-8 sm:text-[17px] sm:leading-[1.9]"
-            >
-              FirstNotch is a BPO company with
-              a team of 70+ at its Colombo
-              office. Staff answer customer
-              calls, process data and build
-              websites for client businesses
-              in Sri Lanka and abroad.
-            </p>
-
-            <p
-              data-wu-in
-              className="mt-3 max-w-[650px] text-[11px] leading-[1.7] text-white/80 sm:mt-5 sm:text-[14px] sm:leading-[1.85]"
-            >
-              A willingness to learn matters
-              more here than a long CV. New
-              starters get training, and
-              those who do well can move
-              into senior roles.
-            </p>
-
-            <div
-              data-wu-in
-              className="mt-9 flex flex-wrap gap-3"
-            >
-              <a
-                href="#roles"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:bg-[#fff0f0]"
-              >
-                See open roles
-                <ArrowUpRight size={17} />
-              </a>
-
-              <a
-                href="#apply"
-                className="inline-flex min-h-[52px] items-center gap-3 rounded-full border border-white/50 px-6 text-[12px] font-semibold text-white transition hover:bg-white/15"
-              >
-                How to apply
-                <ArrowDownRight size={17} />
-              </a>
-            </div>
-          </div>
-
-          {/* HERO STATS */}
-
-          <div
-            data-wu-in
-            className="relative border-t border-white/35 pt-5 sm:pt-9 lg:mb-3 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
-          >
-            <p className="text-[64px] font-semibold leading-none tracking-[-.08em] sm:text-[clamp(6rem,12vw,12rem)] sm:tracking-[-.1em]">
-              70
-              <span className="text-white/65">
-                +
-              </span>
-            </p>
-
-            <p className="mt-3 text-[15px] font-semibold">
-              People in the Colombo team
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/30 px-4 py-2 text-[11px]">
-                Colombo 4 · Office based
-              </span>
-
-              <span className="rounded-full border border-white/30 px-4 py-2 text-[11px]">
-                {officeOpen === null
-                  ? 'Checking office hours'
-                  : officeOpen
-                    ? 'Within office hours'
-                    : 'Outside office hours'}
-              </span>
-            </div>
-
-            <div
-              className="relative mt-5 h-[38px] overflow-hidden sm:mt-10 sm:h-[54px]"
-              aria-hidden="true"
-            >
-              <svg
-                viewBox="0 0 450 55"
-                className="h-full w-full"
-              >
-                <path
-                  d="M5 39 C70 8 110 58 175 27 S320 4 445 30"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity=".55"
-                  strokeWidth="2"
-                  strokeDasharray="4 8"
-                />
-
-                <circle
-                  cx="445"
-                  cy="30"
-                  r="7"
-                  fill="white"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </section>
+<WorkWithUsArcHero />
+     
 
       {/* ==============================================
           BENEFITS
@@ -1929,69 +1803,13 @@ export default function WorkWithUsPage() {
         </div>
       </section>
 
-      {/* ==============================================
-          FOOTER
-      ============================================== */}
+   {/* ==============================================
+    FIRSTNOTCH GLOBAL FOOTER
+============================================== */}
 
-      <footer className="hidden bg-[#17191C] px-5 pb-8 pt-[70px] text-white sm:block sm:px-8 lg:px-14">
-        <div className="mx-auto max-w-[1400px]">
-          <div className="flex flex-wrap justify-between gap-10">
-            <div>
-              <p className="text-[clamp(2.6rem,6vw,6rem)] font-semibold leading-none tracking-[-.075em]">
-                FirstNotch.
-              </p>
+<Footer />
 
-              <p className="mt-5 text-[13px] text-white/70">
-                A BPO company in Colombo, Sri Lanka.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-7 text-[12px] font-semibold">
-              <Link
-                href="/"
-                className="hover:underline"
-              >
-                Home
-              </Link>
-
-              <Link
-                href="/how-we-hire"
-                className="hover:underline"
-              >
-                How we hire
-              </Link>
-
-              <a
-                href="#roles"
-                className="hover:underline"
-              >
-                Open roles
-              </a>
-
-              <a
-                href="#apply"
-                className="hover:underline"
-              >
-                How to apply
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-16 flex flex-wrap justify-between gap-4 border-t border-white/20 pt-6 text-[11px] text-white/60">
-            <span>
-              © 2026 FirstNotch Solutions
-              (Pvt) Ltd. All rights reserved.
-            </span>
-
-            <a
-              href="#wu-top"
-              className="hover:text-white"
-            >
-              Back to top ↑
-            </a>
-          </div>
-        </div>
-      </footer>
+    
 
       {/* SHARED SITE FOOTER — MOBILE ONLY */}
       <div className="sm:hidden">

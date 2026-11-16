@@ -225,8 +225,11 @@ function SupportCard({
       className="
         group
         relative
-        h-[270px]
-        w-[290px]
+       h-[270px]
+w-[290px]
+
+max-sm:h-[220px]
+max-sm:w-[245px]
         shrink-0
         overflow-hidden
         rounded-[14px]
@@ -295,10 +298,14 @@ function SupportCard({
       {/* ICON */}
       <div
         className="
-          mt-6
-          flex
-          h-[44px]
-          w-[44px]
+        mt-6
+flex
+h-[44px]
+w-[44px]
+
+max-sm:mt-4
+max-sm:h-[38px]
+max-sm:w-[38px]
           items-center
           justify-center
           rounded-[11px]
@@ -318,7 +325,7 @@ function SupportCard({
       </div>
 
       {/* CONTENT */}
-      <div className="mt-6">
+    <div className="mt-6 max-sm:mt-4">
         <p
           className="
             text-[8px]
@@ -333,8 +340,10 @@ function SupportCard({
 
         <h3
           className="
-            mt-2
-            text-[19px]
+           mt-2
+text-[19px]
+
+max-sm:text-[16px]
             font-semibold
             leading-[1.08]
             tracking-[-.04em]
@@ -349,9 +358,13 @@ function SupportCard({
         <p
           className="
             mt-3
-            line-clamp-3
-            text-[10px]
-            leading-[1.65]
+line-clamp-3
+text-[10px]
+leading-[1.65]
+
+max-sm:mt-2
+max-sm:text-[9px]
+max-sm:leading-[1.5]
             text-[#17191C]/58
 
             sm:text-[11px]
@@ -397,9 +410,28 @@ function FAQItem({
         type="button"
         onClick={onClick}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-5 py-5 text-left sm:py-7"
+        className="
+  flex w-full items-center justify-between
+  gap-5 py-5 text-left
+
+  max-sm:gap-3
+  max-sm:py-4
+
+  sm:py-7
+"
       >
-        <span className="max-w-[900px] text-[16px] font-semibold leading-[1.3] tracking-[-.03em] text-[#17191C] sm:text-[21px] lg:text-[24px]">
+        <span className="
+  max-w-[900px]
+  text-[16px] font-semibold
+  leading-[1.3]
+  tracking-[-.03em]
+  text-[#17191C]
+
+  max-sm:text-[14px]
+
+  sm:text-[21px]
+  lg:text-[24px]
+">
           {item.q}
         </span>
 
@@ -420,7 +452,20 @@ function FAQItem({
         }`}
       >
         <div className="overflow-hidden">
-          <p className="max-w-[850px] pb-6 pr-10 text-[12px] leading-[1.85] text-[#17191C]/65 sm:pb-8 sm:text-[14px]">
+          <p className="
+  max-w-[850px]
+  pb-6 pr-10
+  text-[12px] leading-[1.85]
+  text-[#17191C]/65
+
+  max-sm:pb-4
+  max-sm:pr-5
+  max-sm:text-[10px]
+  max-sm:leading-[1.65]
+
+  sm:pb-8
+  sm:text-[14px]
+">
             {item.a}
           </p>
         </div>
@@ -593,9 +638,38 @@ const [faqOpen, setFaqOpen] = useState<number | null>(0);
   useEffect(() => {
     if (!rootRef.current) return;
 
-    const mm = gsap.matchMedia();
+const mm = gsap.matchMedia();
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+/* =========================================
+   MOBILE — KEEP ALL TEXT STATIC / VISIBLE
+========================================= */
+mm.add("(max-width: 639px)", () => {
+  gsap.set(
+    [
+      "[data-ts-eyebrow]",
+      "[data-ts-hero-word]",
+      "[data-ts-hero-copy]",
+      "[data-ts-heading-word]",
+      "[data-ts-fade]",
+      "[data-ts-quote-word]",
+    ],
+    {
+      y: 0,
+      yPercent: 0,
+      opacity: 1,
+      autoAlpha: 1,
+      visibility: "visible",
+      clearProps: "transform",
+    }
+  );
+});
+
+/* =========================================
+   TABLET + DESKTOP ANIMATIONS ONLY
+========================================= */
+mm.add(
+  "(min-width: 640px) and (prefers-reduced-motion: no-preference)",
+  () => {
       const ctx = gsap.context(() => {
         gsap.fromTo(
           "[data-ts-eyebrow]",
@@ -806,7 +880,7 @@ const [faqOpen, setFaqOpen] = useState<number | null>(0);
       {/* HERO */}
       <section
   aria-labelledby="technical-support-title"
-  className="
+className="
     relative
     isolate
     min-h-[760px]
@@ -816,6 +890,10 @@ const [faqOpen, setFaqOpen] = useState<number | null>(0);
     pb-[100px]
     pt-[135px]
     text-white
+
+max-sm:min-h-0
+max-sm:pb-[46px]
+max-sm:pt-[105px]
 
     sm:px-8
     sm:pb-[120px]
@@ -864,11 +942,19 @@ const [faqOpen, setFaqOpen] = useState<number | null>(0);
         />
         <div className="relative z-10 mx-auto max-w-[1450px] text-center">
           <p
-            data-ts-eyebrow
-            className="text-[9px] font-bold uppercase tracking-[.25em] text-[#B12025] sm:text-[11px]"
-          >
-            TECHNICAL SUPPORT OUTSOURCING IN SRI LANKA
-          </p>
+  data-ts-eyebrow
+  className="
+    text-[9px] font-bold uppercase tracking-[.25em] text-[#B12025]
+
+    max-sm:whitespace-nowrap
+    max-sm:text-[7px]
+    max-sm:tracking-[.16em]
+
+    sm:text-[11px]
+  "
+>
+  TECHNICAL SUPPORT OUTSOURCING IN SRI LANKA
+</p>
 
           <h1
             id="technical-support-title"
@@ -882,11 +968,16 @@ className="
   tracking-[-.07em]
   text-white
 
+  max-sm:mt-4
+  max-sm:text-[38px]
+  max-sm:leading-[1.02]
+  max-sm:tracking-[-.055em]
+
   sm:mt-8
   sm:text-[clamp(4.2rem,7vw,7.2rem)]
 
   lg:text-[clamp(4.8rem,6.2vw,7.4rem)]
-"          >
+"       >
             <RisingWords text="Trained Helpdesk for Your Customers." />
           </h1>
 
@@ -902,9 +993,13 @@ className="
   tracking-[-.045em]
   text-[#B12025]
 
+  max-sm:mt-4
+  max-sm:text-[19px]
+  max-sm:leading-[1.15]
+
   sm:mt-6
   sm:text-[clamp(2rem,3.2vw,3.3rem)]
-"          >
+"        >
             So your developers can work on the product.
           </p>
 
@@ -918,10 +1013,14 @@ className="
   leading-[1.8]
   text-white/65
 
+  max-sm:mt-5
+  max-sm:text-[10px]
+  max-sm:leading-[1.65]
+
   sm:mt-9
   sm:text-[15px]
   sm:leading-[1.9]
-"          >
+"        >
             When customers have trouble with your software or device,
             the questions often go straight to developers. FirstNotch
             sets up a trained helpdesk around your product, answers
@@ -929,13 +1028,36 @@ className="
             escalation rules you agree.
           </p>
 
-          <div data-ts-hero-copy className="mt-8 flex flex-wrap items-center justify-center gap-3">
+<div
+  data-ts-hero-copy
+  className="
+    mt-8 flex flex-wrap items-center justify-center gap-3
+
+    max-sm:mt-6
+    max-sm:flex-nowrap
+    max-sm:gap-2
+
+    sm:flex-wrap
+  "
+>
             <a
               href="#contact"
-              className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition hover:bg-[#981A1F]"
-            >
+className="
+  inline-flex min-h-[50px] items-center justify-center gap-2
+  whitespace-nowrap rounded-full bg-[#B12025]
+  px-6 text-[12px] font-semibold text-white
+  transition hover:bg-[#981A1F]
+
+  max-sm:min-h-[42px]
+  max-sm:px-4
+  max-sm:text-[9px]
+  max-sm:gap-1.5
+"            >
               Book a free discovery call
-              <ArrowUpRight size={16} />
+              <ArrowUpRight
+  size={16}
+  className="max-sm:h-[13px] max-sm:w-[13px]"
+/>
             </a>
 
             <button
@@ -945,7 +1067,9 @@ className="
   inline-flex
   min-h-[50px]
   items-center
+  justify-center
   gap-2
+  whitespace-nowrap
   rounded-full
   border
   border-white/20
@@ -957,12 +1081,21 @@ className="
   backdrop-blur-md
   transition
 
+  max-sm:min-h-[42px]
+  max-sm:px-4
+  max-sm:text-[9px]
+  max-sm:gap-1.5
+
   hover:border-white/45
   hover:bg-white
   hover:text-[#17191C]
-"            >
+"          >
               See what is included
-              <ArrowDown data-ts-down size={16} />
+              <ArrowDown
+  data-ts-down
+  size={16}
+  className="max-sm:h-[13px] max-sm:w-[13px]"
+/>
             </button>
           </div>
         </div>
@@ -970,47 +1103,85 @@ className="
 
       {/* INCLUDED */}
       <section
-        id="technical-support-included"
-        className="
-  scroll-mt-[90px]
-  overflow-hidden
-  bg-[#F7F7F6]
-  px-5
-  py-[65px]
+  id="technical-support-included"
+  className="
+    scroll-mt-[90px]
+    overflow-hidden
+    bg-[#F7F7F6]
+    px-5
+    pt-[34px]
+    pb-[28px]
 
-  sm:px-8
-  sm:py-[90px]
+    sm:px-8
+    sm:py-[90px]
 
-  lg:px-14
-  lg:py-[105px]
-"
-      >
+    lg:px-14
+    lg:py-[105px]
+  "
+>
         <div className="mx-auto max-w-[1450px]">
           <div className="mx-auto max-w-[1000px] text-center">
             <p data-ts-fade className="text-[9px] font-bold uppercase tracking-[.23em] text-[#B12025] sm:text-[11px]">
               WHAT THE SERVICE INCLUDES
             </p>
 
-            <h2 className="mt-5 text-[clamp(2.2rem,8vw,3.7rem)] font-semibold leading-[1.04] tracking-[-.06em] text-[#17191C] sm:text-[clamp(3.4rem,5vw,5.8rem)]">
-              <ScrollHeading text="What the Technical Support Service Includes" />
-            </h2>
+<h2
+  className="
+    mt-3
+    font-semibold
+    leading-[1.04]
+    tracking-[-.06em]
+    text-[#17191C]
 
-            <p data-ts-fade className="mx-auto mt-6 max-w-[680px] text-[12px] leading-[1.85] text-[#17191C]/58 sm:text-[14px]">
+    max-sm:text-[27px]
+    max-sm:leading-[1.05]
+
+    sm:mt-5
+    sm:text-[clamp(3.4rem,5vw,5.8rem)]
+  "
+>
+  <span className="sm:hidden">
+    <ScrollHeading text="What the Technical Support" />
+    <br />
+    <ScrollHeading text="Service Includes" />
+  </span>
+
+  <span className="hidden sm:inline">
+    <ScrollHeading text="What the Technical Support Service Includes" />
+  </span>
+</h2>
+
+<p
+  data-ts-fade
+  className="
+    mx-auto
+    mt-4
+    max-w-[680px]
+    text-[10px]
+    leading-[1.65]
+    text-[#17191C]/58
+
+    sm:mt-6
+    sm:text-[14px]
+    sm:leading-[1.85]
+  "
+>
               A trained first line for your customers, clear escalation
               rules for your team and better information when an issue
               genuinely needs engineering.
             </p>
           </div>
 
-         <div
+<div
   className="
     relative
     left-1/2
-    mt-10
+    mt-6
     w-screen
     -translate-x-1/2
     overflow-hidden
 
+    sm:mt-10
     lg:mt-14
   "
 >
@@ -1092,31 +1263,94 @@ className="
       </section>
 
       {/* REPORTING */}
-      <section className="relative isolate overflow-hidden bg-white px-5 py-[85px] sm:px-8 sm:py-[120px] lg:px-14 lg:py-[150px]">
+      <section
+  className="
+    relative isolate overflow-hidden bg-white
+    px-5 py-[85px]
+
+    max-sm:py-[42px]
+
+    sm:px-8 sm:py-[120px]
+    lg:px-14 lg:py-[150px]
+  "
+>
         <div data-ts-parallax="0.45" aria-hidden="true" className="pointer-events-none absolute -left-[180px] top-[18%] h-[420px] w-[420px] rounded-full bg-[#B12025]/[0.035] blur-[80px]" />
         <div data-ts-parallax="0.25" aria-hidden="true" className="pointer-events-none absolute -right-[160px] bottom-[8%] h-[460px] w-[460px] rounded-full bg-[#B12025]/[0.04] blur-[90px]" />
 
         <div className="relative z-10 mx-auto max-w-[1420px]">
-          <div className="grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
+          <div className="grid gap-10 max-sm:gap-4 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
             <div>
-              <p data-ts-fade className="text-[9px] font-bold uppercase tracking-[.22em] text-[#B12025] sm:text-[11px]">
-                SUPPORT REPORTING
-              </p>
+              <p
+  data-ts-fade
+  className="
+    text-[9px] font-bold uppercase tracking-[.22em] text-[#B12025]
+    max-sm:text-center
+    sm:text-[11px]
+  "
+>
+  SUPPORT REPORTING
+</p>
 
-              <h2 className="mt-5 max-w-[760px] text-[clamp(2.35rem,8vw,3.8rem)] font-semibold leading-[1.04] tracking-[-.06em] text-[#17191C] sm:text-[clamp(3.5rem,5vw,5.8rem)]">
-                <ScrollHeading text="The Numbers You Will See" />
-              </h2>
+<h2
+  className="
+    mt-5 max-w-[760px]
+    text-[clamp(2.35rem,8vw,3.8rem)]
+    font-semibold leading-[1.04]
+    tracking-[-.06em]
+    text-[#17191C]
+
+    max-sm:mt-3
+    max-sm:max-w-none
+    max-sm:whitespace-nowrap
+    max-sm:text-center
+    max-sm:text-[24px]
+    max-sm:leading-[1.05]
+    max-sm:tracking-[-.055em]
+
+    sm:text-[clamp(3.5rem,5vw,5.8rem)]
+  "
+>
+  <ScrollHeading text="The Numbers You Will See" />
+</h2>
             </div>
 
-            <p data-ts-fade className="max-w-[620px] text-[12px] leading-[1.9] text-[#17191C]/60 sm:text-[14px] lg:justify-self-end">
+            <p
+  data-ts-fade
+  className="
+    max-w-[620px]
+    text-[12px] leading-[1.9]
+    text-[#17191C]/60
+
+    max-sm:text-[10px]
+    max-sm:leading-[1.65]
+
+    sm:text-[14px]
+    lg:justify-self-end
+  "
+>
               Good technical support solves routine issues at the helpdesk
               and sends the rest on with enough detail for your developers
               to act quickly.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-[1.12fr_.88fr] lg:gap-8">
-            <div data-ts-fade className="overflow-hidden rounded-[30px] border border-[#17191C]/10 bg-[#F8F8F7] p-5 sm:p-7 lg:p-8">
+          <div className="mt-12 grid gap-5 max-sm:mt-7 lg:grid-cols-[1.12fr_.88fr] lg:gap-8">
+            <div
+  data-ts-fade
+  className="
+    overflow-hidden
+    rounded-[30px]
+    border border-[#17191C]/10
+    bg-[#F8F8F7]
+    p-5
+
+    max-sm:rounded-[20px]
+    max-sm:p-4
+
+    sm:p-7
+    lg:p-8
+  "
+>
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#17191C]/10 pb-5">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#B12025]">
@@ -1132,22 +1366,59 @@ className="
                 </span>
               </div>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+<div
+  className="
+    mt-6 grid gap-3
+
+    max-sm:-mr-4
+    max-sm:flex
+    max-sm:snap-x
+    max-sm:snap-mandatory
+    max-sm:scroll-pl-2
+    max-sm:overflow-x-auto
+    max-sm:overscroll-x-contain
+    max-sm:touch-pan-x
+    max-sm:pl-2
+    max-sm:pr-6
+    max-sm:pb-2
+    max-sm:[scrollbar-width:none]
+    max-sm:[&::-webkit-scrollbar]:hidden
+
+    sm:grid-cols-2
+  "
+>
                 {reportMetrics.map((metric) => {
                   const Icon = metric.Icon;
 
                   return (
-                    <article key={metric.label} className="rounded-[18px] border border-[#17191C]/10 bg-white p-5">
+                    <article
+  key={metric.label}
+  className="
+    rounded-[18px]
+    border border-[#17191C]/10
+    bg-white
+    p-5
+
+    max-sm:h-[175px]
+    max-sm:w-[72vw]
+    max-sm:max-w-[235px]
+max-sm:shrink-0
+max-sm:snap-start
+max-sm:first:ml-0
+max-sm:last:mr-2
+max-sm:p-4
+  "
+>
                       <div className="flex items-center justify-between">
                         <Icon size={19} className="text-[#B12025]" />
                         <Check size={15} className="text-[#B12025]" />
                       </div>
 
-                      <p className="mt-8 text-[10px] font-semibold uppercase tracking-[.13em] text-[#17191C]/45">
+                      <p className="mt-8 text-[10px] font-semibold uppercase tracking-[.13em] text-[#17191C]/45 max-sm:mt-5 max-sm:text-[8px]">
                         {metric.label}
                       </p>
 
-                      <p className="mt-2 text-[27px] font-semibold tracking-[-.05em] text-[#B12025]">
+                      <p className="mt-2 text-[27px] font-semibold tracking-[-.05em] text-[#B12025] max-sm:text-[21px]">
                         {metric.value}
                       </p>
 
@@ -1159,7 +1430,7 @@ className="
                 })}
               </div>
 
-              <article className="mt-3 rounded-[18px] border border-[#17191C]/10 bg-white p-5">
+              <article className="mt-3 rounded-[18px] border border-[#17191C]/10 bg-white p-5 max-sm:hidden">
                 <div className="grid items-center gap-5 sm:grid-cols-[auto_1fr_auto]">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF0F0] text-[#B12025]">
                     <Sparkles size={18} />
@@ -1181,7 +1452,7 @@ className="
               </article>
             </div>
 
-            <div className="relative min-h-[520px]">
+            <div className="relative min-h-[520px] max-sm:hidden">
               <div data-ts-parallax="0.25" className="absolute left-0 top-4 w-[88%] rounded-[24px] border border-[#B12025]/12 bg-white p-6 shadow-[0_24px_70px_rgba(23,25,28,.07)] sm:w-[75%]">
                 <p className="text-[9px] font-bold uppercase tracking-[.15em] text-[#B12025]">
                   FIRST-LINE SUPPORT
@@ -1225,17 +1496,24 @@ className="
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-3 gap-4 border-t border-[#17191C]/10 pt-7">
+          <div className="
+  mt-10 grid grid-cols-3 gap-4
+  border-t border-[#17191C]/10 pt-7
+
+  max-sm:mt-6
+  max-sm:gap-2
+  max-sm:pt-5
+">
             {[
               ["85%", "client retention rate"],
               ["98%", "accuracy rate across client work"],
               ["15–20%", "of applicants pass hiring checks"],
             ].map(([value, label]) => (
               <div key={label}>
-                <p className="text-[22px] font-semibold tracking-[-.05em] text-[#B12025] sm:text-[32px]">
+                <p className="text-[22px] font-semibold tracking-[-.05em] text-[#B12025] max-sm:text-[18px] sm:text-[32px]">
                   {value}
                 </p>
-                <p className="mt-2 text-[9px] leading-5 text-[#17191C]/48 sm:text-[11px]">
+                <p className="mt-2 text-[9px] leading-5 text-[#17191C]/48 max-sm:mt-1 max-sm:text-[7px] max-sm:leading-[1.45] sm:text-[11px]">
                   {label}
                 </p>
               </div>
@@ -1245,17 +1523,38 @@ className="
       </section>
 
       {/* TESTIMONIAL */}
-      <section
-        id="technical-support-quote"
-        className="overflow-hidden bg-[#17191C] px-5 py-[90px] text-white sm:px-8 sm:py-[125px] lg:px-14 lg:py-[150px]"
-      >
+<section
+  id="technical-support-quote"
+  className="
+    overflow-hidden bg-[#17191C]
+    px-5 py-[90px] text-white
+
+    max-sm:py-[38px]
+
+    sm:px-8 sm:py-[125px]
+    lg:px-14 lg:py-[150px]
+  "
+>
         <div className="mx-auto max-w-[1250px] text-center">
           <p className="text-[9px] font-bold uppercase tracking-[.23em] text-white/45 sm:text-[11px]">
             CLIENT EXPERIENCE
           </p>
 
-          <blockquote className="mx-auto mt-8 max-w-[1100px] text-[clamp(2rem,7vw,3.5rem)] font-semibold leading-[1.2] tracking-[-.055em] sm:text-[clamp(3rem,5vw,5.4rem)]">
-            {"“Customers with setup problems now reach someone who can walk them through it. Our engineers get bug reports they can act on straight away.”"
+<blockquote
+  className="
+    mx-auto mt-8 max-w-[1100px]
+    text-[clamp(2rem,7vw,3.5rem)]
+    font-semibold leading-[1.2]
+    tracking-[-.055em]
+
+    max-sm:mt-4
+    max-sm:text-[20px]
+    max-sm:leading-[1.16]
+    max-sm:tracking-[-.035em]
+
+    sm:text-[clamp(3rem,5vw,5.4rem)]
+  "
+>         {"“Customers with setup problems now reach someone who can walk them through it. Our engineers get bug reports they can act on straight away.”"
               .split(/\s+/)
               .map((word, index) => (
                 <span key={`${word}-${index}`} data-ts-quote-word className="inline-block">
@@ -1265,23 +1564,81 @@ className="
               ))}
           </blockquote>
 
-          <p className="mt-8 text-[10px] font-bold uppercase tracking-[.18em] text-[#E85B60]">
-            SMART HOME DEVICE BRAND
-          </p>
+<p
+  className="
+    mt-8 text-[10px] font-bold uppercase
+    tracking-[.18em] text-[#E85B60]
+
+    max-sm:mt-5
+    max-sm:text-[8px]
+    max-sm:tracking-[.16em]
+  "
+>
+  SMART HOME DEVICE BRAND
+</p>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="bg-white px-5 py-[80px] sm:px-8 sm:py-[115px] lg:px-14 lg:py-[145px]">
-        <div className="mx-auto grid max-w-[1320px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-16">
-          <div className="lg:sticky lg:top-[115px] lg:self-start">
-            <p data-ts-fade className="text-[9px] font-bold uppercase tracking-[.22em] text-[#B12025] sm:text-[11px]">
-              FAQ
-            </p>
+      <section className="
+  bg-white px-5 py-[80px]
 
-            <h2 className="mt-5 max-w-[560px] text-[clamp(2.35rem,8vw,3.7rem)] font-semibold leading-[1.03] tracking-[-.06em] sm:text-[clamp(3.4rem,4.6vw,5.4rem)]">
-              <ScrollHeading text="Common Questions About Technical Support" />
-            </h2>
+  max-sm:py-[42px]
+
+  sm:px-8 sm:py-[115px]
+  lg:px-14 lg:py-[145px]
+">
+        <div className="mx-auto grid max-w-[1320px] gap-10 max-sm:gap-5 lg:grid-cols-[.72fr_1.28fr] lg:gap-16">
+          <div className="lg:sticky lg:top-[115px] lg:self-start">
+<p
+  data-ts-fade
+  className="
+    text-[9px]
+    font-bold
+    uppercase
+    tracking-[.22em]
+    text-[#B12025]
+
+    max-sm:text-center
+
+    sm:text-[11px]
+  "
+>
+  SUPPORT REPORTING
+</p>
+
+<h2
+  className="
+    mt-5
+    max-w-[560px]
+    font-semibold
+    leading-[1.03]
+    tracking-[-.06em]
+
+    max-sm:mt-3
+    max-sm:text-[22px]
+    max-sm:leading-[1.08]
+    max-sm:tracking-[-.04em]
+
+    sm:text-[clamp(3.4rem,4.6vw,5.4rem)]
+  "
+>
+  {/* MOBILE ONLY — EXACTLY 2 LINES */}
+  <span className="block sm:hidden">
+    <span className="block">
+      <ScrollHeading text="Common Questions" />
+    </span>
+
+    <span className="block">
+      <ScrollHeading text="About Technical Support" />
+    </span>
+  </span>
+
+  {/* TABLET + DESKTOP — ORIGINAL */}
+  <span className="hidden sm:block">
+    <ScrollHeading text="Common Questions About Technical Support" />
+  </span>
+</h2>
           </div>
 
           <div className="border-t border-[#17191C]/15">
@@ -1298,7 +1655,16 @@ className="
       </section>
 
       {/* OTHER SERVICES */}
-      <section className="bg-[#F7F7F6] px-5 py-[70px] sm:px-8 sm:py-[95px] lg:px-14">
+      <section className="
+  overflow-hidden
+  bg-[#F7F7F6]
+  px-5 py-[70px]
+
+  max-sm:py-[42px]
+
+  sm:px-8 sm:py-[95px]
+  lg:px-14
+">
         <div className="mx-auto max-w-[1420px]">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -1306,7 +1672,14 @@ className="
                 KEEP EXPLORING
               </p>
 
-              <h2 className="mt-4 text-[clamp(2rem,7vw,3.2rem)] font-semibold tracking-[-.055em]">
+              <h2 className="
+  mt-4
+  text-[clamp(2rem,7vw,3.2rem)]
+  font-semibold tracking-[-.055em]
+
+  max-sm:mt-2
+  max-sm:text-[27px]
+">
                 <ScrollHeading text="Other IT Services" />
               </h2>
             </div>
@@ -1317,23 +1690,60 @@ className="
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+<div
+  className="
+    mt-6 grid gap-3
+
+    max-sm:-mx-4
+    max-sm:flex
+    max-sm:snap-x
+    max-sm:snap-mandatory
+    max-sm:scroll-px-6
+    max-sm:overflow-x-auto
+    max-sm:overscroll-x-contain
+    max-sm:touch-pan-x
+    max-sm:px-6
+    max-sm:pb-2
+    max-sm:[scrollbar-width:none]
+    max-sm:[&::-webkit-scrollbar]:hidden
+
+    sm:grid-cols-2
+  "
+>
             {related.map((service) => (
               <Link
                 key={service.title}
                 href={service.href}
                 data-ts-fade
-                className="group rounded-[22px] border border-[#17191C]/10 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[#B12025]/30 hover:shadow-[0_20px_55px_rgba(23,25,28,.06)]"
+                className="
+  group
+  rounded-[22px]
+  border border-[#17191C]/10
+  bg-white
+  p-6
+  transition-all duration-500
+  hover:-translate-y-1
+  hover:border-[#B12025]/30
+  hover:shadow-[0_20px_55px_rgba(23,25,28,.06)]
+
+  max-sm:min-h-[155px]
+  max-sm:w-[76vw]
+  max-sm:max-w-[250px]
+  max-sm:shrink-0
+  max-sm:snap-start
+  max-sm:rounded-[17px]
+  max-sm:p-4
+"
               >
                 <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-[17px] font-semibold tracking-[-.035em]">
+                  <h3 className="text-[17px] font-semibold tracking-[-.035em] max-sm:text-[15px]">
                     {service.title}
                   </h3>
 
                   <ArrowUpRight size={17} className="text-[#B12025] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </div>
 
-                <p className="mt-5 text-[11px] leading-6 text-[#17191C]/55 sm:text-[12px]">
+                <p className="mt-5 text-[11px] leading-6 text-[#17191C]/55 max-sm:mt-4 max-sm:text-[9px] max-sm:leading-[1.6] sm:text-[12px]">
                   {service.text}
                 </p>
               </Link>
@@ -1343,45 +1753,110 @@ className="
       </section>
 
       {/* PROCESS */}
-      <section
-        id="technical-support-process"
-        className="bg-white px-5 py-[85px] sm:px-8 sm:py-[120px] lg:px-14 lg:py-[150px]"
-      >
+<section
+  id="technical-support-process"
+  className="
+    bg-white
+    px-5 py-[85px]
+
+    max-sm:py-[30px]
+
+    sm:px-8 sm:py-[120px]
+    lg:px-14 lg:py-[150px]
+  "
+>
         <div className="mx-auto max-w-[1420px]">
           <p data-ts-fade className="text-[9px] font-bold uppercase tracking-[.22em] text-[#B12025] sm:text-[11px]">
             THE PROCESS
           </p>
 
-          <h2 className="mt-5 max-w-[1000px] text-[clamp(2.35rem,8vw,3.8rem)] font-semibold leading-[1.03] tracking-[-.06em] sm:text-[clamp(3.5rem,5vw,5.8rem)]">
-            <ScrollHeading text="How Your Technical Support Team Is Set Up" />
-          </h2>
+         <h2
+  className="
+    mt-5 max-w-[1000px]
+    text-[clamp(2.35rem,8vw,3.8rem)]
+    font-semibold leading-[1.03]
+    tracking-[-.06em]
 
-          <p data-ts-fade className="mt-6 max-w-[720px] text-[12px] leading-[1.9] text-[#17191C]/58 sm:text-[14px]">
+    max-sm:mt-2
+    max-sm:text-[24px]
+    max-sm:leading-[1.06]
+    max-sm:tracking-[-.045em]
+
+    sm:text-[clamp(3.5rem,5vw,5.8rem)]
+  "
+>
+  <ScrollHeading text="How Your Technical Support Team Is Set Up" />
+</h2>
+
+<p
+  data-ts-fade
+  className="
+    mt-6 max-w-[720px]
+    text-[12px] leading-[1.9]
+    text-[#17191C]/58
+
+    max-sm:mt-3
+    max-sm:text-[9px]
+    max-sm:leading-[1.55]
+
+    sm:text-[14px]
+  "
+>
             The biggest risk with outsourced technical support is a team
             that does not know your product or your escalation rules.
             The setup process is designed to prevent that.
           </p>
 
-          <div className="relative mt-12 grid border-t border-[#17191C]/15 lg:grid-cols-4">
+<div className="
+  relative mt-12 grid
+  border-t border-[#17191C]/15
+
+  max-sm:mt-5
+
+  lg:grid-cols-4
+">
             <div data-ts-process-line aria-hidden="true" className="absolute left-0 top-[-1px] hidden h-[2px] w-full bg-[#B12025] lg:block" />
 
             {process.map((item, index) => (
               <article
                 key={item.number}
                 data-ts-fade
-                className={`border-b border-[#17191C]/15 py-8 lg:min-h-[340px] lg:border-b-0 lg:px-7 lg:py-10 ${
-                  index < process.length - 1 ? "lg:border-r" : ""
-                }`}
+className={`border-b border-[#17191C]/15 py-8 max-sm:py-4 lg:min-h-[340px] lg:border-b-0 lg:px-7 lg:py-10 ${
+  index < process.length - 1 ? "lg:border-r" : ""
+}`}
               >
                 <span className="text-[10px] font-semibold text-[#B12025]">
                   {item.number}
                 </span>
 
-                <h3 className="mt-8 text-[23px] font-semibold leading-[1.08] tracking-[-.045em] sm:text-[26px]">
+                <h3 className="
+  mt-8
+  text-[23px]
+  font-semibold
+  leading-[1.08]
+  tracking-[-.045em]
+
+  max-sm:mt-3
+  max-sm:text-[16px]
+  max-sm:leading-[1.1]
+
+  sm:text-[26px]
+">
                   {item.title}
                 </h3>
 
-                <p className="mt-5 text-[12px] leading-[1.85] text-[#17191C]/58 sm:text-[13px]">
+<p className="
+  mt-5
+  text-[12px]
+  leading-[1.85]
+  text-[#17191C]/58
+
+  max-sm:mt-2
+  max-sm:text-[9px]
+  max-sm:leading-[1.5]
+
+  sm:text-[13px]
+">
                   {item.text}
                 </p>
               </article>

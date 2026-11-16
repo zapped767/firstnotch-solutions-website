@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import EZPZTypeFold from '@/components/EZPZTypeFold';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import {
@@ -887,270 +888,261 @@ export default function HowWeHirePage() {
           HERO
       ================================================== */}
 
-      <section
-        id="how-we-hire-hero"
+     {/* ==================================================
+    HERO — EZPZ TYPE FOLD
+================================================== */}
+
+<section
+  id="how-we-hire-hero"
+  className="
+    relative
+    overflow-hidden
+    bg-white
+    px-5
+    pb-10
+    pt-[90px]
+
+    sm:px-8
+    sm:pb-20
+    sm:pt-[150px]
+
+    lg:px-14
+    lg:pb-24
+    lg:pt-[170px]
+  "
+>
+  {/* =========================================
+      LEFT — FIRSTNOTCH RED AMBIENT BLUR
+  ========================================= */}
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none
+      absolute
+      left-[-220px]
+      top-[48%]
+      z-0
+      h-[560px]
+      w-[560px]
+      -translate-y-1/2
+      rounded-full
+      bg-[#B12025]/18
+      blur-[130px]
+
+      sm:left-[-280px]
+      sm:h-[720px]
+      sm:w-[720px]
+      sm:bg-[#B12025]/20
+      sm:blur-[160px]
+
+      lg:left-[-320px]
+      lg:h-[900px]
+      lg:w-[900px]
+      lg:bg-[#B12025]/20
+      lg:blur-[190px]
+    "
+  />
+
+  {/* =========================================
+      CENTER TOP LABEL
+  ========================================= */}
+  <div
+    data-hire-reveal
+    className="
+      absolute
+      left-1/2
+      top-[105px]
+      z-30
+      -translate-x-1/2
+      whitespace-nowrap
+      text-center
+
+      sm:top-[155px]
+      lg:top-[165px]
+    "
+  >
+    <p
+      className="
+        text-[9px]
+        font-semibold
+        uppercase
+        tracking-[.24em]
+        text-[#B12025]
+
+        sm:text-[11px]
+        sm:tracking-[.28em]
+      "
+    >
+      THE FIRSTNOTCH STANDARD
+    </p>
+  </div>
+
+  {/* =========================================
+      HERO CONTENT
+  ========================================= */}
+  <div
+    className="
+      relative
+      z-10
+      mx-auto
+      grid
+      max-w-[1420px]
+      items-center
+      gap-8
+
+      lg:grid-cols-[0.9fr_1.1fr]
+      lg:gap-16
+    "
+  >
+    {/* =========================
+        LEFT — CONTENT
+    ========================= */}
+    <div className="relative z-10">
+      
+
+      <h1
+        data-hire-title
         className="
-          relative
-          overflow-hidden
-          bg-[#B12025]
-          px-5
-          pb-[38px]
-          pt-[85px]
-          text-white
+          mt-4
+          max-w-[760px]
+          text-[clamp(2.5rem,11vw,4rem)]
+          font-semibold
+          leading-[0.96]
+          tracking-[-.065em]
+          text-[#17191C]
 
-          sm:px-8
-          sm:pb-[105px]
-          sm:pt-[150px]
-
-          lg:px-14
-          lg:pb-[140px]
-          lg:pt-[195px]
+          sm:mt-6
+          sm:text-[clamp(4rem,6.5vw,7.2rem)]
+          sm:leading-[0.94]
+          sm:tracking-[-.075em]
         "
       >
-        {/* background decorative lines */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 overflow-hidden"
+        <RisingWords text="How we hire." />
+      </h1>
+
+      <p
+        data-hire-reveal
+        className="
+          mt-5
+          max-w-[610px]
+          text-[12px]
+          leading-[1.6]
+          text-[#17191C]/65
+
+          sm:mt-7
+          sm:text-[15px]
+          sm:leading-[1.8]
+        "
+      >
+        The people on your account are chosen carefully,
+        trained on your work and measured after they start.
+      </p>
+
+      <div
+        data-hire-reveal
+        className="
+          mt-6
+          flex
+          flex-wrap
+          gap-2
+
+          sm:mt-9
+          sm:gap-3
+        "
+      >
+        <a
+          href="#screening"
+          className="
+            inline-flex
+            min-h-[42px]
+            items-center
+            gap-2
+            rounded-full
+            bg-[#B12025]
+            px-4
+            text-[10px]
+            font-semibold
+            text-white
+            transition
+
+            hover:bg-[#941a1f]
+
+            sm:min-h-[54px]
+            sm:px-6
+            sm:text-[12px]
+          "
         >
-          <div className="absolute -right-[12%] top-[6%] h-[420px] w-[420px] rounded-full border border-white/10 sm:h-[700px] sm:w-[700px]" />
+          See the hiring process
 
-          <div className="absolute -right-[4%] top-[15%] h-[280px] w-[280px] rounded-full border border-white/[0.07] sm:h-[500px] sm:w-[500px]" />
-
-          <div className="absolute bottom-[-150px] left-[-100px] h-[320px] w-[320px] rounded-full border border-white/[0.07] sm:h-[520px] sm:w-[520px]" />
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-[1420px]">
-          
-
-          <h1
-            data-hire-title
-            className="
-              mt-3
-              max-w-[1250px]
-              font-semibold
-              leading-[1.03]
-              tracking-[-.065em]
-
-              sm:mt-6
-              sm:leading-[1.02]
-              sm:tracking-[-.075em]
-            "
-          >
-            <span
-              className="
-                block
-                whitespace-nowrap
-                text-[clamp(1.8rem,8vw,2.35rem)]
-
-                sm:whitespace-normal
-                sm:text-[clamp(4rem,8vw,9.5rem)]
-              "
-            >
-              <RisingWords text="How we hire" />
-            </span>
-
-            <span
-              className="
-                mt-3
-                block
-                max-w-[1170px]
-                text-[clamp(1.35rem,6.2vw,1.75rem)]
-                leading-[1.13]
-                tracking-[-.05em]
-
-                sm:mt-5
-                sm:text-[clamp(2.25rem,4.8vw,5.4rem)]
-                sm:leading-[1.08]
-                sm:tracking-[-.065em]
-              "
-            >
-              <RisingWords text="The people on your account are chosen carefully, trained on your work and measured after they start." />
-            </span>
-          </h1>
-
-          <div
-            data-hire-reveal
-            className="
-              mt-5
-              h-px
-              w-full
-              bg-white/30
-
-              sm:mt-10
-            "
+          <ArrowDownRight
+            className="h-[14px] w-[14px] sm:h-[17px] sm:w-[17px]"
           />
+        </a>
 
-          <div
-            className="
-              mt-4
-              grid
-              gap-5
+        <Link
+          href="/work-with-us"
+          className="
+            inline-flex
+            min-h-[42px]
+            items-center
+            gap-2
+            rounded-full
+            border
+            border-[#17191C]/15
+            px-4
+            text-[10px]
+            font-semibold
+            text-[#17191C]
+            transition
 
-              sm:mt-10
-              sm:gap-8
+            hover:border-[#B12025]/40
+            hover:text-[#B12025]
 
-              lg:grid-cols-[1fr_.72fr]
-              lg:items-end
-            "
-          >
-            <div data-hire-reveal>
-              <p
-                className="
-                  max-w-[710px]
-                  text-[10px]
-                  leading-[1.5]
-                  text-white
+            sm:min-h-[54px]
+            sm:px-6
+            sm:text-[12px]
+          "
+        >
+          View careers
 
-                  sm:text-[16px]
-                  sm:leading-[1.9]
-                "
-              >
-                The team working for your business should
-                feel like part of your company, not a group
-                of strangers handling tasks from somewhere
-                else.
-              </p>
+          <ArrowUpRight
+            className="h-[14px] w-[14px] sm:h-[17px] sm:w-[17px]"
+          />
+        </Link>
+      </div>
+    </div>
 
-              <p
-                className="
-                  mt-2
-                  max-w-[670px]
-                  text-[10px]
-                  leading-[1.5]
-                  text-white/85
+    {/* =========================
+        RIGHT — 21ST.DEV FOLD
+    ========================= */}
+    <div
+      data-hire-reveal
+      className="
+        relative
+        mx-auto
+        w-full
+        max-w-[360px]
 
-                  sm:mt-4
-                  sm:text-[14px]
-                  sm:leading-[1.85]
-                "
-              >
-                That starts with recruitment. FirstNotch
-                checks language, practical ability,
-                experience and references before someone
-                reaches a client account.
-              </p>
-
-              <div
-                className="
-                  mt-4
-                  flex
-                  flex-wrap
-                  gap-2
-
-                  sm:mt-8
-                  sm:gap-3
-                "
-              >
-                <a
-                  href="#screening"
-                  className="
-                    inline-flex
-                    min-h-[34px]
-                    items-center
-                    gap-1.5
-                    rounded-full
-                    bg-white
-                    px-2.5
-                    text-[8px]
-                    font-semibold
-                    text-[#B12025]
-                    transition
-                    hover:bg-[#fff0f0]
-
-                    sm:min-h-[54px]
-                    sm:gap-3
-                    sm:px-6
-                    sm:text-[12px]
-                  "
-                >
-                  See the hiring process
-                  <ArrowDownRight
-                    className="h-[12px] w-[12px] sm:h-[17px] sm:w-[17px]"
-                  />
-                </a>
-
-                <Link
-                  href="/work-with-us"
-                  className="
-                    inline-flex
-                    min-h-[34px]
-                    items-center
-                    gap-1.5
-                    rounded-full
-                    border
-                    border-white/50
-                    px-2.5
-                    text-[8px]
-                    font-semibold
-                    text-white
-                    transition
-                    hover:bg-white/15
-
-                    sm:min-h-[54px]
-                    sm:gap-3
-                    sm:px-6
-                    sm:text-[12px]
-                  "
-                >
-                  View careers
-                  <ArrowUpRight
-                    className="h-[12px] w-[12px] sm:h-[17px] sm:w-[17px]"
-                  />
-                </Link>
-              </div>
-            </div>
-
-            <div
-              data-hire-reveal
-              className="
-                border-t
-                border-white/30
-                pt-4
-
-                sm:pt-7
-
-                lg:border-l
-                lg:border-t-0
-                lg:pl-10
-                lg:pt-0
-              "
-            >
-              <p
-                className="
-                  text-[8px]
-                  font-semibold
-                  uppercase
-                  tracking-[.18em]
-                  text-white/60
-
-                  sm:text-[11px]
-                  sm:tracking-[.22em]
-                "
-              >
-                THE STANDARD
-              </p>
-
-              <p
-                className="
-                  mt-2
-                  max-w-[460px]
-                  text-[16px]
-                  font-semibold
-                  leading-[1.3]
-                  tracking-[-.03em]
-
-                  sm:mt-4
-                  sm:text-[24px]
-                  sm:leading-[1.4]
-                "
-              >
-                Only people who pass the checks and training
-                move onto client work.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+        sm:max-w-[500px]
+        lg:max-w-[590px]
+      "
+    >
+      <EZPZTypeFold
+        words={[
+          'HOW WE',
+          'HIRE',
+          'BETTER.',
+        ]}
+        background="#FFFFFF"
+        ink="#B12025"
+        paper="#FFF4F4"
+        fontFamily='"Helvetica Neue", Arial, sans-serif'
+        label="How We Hire Better"
+        className="h-auto w-full"
+      />
+    </div>
+  </div>
+</section>
 
       {/* ==================================================
           MARQUEE
@@ -1251,6 +1243,7 @@ export default function HowWeHirePage() {
             lg:gap-20
           "
         >
+          
           <div data-hire-reveal>
             <p
               className={`${label} text-[#B12025]`}

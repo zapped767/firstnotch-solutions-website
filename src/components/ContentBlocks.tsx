@@ -361,7 +361,7 @@ export function QuoteBand({ index }: { index: number }) {
   return (
     <section
       aria-label={`Testimonial: ${company}`}
-      className="relative overflow-hidden bg-[#B12025] px-5 py-9 text-white sm:px-8 sm:py-16 lg:px-14 lg:py-24"
+      className="relative overflow-hidden bg-[#B12025] px-5 py-6 text-white sm:px-8 sm:py-16 lg:px-14 lg:py-24"
     >
       <div
         aria-hidden="true"
@@ -369,7 +369,7 @@ export function QuoteBand({ index }: { index: number }) {
       />
 
       <blockquote className="mx-auto max-w-[1100px]">
-        <p className="text-[clamp(1.7rem,3.6vw,3.6rem)] font-medium leading-[1.3] tracking-[-0.04em]">
+        <p className="text-[22px] font-medium leading-[1.22] tracking-[-0.04em] sm:text-[clamp(1.7rem,3.6vw,3.6rem)] sm:leading-[1.3]">
           “<ScrollWords text={text} />”
         </p>
       </blockquote>

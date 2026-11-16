@@ -1556,10 +1556,10 @@ export default function ITServicesPage() {
             "
           >
             <CrowdCanvas
-              src="https://cdn.21st.dev/assets/localized/abdb8990a7bef8c2f5af3e45f0a3c969c4b0603fba8be92e81347de4ea4e1ed7.png"
-              rows={15}
-              cols={7}
-            />
+  src="/images/it-services/crowd-sprites.png"
+  rows={15}
+  cols={7}
+/>
           </div>
 
           {/* Soft white fade */}

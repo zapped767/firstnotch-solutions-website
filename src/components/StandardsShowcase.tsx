@@ -1323,10 +1323,10 @@ export default function StandardsShowcase() {
 
 <GradientBars
   numBars={9}
-gradientFrom="#B12025"
-gradientTo="rgba(177,32,37,0)"
+  gradientFrom="#B12025"
+  gradientTo="rgba(177,32,37,0)"
   animationDuration={3.2}
-  className="opacity-100"
+  className="hidden opacity-100 sm:block"
 />
 
 

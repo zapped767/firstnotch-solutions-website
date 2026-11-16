@@ -33,6 +33,7 @@ import Navbar from '../Navbar';
 import StoryContact from '../StoryContact';
 import ServiceRail from './ServiceRail';
 import QualityPromise from './QualityPromise';
+import ServicesScrollHero from './ServicesScrollHero';
 import { categories, questions } from './serviceData';
 
 // ======================================================
@@ -1832,7 +1833,7 @@ useEffect(() => {
       <main className="pt-[88px]">
         {/* HERO */}
 
-        <section
+        {/* <section
           ref={heroRef}
           id="services-hero"
           className="relative isolate overflow-hidden bg-gradient-to-br from-white via-[#fcfbfa] to-[#f7f5f3]"
@@ -1948,7 +1949,14 @@ useEffect(() => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
+        {/* =====================================================
+    SERVICES — SCROLL EXPAND HERO
+===================================================== */}
+
+<ServicesScrollHero
+  onDiscoveryClick={() => jumpTo('contact')}
+/>
 
         {/* STICKY CATEGORY NAVIGATION */}
 

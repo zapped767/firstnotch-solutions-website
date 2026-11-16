@@ -215,13 +215,13 @@ export default function BrandStats() {
       <section
         ref={statsSection}
         aria-label="FirstNotch in numbers"
-        className="bg-[#B12025] px-5 py-7 text-white sm:px-8 sm:py-12 lg:px-14 lg:py-16"
+        className="bg-[#B12025] px-4 py-5 text-white sm:px-8 sm:py-12 lg:px-14 lg:py-16"
       >
-        <div className="mx-auto grid max-w-[1424px] grid-cols-2 gap-x-5 gap-y-6 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-10">
+        <div className="mx-auto grid max-w-[1424px] grid-cols-4 gap-x-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-10">
           {items.map((item) => (
             <div key={item.display} className="min-w-0">
               {/* NUMBER */}
-              <p className="text-[28px] font-semibold leading-none tracking-[-0.06em] text-white tabular-nums sm:text-[clamp(2.75rem,5vw,4.75rem)]">
+              <p className="text-[22px] font-semibold leading-none tracking-[-0.05em] text-white tabular-nums sm:text-[clamp(2.75rem,5vw,4.75rem)]">
                 <span
                   data-fns-stat-number
                   data-target={item.target}
@@ -237,7 +237,7 @@ export default function BrandStats() {
               </p>
 
               {/* DESCRIPTION */}
-              <p className="mt-2 max-w-[250px] text-[10px] font-normal leading-[1.5] text-white sm:mt-4 sm:text-[13px] sm:leading-[1.7]">
+              <p className="mt-1.5 max-w-[250px] text-[8px] font-normal leading-[1.35] text-white sm:mt-4 sm:text-[13px] sm:leading-[1.7]">
                 {item.label}
               </p>
             </div>
