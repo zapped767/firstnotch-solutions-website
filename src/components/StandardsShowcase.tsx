@@ -1321,13 +1321,7 @@ export default function StandardsShowcase() {
       FIRSTNOTCH ANIMATED GRADIENT BAR BACKGROUND
   =========================================== */}
 
-<GradientBars
-  numBars={9}
-  gradientFrom="#B12025"
-  gradientTo="rgba(177,32,37,0)"
-  animationDuration={3.2}
-  className="hidden opacity-100 sm:block"
-/>
+
 
 
       {/* ==================================
