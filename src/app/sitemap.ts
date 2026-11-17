@@ -2,11 +2,12 @@
 import type { MetadataRoute } from 'next';
 
 const BASE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || ''
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  'https://www.firstnotch-solutions.com'
 ).replace(/\/+$/, '');
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!BASE_URL) return [];
+  
 
   const routes = [
     '/',
@@ -30,10 +31,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/services/it-services/website-maintenance',
     '/services/it-services/it-support',
     '/services/it-services/technical-support',
-    '/about',
-    '/how-we-hire',
-    '/work-with-us',
-    '/book-a-free-call',
+ '/about',
+'/culture',
+'/how-we-hire',
+'/work-with-us',
+'/book-a-free-call',
   ];
 
   return routes.map((route) => ({

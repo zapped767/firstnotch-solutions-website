@@ -1668,7 +1668,7 @@ export default function ITServicesPage() {
               lg:text-[clamp(4.2rem,5.4vw,6.6rem)]
             "
           >
-            <RisingWords text="One IT Services Team in Colombo," />
+            <RisingWords text="One IT Services Team in Colombo" />
           </h1>
 
           <p

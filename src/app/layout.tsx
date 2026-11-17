@@ -31,19 +31,17 @@ const SITE_DESCRIPTION =
 // Set NEXT_PUBLIC_SITE_URL to your verified live domain
 // in your .env.local / production environment.
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '');
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  'https://www.firstnotch-solutions.com'
+).replace(/\/+$/, '');
 
 // ======================================================
 // GLOBAL METADATA
 // ======================================================
 
 export const metadata: Metadata = {
-  ...(SITE_URL
-    ? {
-        metadataBase: new URL(SITE_URL),
-      }
-    : {}),
+metadataBase: new URL(SITE_URL),
 
   applicationName: SITE_NAME,
 
@@ -70,12 +68,12 @@ export const metadata: Metadata = {
     'FirstNotch Solutions',
   ],
 
-  authors: [
-    {
-      name: SITE_NAME,
-      ...(SITE_URL ? { url: SITE_URL } : {}),
-    },
-  ],
+authors: [
+  {
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+],
 
   creator: SITE_NAME,
   publisher: SITE_NAME,
@@ -104,7 +102,7 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
 
-    ...(SITE_URL ? { url: SITE_URL } : {}),
+   url: SITE_URL,
   },
 
   twitter: {
@@ -140,12 +138,8 @@ const organizationSchema = {
 
   name: 'FirstNotch Solutions (Pvt) Ltd',
 
-  ...(SITE_URL
-    ? {
-        url: SITE_URL,
-        '@id': `${SITE_URL}/#organization`,
-      }
-    : {}),
+url: SITE_URL,
+'@id': `${SITE_URL}/#organization`,
 
   description:
     'A BPO company in Sri Lanka providing customer support, back office outsourcing and IT services.',
@@ -160,7 +154,7 @@ const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+94-77-222-1966',
-    email: 'Info@firstnotch-solutions.com',
+    email: 'info@firstnotch-solutions.com',
     contactType: 'sales',
     availableLanguage: [
       'English',
