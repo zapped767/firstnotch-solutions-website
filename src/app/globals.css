@@ -1,2 +1,158 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
+
+
+/* ==========================================================
+   FIRSTNOTCH SOLUTIONS
+   CULTURE PAGE — COMPONENT COLOR FIXES
+========================================================== */
+
+
+/* ==========================================================
+   01 — NAVBAR CTA
+
+   Book a free discovery call
+
+   Keep the existing FirstNotch red background.
+   Force text + icon to white.
+========================================================== */
+
+.culture-route header a[href="/book-a-free-call"],
+.culture-route header a[href*="/book-a-free-call"] {
+  color: #ffffff !important;
+}
+
+
+/* All text inside CTA */
+.culture-route header a[href="/book-a-free-call"] *,
+.culture-route header a[href*="/book-a-free-call"] * {
+  color: #ffffff !important;
+}
+
+
+/* Keep white text when hovering */
+.culture-route header a[href="/book-a-free-call"]:hover,
+.culture-route header a[href*="/book-a-free-call"]:hover {
+  color: #ffffff !important;
+}
+
+
+.culture-route header a[href="/book-a-free-call"]:hover *,
+.culture-route header a[href*="/book-a-free-call"]:hover * {
+  color: #ffffff !important;
+}
+
+
+/* Arrow/icon */
+.culture-route header a[href="/book-a-free-call"] svg,
+.culture-route header a[href*="/book-a-free-call"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+
+/* ==========================================================
+   02 — STORY CONTACT FORM BUTTON
+
+   NORMAL:
+   Background → #17191C
+   Text       → White
+
+   HOVER:
+   Background → #B12025
+   Text       → White
+========================================================== */
+
+.culture-route form button[type="submit"] {
+  background-color: #17191c !important;
+  color: #ffffff !important;
+
+  border-color: #17191c !important;
+
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    transform 300ms ease !important;
+}
+
+
+/* Button text */
+.culture-route form button[type="submit"] span {
+  color: #ffffff !important;
+}
+
+
+/* Button icons */
+.culture-route form button[type="submit"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+
+/* Everything else inside button */
+.culture-route form button[type="submit"] * {
+  color: #ffffff !important;
+}
+
+
+/* ==========================================================
+   03 — CONTACT BUTTON HOVER
+========================================================== */
+
+.culture-route form button[type="submit"]:hover {
+  background-color: #b12025 !important;
+  border-color: #b12025 !important;
+  color: #ffffff !important;
+}
+
+
+.culture-route form button[type="submit"]:hover span,
+.culture-route form button[type="submit"]:hover *,
+.culture-route form button[type="submit"]:hover svg {
+  color: #ffffff !important;
+}
+
+
+.culture-route form button[type="submit"]:hover svg {
+  stroke: #ffffff !important;
+}
+
+
+/* ==========================================================
+   04 — KEYBOARD FOCUS
+========================================================== */
+
+.culture-route form button[type="submit"]:focus-visible {
+  background-color: #b12025 !important;
+  border-color: #b12025 !important;
+  color: #ffffff !important;
+
+  outline: 2px solid #b12025;
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   05 — DISABLED STATE
+   Preserve clear disabled feedback
+========================================================== */
+
+.culture-route form button[type="submit"]:disabled {
+  background-color: #17191c !important;
+  border-color: #17191c !important;
+  color: #ffffff !important;
+
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+.culture-route form button[type="submit"]:disabled * {
+  color: #ffffff !important;
+}
+
+
+.culture-route form button[type="submit"]:disabled svg {
+  stroke: #ffffff !important;
+}

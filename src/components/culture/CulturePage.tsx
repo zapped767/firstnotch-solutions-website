@@ -851,10 +851,7 @@ const creators = [
             <h1 id="culture-title">Different stories.<br /><span>One team.</span></h1>
             <p>Culture is not something we write on a wall. It is how we work, celebrate, compete, learn and show up for each other.</p>
             <a href="#library" className="daytake-primary daytake-hero-cta">Meet our culture <ArrowRight aria-hidden="true" /></a>
-            <div className="daytake-counter">
-              <span className="daytake-counter-icon"><Users aria-hidden="true" /></span>
-              <span><small>Moments in our gallery</small><strong aria-label={String(events.length)}><span ref={counter} aria-hidden="true">{events.length}</span></strong></span>
-            </div>
+           
           </div>
           <div className="daytake-hero-foot daytake-wrap"><span>The moments between the work matter too.</span><a href="#about">Take a look <ArrowDown aria-hidden="true" /></a></div>
         </section>
@@ -1027,10 +1024,7 @@ const creators = [
         </section>
       </main>
 
-      <footer className="daytake-footer daytake-wrap">
-        <div><a className="daytake-logo" href="#top"><Sparkles aria-hidden="true" />firstnotch</a><p>Life at FirstNotch.</p></div>
-        <nav aria-label="Footer navigation"><a href="#about">Our values</a><a href="#library">Moments</a><a href="#portraits">People</a></nav>
-      </footer>
+      
 
 
     </div>

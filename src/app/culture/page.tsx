@@ -5,8 +5,7 @@ import CulturePage from '@/components/culture/CulturePage';
 import StoryContact from '@/components/StoryContact';
 
 export const metadata: Metadata = {
-  title:
-    'Culture at FirstNotch | Life at FirstNotch Solutions',
+  title: 'Culture at FirstNotch | Life at FirstNotch Solutions',
 
   description:
     'See life at FirstNotch Solutions in Colombo — cultural celebrations, team events, sports, shared traditions and the moments that bring our people together.',
@@ -26,8 +25,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title:
-      'Culture at FirstNotch | Different Stories. One Team.',
+    title: 'Culture at FirstNotch | Different Stories. One Team.',
 
     description:
       'The celebrations, traditions, sports and everyday moments that shape life at FirstNotch Solutions.',
@@ -38,12 +36,12 @@ export const metadata: Metadata = {
 
 export default function Culture() {
   return (
-    <>
+    <div className="culture-route">
       <Navbar />
 
       <CulturePage />
 
       <StoryContact />
-    </>
+    </div>
   );
 }
