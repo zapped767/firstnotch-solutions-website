@@ -14,40 +14,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PHOTOS = [
   {
-    src: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=720&q=85',
-    title: 'Customer support',
+    src: '/images/home-hero/01-laptop-work.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=720&q=85',
-    title: 'Your people',
+    src: '/images/home-hero/02-teamwork.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=720&q=85',
-    title: 'IT services',
+    src: '/images/home-hero/03-red-pen-portrait.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=720&q=85',
-    title: 'Quality',
+    src: '/images/home-hero/04-office-team.jpg',
   },
   {
-    src: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=720&q=85',
-    title: 'Operations',
+    src: '/images/home-hero/05-gaming-lounge.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=720&q=85',
-    title: 'Teamwork',
+    src: '/images/home-hero/06-carrom-team.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=720&q=85',
-    title: 'Back office',
+    src: '/images/home-hero/07-call-center.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=720&q=85',
-    title: 'Colombo office',
+    src: '/images/home-hero/08-focused-workspace.png',
   },
   {
-    src: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=720&q=85',
-    title: 'Global clients',
+    src: '/images/home-hero/09-designers-worktable.png',
   },
 ] as const;
 
@@ -534,19 +525,7 @@ export default function Hero() {
                   className="h-full w-full object-cover"
                 />
 
-                <span
-                  className="
-                    absolute inset-x-0 bottom-0
-                    bg-gradient-to-t from-[#17191C]/80
-                    to-transparent px-1.5 pb-1.5 pt-5
-                    text-[7px] font-semibold uppercase
-                    tracking-[.08em] text-white
-                    sm:px-3 sm:pb-3 sm:pt-12
-                    sm:text-[9px] lg:text-[10px]
-                  "
-                >
-                  {photo.title}
-                </span>
+                
               </div>
             </div>
           ))}

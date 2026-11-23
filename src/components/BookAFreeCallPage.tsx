@@ -23,6 +23,8 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/FirstNotchFooter";
 import FallingDots from "@/components/FallingDots";
+import MantaRayWave from "./effects/MantaRayWave";
+// import GyroscopicOrbit from "./effects/GyroscopicOrbit";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 const RED = "#B12025";
@@ -499,8 +501,24 @@ export default function BookAFreeCallPage() {
       </section>
 
       {/* WHAT HAPPENS */}
-      <section className="px-5 py-[58px] sm:px-8 sm:py-[110px] lg:px-14 lg:py-[140px]">
-        <div className="mx-auto max-w-[1440px]">
+      {/* WHAT HAPPENS */}
+<section className="relative isolate overflow-hidden bg-white px-5 py-[58px] sm:px-8 sm:py-[110px] lg:px-14 lg:py-[140px]">
+
+  {/* MANTA RAY WAVE — BACKGROUND */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+  >
+    <MantaRayWave />
+
+    {/* Keep centre content highly readable */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.80)_35%,rgba(255,255,255,0.22)_68%,rgba(255,255,255,0)_92%)]" />
+
+    {/* Soft fade at top and bottom */}
+    <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
+  </div>
+
+  <div className="relative z-10 mx-auto max-w-[1440px]">
           <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#B12025] sm:text-[11px]">
             WHAT HAPPENS NEXT
           </p>
@@ -541,10 +559,19 @@ export default function BookAFreeCallPage() {
           </div>
         </div>
       </section>
+{/* PREP */}
+<section className="relative isolate overflow-hidden bg-[#F4F4F5] px-5 py-[58px] sm:px-8 sm:py-[110px] lg:px-14">
 
-      {/* PREP */}
-      <section className="bg-[#F4F4F5] px-5 py-[58px] sm:px-8 sm:py-[110px] lg:px-14">
-        <div className="mx-auto max-w-[1440px]">
+  {/* REFERENCE-STYLE RED CIRCULAR BACKGROUND */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+  >
+    {/* <GyroscopicOrbit /> */}
+  </div>
+
+  {/* EXISTING CONTENT */}
+  <div className="relative z-10 mx-auto max-w-[1440px]">
           <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
             <div>
               <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#B12025] sm:text-[11px]">

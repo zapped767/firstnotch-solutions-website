@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
@@ -10,15 +9,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   BadgeCheck,
-  Check,
-  CheckCheck,
   ChevronDown,
   ClipboardCheck,
-  ClipboardList,
   Database,
-  FileCheck2,
   FileSpreadsheet,
-  FileText,
   FolderInput,
   PenLine,
   ScanLine,
@@ -26,6 +20,9 @@ import {
   UserRoundCheck,
   Users,
 } from 'lucide-react';
+
+// Adjust this path to wherever you saved RidgelineHeroScene.tsx
+import RidgelineHeroScene from '@/components/effects/RidgelineHeroScene';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -217,40 +214,11 @@ const STEPS = [
   },
 ] as const;
 
-// Illustrative spreadsheet preview, not real client data.
-
-const PREVIEW_ROWS = [
-  {
-    code: 'PRD-1024',
-    name: 'Office chair',
-    status: 'Checked',
-  },
-  {
-    code: 'PRD-1025',
-    name: 'Desk lamp',
-    status: 'Checked',
-  },
-  {
-    code: 'INV-2048',
-    name: 'Invoice',
-    status: 'Checked',
-  },
-  {
-    code: 'ORD-3091',
-    name: 'Order form',
-    status: 'Checked',
-  },
-] as const;
-
 // ======================================================
 // SCROLL-REVEALED TEXT (NO BACKGROUND HIGHLIGHT)
 // ======================================================
 
-function Highlight({
-  children,
-}: {
-  children: ReactNode;
-}) {
+function Highlight({ children }: { children: ReactNode }) {
   return (
     <span
       data-de-text-reveal
@@ -353,10 +321,9 @@ export default function DataEntryProcessingPage() {
   const quoteRef = useRef<HTMLElement>(null);
   const processRef = useRef<HTMLElement>(null);
   const processLine = useRef<HTMLDivElement>(null);
-const sheetRef = useRef<HTMLDivElement>(null);
 
-const featureTrackRef = useRef<HTMLDivElement>(null);
-const processTrackRef = useRef<HTMLDivElement>(null);
+  const featureTrackRef = useRef<HTMLDivElement>(null);
+  const processTrackRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -372,80 +339,51 @@ const processTrackRef = useRef<HTMLDivElement>(null);
 
     const mm = gsap.matchMedia();
 
-    mm.add(
-      '(prefers-reduced-motion: no-preference)',
-      () => {
-        const ctx = gsap.context(() => {
-          // ==========================================
-          // PAGE READING PROGRESS
-          // ==========================================
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        // ==========================================
+        // PAGE READING PROGRESS
+        // ==========================================
 
-          gsap.to('[data-de-progress]', {
-            scaleX: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: root,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: true,
-            },
-          });
+        gsap.to('[data-de-progress]', {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: root,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+          },
+        });
 
-          // ==========================================
-          // MASKED H1 RISING ANIMATION
-          // ==========================================
+        // ==========================================
+        // MASKED H1 RISING ANIMATION
+        // ==========================================
 
-          gsap.from('[data-de-rise]', {
-            yPercent: 112,
-            autoAlpha: 0,
-            duration: 1.05,
-            stagger: 0.11,
-            ease: 'power4.out',
-          });
+        gsap.from('[data-de-rise]', {
+          yPercent: 112,
+          autoAlpha: 0,
+          duration: 1.05,
+          stagger: 0.11,
+          ease: 'power4.out',
+        });
 
-          gsap.from('[data-de-intro]', {
-            y: 22,
-            autoAlpha: 0,
-            duration: 0.8,
-            delay: 0.25,
-            stagger: 0.12,
-            ease: 'power3.out',
-          });
+        gsap.from('[data-de-intro]', {
+          y: 22,
+          autoAlpha: 0,
+          duration: 0.8,
+          delay: 0.25,
+          stagger: 0.12,
+          ease: 'power3.out',
+        });
 
-          // ==========================================
-          // CHECKED BY HAND UNDERLINE DRAW
-          // ==========================================
+        // ==========================================
+        // SCROLL-TRIGGERED TEXT REVEAL
+        // ==========================================
 
-          gsap.fromTo(
-            '[data-de-underline]',
-            {
-              strokeDashoffset: 1,
-            },
-            {
-              strokeDashoffset: 0,
-              duration: 1,
-              delay: 0.7,
-              ease: 'power2.out',
-            }
-          );
-
-          gsap.from('[data-de-underline-check]', {
-            scale: 0,
-            autoAlpha: 0,
-            delay: 1.35,
-            duration: 0.45,
-            ease: 'back.out(2)',
-          });
-
-          // ==========================================
-          // SCROLL-TRIGGERED TEXT REVEAL (NO YELLOW MARKERS)
-          // Each highlighted phrase and each quote line fades and rises
-          // when it enters the viewport.
-          // ==========================================
-
-          gsap.utils.toArray<HTMLElement>(
-            '[data-de-text-reveal]'
-          ).forEach((el) => {
+        gsap.utils
+          .toArray<HTMLElement>('[data-de-text-reveal]')
+          .forEach((el) => {
             gsap.fromTo(
               el,
               { y: 22, autoAlpha: 0 },
@@ -463,396 +401,253 @@ const processTrackRef = useRef<HTMLDivElement>(null);
             );
           });
 
-          // ==========================================
-          // QUOTE LINES REVEAL ON SCROLL
-          // ==========================================
+        // ==========================================
+        // QUOTE LINES REVEAL ON SCROLL
+        // ==========================================
 
-          gsap.fromTo(
-            '[data-de-quote-reveal]',
-            { y: 35, autoAlpha: 0 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.9,
-              stagger: 0.17,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: quoteRef.current,
-                start: 'top 78%',
-                once: true,
-              },
-            }
-          );
-
-          // ==========================================
-                    // DOCUMENTS: MESSY TO TIDY
-          // ==========================================
-
-          const offsets = [
-            [-65, -70, -12],
-            [50, -55, 10],
-            [-45, 55, -8],
-            [68, 47, 12],
-          ];
-
-          gsap.fromTo(
-            '[data-de-paper]',
-            {
-              x: (i: number) => offsets[i % 4][0],
-              y: (i: number) => offsets[i % 4][1],
-              rotation: (i: number) => offsets[i % 4][2],
-            },
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom 35%',
-                scrub: 0.8,
-              },
-            }
-          );
-
-          // ==========================================
-          // SCANNING LINE
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-de-scan]',
-            {
-              yPercent: -250,
-              autoAlpha: 0,
-            },
-            {
-              yPercent: 1350,
-              autoAlpha: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom 35%',
-                scrub: 0.8,
-              },
-            }
-          );
-
-          // ==========================================
-          // SPREADSHEET CELL TYPING
-          // ==========================================
-
-          const typedCells =
-            gsap.utils.toArray<HTMLElement>(
-              '[data-de-typed]'
-            );
-
-          const typeTimeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: sheetRef.current,
-              start: 'top 85%',
-              once: true,
-            },
-          });
-
-          typedCells.forEach((el, i) => {
-            const value = el.dataset.value ?? '';
-            const state = { chars: 0 };
-
-            typeTimeline.to(
-              state,
-              {
-                chars: value.length,
-                duration: 0.38,
-                ease: 'none',
-
-                onStart: () => {
-                  el.textContent = '';
-                },
-
-                onUpdate: () => {
-                  el.textContent = value.slice(
-                    0,
-                    Math.floor(state.chars)
-                  );
-                },
-
-                onComplete: () => {
-                  el.textContent = value;
-                },
-              },
-              i * 0.23
-            );
-          });
-
-          // ==========================================
-          // RECORD APPROVAL STAMPS
-          // ==========================================
-
-          gsap.from('[data-de-record-check]', {
-            scale: 0,
-            autoAlpha: 0,
-            stagger: 0.13,
-            duration: 0.45,
-            ease: 'back.out(1.8)',
-            scrollTrigger: {
-              trigger: sheetRef.current,
-              start: 'top 72%',
-              once: true,
-            },
-          });
-
-          // ==========================================
-          // GENERAL SECTION REVEALS
-          // ==========================================
-
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-de-reveal]'
-            )
-            .forEach((el) => {
-              gsap.from(el, {
-                y: 28,
-                autoAlpha: 0,
-                duration: 0.85,
-                ease: 'power3.out',
-                scrollTrigger: {
-                  trigger: el,
-                  start: 'top 90%',
-                  once: true,
-                },
-              });
-            });
-
-          // ==========================================
-          // CHECKLIST TICK DRAW
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-de-tick-path]',
-            {
-              strokeDashoffset: 1,
-            },
-            {
-              strokeDashoffset: 0,
-              stagger: 0.09,
-              duration: 0.7,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: '#de-included',
-                start: 'top 75%',
-                once: true,
-              },
-            }
-          );
-
-          gsap.from('[data-de-feature]', {
-            y: 28,
-            autoAlpha: 0,
-            stagger: 0.06,
-            duration: 0.65,
+        gsap.fromTo(
+          '[data-de-quote-reveal]',
+          { y: 35, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.9,
+            stagger: 0.17,
             ease: 'power3.out',
             scrollTrigger: {
-              trigger: '#de-included',
+              trigger: quoteRef.current,
               start: 'top 78%',
               once: true,
             },
-          });
+          }
+        );
 
-          // ==========================================
-          // SOFTWARE THEN HUMAN PASS
-          // ==========================================
+        // ==========================================
+        // GENERAL SECTION REVEALS
+        // ==========================================
 
-          gsap.from('[data-de-pass]', {
-            y: 25,
+        gsap.utils.toArray<HTMLElement>('[data-de-reveal]').forEach((el) => {
+          gsap.from(el, {
+            y: 28,
             autoAlpha: 0,
-            stagger: 0.18,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: '#de-pass',
-              start: 'top 82%',
-              once: true,
-            },
-          });
-
-          // ==========================================
-          // METRIC CARD 3D FLIP-IN
-          // ==========================================
-
-          gsap.from('[data-de-metric]', {
-            y: 36,
-            rotationX: -13,
-            autoAlpha: 0,
-            stagger: 0.09,
-            transformOrigin: 'center bottom',
             duration: 0.85,
             ease: 'power3.out',
             scrollTrigger: {
-              trigger: '#de-metrics',
+              trigger: el,
+              start: 'top 90%',
+              once: true,
+            },
+          });
+        });
+
+        // ==========================================
+        // CHECKLIST TICK DRAW
+        // ==========================================
+
+        gsap.fromTo(
+          '[data-de-tick-path]',
+          { strokeDashoffset: 1 },
+          {
+            strokeDashoffset: 0,
+            stagger: 0.09,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#de-included',
               start: 'top 75%',
               once: true,
             },
-          });
+          }
+        );
 
-          // ==========================================
-          // MINI DASHBOARD BARS
-          // ==========================================
+        gsap.from('[data-de-feature]', {
+          y: 28,
+          autoAlpha: 0,
+          stagger: 0.06,
+          duration: 0.65,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#de-included',
+            start: 'top 78%',
+            once: true,
+          },
+        });
 
-          gsap.fromTo(
-            '[data-de-report-bar]',
-            {
-              scaleY: 0,
-            },
-            {
-              scaleY: 1,
-              stagger: 0.1,
-              duration: 0.8,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: '#de-dashboard',
-                start: 'top 85%',
-                once: true,
-              },
-            }
-          );
+        // ==========================================
+        // SOFTWARE THEN HUMAN PASS
+        // ==========================================
 
-          // ==========================================
-          // MINI DASHBOARD LINE
-          // ==========================================
+        gsap.from('[data-de-pass]', {
+          y: 25,
+          autoAlpha: 0,
+          stagger: 0.18,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#de-pass',
+            start: 'top 82%',
+            once: true,
+          },
+        });
 
-          gsap.fromTo(
-            '[data-de-report-line]',
-            {
-              strokeDashoffset: 1,
-            },
-            {
-              strokeDashoffset: 0,
-              duration: 1.35,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: '#de-dashboard',
-                start: 'top 85%',
-                once: true,
-              },
-            }
-          );
+        // ==========================================
+        // METRIC CARD 3D FLIP-IN
+        // ==========================================
 
-          // ==========================================
-          // COUNT-UP STATISTICS
-          // ==========================================
+        gsap.from('[data-de-metric]', {
+          y: 36,
+          rotationX: -13,
+          autoAlpha: 0,
+          stagger: 0.09,
+          transformOrigin: 'center bottom',
+          duration: 0.85,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#de-metrics',
+            start: 'top 75%',
+            once: true,
+          },
+        });
 
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-de-count]'
-            )
-            .forEach((el) => {
-              const target = Number(
-                el.dataset.deCount || 0
-              );
+        // ==========================================
+        // MINI DASHBOARD BARS
+        // ==========================================
 
-              const num = { value: 0 };
-
-              gsap.to(num, {
-                value: target,
-                duration: 1.55,
-                ease: 'power2.out',
-
-                scrollTrigger: {
-                  trigger: el,
-                  start: 'top 90%',
-                  once: true,
-                },
-
-                onUpdate: () => {
-                  el.textContent = String(
-                    Math.round(num.value)
-                  );
-                },
-              });
-            });
-
-          // ==========================================
-          // 98% SVG ACCURACY RING
-          // ==========================================
-
-          gsap.fromTo(
-            '[data-de-ring]',
-            {
-              strokeDashoffset: 283,
-            },
-            {
-              strokeDashoffset: 283 * 0.02,
-              duration: 1.7,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: '#de-stats',
-                start: 'top 85%',
-                once: true,
-              },
-            }
-          );
-
-          // ==========================================
-          // OTHER SERVICE LINK REVEALS
-          // ==========================================
-
-          gsap.from('[data-de-other]', {
-            x: -30,
-            autoAlpha: 0,
-            duration: 0.65,
-            stagger: 0.08,
+        gsap.fromTo(
+          '[data-de-report-bar]',
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: '#de-other',
+              trigger: '#de-dashboard',
               start: 'top 85%',
               once: true,
             },
-          });
+          }
+        );
 
-          // ==========================================
-          // FOUR PROCESS STEP ICONS
-          // ==========================================
+        // ==========================================
+        // MINI DASHBOARD LINE
+        // ==========================================
 
-          gsap.from('[data-de-step-icon]', {
-            scale: 0.4,
-            rotate: -12,
-            autoAlpha: 0,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: 'back.out(1.8)',
+        gsap.fromTo(
+          '[data-de-report-line]',
+          { strokeDashoffset: 1 },
+          {
+            strokeDashoffset: 0,
+            duration: 1.35,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: processRef.current,
-              start: 'top 80%',
+              trigger: '#de-dashboard',
+              start: 'top 85%',
               once: true,
             },
-          });
+          }
+        );
 
-          // ==========================================
-          // SUBTLE HERO BACKGROUND PARALLAX
-          // ==========================================
+        // ==========================================
+        // COUNT-UP STATISTICS
+        // ==========================================
 
-          gsap.fromTo(
-            '[data-de-ambient]',
-            {
-              y: -25,
+        gsap.utils.toArray<HTMLElement>('[data-de-count]').forEach((el) => {
+          const target = Number(el.dataset.deCount || 0);
+          const num = { value: 0 };
+
+          gsap.to(num, {
+            value: target,
+            duration: 1.55,
+            ease: 'power2.out',
+
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              once: true,
             },
-            {
-              y: 45,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          );
-        }, root);
 
-        return () => ctx.revert();
-      }
-    );
+            onUpdate: () => {
+              el.textContent = String(Math.round(num.value));
+            },
+          });
+        });
+
+        // ==========================================
+        // 98% SVG ACCURACY RING
+        // ==========================================
+
+        gsap.fromTo(
+          '[data-de-ring]',
+          { strokeDashoffset: 283 },
+          {
+            strokeDashoffset: 283 * 0.02,
+            duration: 1.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#de-stats',
+              start: 'top 85%',
+              once: true,
+            },
+          }
+        );
+
+        // ==========================================
+        // OTHER SERVICE LINK REVEALS
+        // ==========================================
+
+        gsap.from('[data-de-other]', {
+          x: -30,
+          autoAlpha: 0,
+          duration: 0.65,
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: '#de-other',
+            start: 'top 85%',
+            once: true,
+          },
+        });
+
+        // ==========================================
+        // FOUR PROCESS STEP ICONS
+        // ==========================================
+
+        gsap.from('[data-de-step-icon]', {
+          scale: 0.4,
+          rotate: -12,
+          autoAlpha: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'back.out(1.8)',
+          scrollTrigger: {
+            trigger: processRef.current,
+            start: 'top 80%',
+            once: true,
+          },
+        });
+
+        // ==========================================
+        // SUBTLE HERO BACKGROUND PARALLAX
+        // ==========================================
+
+        gsap.fromTo(
+          '[data-de-ambient]',
+          { y: -25 },
+          {
+            y: 45,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+      }, root);
+
+      return () => ctx.revert();
+    });
 
     // ==================================================
     // DESKTOP CHECKLIST PARALLAX
@@ -862,28 +657,22 @@ const processTrackRef = useRef<HTMLDivElement>(null);
       '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
       () => {
         const ctx = gsap.context(() => {
-          gsap.utils
-            .toArray<HTMLElement>(
-              '[data-de-column]'
-            )
-            .forEach((col, i) => {
-              gsap.fromTo(
-                col,
-                {
-                  y: i === 0 ? -12 : 12,
+          gsap.utils.toArray<HTMLElement>('[data-de-column]').forEach((col, i) => {
+            gsap.fromTo(
+              col,
+              { y: i === 0 ? -12 : 12 },
+              {
+                y: i === 0 ? 12 : -12,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: '#de-included',
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: true,
                 },
-                {
-                  y: i === 0 ? 12 : -12,
-                  ease: 'none',
-                  scrollTrigger: {
-                    trigger: '#de-included',
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: true,
-                  },
-                }
-              );
-            });
+              }
+            );
+          });
         }, root);
 
         return () => ctx.revert();
@@ -898,13 +687,7 @@ const processTrackRef = useRef<HTMLDivElement>(null);
       '(min-width: 1200px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)',
       () => {
         const ctx = gsap.context(() => {
-          // ========================================
-          // Quote scroll-reveal runs in the shared animation setup.
-          // No pinned yellow highlight animation.
-          // ========================================
           // PINNED FOUR-STEP TIMELINE
-          // ========================================
-
           gsap.to(processLine.current, {
             scaleX: 1,
             ease: 'none',
@@ -918,15 +701,10 @@ const processTrackRef = useRef<HTMLDivElement>(null);
 
               onUpdate: (s) => {
                 root
-                  .querySelectorAll<HTMLElement>(
-                    '[data-de-step]'
-                  )
+                  .querySelectorAll<HTMLElement>('[data-de-step]')
                   .forEach((el, i) => {
                     gsap.set(el, {
-                      opacity:
-                        s.progress >= i / 4
-                          ? 1
-                          : 0.4,
+                      opacity: s.progress >= i / 4 ? 1 : 0.4,
                     });
                   });
               },
@@ -939,8 +717,7 @@ const processTrackRef = useRef<HTMLDivElement>(null);
     );
 
     // ==================================================
-    // MOBILE / TABLET / SHORTER SCREENS
-    // NO PINNING
+    // MOBILE / TABLET / SHORTER SCREENS — NO PINNING
     // ==================================================
 
     mm.add(
@@ -967,10 +744,7 @@ const processTrackRef = useRef<HTMLDivElement>(null);
     // MAGNETIC CTA — MOUSE DEVICES ONLY
     // ==================================================
 
-    const magnetic =
-      root.querySelector<HTMLElement>(
-        '[data-de-magnetic]'
-      );
+    const magnetic = root.querySelector<HTMLElement>('[data-de-magnetic]');
 
     const finePointer = window.matchMedia(
       '(hover: hover) and (pointer: fine)'
@@ -986,16 +760,8 @@ const processTrackRef = useRef<HTMLDivElement>(null);
       const r = magnetic.getBoundingClientRect();
 
       gsap.to(magnetic, {
-        x:
-          (event.clientX -
-            (r.left + r.width / 2)) *
-          0.12,
-
-        y:
-          (event.clientY -
-            (r.top + r.height / 2)) *
-          0.12,
-
+        x: (event.clientX - (r.left + r.width / 2)) * 0.12,
+        y: (event.clientY - (r.top + r.height / 2)) * 0.12,
         duration: 0.3,
         ease: 'power2.out',
         overwrite: 'auto',
@@ -1019,80 +785,73 @@ const processTrackRef = useRef<HTMLDivElement>(null);
     }
 
     return () => {
-      magnetic?.removeEventListener(
-        'mousemove',
-        move
-      );
-
-      magnetic?.removeEventListener(
-        'mouseleave',
-        leave
-      );
+      magnetic?.removeEventListener('mousemove', move);
+      magnetic?.removeEventListener('mouseleave', leave);
 
       mm.revert();
     };
   }, []);
 
-// ====================================================
-// MOBILE AUTO SCROLL
-// ====================================================
+  // ====================================================
+  // MOBILE AUTO SCROLL
+  // ====================================================
 
-useEffect(() => {
-  const media = window.matchMedia('(max-width: 639px)');
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 639px)');
 
-  if (!media.matches) return;
+    if (!media.matches) return;
 
-  const createAutoScroll = (
-    container: HTMLDivElement | null,
-    selector: string,
-    delay: number,
-  ) => {
-    if (!container) return () => {};
+    const createAutoScroll = (
+      container: HTMLDivElement | null,
+      selector: string,
+      delay: number
+    ) => {
+      if (!container) return () => {};
 
-    const cards = Array.from(
-      container.querySelectorAll<HTMLElement>(selector),
+      const cards = Array.from(
+        container.querySelectorAll<HTMLElement>(selector)
+      );
+
+      if (cards.length < 2) return () => {};
+
+      let index = 0;
+
+      const timer = window.setInterval(() => {
+        index = (index + 1) % cards.length;
+
+        const firstCard = cards[0];
+        const currentCard = cards[index];
+
+        container.scrollTo({
+          left: currentCard.offsetLeft - firstCard.offsetLeft,
+          behavior: 'smooth',
+        });
+      }, delay);
+
+      return () => window.clearInterval(timer);
+    };
+
+    const stopFeatures = createAutoScroll(
+      featureTrackRef.current,
+      '[data-mobile-feature-card]',
+      2800
     );
 
-    if (cards.length < 2) return () => {};
+    const stopProcess = createAutoScroll(
+      processTrackRef.current,
+      '[data-mobile-process-card]',
+      3000
+    );
 
-    let index = 0;
+    return () => {
+      stopFeatures();
+      stopProcess();
+    };
+  }, []);
 
-    const timer = window.setInterval(() => {
-      index = (index + 1) % cards.length;
-
-      const firstCard = cards[0];
-      const currentCard = cards[index];
-
-      container.scrollTo({
-        left: currentCard.offsetLeft - firstCard.offsetLeft,
-        behavior: 'smooth',
-      });
-    }, delay);
-
-    return () => window.clearInterval(timer);
-  };
-
-  const stopFeatures = createAutoScroll(
-    featureTrackRef.current,
-    '[data-mobile-feature-card]',
-    2800,
-  );
-
-  const stopProcess = createAutoScroll(
-    processTrackRef.current,
-    '[data-mobile-process-card]',
-    3000,
-  );
-
-  return () => {
-    stopFeatures();
-    stopProcess();
-  };
-}, []);
-
-// ====================================================
-// PAGE JSX
-// ====================================================
+  // ====================================================
+  // PAGE JSX
+  // ====================================================
 
   return (
     <div
@@ -1112,33 +871,31 @@ useEffect(() => {
       </div>
 
       {/* ==============================================
-          01 — HERO
+          01 — HERO (with dithered ridgeline)
       ============================================== */}
 
       <section
         ref={heroRef}
-className="relative isolate overflow-hidden bg-[#FFF9F6] px-5 pb-[95px] pt-[155px] max-sm:pb-[28px] max-sm:pt-[105px] sm:px-8 lg:px-14 lg:pb-[125px] lg:pt-[170px]"    >
+        className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#FFF9F6] pt-[120px] max-sm:pt-[96px] lg:pt-[118px]"
+      >
         <div
           data-de-ambient
           aria-hidden="true"
           className="absolute -right-[160px] top-[120px] -z-10 h-[520px] w-[520px] rounded-full bg-[#F8DADA]/60 blur-[90px]"
         />
 
-        <div className="relative mx-auto grid max-w-[1420px] items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
-          {/* HERO TEXT */}
-
-          <div>
-            
-
+        {/* HERO TEXT (above the range so buttons stay clickable) */}
+        <div className="relative z-10 mx-auto flex w-full max-w-[1420px] flex-1 items-center justify-center px-5 sm:px-8 lg:px-14">
+          <div className="flex flex-col items-center text-center">
             <p
               data-de-intro
-className="mt-8 text-[10px] font-semibold uppercase tracking-[.22em] text-[#B12025] max-sm:mt-4 max-sm:text-[8px] max-sm:tracking-[.2em]"            >
+              className="text-[10px] font-semibold uppercase tracking-[.22em] text-[#B12025] max-sm:text-[8px] max-sm:tracking-[.2em]"
+            >
               Data entry services in Sri Lanka
             </p>
 
-            {/* MASKED RISING H1 */}
-
-<h1 className="mt-5 max-w-[770px] text-[clamp(2.65rem,4.9vw,5.8rem)] font-semibold leading-[1.08] tracking-[-.067em] max-sm:mt-3 max-sm:text-[29px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]">              <span className="block overflow-hidden pb-[.12em]">
+            <h1 className="mt-4 max-w-[1000px] text-[clamp(2.4rem,3.7vw,4.6rem)] font-semibold leading-[1.06] tracking-[-.067em] max-sm:mt-3 max-sm:text-[29px] max-sm:leading-[1.08] max-sm:tracking-[-.05em]">
+              <span className="block overflow-hidden pb-[.12em]">
                 <span data-de-rise className="block">
                   Clean data in your systems,
                 </span>
@@ -1164,191 +921,51 @@ className="mt-8 text-[10px] font-semibold uppercase tracking-[.22em] text-[#B120
               </span>
             </h1>
 
-         
-
-            
-
-            {/* INTRO WITH SCROLL-REVEALED PHRASES */}
-
             <p
               data-de-intro
-className="mt-6 max-w-[630px] text-[14px] leading-[1.95] text-[#17191C]/70 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.6] sm:text-[15px]"            >
-              FirstNotch enters and processes data for
-              you, inside your own systems. Software
-              tools handle the repetitive parts, and
-              a person checks each record before it
-              is delivered. Businesses use the service
-              for{' '}
+              className="mx-auto mt-5 max-w-[640px] text-[14px] leading-[1.85] text-[#17191C]/70 max-sm:mt-3 max-sm:text-[10px] max-sm:leading-[1.6] sm:text-[15px]"
+            >
+              FirstNotch enters and processes data for you, inside your own
+              systems. Software tools handle the repetitive parts, and a person
+              checks each record before it is delivered. Businesses use the
+              service for{' '}
               <Highlight>product listings</Highlight>,{' '}
               <Highlight>order forms</Highlight>,{' '}
               <Highlight>invoices</Highlight>,{' '}
-              <Highlight>survey results</Highlight>{' '}
-              and{' '}
+              <Highlight>survey results</Highlight> and{' '}
               <Highlight>customer records</Highlight>.
             </p>
 
-            {/* HERO BUTTONS */}
-
             <div
               data-de-intro
-className="mt-8 flex flex-wrap items-center gap-3 max-sm:mt-4 max-sm:flex-nowrap max-sm:gap-2"            >
+              className="mt-6 flex flex-wrap items-center justify-center gap-3 max-sm:mt-4 max-sm:w-full max-sm:flex-nowrap max-sm:gap-2"
+            >
               <a
                 data-de-magnetic
                 href="#contact"
-className="inline-flex min-h-[50px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition-colors hover:bg-[#961B20] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
+                className="inline-flex min-h-[50px] items-center gap-3 rounded-full bg-[#B12025] px-6 text-[12px] font-semibold text-white transition-colors hover:bg-[#961B20] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B12025] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"
+              >
                 Book a free discovery call
-
-                <ArrowUpRight
-                  size={16}
-                  aria-hidden="true"
-                />
+                <ArrowUpRight size={16} aria-hidden="true" />
               </a>
 
               <a
                 href="#de-included"
-className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/25 bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF3F3] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"              >
+                className="inline-flex min-h-[50px] items-center gap-2 rounded-full border border-[#B12025]/25 bg-white px-6 text-[12px] font-semibold text-[#B12025] transition hover:border-[#B12025] hover:bg-[#FFF3F3] max-sm:min-h-[36px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-3 max-sm:text-[9px] max-sm:whitespace-nowrap"
+              >
                 See what is included
-
-                <ArrowDown
-                  size={16}
-                  aria-hidden="true"
-                />
+                <ArrowDown size={16} aria-hidden="true" />
               </a>
             </div>
           </div>
-
-          {/* ==========================================
-              ANIMATED DATA ENTRY VISUAL
-          ========================================== */}
-
-          <div
-className="hidden min-w-0 rounded-[28px] border border-[#B12025]/15 bg-white p-4 shadow-[0_30px_90px_rgba(177,32,37,.08)] sm:block sm:p-7"            aria-label="Illustrative data entry workflow"
-          >
-            <div className="flex items-center justify-between border-b border-[#B12025]/10 pb-4">
-              <div className="flex items-center gap-2">
-                <FileSpreadsheet
-                  size={20}
-                  className="text-[#B12025]"
-                />
-
-                <span className="text-[12px] font-semibold">
-                  Data entry workflow
-                </span>
-              </div>
-
-              <span className="rounded-full bg-[#FFF0F0] px-3 py-1 text-[10px] font-semibold text-[#B12025]">
-                DEMO
-              </span>
-            </div>
-
-            {/* SCATTERED SOURCE DOCUMENTS */}
-
-            <div className="relative mt-5 grid grid-cols-2 gap-3 overflow-hidden rounded-[16px] bg-[#FFF9F7] p-4 sm:grid-cols-4">
-              {[
-                {
-                  title: 'Paper form',
-                  Icon: FileText,
-                },
-                {
-                  title: 'Invoice',
-                  Icon: FileCheck2,
-                },
-                {
-                  title: 'Survey',
-                  Icon: ClipboardList,
-                },
-                {
-                  title: 'Source CSV',
-                  Icon: FileSpreadsheet,
-                },
-              ].map(({ title, Icon }) => (
-                <div
-                  data-de-paper
-                  key={title}
-                  className="relative flex min-h-[95px] flex-col items-center justify-center gap-3 rounded-[12px] border border-[#B12025]/15 bg-white p-3 text-center shadow-sm"
-                >
-                  <Icon
-                    size={22}
-                    strokeWidth={1.6}
-                    className="text-[#B12025]"
-                  />
-
-                  <span className="text-[10px] font-semibold leading-4 text-[#17191C]/75">
-                    {title}
-                  </span>
-                </div>
-              ))}
-
-              {/* SCANNING LINE */}
-
-              <div
-                data-de-scan
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-3 top-3 h-[2px] bg-[#B12025] shadow-[0_0_18px_4px_rgba(177,32,37,.22)]"
-              />
-            </div>
-
-            {/* SOFTWARE TO HUMAN HANDOFF */}
-
-            <div className="my-4 flex items-center justify-center gap-3 text-[11px] font-semibold text-[#B12025]">
-              <ScanLine size={16} />
-
-              Software check
-
-              <ArrowRight size={14} />
-
-              <UserRoundCheck size={16} />
-
-              Human review
-            </div>
-
-            {/* SPREADSHEET MOCKUP */}
-
-            <div
-              ref={sheetRef}
-              className="overflow-hidden rounded-[15px] border border-[#B12025]/15"
-            >
-              <div className="grid grid-cols-[.9fr_1.4fr_.75fr] bg-[#B12025] px-3 py-3 text-[10px] font-semibold uppercase tracking-[.08em] text-white">
-                <span>Record ID</span>
-                <span>Source value</span>
-                <span>Status</span>
-              </div>
-
-              {PREVIEW_ROWS.map((row) => (
-                <div
-                  key={row.code}
-                  className="grid grid-cols-[.9fr_1.4fr_.75fr] items-center gap-1 border-t border-[#B12025]/10 px-3 py-3 text-[10px] sm:text-[11px]"
-                >
-                  <span className="font-mono text-[#17191C]/65">
-                    {row.code}
-                  </span>
-
-                  <span
-                    data-de-typed
-                    data-value={row.name}
-                    className="min-w-0 font-medium text-[#17191C] after:ml-[2px] after:animate-pulse after:text-[#B12025] after:content-['|']"
-                  >
-                    {row.name}
-                  </span>
-
-                  <span
-                    data-de-record-check
-                    className="flex items-center gap-1 text-[10px] font-semibold text-[#B12025]"
-                  >
-                    <CheckCheck size={14} />
-
-                    {row.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-4 text-[10px] leading-5 text-[#17191C]/45">
-              Illustrative records, not real customer
-              information.
-            </p>
-          </div>
         </div>
+
+        {/* DITHERED RIDGELINE — same output as the 21st.dev footer */}
+        <RidgelineHeroScene
+          className="-mt-8 shrink-0 sm:-mt-12"
+          height="clamp(260px, 26vw, 380px)"
+          paper="#FFF9F6"
+        />
       </section>
 
       {/* ==============================================
@@ -1357,7 +974,8 @@ className="hidden min-w-0 rounded-[28px] border border-[#B12025]/15 bg-white p-4
 
       <section
         id="de-included"
-className="scroll-mt-[105px] bg-white px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"      >
+        className="scroll-mt-[105px] bg-white px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"
+      >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-de-reveal
@@ -1368,31 +986,27 @@ className="scroll-mt-[105px] bg-white px-5 py-[100px] max-sm:py-[48px] sm:px-8 l
 
           <h2
             data-de-reveal
-className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold leading-[1.1] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"          >
+            className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold leading-[1.1] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"
+          >
             What the data entry service includes
             <span className="text-[#B12025]">.</span>
           </h2>
 
           {/* TWO-COLUMN CHECKLIST */}
 
-<div
-  ref={featureTrackRef}
-  className="mt-12 grid gap-x-12 gap-y-0 max-sm:-mx-5 max-sm:mt-7 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden lg:grid-cols-2"
->            {[0, 1].map((col) => (
-             <div
-  key={col}
-  data-de-column
-  className="max-sm:contents"
->
-                {FEATURES.filter(
-                  (_, i) => i % 2 === col
-                ).map((feature) => (
+          <div
+            ref={featureTrackRef}
+            className="mt-12 grid gap-x-12 gap-y-0 max-sm:-mx-5 max-sm:mt-7 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden lg:grid-cols-2"
+          >
+            {[0, 1].map((col) => (
+              <div key={col} data-de-column className="max-sm:contents">
+                {FEATURES.filter((_, i) => i % 2 === col).map((feature) => (
                   <article
-  key={feature.title}
-  data-de-feature
-  data-mobile-feature-card
-  className="group flex gap-4 border-b border-[#B12025]/15 py-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:bg-[#FFF9F6] max-sm:p-4"
->
+                    key={feature.title}
+                    data-de-feature
+                    data-mobile-feature-card
+                    className="group flex gap-4 border-b border-[#B12025]/15 py-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:bg-[#FFF9F6] max-sm:p-4"
+                  >
                     <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#B12025]/20 bg-[#FFF5F5] text-[#B12025]">
                       <svg
                         viewBox="0 0 24 24"
@@ -1417,16 +1031,15 @@ className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold le
 
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <feature.Icon
-                          size={18}
-                          className="text-[#B12025]"
-                        />
+                        <feature.Icon size={18} className="text-[#B12025]" />
 
-<h3 className="text-[17px] font-semibold tracking-[-.03em] max-sm:text-[14px]">                          {feature.title}
+                        <h3 className="text-[17px] font-semibold tracking-[-.03em] max-sm:text-[14px]">
+                          {feature.title}
                         </h3>
                       </div>
 
-<p className="mt-2 max-w-[535px] text-[13px] leading-[1.85] text-[#17191C]/65 max-sm:text-[10px] max-sm:leading-[1.65]">                        {feature.text}
+                      <p className="mt-2 max-w-[535px] text-[13px] leading-[1.85] text-[#17191C]/65 max-sm:text-[10px] max-sm:leading-[1.65]">
+                        {feature.text}
                       </p>
                     </div>
                   </article>
@@ -1439,15 +1052,10 @@ className="mt-4 max-w-[900px] text-[clamp(2.5rem,4.5vw,4.8rem)] font-semibold le
 
           <div
             id="de-pass"
-className="hidden mt-12 gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF9F6] p-5 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:p-8"          >
-            <div
-              data-de-pass
-              className="flex items-center gap-4"
-            >
-              <ScanLine
-                size={28}
-                className="text-[#B12025]"
-              />
+            className="hidden mt-12 gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF9F6] p-5 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:p-8"
+          >
+            <div data-de-pass className="flex items-center gap-4">
+              <ScanLine size={28} className="text-[#B12025]" />
 
               <div>
                 <p className="text-[11px] uppercase tracking-[.13em] text-[#B12025]">
@@ -1466,14 +1074,8 @@ className="hidden mt-12 gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF
               className="hidden text-[#B12025] sm:block"
             />
 
-            <div
-              data-de-pass
-              className="flex items-center gap-4"
-            >
-              <UserRoundCheck
-                size={28}
-                className="text-[#B12025]"
-              />
+            <div data-de-pass className="flex items-center gap-4">
+              <UserRoundCheck size={28} className="text-[#B12025]" />
 
               <div>
                 <p className="text-[11px] uppercase tracking-[.13em] text-[#B12025]">
@@ -1495,7 +1097,8 @@ className="hidden mt-12 gap-4 rounded-[26px] border border-[#B12025]/15 bg-[#FFF
 
       <section
         id="de-metrics"
-className="bg-[#FFF9F6] px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"      >
+        className="bg-[#FFF9F6] px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-[130px]"
+      >
         <div className="mx-auto max-w-[1420px]">
           <p
             data-de-reveal
@@ -1506,17 +1109,18 @@ className="bg-[#FFF9F6] px-5 py-[100px] max-sm:py-[48px] sm:px-8 lg:px-14 lg:py-
 
           <h2
             data-de-reveal
-className="mt-4 text-[clamp(2.6rem,5vw,5.1rem)] font-semibold leading-[1.09] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"          >
+            className="mt-4 text-[clamp(2.6rem,5vw,5.1rem)] font-semibold leading-[1.09] tracking-[-.06em] max-sm:mt-3 max-sm:text-[30px] max-sm:leading-[1.08]"
+          >
             The numbers you will see
             <span className="text-[#B12025]">.</span>
           </h2>
 
           <p
             data-de-reveal
-className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"          >
-            Speed only matters when the records
-            are correct. Your weekly report shows
-            turnaround and accuracy side by side.
+            className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"
+          >
+            Speed only matters when the records are correct. Your weekly report
+            shows turnaround and accuracy side by side.
           </p>
 
           {/* 5 METRIC CARDS */}
@@ -1527,9 +1131,7 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
                 key={m.title}
                 data-de-metric
                 className={`group flex min-h-[210px] flex-col rounded-[22px] border border-[#B12025]/10 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-[#B12025]/50 hover:shadow-[0_18px_40px_rgba(177,32,37,.10)] ${
-                  i === 4
-                    ? 'sm:col-span-2 lg:col-span-4 lg:min-h-[150px]'
-                    : ''
+                  i === 4 ? 'sm:col-span-2 lg:col-span-4 lg:min-h-[150px]' : ''
                 }`}
               >
                 <p className="text-[12px] font-semibold uppercase tracking-[.1em] text-[#B12025]">
@@ -1564,29 +1166,24 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
               </h3>
 
               <p className="mt-3 text-[13px] leading-7 text-[#17191C]/60">
-                An illustrative dashboard layout.
-                Your actual figures come from the
-                batches processed for your account.
+                An illustrative dashboard layout. Your actual figures come from
+                the batches processed for your account.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-5">
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold">
-                  Volume by source
-                </p>
+                <p className="text-[11px] font-semibold">Volume by source</p>
 
                 <div className="mt-4 flex h-[90px] items-end gap-3 border-b border-[#B12025]/10 pb-2">
-                  {[48, 75, 62, 90, 70].map(
-                    (v, i) => (
-                      <span
-                        key={i}
-                        data-de-report-bar
-                        className="flex-1 origin-bottom rounded-t-md bg-[#B12025]/[.65]"
-                        style={{ height: `${v}%` }}
-                      />
-                    )
-                  )}
+                  {[48, 75, 62, 90, 70].map((v, i) => (
+                    <span
+                      key={i}
+                      data-de-report-bar
+                      className="flex-1 origin-bottom rounded-t-md bg-[#B12025]/[.65]"
+                      style={{ height: `${v}%` }}
+                    />
+                  ))}
                 </div>
 
                 <p className="mt-2 text-[10px] text-[#17191C]/45">
@@ -1595,9 +1192,7 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
               </div>
 
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold">
-                  Accuracy trend
-                </p>
+                <p className="text-[11px] font-semibold">Accuracy trend</p>
 
                 <svg
                   className="mt-3 h-[104px] w-full overflow-visible"
@@ -1717,8 +1312,6 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
         />
 
         <div className="relative mx-auto w-full max-w-[1120px] text-center">
-          
-
           <blockquote className="mt-8 text-[clamp(1.8rem,4.2vw,4.5rem)] font-semibold leading-[1.35] tracking-[-.053em] max-sm:mt-0 max-sm:mx-auto max-sm:max-w-[285px] max-sm:text-[19px] max-sm:leading-[1.32] max-sm:tracking-[-.035em]">
             {[
               '“Vehicle details used to be typed in by our sales staff after hours.',
@@ -1735,8 +1328,6 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
             ))}
           </blockquote>
 
-          
-
           {/* BEFORE / AFTER */}
 
           <div className="mx-auto mt-9 hidden max-w-[570px] flex-wrap justify-center gap-3 text-[11px] sm:flex">
@@ -1744,11 +1335,7 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
               Before: after hours
             </span>
 
-            <ArrowRight
-              aria-hidden="true"
-              className="my-auto"
-              size={17}
-            />
+            <ArrowRight aria-hidden="true" className="my-auto" size={17} />
 
             <span className="rounded-full border border-white/35 bg-white/10 px-4 py-2">
               Now: each morning
@@ -1793,9 +1380,7 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
                 index={index}
                 open={openFaq === index}
                 toggle={() =>
-                  setOpenFaq((v) =>
-                    v === index ? null : index
-                  )
+                  setOpenFaq((v) => (v === index ? null : index))
                 }
               />
             ))}
@@ -1807,9 +1392,9 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
         ========================================== */}
 
         <div
-  id="de-other"
-  className="mx-auto mt-[105px] hidden max-w-[1420px] sm:block"
->
+          id="de-other"
+          className="mx-auto mt-[105px] hidden max-w-[1420px] sm:block"
+        >
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="text-[clamp(1.9rem,3.5vw,3.3rem)] font-semibold tracking-[-.055em] max-sm:text-[24px] max-sm:leading-[1.15]">
               Other BPO and back office services
@@ -1873,9 +1458,8 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
             data-de-reveal
             className="mt-5 max-w-[680px] text-[14px] leading-[1.85] text-[#17191C]/65 max-sm:mt-4 max-sm:text-[11px] max-sm:leading-[1.7]"
           >
-            The biggest risk with outsourced admin
-            is mistakes that reach your systems.
-            These steps are there to stop that.
+            The biggest risk with outsourced admin is mistakes that reach your
+            systems. These steps are there to stop that.
           </p>
 
           {/* ANIMATED PROGRESS LINE */}
@@ -1895,26 +1479,20 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
             {/* FOUR STEPS */}
 
             <div
-  ref={processTrackRef}
-  className="grid gap-9 max-sm:-mx-5 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
->
+              ref={processTrackRef}
+              className="grid gap-9 max-sm:-mx-5 max-sm:flex max-sm:gap-3 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:scroll-smooth max-sm:px-5 max-sm:pb-2 max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
+            >
               {STEPS.map((step) => (
                 <article
-  data-de-step
-  data-mobile-process-card
-  key={step.num}
-  className="border-t-2 border-[#B12025]/30 pt-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:border-[#B12025]/15 max-sm:bg-[#FFF9F6] max-sm:p-5 lg:border-0"
->
+                  data-de-step
+                  data-mobile-process-card
+                  key={step.num}
+                  className="border-t-2 border-[#B12025]/30 pt-6 max-sm:w-[78vw] max-sm:max-w-[270px] max-sm:shrink-0 max-sm:rounded-[18px] max-sm:border max-sm:border-[#B12025]/15 max-sm:bg-[#FFF9F6] max-sm:p-5 lg:border-0"
+                >
                   <div className="flex items-center gap-3 text-[#B12025]">
-                    <step.Icon
-                      data-de-step-icon
-                      size={25}
-                      strokeWidth={1.7}
-                    />
+                    <step.Icon data-de-step-icon size={25} strokeWidth={1.7} />
 
-                    <span className="text-[13px] font-bold">
-                      {step.num}
-                    </span>
+                    <span className="text-[13px] font-bold">{step.num}</span>
                   </div>
 
                   <h3 className="mt-5 text-[20px] font-semibold tracking-[-.04em] max-sm:mt-4 max-sm:text-[16px]">
@@ -1936,8 +1514,7 @@ className="mt-5 max-w-[730px] text-[14px] leading-[1.9] text-[#17191C]/65 max-sm
             className="mt-12 hidden flex-wrap items-center justify-between gap-4 border-t border-[#B12025]/15 pt-7 sm:flex"
           >
             <p className="text-[13px] text-[#17191C]/60">
-              Ready to discuss the work your team
-              needs covered?
+              Ready to discuss the work your team needs covered?
             </p>
 
             <a

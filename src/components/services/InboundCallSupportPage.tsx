@@ -498,7 +498,10 @@ export default function InboundCallSupportPage() {
             },
           });
 
+                 // ==================================================
           // CALL TIMELINE STEP ACTIVATION
+          // ==================================================
+
           gsap.utils
             .toArray<HTMLElement>(
               '[data-inbound-call-step]'
@@ -511,6 +514,85 @@ export default function InboundCallSupportPage() {
 
                 onEnter: () => setCallStep(index),
                 onEnterBack: () => setCallStep(index),
+              });
+            });
+
+          // ==================================================
+          // SECTION 02 — ROTATING RED ORBITAL BACKGROUND
+          // ==================================================
+
+          gsap.utils
+            .toArray<SVGElement>(
+              '.fn-orbit-left'
+            )
+            .forEach((orbit) => {
+              gsap.to(orbit, {
+                rotation: 360,
+                duration: 22,
+                repeat: -1,
+                ease: 'none',
+                transformOrigin: '50% 50%',
+              });
+            });
+
+          gsap.utils
+            .toArray<SVGElement>(
+              '.fn-orbit-left-inner'
+            )
+            .forEach((orbit) => {
+              gsap.to(orbit, {
+                rotation: -360,
+                duration: 30,
+                repeat: -1,
+                ease: 'none',
+                transformOrigin: '50% 50%',
+              });
+            });
+
+          gsap.utils
+            .toArray<SVGElement>(
+              '.fn-orbit-right'
+            )
+            .forEach((orbit) => {
+              gsap.to(orbit, {
+                rotation: -360,
+                duration: 25,
+                repeat: -1,
+                ease: 'none',
+                transformOrigin: '50% 50%',
+              });
+            });
+
+          gsap.utils
+            .toArray<SVGElement>(
+              '.fn-orbit-right-inner'
+            )
+            .forEach((orbit) => {
+              gsap.to(orbit, {
+                rotation: 360,
+                duration: 34,
+                repeat: -1,
+                ease: 'none',
+                transformOrigin: '50% 50%',
+              });
+            });
+
+          // ==================================================
+          // SUBTLE ORBITAL BREATHING / DEPTH
+          // ==================================================
+
+          gsap.utils
+            .toArray<SVGElement>(
+              '#included svg'
+            )
+            .forEach((orbitalSvg, index) => {
+              gsap.to(orbitalSvg, {
+                scale: index % 2 === 0 ? 1.035 : 1.025,
+                duration: 4 + index,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                transformOrigin: '50% 50%',
               });
             });
         }
@@ -1444,10 +1526,12 @@ export default function InboundCallSupportPage() {
           SECTION 02 — EIGHT BENTO FEATURES
       ================================================= */}
 
-      <section
+           <section
         id="included"
         className="
+          relative isolate
           scroll-mt-28
+          overflow-hidden
           bg-[#F9F8F8]
           px-4 py-10
 
@@ -1458,7 +1542,336 @@ export default function InboundCallSupportPage() {
           lg:py-28
         "
       >
-        <div className="mx-auto max-w-[1400px]">
+        {/* ===============================================
+            ROTATING RED ORBITAL BACKGROUND
+            Decorative only — behind heading + cards
+        ================================================ */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute inset-0
+            z-0
+            overflow-hidden
+          "
+        >
+          {/* =============================================
+              LEFT LARGE ORBIT
+          ============================================== */}
+
+          <svg
+            viewBox="0 0 700 700"
+            className="
+              absolute
+
+              -left-[300px]
+              top-[20px]
+
+              h-[650px]
+              w-[650px]
+
+              opacity-[0.20]
+
+              sm:-left-[300px]
+              sm:-top-[40px]
+              sm:h-[800px]
+              sm:w-[800px]
+              sm:opacity-[0.27]
+
+              lg:-left-[350px]
+              lg:-top-[100px]
+              lg:h-[950px]
+              lg:w-[950px]
+            "
+          >
+            {/* OUTER — CLOCKWISE */}
+
+            <g className="fn-orbit-left">
+              <circle
+                cx="350"
+                cy="350"
+                r="305"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeDasharray="720 260"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="272"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeDasharray="470 340"
+                opacity="0.75"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="238"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeDasharray="560 250"
+                opacity="0.55"
+              />
+            </g>
+
+            {/* INNER — COUNTER CLOCKWISE */}
+
+            <g className="fn-orbit-left-inner">
+              <circle
+                cx="350"
+                cy="350"
+                r="202"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="350 300"
+                opacity="0.8"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="168"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeDasharray="230 270"
+                opacity="0.5"
+              />
+            </g>
+          </svg>
+
+          {/* =============================================
+              RIGHT LARGE ORBIT
+          ============================================== */}
+
+          <svg
+            viewBox="0 0 700 700"
+            className="
+              absolute
+
+              -right-[310px]
+              top-[170px]
+
+              h-[650px]
+              w-[650px]
+
+              opacity-[0.18]
+
+              sm:-right-[300px]
+              sm:top-[120px]
+              sm:h-[800px]
+              sm:w-[800px]
+              sm:opacity-[0.25]
+
+              lg:-right-[350px]
+              lg:top-[80px]
+              lg:h-[950px]
+              lg:w-[950px]
+            "
+          >
+            {/* OUTER — COUNTER CLOCKWISE */}
+
+            <g className="fn-orbit-right">
+              <circle
+                cx="350"
+                cy="350"
+                r="305"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeDasharray="650 330"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="272"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeDasharray="410 360"
+                opacity="0.75"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="238"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeDasharray="510 270"
+                opacity="0.55"
+              />
+            </g>
+
+            {/* INNER — CLOCKWISE */}
+
+            <g className="fn-orbit-right-inner">
+              <circle
+                cx="350"
+                cy="350"
+                r="202"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="320 330"
+                opacity="0.8"
+              />
+
+              <circle
+                cx="350"
+                cy="350"
+                r="168"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeDasharray="210 270"
+                opacity="0.5"
+              />
+            </g>
+          </svg>
+
+          {/* =============================================
+              SMALL TOP RIGHT ORBIT
+          ============================================== */}
+
+          <svg
+            viewBox="0 0 400 400"
+            className="
+              absolute
+              -right-[110px]
+              -top-[170px]
+
+              hidden
+
+              h-[480px]
+              w-[480px]
+
+              opacity-[0.12]
+
+              md:block
+            "
+          >
+            <g className="fn-orbit-left-inner">
+              <circle
+                cx="200"
+                cy="200"
+                r="165"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeDasharray="340 230"
+              />
+
+              <circle
+                cx="200"
+                cy="200"
+                r="130"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeDasharray="220 270"
+              />
+            </g>
+          </svg>
+
+          {/* =============================================
+              SMALL BOTTOM LEFT ORBIT
+          ============================================== */}
+
+          <svg
+            viewBox="0 0 400 400"
+            className="
+              absolute
+
+              -bottom-[190px]
+              -left-[90px]
+
+              hidden
+
+              h-[480px]
+              w-[480px]
+
+              opacity-[0.12]
+
+              md:block
+            "
+          >
+            <g className="fn-orbit-right-inner">
+              <circle
+                cx="200"
+                cy="200"
+                r="165"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeDasharray="350 220"
+              />
+
+              <circle
+                cx="200"
+                cy="200"
+                r="130"
+                fill="none"
+                stroke="#B12025"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeDasharray="230 260"
+              />
+            </g>
+          </svg>
+
+          {/* =============================================
+              CENTER SOFT MASK
+
+              Center remains clean.
+              Red orbital lines remain visible mainly
+              around left/right outer areas.
+          ============================================== */}
+
+          <div
+            className="
+              absolute inset-0
+
+              bg-[radial-gradient(ellipse_at_center,rgba(249,248,248,0.90)_0%,rgba(249,248,248,0.72)_36%,rgba(249,248,248,0.20)_64%,rgba(249,248,248,0)_86%)]
+            "
+          />
+        </div>
+
+        {/* ===============================================
+            ORIGINAL CONTENT
+            Keep everything above background
+        ================================================ */}
+
+        <div
+          className="
+            relative z-10
+            mx-auto
+            max-w-[1400px]
+          "
+        >
           <p
             data-inbound-reveal
             className="

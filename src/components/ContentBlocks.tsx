@@ -63,28 +63,232 @@ export function About() {
     lg:px-14 lg:py-32
   "
 >
-  {/* LEFT FIRSTNOTCH RED BLUR CIRCLE */}
+ {/* =====================================================
+    FIRSTNOTCH — ANIMATED RED MESH WAVE BACKGROUND
+===================================================== */}
 <div
   aria-hidden="true"
   className="
     pointer-events-none
     absolute
-    left-[-170px]
-    top-[48%]
+    inset-0
     z-0
-    h-[340px]
-    w-[340px]
-    -translate-y-1/2
-    rounded-full
-    bg-[#B12025]/18
-    blur-[120px]
-
-    max-md:left-[-120px]
-    max-md:h-[240px]
-    max-md:w-[240px]
-    max-md:blur-[90px]
+    overflow-hidden
   "
-/>
+>
+  <svg
+    viewBox="0 0 1600 760"
+    preserveAspectRatio="none"
+    className="
+      absolute
+      inset-0
+      h-full
+      w-full
+      opacity-[0.72]
+    "
+  >
+    <defs>
+      {/* FIRSTNOTCH RED */}
+      <linearGradient
+        id="fns-wave-red"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="0%"
+      >
+       <stop offset="0%" stopColor="#B12025" stopOpacity="0.04" />
+<stop offset="15%" stopColor="#B12025" stopOpacity="0.55" />
+<stop offset="42%" stopColor="#B12025" stopOpacity="0.95" />
+<stop offset="58%" stopColor="#B12025" stopOpacity="1" />
+<stop offset="82%" stopColor="#B12025" stopOpacity="0.50" />
+<stop offset="100%" stopColor="#B12025" stopOpacity="0.04" />
+      </linearGradient>
+
+      {/* SILVER */}
+      <linearGradient
+        id="fns-wave-silver"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="0%"
+      >
+        <stop offset="0%" stopColor="#D7D9DC" stopOpacity="0" />
+        <stop offset="25%" stopColor="#C7C9CC" stopOpacity="0.42" />
+        <stop offset="55%" stopColor="#E2E3E5" stopOpacity="0.55" />
+        <stop offset="80%" stopColor="#C7C9CC" stopOpacity="0.30" />
+        <stop offset="100%" stopColor="#D7D9DC" stopOpacity="0" />
+      </linearGradient>
+
+      {/* SOFT BLUR */}
+      <filter id="fns-wave-blur">
+        <feGaussianBlur stdDeviation="0.45" />
+      </filter>
+    </defs>
+
+    {/* ===============================
+        SILVER BACK WAVE
+    =============================== */}
+    <g
+      style={{
+        transformOrigin: "50% 50%",
+        animation: "fnsMeshFloatSilver 18s ease-in-out infinite alternate",
+      }}
+    >
+      {Array.from({ length: 32 }).map((_, index) => {
+        const offset = index * 7;
+
+        return (
+          <path
+            key={`silver-${index}`}
+            d={`
+              M -120 ${250 + offset}
+              C 180 ${80 + offset},
+                350 ${120 + offset},
+                540 ${290 + offset}
+              S 900 ${520 + offset},
+                1120 ${270 + offset}
+              S 1450 ${100 + offset},
+                1720 ${270 + offset}
+            `}
+            fill="none"
+            stroke="url(#fns-wave-silver)"
+            strokeWidth="1.1"
+            opacity={0.16 + index * 0.008}
+          />
+        );
+      })}
+    </g>
+
+    {/* ===============================
+        MAIN FIRSTNOTCH RED WAVE
+    =============================== */}
+    <g
+      filter="url(#fns-wave-blur)"
+      style={{
+        transformOrigin: "50% 50%",
+        animation: "fnsMeshFloatRed 13s ease-in-out infinite alternate",
+      }}
+    >
+      {Array.from({ length: 38 }).map((_, index) => {
+        const offset = index * 5.2;
+
+        return (
+          <path
+            key={`red-${index}`}
+            d={`
+              M -150 ${390 + offset}
+              C 120 ${240 + offset},
+                290 ${580 - offset * 0.25},
+                500 ${430 + offset * 0.15}
+              S 790 ${230 + offset * 0.45},
+                1010 ${390 - offset * 0.15}
+              S 1330 ${500 + offset * 0.12},
+                1750 ${320 + offset * 0.22}
+            `}
+            fill="none"
+            stroke="url(#fns-wave-red)"
+            strokeWidth="1.15"
+            opacity={0.22 + index * 0.012}
+          />
+        );
+      })}
+    </g>
+
+    {/* ===============================
+        SECOND SOFT RED WAVE
+    =============================== */}
+    <g
+      style={{
+        transformOrigin: "50% 50%",
+        animation: "fnsMeshFloatRedReverse 21s ease-in-out infinite alternate",
+      }}
+    >
+      {Array.from({ length: 22 }).map((_, index) => {
+        const offset = index * 8;
+
+        return (
+          <path
+            key={`red-soft-${index}`}
+            d={`
+              M -100 ${520 + offset}
+              C 230 ${310 + offset},
+                390 ${350 - offset * 0.18},
+                610 ${470 + offset * 0.12}
+              S 940 ${610 - offset * 0.2},
+                1190 ${390 + offset * 0.1}
+              S 1480 ${230 + offset * 0.15},
+                1700 ${430 + offset * 0.1}
+            `}
+            fill="none"
+            stroke="#B12025"
+            strokeWidth="0.8"
+            opacity="0.055"
+          />
+        );
+      })}
+    </g>
+  </svg>
+
+  {/* WHITE FADE — keeps text/cards readable */}
+  <div
+    className="
+      absolute
+      inset-0
+      bg-[radial-gradient(circle_at_50%_48%,rgba(255,255,255,0.35)_0%,rgba(255,255,255,0.10)_38%,rgba(255,255,255,0.50)_100%)]
+    "
+  />
+</div>
+
+{/* ANIMATION */}
+<style>{`
+  @keyframes fnsMeshFloatRed {
+    0% {
+      transform: translate3d(-35px, 15px, 0) scale(1.03);
+    }
+
+    50% {
+      transform: translate3d(30px, -18px, 0) scale(1.07);
+    }
+
+    100% {
+      transform: translate3d(-10px, 25px, 0) scale(1.04);
+    }
+  }
+
+  @keyframes fnsMeshFloatRedReverse {
+    0% {
+      transform: translate3d(35px, -15px, 0) scale(1.05);
+    }
+
+    50% {
+      transform: translate3d(-25px, 20px, 0) scale(1.08);
+    }
+
+    100% {
+      transform: translate3d(15px, -20px, 0) scale(1.04);
+    }
+  }
+
+  @keyframes fnsMeshFloatSilver {
+    0% {
+      transform: translate3d(-25px, -20px, 0) scale(1.05);
+    }
+
+    50% {
+      transform: translate3d(35px, 15px, 0) scale(1.08);
+    }
+
+    100% {
+      transform: translate3d(-5px, 30px, 0) scale(1.04);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [style*="fnsMeshFloat"] {
+      animation: none !important;
+    }
+  }
+`}</style>
 
 {/* RIGHT FIRSTNOTCH RED BLUR CIRCLE */}
 <div

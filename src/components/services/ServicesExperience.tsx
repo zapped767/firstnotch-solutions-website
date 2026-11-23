@@ -34,6 +34,7 @@ import StoryContact from '../StoryContact';
 import ServiceRail from './ServiceRail';
 import QualityPromise from './QualityPromise';
 import ServicesScrollHero from './ServicesScrollHero';
+import IntelligentFlowField from "@/components/effects/IntelligentFlowField";
 import { categories, questions } from './serviceData';
 
 // ======================================================
@@ -869,19 +870,77 @@ function FaqRollerSection() {
 
   return (
     <section
-      id="faq"
-      aria-labelledby="services-faq-title"
+  id="faq"
+  aria-labelledby="services-faq-title"
+  className="
+    relative
+    isolate
+    scroll-mt-[140px]
+    overflow-hidden
+    bg-white
+
+    pb-[28px]
+    pt-[28px]
+
+    sm:py-[135px]
+  "
+>
+  {/* ======================================================
+      MICRO-DOT WAVE BACKGROUND
+      FirstNotch Red #B12025
+  ====================================================== */}
+
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none
+      absolute
+      inset-0
+      z-0
+      overflow-hidden
+    "
+  >
+    {/* LEFT DOT WAVE */}
+    <div
       className="
-        scroll-mt-[140px]
-        overflow-hidden
-        bg-[#FAF9F8]
-
-        pb-[28px]
-        pt-[28px]
-
-        sm:py-[135px]
+        fn-dot-wave
+        absolute
+        -left-[180px]
+        top-[2%]
+        h-[72%]
+        w-[52%]
+        opacity-[0.72]
+        sm:-left-[120px]
       "
-    >
+    />
+
+    {/* RIGHT DOT WAVE */}
+    <div
+      className="
+        fn-dot-wave
+        fn-dot-wave-right
+        absolute
+        -right-[180px]
+        bottom-[-5%]
+        h-[78%]
+        w-[58%]
+        opacity-[0.82]
+        sm:-right-[100px]
+      "
+    />
+
+    {/* CENTER WHITE FADE — keeps heading/cards readable */}
+    <div
+      className="
+        absolute
+        inset-0
+        bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_30%,rgba(255,255,255,0.45)_65%,rgba(255,255,255,0.08)_100%)]
+      "
+    />
+  </div>
+
+  {/* FAQ CONTENT ABOVE BACKGROUND */}
+  <div className="relative z-10">
       {/* ============================================
           FAQ HEADING
       ============================================ */}
@@ -1007,11 +1066,170 @@ function FaqRollerSection() {
         ))}
       </div>
 
+           {/* CLOSE FAQ CONTENT LAYER */}
+      </div>
+
       {/* ============================================
           ANIMATION STYLES
       ============================================ */}
 
       <style>{`
+      /* ======================================================
+   FIRSTNOTCH MICRO-DOT WAVE SURFACE
+====================================================== */
+
+.fn-dot-wave {
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(177, 32, 37, 0.95) 0px,
+      rgba(177, 32, 37, 0.95) 1.7px,
+      transparent 1.9px
+    );
+
+  background-size: 15px 15px;
+
+  transform:
+    perspective(900px)
+    rotateX(58deg)
+    rotateZ(-18deg)
+    skewX(-8deg)
+    scale(1.25);
+
+  transform-origin: center;
+
+  mask-image:
+    radial-gradient(
+      ellipse at 48% 50%,
+      black 0%,
+      black 30%,
+      rgba(0, 0, 0, 0.92) 44%,
+      rgba(0, 0, 0, 0.55) 62%,
+      transparent 82%
+    );
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at 48% 50%,
+      black 0%,
+      black 30%,
+      rgba(0, 0, 0, 0.92) 44%,
+      rgba(0, 0, 0, 0.55) 62%,
+      transparent 82%
+    );
+
+  will-change: transform;
+  animation: fnDotWaveFloat 12s ease-in-out infinite alternate;
+}
+
+.fn-dot-wave-right {
+  transform:
+    perspective(900px)
+    rotateX(58deg)
+    rotateZ(18deg)
+    skewX(8deg)
+    scale(1.3);
+
+  animation:
+    fnDotWaveFloatRight 14s ease-in-out infinite alternate;
+}
+
+
+/* ----------------------------------------
+   SMALL DEPTH / CLOTH MOVEMENT
+---------------------------------------- */
+
+@keyframes fnDotWaveFloat {
+  0% {
+    transform:
+      perspective(900px)
+      rotateX(58deg)
+      rotateZ(-18deg)
+      skewX(-8deg)
+      translate3d(-10px, 8px, 0)
+      scale(1.25);
+  }
+
+  50% {
+    transform:
+      perspective(900px)
+      rotateX(61deg)
+      rotateZ(-15deg)
+      skewX(-5deg)
+      translate3d(22px, -14px, 0)
+      scale(1.3);
+  }
+
+  100% {
+    transform:
+      perspective(900px)
+      rotateX(56deg)
+      rotateZ(-20deg)
+      skewX(-10deg)
+      translate3d(5px, 18px, 0)
+      scale(1.27);
+  }
+}
+
+@keyframes fnDotWaveFloatRight {
+  0% {
+    transform:
+      perspective(900px)
+      rotateX(58deg)
+      rotateZ(18deg)
+      skewX(8deg)
+      translate3d(12px, -6px, 0)
+      scale(1.3);
+  }
+
+  50% {
+    transform:
+      perspective(900px)
+      rotateX(62deg)
+      rotateZ(14deg)
+      skewX(5deg)
+      translate3d(-20px, 16px, 0)
+      scale(1.35);
+  }
+
+  100% {
+    transform:
+      perspective(900px)
+      rotateX(56deg)
+      rotateZ(21deg)
+      skewX(10deg)
+      translate3d(-4px, -12px, 0)
+      scale(1.31);
+  }
+}
+
+
+/* ----------------------------------------
+   MOBILE
+---------------------------------------- */
+
+@media (max-width: 639px) {
+  .fn-dot-wave {
+    background-size: 11px 11px;
+    opacity: 0.5;
+  }
+
+  .fn-dot-wave-right {
+    opacity: 0.55;
+  }
+}
+
+
+/* ----------------------------------------
+   ACCESSIBILITY
+---------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .fn-dot-wave,
+  .fn-dot-wave-right {
+    animation: none !important;
+  }
+}
         @keyframes fnFaqMarquee {
           from {
             transform: translate3d(0, 0, 0);
@@ -1953,7 +2171,6 @@ useEffect(() => {
         {/* =====================================================
     SERVICES — SCROLL EXPAND HERO
 ===================================================== */}
-
 <ServicesScrollHero
   onDiscoveryClick={() => jumpTo('contact')}
 />
@@ -2000,11 +2217,24 @@ useEffect(() => {
     DESKTOP: ORIGINAL GRID DESIGN
 ===================================================== */}
 
+{/* =====================================================
+    BENTO STATISTICS
+    MOBILE: AUTOMATIC HORIZONTAL CAROUSEL
+    DESKTOP: ORIGINAL GRID DESIGN
+===================================================== */}
+
 <section
   id="results"
-  className="overflow-hidden bg-[#f8f7f5] py-7 sm:py-32"
+  className="relative isolate overflow-hidden bg-[#f8f7f5] py-7 sm:py-32"
 >
-  <div className="mx-auto max-w-[1440px] px-4 sm:px-5 md:px-10">
+   {/* ============================================
+      INTELLIGENT FLOW FIELD BACKGROUND
+      Animated FirstNotch Red Flow Lines
+  ============================================ */}
+
+  <IntelligentFlowField />
+
+  <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-5 md:px-10">
 
     {/* SECTION LABEL */}
 

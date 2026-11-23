@@ -1,17 +1,33 @@
-import type { Metadata, Viewport } from 'next';
-import type { ReactNode } from 'react';
-import { Poppins } from 'next/font/google';
-import Script from 'next/script';
-import './globals.css';
+import type {
+  Metadata,
+  Viewport,
+} from 'next';
 
+import type { ReactNode } from 'react';
+
+import { Poppins } from 'next/font/google';
+
+import ScrollReset from '@/components/ScrollReset';
+
+import './globals.css';
+import FirstNotchAIChat from '@/components/ai-chat/FirstNotchAIChat';
 // ======================================================
 // FIRSTNOTCH SOLUTIONS — GLOBAL FONT
 // ======================================================
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+
+  weight: [
+    '300',
+    '400',
+    '500',
+    '600',
+    '700',
+  ],
+
   display: 'swap',
+
   variable: '--font-poppins',
 });
 
@@ -19,7 +35,8 @@ const poppins = Poppins({
 // GLOBAL SEO CONFIGURATION
 // ======================================================
 
-const SITE_NAME = 'FirstNotch Solutions';
+const SITE_NAME =
+  'FirstNotch Solutions';
 
 const SITE_TITLE =
   'BPO Company in Sri Lanka | Outsourcing by FirstNotch';
@@ -43,7 +60,9 @@ export const metadata: Metadata = {
 
   title: {
     default: SITE_TITLE,
-    template: '%s | FirstNotch Solutions',
+
+    template:
+      '%s | FirstNotch Solutions',
   },
 
   description: SITE_DESCRIPTION,
@@ -72,13 +91,15 @@ export const metadata: Metadata = {
   ],
 
   creator: SITE_NAME,
+
   publisher: SITE_NAME,
 
-  category: 'Business Process Outsourcing',
+  category:
+    'Business Process Outsourcing',
 
-  // ------------------------------------------------------
-  // GOOGLE / BROWSER FAVICON
-  // ------------------------------------------------------
+  // ====================================================
+  // FAVICON
+  // ====================================================
 
   icons: {
     icon: [
@@ -87,64 +108,80 @@ export const metadata: Metadata = {
         type: 'image/png',
       },
     ],
+
     shortcut: '/icon.png',
+
     apple: '/icon.png',
   },
 
-  // ------------------------------------------------------
-  // HOMEPAGE CANONICAL
-  // ------------------------------------------------------
+  // ====================================================
+  // CANONICAL
+  // ====================================================
 
   alternates: {
     canonical: '/',
   },
 
-  // ------------------------------------------------------
+  // ====================================================
   // SEARCH ENGINE CRAWLING
-  // ------------------------------------------------------
+  // ====================================================
 
   robots: {
     index: true,
+
     follow: true,
 
     googleBot: {
       index: true,
+
       follow: true,
-      'max-image-preview': 'large',
+
+      'max-image-preview':
+        'large',
+
       'max-snippet': -1,
+
       'max-video-preview': -1,
     },
   },
 
-  // ------------------------------------------------------
+  // ====================================================
   // OPEN GRAPH
-  // ------------------------------------------------------
+  // ====================================================
 
   openGraph: {
     type: 'website',
+
     locale: 'en_GB',
 
     siteName: SITE_NAME,
 
     title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+
+    description:
+      SITE_DESCRIPTION,
 
     url: SITE_URL,
   },
 
-  // ------------------------------------------------------
+  // ====================================================
   // X / TWITTER
-  // ------------------------------------------------------
+  // ====================================================
 
   twitter: {
     card: 'summary',
+
     title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+
+    description:
+      SITE_DESCRIPTION,
   },
 
   formatDetection: {
     email: false,
+
     address: false,
+
     telephone: false,
   },
 };
@@ -155,7 +192,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   width: 'device-width',
+
   initialScale: 1,
+
   themeColor: '#FFFFFF',
 };
 
@@ -164,36 +203,60 @@ export const viewport: Viewport = {
 // ======================================================
 
 const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@context':
+    'https://schema.org',
 
-  '@id': `${SITE_URL}/#organization`,
+  '@type':
+    'Organization',
 
-  name: 'FirstNotch Solutions (Pvt) Ltd',
-  alternateName: 'FirstNotch Solutions',
+  '@id':
+    `${SITE_URL}/#organization`,
+
+  name:
+    'FirstNotch Solutions (Pvt) Ltd',
+
+  alternateName:
+    'FirstNotch Solutions',
 
   url: SITE_URL,
 
   logo: {
-    '@type': 'ImageObject',
-    url: `${SITE_URL}/icon.png`,
+    '@type':
+      'ImageObject',
+
+    url:
+      `${SITE_URL}/icon.png`,
   },
 
   description:
     'A BPO company in Sri Lanka providing customer support, back office outsourcing and IT services.',
 
   address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'No 1A, 1/1 R A De Mel Mawatha',
-    addressLocality: 'Colombo 4',
-    addressCountry: 'LK',
+    '@type':
+      'PostalAddress',
+
+    streetAddress:
+      'No 1A, 1/1 R A De Mel Mawatha',
+
+    addressLocality:
+      'Colombo 4',
+
+    addressCountry:
+      'LK',
   },
 
   contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+94-77-222-1966',
-    email: 'info@firstnotch-solutions.com',
-    contactType: 'sales',
+    '@type':
+      'ContactPoint',
+
+    telephone:
+      '+94-77-222-1966',
+
+    email:
+      'info@firstnotch-solutions.com',
+
+    contactType:
+      'sales',
 
     availableLanguage: [
       'English',
@@ -206,22 +269,29 @@ const organizationSchema = {
 
 // ======================================================
 // WEBSITE STRUCTURED DATA
-// Helps Google understand the website identity/site name
 // ======================================================
 
 const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
+  '@context':
+    'https://schema.org',
 
-  '@id': `${SITE_URL}/#website`,
+  '@type':
+    'WebSite',
+
+  '@id':
+    `${SITE_URL}/#website`,
 
   url: SITE_URL,
 
-  name: 'FirstNotch Solutions',
-  alternateName: 'FirstNotch',
+  name:
+    'FirstNotch Solutions',
+
+  alternateName:
+    'FirstNotch',
 
   publisher: {
-    '@id': `${SITE_URL}/#organization`,
+    '@id':
+      `${SITE_URL}/#organization`,
   },
 };
 
@@ -239,85 +309,52 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${poppins.className} m-0 antialiased`}
       >
-        {/* ==================================================
+        {/* ================================================
             ORGANIZATION STRUCTURED DATA
-        ================================================== */}
+        ================================================= */}
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema).replace(
-              /</g,
-              '\\u003c'
-            ),
+            __html:
+              JSON.stringify(
+                organizationSchema
+              ).replace(
+                /</g,
+                '\\u003c'
+              ),
           }}
         />
 
-        {/* ==================================================
+        {/* ================================================
             WEBSITE STRUCTURED DATA
-        ================================================== */}
+        ================================================= */}
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema).replace(
-              /</g,
-              '\\u003c'
-            ),
+            __html:
+              JSON.stringify(
+                websiteSchema
+              ).replace(
+                /</g,
+                '\\u003c'
+              ),
           }}
         />
 
-        {/* EXISTING WEBSITE CONTENT */}
+        {/* ================================================
+            SCROLL RESET
+        ================================================= */}
+
+        <ScrollReset />
+
+        {/* ================================================
+            WEBSITE CONTENT
+        ================================================= */}
 
         {children}
-
-        {/* ==================================================
-            EXISTING SCROLL RESET SCRIPT
-            PRESERVED WITHOUT DESIGN CHANGES
-        ================================================== */}
-
-        <Script
-          id="firstnotch-scroll-reset"
-          strategy="beforeInteractive"
-        >
-          {`
-            (function () {
-              // Prevent browser scroll restoration
-              if ('scrollRestoration' in window.history) {
-                window.history.scrollRestoration = 'manual';
-              }
-
-              // Detect a real browser refresh
-              var navigation =
-                performance.getEntriesByType('navigation');
-
-              var isReload =
-                navigation.length > 0 &&
-                navigation[0].type === 'reload';
-
-              if (!isReload) return;
-
-              function resetScroll() {
-                var html = document.documentElement;
-                var previous = html.style.scrollBehavior;
-
-                html.style.scrollBehavior = 'auto';
-                window.scrollTo(0, 0);
-                html.style.scrollBehavior = previous;
-              }
-
-              resetScroll();
-
-              window.addEventListener('load', resetScroll, {
-                once: true,
-              });
-
-              window.addEventListener('pageshow', resetScroll, {
-                once: true,
-              });
-            })();
-          `}
-        </Script>
+        <FirstNotchAIChat />
       </body>
     </html>
   );

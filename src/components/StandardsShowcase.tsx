@@ -1246,6 +1246,7 @@ function GradientBars({
 
 export default function StandardsShowcase() {
   const sectionRef = useRef<HTMLElement>(null);
+  const orbitalRef = useRef<HTMLDivElement>(null);
 
   // ========================================
   // SCROLL ENTRANCE FOR THE FOUR CARDS
@@ -1254,9 +1255,10 @@ export default function StandardsShowcase() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const section = sectionRef.current;
+const section = sectionRef.current;
+const orbital = orbitalRef.current;
 
-    if (!section) return;
+if (!section) return;
 
     const media = gsap.matchMedia();
 
@@ -1264,11 +1266,184 @@ export default function StandardsShowcase() {
       '(prefers-reduced-motion: no-preference)',
       () => {
         const context = gsap.context(() => {
-          const cards = section.querySelectorAll<HTMLElement>(
-            '[data-standards-card]'
-          );
+          /* ======================================================
+   OVERSIZED ORBITAL RINGS
+====================================================== */
 
-          cards.forEach((card, index) => {
+if (orbital) {
+  const leftOrbit =
+    orbital.querySelector<SVGElement>('[data-orbit-left]');
+
+  const rightOrbit =
+    orbital.querySelector<SVGElement>('[data-orbit-right]');
+
+  const centerOrbit =
+    orbital.querySelector<SVGElement>('[data-orbit-center]');
+
+  /* ======================================================
+     LEFT ORBIT
+     Slow clockwise rotation + subtle breathing
+  ====================================================== */
+
+  if (leftOrbit) {
+    gsap.set(leftOrbit, {
+      transformOrigin: '50% 50%',
+      transformBox: 'fill-box',
+      force3D: true,
+    });
+
+    // Continuous rotation
+    gsap.to(leftOrbit, {
+      rotation: '+=360',
+      duration: 42,
+      ease: 'none',
+      repeat: -1,
+    });
+
+    // Very subtle scale breathing
+    gsap.to(leftOrbit, {
+      scale: 1.035,
+      duration: 5.5,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+  }
+
+
+  /* ======================================================
+     RIGHT ORBIT
+     Counter-clockwise + different timing
+  ====================================================== */
+
+  if (rightOrbit) {
+    gsap.set(rightOrbit, {
+      transformOrigin: '50% 50%',
+      transformBox: 'fill-box',
+      force3D: true,
+    });
+
+    gsap.to(rightOrbit, {
+      rotation: '-=360',
+      duration: 52,
+      ease: 'none',
+      repeat: -1,
+    });
+
+    gsap.to(rightOrbit, {
+      scale: 1.045,
+      duration: 7,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+  }
+
+
+  /* ======================================================
+     CENTER ORBIT
+     Extremely slow depth movement
+  ====================================================== */
+
+  if (centerOrbit) {
+    gsap.set(centerOrbit, {
+      transformOrigin: '50% 50%',
+      transformBox: 'fill-box',
+      force3D: true,
+    });
+
+    gsap.to(centerOrbit, {
+      rotation: '+=360',
+      duration: 85,
+      ease: 'none',
+      repeat: -1,
+    });
+
+    gsap.to(centerOrbit, {
+      scale: 1.06,
+      opacity: 0.07,
+      duration: 8,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+  }
+
+
+  /* ======================================================
+     SCROLL PARALLAX
+     Entire orbital background moves slightly while scrolling
+  ====================================================== */
+
+  gsap.fromTo(
+    orbital,
+    {
+      y: 70,
+    },
+    {
+      y: -100,
+      ease: 'none',
+
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.6,
+      },
+    }
+  );
+
+
+  /* ======================================================
+     LEFT ORBIT — SCROLL DRIFT
+  ====================================================== */
+
+  if (leftOrbit) {
+    gsap.to(leftOrbit, {
+      x: 45,
+      y: -35,
+      ease: 'none',
+
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 2,
+      },
+    });
+  }
+
+
+  /* ======================================================
+     RIGHT ORBIT — OPPOSITE SCROLL DRIFT
+  ====================================================== */
+
+  if (rightOrbit) {
+    gsap.to(rightOrbit, {
+      x: -45,
+      y: 35,
+      ease: 'none',
+
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 2.2,
+      },
+    });
+  }
+}
+
+
+/* ======================================================
+   EXISTING CARD ANIMATION
+====================================================== */
+
+const cards = section.querySelectorAll<HTMLElement>(
+  '[data-standards-card]'
+);
+
+cards.forEach((card, index) => {
             gsap.fromTo(
               card,
               {
@@ -1317,6 +1492,427 @@ export default function StandardsShowcase() {
     lg:px-12 lg:py-24
   "
 >
+ {/* ======================================================
+    FIRSTNOTCH — OVERSIZED MULTI ORBITAL RINGS
+    Reference-inspired concentric red ring background
+====================================================== */}
+
+<div
+  ref={orbitalRef}
+  aria-hidden="true"
+  className="
+    pointer-events-none
+    absolute
+    inset-0
+    z-0
+    overflow-hidden
+  "
+>
+  {/* ==================================================
+      LEFT — LARGE MULTI RING SYSTEM
+  ================================================== */}
+
+  <svg
+    data-orbit-left
+    viewBox="0 0 1000 1000"
+    className="
+      absolute
+      -left-[500px]
+      -top-[160px]
+      h-[900px]
+      w-[900px]
+      opacity-[0.68]
+
+      sm:-left-[520px]
+      sm:-top-[210px]
+      sm:h-[1050px]
+      sm:w-[1050px]
+
+      lg:-left-[460px]
+      lg:-top-[300px]
+      lg:h-[1250px]
+      lg:w-[1250px]
+    "
+  >
+    {/* soft outer rings */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="455"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.08"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="438"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.11"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="420"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.15"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="400"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.20"
+      strokeWidth="5"
+    />
+
+    {/* main broken red orbit */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="375"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeDasharray="390 90 170 65 270 120"
+    />
+
+    {/* secondary rings */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="345"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.32"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="325"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.22"
+      strokeWidth="4"
+    />
+
+    {/* inner reference-style rings */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="255"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.09"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="240"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.13"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="225"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.18"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="208"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.28"
+      strokeWidth="5"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="190"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeDasharray="260 85 145 70 220 95"
+    />
+
+    {/* soft inner surface */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="145"
+      fill="#17191C"
+      fillOpacity="0.018"
+    />
+  </svg>
+
+
+  {/* ==================================================
+      RIGHT — LARGE PARTIAL MULTI RING SYSTEM
+  ================================================== */}
+
+  <svg
+    data-orbit-right
+    viewBox="0 0 1000 1000"
+    className="
+      absolute
+      -right-[560px]
+      bottom-[-280px]
+      h-[850px]
+      w-[850px]
+      opacity-[0.62]
+
+      sm:-right-[520px]
+      sm:bottom-[-330px]
+      sm:h-[1050px]
+      sm:w-[1050px]
+
+      lg:-right-[470px]
+      lg:bottom-[-420px]
+      lg:h-[1200px]
+      lg:w-[1200px]
+    "
+  >
+    <circle
+      cx="500"
+      cy="500"
+      r="455"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.07"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="438"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.10"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="420"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.15"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="400"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.20"
+      strokeWidth="5"
+    />
+
+    {/* main broken orbit */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="375"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeDasharray="310 100 210 80 280 130"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="345"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.28"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="325"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.18"
+      strokeWidth="4"
+    />
+
+    {/* inner rings */}
+
+    <circle
+      cx="500"
+      cy="500"
+      r="250"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.08"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="233"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.13"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="215"
+      fill="none"
+      stroke="#B12025"
+      strokeOpacity="0.19"
+      strokeWidth="4"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="195"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeDasharray="230 75 150 65 205 90"
+    />
+
+    <circle
+      cx="500"
+      cy="500"
+      r="145"
+      fill="#17191C"
+      fillOpacity="0.018"
+    />
+  </svg>
+
+
+  {/* ==================================================
+      CENTER — VERY SUBTLE DEPTH RING
+  ================================================== */}
+
+  <svg
+    data-orbit-center
+    viewBox="0 0 800 800"
+    className="
+      absolute
+      left-1/2
+      top-1/2
+      hidden
+      h-[780px]
+      w-[780px]
+      -translate-x-1/2
+      -translate-y-1/2
+      opacity-[0.045]
+      lg:block
+    "
+  >
+    <circle
+      cx="400"
+      cy="400"
+      r="320"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="3"
+      strokeDasharray="300 100 160 80"
+    />
+
+    <circle
+      cx="400"
+      cy="400"
+      r="285"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="2"
+    />
+
+    <circle
+      cx="400"
+      cy="400"
+      r="250"
+      fill="none"
+      stroke="#B12025"
+      strokeWidth="2"
+    />
+  </svg>
+
+
+  {/* ==================================================
+      SOFT LEFT RED AMBIENT GLOW
+  ================================================== */}
+
+  <div
+    className="
+      absolute
+      -left-[280px]
+      top-[80px]
+      h-[650px]
+      w-[650px]
+      rounded-full
+      bg-[#B12025]/[0.045]
+      blur-[150px]
+    "
+  />
+
+
+  {/* ==================================================
+      SOFT RIGHT RED AMBIENT GLOW
+  ================================================== */}
+
+  <div
+    className="
+      absolute
+      -right-[280px]
+      bottom-[0px]
+      h-[650px]
+      w-[650px]
+      rounded-full
+      bg-[#B12025]/[0.04]
+      blur-[150px]
+    "
+  />
+</div>
   {/* ==========================================
       FIRSTNOTCH ANIMATED GRADIENT BAR BACKGROUND
   =========================================== */}
