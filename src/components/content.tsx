@@ -1,11 +1,16 @@
 // Marketing copy supplied by the project owner. Change photograph URLs here.
 export const MEDIA = {
-  hero: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902',
-  people: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c',
-  workspace: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72',
-  meeting: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4',
-} as const;
+  hero: '/images/services/services-hero.jpg',
 
+  // Customer Support — large left card
+  people: '/images/services/customer-support.png',
+
+  // BPO / Back Office — right image
+  workspace: '/images/services/back-office.png',
+
+  // IT Services
+  meeting: '/images/services/it-services.png',
+} as const;
 export const LOGOS = {
   redSymbol: '/images/symbol-red.png',
   whiteSymbol: '/images/symbol-white.png',
@@ -161,31 +166,30 @@ export const QUOTES = [
     'Consulting firm',
   ],
 ] as const;
-
 export const JOURNEY = [
   {
     number: '01',
     title: 'Book a discovery call',
     body: "A free call about the work that's taking up too much of your team's time.",
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4',
+    image: '/images/services/journey-discovery.png',
   },
   {
     number: '02',
     title: 'Planning and pricing',
     body: 'A detailed look at what you need, followed by a plan and a clear quotation.',
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c',
+    image: '/images/services/journey-planning.png',
   },
   {
     number: '03',
     title: 'Team setup',
     body: 'People are chosen for your account and trained on your processes.',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72',
+    image: '/images/services/journey-team-setup.jpg',
   },
   {
     number: '04',
     title: 'Your team starts',
     body: 'You get regular reports and one person you can always call.',
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902',
+    image: '/images/services/journey-start.png',
   },
 ] as const;
 

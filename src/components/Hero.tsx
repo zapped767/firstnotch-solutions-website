@@ -12,33 +12,34 @@ import { COPY } from './content';
 
 gsap.registerPlugin(ScrollTrigger);
 
+
 const PHOTOS = [
   {
-    src: '/images/home-hero/01-laptop-work.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/01-laptop-work.png',
   },
   {
-    src: '/images/home-hero/02-teamwork.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/02-teamwork.png',
   },
   {
-    src: '/images/home-hero/03-red-pen-portrait.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/03-red-pen-portrait.png',
   },
   {
-    src: '/images/home-hero/04-office-team.jpg',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795592407/04-office-team.jpg',
   },
   {
-    src: '/images/home-hero/05-gaming-lounge.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/05-gaming-lounge.png',
   },
   {
-    src: '/images/home-hero/06-carrom-team.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591956/06-carrom-team.png',
   },
   {
-    src: '/images/home-hero/07-call-center.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/07-call-center.png',
   },
   {
-    src: '/images/home-hero/08-focused-workspace.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/08-focused-workspace.png',
   },
   {
-    src: '/images/home-hero/09-designers-worktable.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591956/09-designers-worktable.png',
   },
 ] as const;
 
