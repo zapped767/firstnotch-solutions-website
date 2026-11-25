@@ -24,8 +24,8 @@ const PHOTOS = [
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/03-red-pen-portrait.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795592407/04-office-team.jpg',
-  },
+  src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795601420/compressed_resized_04-office-team.jpg',
+},
   {
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/05-gaming-lounge.png',
   },
