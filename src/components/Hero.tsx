@@ -522,7 +522,7 @@ export default function Hero() {
                   src={photo.src}
                   alt=""
                   draggable={false}
-                  loading={index < 5 ? 'eager' : 'lazy'}
+                 loading="eager"
                   className="h-full w-full object-cover"
                 />
 
