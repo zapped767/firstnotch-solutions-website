@@ -1,16 +1,20 @@
 // Marketing copy supplied by the project owner. Change photograph URLs here.
+
+
 export const MEDIA = {
   hero: '/images/services/services-hero.jpg',
 
-  // Customer Support — large left card
-  people: '/images/services/customer-support.png',
+  people:
+    'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_1200,c_limit/v1795690989/customer-support.jpg',
 
-  // BPO / Back Office — right image
-  workspace: '/images/services/back-office.png',
+  workspace:
+    'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_1200,c_limit/v1795690969/back-office.jpg',
 
-  // IT Services
-  meeting: '/images/services/it-services.png',
+  meeting:
+    'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_1200,c_limit/v1795691964/it-services.jpg',
 } as const;
+
+
 export const LOGOS = {
   redSymbol: '/images/symbol-red.png',
   whiteSymbol: '/images/symbol-white.png',

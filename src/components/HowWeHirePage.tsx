@@ -797,11 +797,13 @@ export default function HowWeHirePage() {
             <p className={`${label} text-[#B12025]`}>THE APPROACH</p>
 
             <div className="relative mt-5 w-full max-w-[500px] overflow-hidden rounded-[24px] bg-[#F6F6F6] sm:mt-7 sm:rounded-[30px] lg:mt-8 lg:h-[500px] lg:max-w-[500px] lg:rounded-[34px]">
-              <img
-                src="/images/Howwehire/how-we-hire-team.png"
-                alt="FirstNotch team member"
-                className="h-[360px] w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02] sm:h-[480px] lg:h-full lg:w-full lg:object-cover lg:object-[center_45%]"
-              />
+              
+<img
+  src="https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_1200,c_limit/v1795692469/01.how-we-hire-team.jpg"
+  alt="FirstNotch team member"
+  className="h-[360px] w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02] sm:h-[480px] lg:h-full lg:w-full lg:object-cover lg:object-[center_45%]"
+/>
+
 
               {/* Small FirstNotch accent */}
               <span

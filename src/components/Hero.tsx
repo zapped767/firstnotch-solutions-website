@@ -15,31 +15,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PHOTOS = [
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/01-laptop-work.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795691646/01-laptop-work.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/02-teamwork.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689286/02-teamwork.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/03-red-pen-portrait.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689491/03-red-pen-portrait.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795601420/compressed_resized_04-office-team.jpg',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795601420/04-office-team.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/05-gaming-lounge.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689603/05-gaming-lounge.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591956/06-carrom-team.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689659/06-carrom-team.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/07-call-center.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689702/07-call-center.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/08-focused-workspace.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689702/07-call-center.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591956/09-designers-worktable.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689946/09-designers-worktable.jpg',
   },
 ] as const;
 
