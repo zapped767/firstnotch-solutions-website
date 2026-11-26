@@ -1,6 +1,7 @@
 // Marketing copy supplied by the project owner. Change photograph URLs here.
 
 
+
 export const MEDIA = {
   hero: '/images/services/services-hero.jpg',
 
@@ -13,6 +14,7 @@ export const MEDIA = {
   meeting:
     'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_1200,c_limit/v1795691964/it-services.jpg',
 } as const;
+
 
 
 export const LOGOS = {

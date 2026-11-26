@@ -803,8 +803,6 @@ export default function HowWeHirePage() {
   alt="FirstNotch team member"
   className="h-[360px] w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02] sm:h-[480px] lg:h-full lg:w-full lg:object-cover lg:object-[center_45%]"
 />
-
-
               {/* Small FirstNotch accent */}
               <span
                 aria-hidden="true"

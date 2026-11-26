@@ -24,7 +24,7 @@ const PHOTOS = [
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689491/03-red-pen-portrait.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795601420/04-office-team.jpg',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795697714/04-office-team.jpg',
   },
   {
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689603/05-gaming-lounge.jpg',
@@ -35,9 +35,9 @@ const PHOTOS = [
   {
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689702/07-call-center.jpg',
   },
-  {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689702/07-call-center.jpg',
-  },
+{
+  src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795691645/08-focused-workspace.jpg',
+},
   {
     src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795689946/09-designers-worktable.jpg',
   },
@@ -495,7 +495,7 @@ export default function Hero() {
           {/* PHOTO CARDS */}
           {PHOTOS.map((photo, index) => (
             <div
-              key={photo.src}
+             key={`${photo.src}-${index}`}
               data-fns-tunnel-card
               className="
                 absolute left-1/2 top-1/2
