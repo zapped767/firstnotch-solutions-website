@@ -15,31 +15,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PHOTOS = [
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/01-laptop-work.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/01-laptop-work.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/02-teamwork.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/02-teamwork.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/03-red-pen-portrait.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/03-red-pen-portrait.png',
   },
   {
-  src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795601420/compressed_resized_04-office-team.jpg',
-},
-  {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/05-gaming-lounge.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795601420/compressed_resized_04-office-team.jpg',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591956/06-carrom-team.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/05-gaming-lounge.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/07-call-center.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591956/06-carrom-team.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591955/08-focused-workspace.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/07-call-center.png',
   },
   {
-    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto/v1795591956/09-designers-worktable.png',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591955/08-focused-workspace.png',
+  },
+  {
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_420,c_limit/v1795591956/09-designers-worktable.png',
   },
 ] as const;
 
@@ -519,12 +519,13 @@ export default function Hero() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={photo.src}
-                  alt=""
-                  draggable={false}
-                 loading="eager"
-                  className="h-full w-full object-cover"
-                />
+                src={photo.src}
+                alt=""
+                draggable={false}
+                loading="eager"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
 
                 
               </div>
