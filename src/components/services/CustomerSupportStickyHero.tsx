@@ -8,6 +8,12 @@ import React, {
 import Link from 'next/link';
 
 import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from 'framer-motion';
+
+import {
   ArrowDown,
   ArrowUpRight,
   ArrowRight,
@@ -27,6 +33,125 @@ import {
 // FIRSTNOTCH
 // CUSTOMER SUPPORT STICKY HERO
 // ======================================================
+
+// ======================================================
+// HERO IMAGE COLLAGE (RIGHT COLUMN)
+// LAYOUT: 1 BIG CENTER PHOTO + 3 COLOR CARDS + SHAPES
+//
+// CHANGE THE "src" LATER WITH YOUR OWN PHOTOS
+// e.g. src: '/images/support-1.jpg'  (inside /public)
+//
+// TIP: if you use transparent PNG cut-out photos, set
+// cutout: true  -> the colored card shows behind the person
+// exactly like the reference design.
+//
+// CHANGE COLORS HERE (all shapes + cards use these)
+// ======================================================
+
+const collageColors = {
+  green: '#17191C',
+  orange: '#B12025',
+  yellow: '#EFCB4B',
+  sand: '#F1EFEA',
+};
+
+// BIG CENTER PHOTO
+
+
+const collageCenter = {
+  src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/v1795766262/04.Customer_Support.jpg',
+  alt: 'Customer support specialist',
+  cutout: false,
+  pos: { left: '33%', top: '21%', width: '50%', height: '67%' },
+};
+
+
+// 3 COLOR CARDS (positions are % of the collage box)
+
+
+const collageCards = [
+  {
+    id: 'green',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/v1795766263/01.Customer_Support.jpg',
+    alt: 'Customer support team member',
+    bg: collageColors.green,
+    cutout: false,
+    pos: { left: '69%', top: '4%', width: '31%', height: '32%' },
+    delay: 0,
+  },
+  {
+    id: 'orange',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/v1795766262/03.Customer_Support.jpg',
+    alt: 'Customer support representative',
+    bg: collageColors.orange,
+    cutout: false,
+    pos: { left: '6%', top: '49%', width: '31%', height: '32%' },
+    delay: 0.8,
+  },
+  {
+    id: 'yellow',
+    src: 'https://res.cloudinary.com/firstnotchsolutions/image/upload/v1795766262/02.Customer_Support.jpg ',
+    alt: 'Customer support specialist',
+    bg: collageColors.yellow,
+    cutout: false,
+    pos: { left: '69%', top: '60%', width: '31%', height: '32%' },
+    delay: 1.4,
+  },
+];
+
+
+// BACKGROUND PILL SHAPES
+
+const collagePills = [
+  {
+    id: 'pill-yellow',
+    color: collageColors.yellow,
+    pos: { left: '21%', top: '12%', width: '12.5%', height: '24%' },
+    rotate: 40,
+  },
+  {
+    id: 'pill-orange',
+    color: collageColors.orange,
+    pos: { left: '56%', top: '-5%', width: '14%', height: '30%' },
+    rotate: 40,
+  },
+  {
+    id: 'pill-green',
+    color: collageColors.green,
+    pos: { left: '51%', top: '80%', width: '14%', height: '30%' },
+    rotate: 40,
+  },
+];
+
+// ======================================================
+// FRAMER MOTION VARIANTS
+// ======================================================
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
+};
+
+const imageVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+};
 
 // ======================================================
 // SERVICES
@@ -82,6 +207,8 @@ const services = [
 export default function CustomerSupportStickyHero() {
   const mobileServicesRef =
     useRef<HTMLDivElement | null>(null);
+
+  const reduceMotion = useReducedMotion();
 
   // ====================================================
   // MOBILE SERVICE CARD AUTO SCROLL
@@ -295,7 +422,8 @@ export default function CustomerSupportStickyHero() {
     >
       {/* ==================================================
           PANEL 01
-          CLEAN CENTERED HERO
+          TWO COLUMN HERO
+          LEFT = CONTENT | RIGHT = IMAGE COLLAGE
       ================================================== */}
 
       <section
@@ -323,7 +451,7 @@ max-sm:pt-[105px]
 max-sm:pb-[24px]
         "
       >
-        {/* BACKGROUND GLOW */}
+        {/* BACKGROUND GLOW (SITS BEHIND THE COLLAGE ON DESKTOP) */}
 
         <div
           aria-hidden="true"
@@ -340,12 +468,14 @@ max-sm:pb-[24px]
             bg-[#B12025]/[0.025]
             blur-[110px]
 
+            lg:left-[75%]
+
             max-sm:h-[380px]
             max-sm:w-[380px]
           "
         />
 
-        {/* INNER CIRCLE */}
+        {/* CIRCLE */}
 
         <div
           aria-hidden="true"
@@ -362,34 +492,15 @@ max-sm:pb-[24px]
             border
             border-[#B12025]/[0.035]
 
+            lg:left-[75%]
+
             max-sm:h-[300px]
             max-sm:w-[300px]
           "
         />
 
-        {/* OUTER CIRCLE */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            left-1/2
-            top-1/2
-            h-[720px]
-            w-[720px]
-            -translate-x-1/2
-            -translate-y-1/2
-            rounded-full
-            border
-            border-[#B12025]/[0.025]
-
-            max-sm:hidden
-          "
-        />
-
         {/* =================================================
-            HERO CONTENT
+            HERO GRID
         ================================================= */}
 
         <div
@@ -397,346 +508,578 @@ max-sm:pb-[24px]
             relative
             z-10
             mx-auto
-            flex
+            grid
             w-full
-            max-w-[1250px]
-            flex-col
-            items-center
-            px-[48px]
-            py-[100px]
-            text-center
+            max-w-[1300px]
+           grid-cols-1
+items-center
+gap-[48px]
+px-[48px]
+py-[100px]
 
-            lg:px-[65px]
+lg:grid-cols-[1.08fr_0.92fr]
+lg:gap-[24px]
+lg:px-[65px]
 
-            xl:px-[90px]
+xl:grid-cols-[1.12fr_0.88fr]
+xl:gap-[32px]
+xl:px-[90px]
 
             max-sm:px-[18px]
 max-sm:py-0
           "
         >
-          {/* EYEBROW */}
+          {/* =================================================
+              LEFT COLUMN: CONTENT
+          ================================================= */}
 
-          <p
+          <motion.div
             className="
-              text-[9px]
-              font-bold
-              uppercase
-              tracking-[0.18em]
-              text-[#B12025]
-
-              sm:text-[10px]
-              sm:tracking-[0.23em]
-
-              max-sm:whitespace-nowrap
-              max-sm:text-[7px]
-              max-sm:tracking-[0.08em]
-            "
-          >
-            Customer Support
-            Outsourcing in Sri Lanka
-          </p>
-
-          {/* MAIN HEADING */}
-
-          <h1
-            className="
-              mx-auto
-              max-w-[1120px]
+              flex
+              flex-col
+              items-center
               text-center
-              text-[clamp(42px,6vw,90px)]
-              font-semibold
-              leading-[1.02]
-              tracking-[-0.07em]
-              text-[#17191C]
 
-              max-sm:mt-[6px]
+              lg:items-start
+              lg:text-left
+            "
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* EYEBROW */}
+
+            <motion.p
+              variants={itemVariants}
+              className="
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-[0.18em]
+                text-[#B12025]
+
+                sm:text-[10px]
+                sm:tracking-[0.23em]
+
+                max-sm:whitespace-nowrap
+                max-sm:text-[7px]
+                max-sm:tracking-[0.08em]
+              "
+            >
+              Customer Support
+              Outsourcing in Sri Lanka
+            </motion.p>
+
+            {/* MAIN HEADING */}
+
+            <motion.h1
+              variants={itemVariants}
+              className="
+                mx-auto
+                mt-[14px]
+                max-w-[1120px]
+                text-center
+                text-[clamp(42px,6vw,90px)]
+                font-semibold
+                leading-[1.02]
+                tracking-[-0.07em]
+                text-[#17191C]
+
+                lg:mx-0
+                lg:mt-[18px]
+                lg:text-left
+                lg:text-[clamp(44px,4.4vw,70px)]
+                lg:leading-[1.04]
+                lg:tracking-[-0.06em]
+
+                max-sm:mt-[6px]
 max-sm:max-w-[300px]
 max-sm:text-[28px]
 max-sm:leading-[1.03]
 max-sm:tracking-[-0.045em]
-            "
-          >
-            Customer support{' '}
-
-            <span
-              className="
-                text-[#B12025]
               "
             >
-              Handled for you,
-            </span>
+              Customer support{' '}
 
-            <br
+              <span
+                className="
+                  text-[#B12025]
+                "
+              >
+                Handled for you,
+              </span>
+
+              <br
+                className="
+                  hidden
+                  sm:block
+                  lg:hidden
+                "
+              />
+
+              <span>
+                {' '}
+                from the first call to
+                the follow-up.
+              </span>
+            </motion.h1>
+
+            {/* DESCRIPTION */}
+
+            <motion.div
+              variants={itemVariants}
               className="
-                hidden
-                sm:block
-              "
-            />
+                mx-auto
+                mt-[32px]
+                max-w-[720px]
+                space-y-[13px]
+                text-center
+                text-[13px]
+                leading-[1.8]
+                text-[#777777]
 
-            <span>
-              {' '}
-              from the first call to
-              the follow-up.
-            </span>
-          </h1>
+                sm:mt-[38px]
+                sm:text-[15px]
+                sm:leading-[1.85]
 
-          {/* DESCRIPTION */}
+                lg:mx-0
+                lg:mt-[28px]
+                lg:max-w-[560px]
+                lg:text-left
+                lg:text-[14.5px]
 
-          <div
-            className="
-              mx-auto
-              mt-[32px]
-              max-w-[720px]
-              space-y-[13px]
-              text-center
-              text-[13px]
-              leading-[1.8]
-              text-[#777777]
-
-              sm:mt-[38px]
-              sm:text-[15px]
-              sm:leading-[1.85]
-
-              max-sm:mt-[14px]
+                max-sm:mt-[14px]
 max-sm:max-w-[295px]
 max-sm:space-y-[6px]
 max-sm:text-[9px]
 max-sm:leading-[1.5]
-            "
-          >
-            <p>
-              Support problems are
-              easy to miss. A call or
-              email goes unanswered
-              for hours. A complaint
-              passes from person to
-              person. Follow-up calls
-              never get made, and
-              customers who stopped
-              buying hear nothing
-              from you.
-            </p>
+              "
+            >
+              <p>
+                Support problems are
+                easy to miss. A call or
+                email goes unanswered
+                for hours. A complaint
+                passes from person to
+                person. Follow-up calls
+                never get made, and
+                customers who stopped
+                buying hear nothing
+                from you.
+              </p>
 
-            <p>
-              FirstNotch&apos;s
-              trained team in Colombo
-              can handle customer
-              conversations in your
-              company&apos;s name,
-              from answering
-              enquiries to reaching
-              out to customers.
-            </p>
-          </div>
+              <p>
+                FirstNotch&apos;s
+                trained team in Colombo
+                can handle customer
+                conversations in your
+                company&apos;s name,
+                from answering
+                enquiries to reaching
+                out to customers.
+              </p>
+            </motion.div>
 
-          {/* =================================================
-              HERO BUTTONS
-              MOBILE = ONE ROW
-          ================================================= */}
+            {/* =================================================
+                HERO BUTTONS
+                MOBILE = ONE ROW
+            ================================================= */}
 
-          <div
-            className="
-              mt-[34px]
-              flex
-              flex-wrap
-              items-center
-              justify-center
-              gap-[12px]
+            <motion.div
+              variants={itemVariants}
+              className="
+                mt-[34px]
+                flex
+                flex-wrap
+                items-center
+                justify-center
+                gap-[12px]
 
-              sm:mt-[40px]
+                sm:mt-[40px]
 
-              max-sm:mt-[16px]
+                lg:justify-start
+
+                max-sm:mt-[16px]
 max-sm:w-full
 max-sm:flex-nowrap
 max-sm:gap-[6px]
-            "
-          >
-            <a
-              href="#customer-support-services"
-              className="
-                inline-flex
-                min-h-[48px]
-                items-center
-                justify-center
-                gap-[12px]
-                rounded-full
-                bg-[#B12025]
-                px-[24px]
-                text-[12px]
-                font-semibold
-                text-white
-                transition-all
-                duration-300
-
-                hover:-translate-y-[2px]
-                hover:bg-[#8F171C]
-                hover:shadow-[0_14px_35px_rgba(177,32,37,0.20)]
-
-                max-sm:min-h-[34px]
-                max-sm:flex-1
-                max-sm:gap-[6px]
-                max-sm:px-[7px]
-                max-sm:text-[8px]
-                max-sm:whitespace-nowrap
               "
             >
-              See the five services
-
-              <ArrowDown
+              <a
+                href="#customer-support-services"
                 className="
-                  h-[16px]
-                  w-[16px]
+                  inline-flex
+                  min-h-[48px]
+                  items-center
+                  justify-center
+                  gap-[12px]
+                  rounded-full
+                  bg-[#B12025]
+                  px-[24px]
+                  text-[12px]
+                  font-semibold
+                  text-white
+                  transition-all
+                  duration-300
 
-                  max-sm:h-[11px]
-                  max-sm:w-[11px]
+                  hover:-translate-y-[2px]
+                  hover:bg-[#8F171C]
+                  hover:shadow-[0_14px_35px_rgba(177,32,37,0.20)]
+
+                  max-sm:min-h-[34px]
+                  max-sm:flex-1
+                  max-sm:gap-[6px]
+                  max-sm:px-[7px]
+                  max-sm:text-[8px]
+                  max-sm:whitespace-nowrap
                 "
-              />
-            </a>
+              >
+                See the five services
 
-            <Link
-              href="/book-a-free-call"
+                <ArrowDown
+                  className="
+                    h-[16px]
+                    w-[16px]
+
+                    max-sm:h-[11px]
+                    max-sm:w-[11px]
+                  "
+                />
+              </a>
+
+              <Link
+                href="/book-a-free-call"
+                className="
+                  inline-flex
+                  min-h-[48px]
+                  items-center
+                  justify-center
+                  gap-[12px]
+                  rounded-full
+                  border
+                  border-[#B12025]/20
+                  bg-white
+                  px-[24px]
+                  text-[12px]
+                  font-semibold
+                  text-[#B12025]
+                  transition-all
+                  duration-300
+
+                  hover:-translate-y-[2px]
+                  hover:border-[#B12025]
+                  hover:bg-[#FFF8F8]
+                  hover:shadow-[0_12px_30px_rgba(177,32,37,0.08)]
+
+                  max-sm:min-h-[38px]
+                  max-sm:flex-1
+                  max-sm:gap-[6px]
+                  max-sm:px-[7px]
+                  max-sm:text-[7px]
+                  max-sm:whitespace-nowrap
+                "
+              >
+                Book a free discovery
+                call
+
+                <ArrowUpRight
+                  className="
+                    h-[15px]
+                    w-[15px]
+
+                    max-sm:h-[11px]
+                    max-sm:w-[11px]
+                  "
+                />
+              </Link>
+            </motion.div>
+
+            {/* =================================================
+                TRUST POINTS
+                MOBILE = ONE ROW
+            ================================================= */}
+
+            <motion.div
+              variants={itemVariants}
               className="
-                inline-flex
-                min-h-[48px]
+                mt-[45px]
+                flex
+                flex-wrap
                 items-center
                 justify-center
-                gap-[12px]
-                rounded-full
-                border
-                border-[#B12025]/20
-                bg-white
-                px-[24px]
-                text-[12px]
-                font-semibold
-                text-[#B12025]
-                transition-all
-                duration-300
+                gap-x-[28px]
+                gap-y-[12px]
+                text-[10px]
+                font-medium
+                text-[#8A8A8A]
 
-                hover:-translate-y-[2px]
-                hover:border-[#B12025]
-                hover:bg-[#FFF8F8]
-                hover:shadow-[0_12px_30px_rgba(177,32,37,0.08)]
+                sm:text-[11px]
 
-                max-sm:min-h-[38px]
-                max-sm:flex-1
-                max-sm:gap-[6px]
-                max-sm:px-[7px]
-                max-sm:text-[7px]
-                max-sm:whitespace-nowrap
-              "
-            >
-              Book a free discovery
-              call
+                lg:mt-[36px]
+                lg:justify-start
+                lg:gap-x-[22px]
 
-              <ArrowUpRight
-                className="
-                  h-[15px]
-                  w-[15px]
-
-                  max-sm:h-[11px]
-                  max-sm:w-[11px]
-                "
-              />
-            </Link>
-          </div>
-
-          {/* =================================================
-              TRUST POINTS
-              MOBILE = ONE ROW
-          ================================================= */}
-
-          <div
-            className="
-              mt-[45px]
-              flex
-              flex-wrap
-              items-center
-              justify-center
-              gap-x-[28px]
-              gap-y-[12px]
-              text-[10px]
-              font-medium
-              text-[#8A8A8A]
-
-              sm:text-[11px]
-
-              max-sm:mt-[16px]
+                max-sm:mt-[16px]
 max-sm:flex-nowrap
 max-sm:gap-x-[6px]
 max-sm:text-[6px]
 max-sm:whitespace-nowrap
+              "
+            >
+              <span
+                className="
+                  flex
+                  items-center
+                  gap-[7px]
+
+                  max-sm:gap-[3px]
+                "
+              >
+                <CheckCircle2
+                  className="
+                    h-[14px]
+                    w-[14px]
+                    text-[#B12025]
+
+                    max-sm:h-[10px]
+                    max-sm:w-[10px]
+                  "
+                />
+
+                Trained support team
+              </span>
+
+              <span
+                className="
+                  flex
+                  items-center
+                  gap-[7px]
+
+                  max-sm:gap-[3px]
+                "
+              >
+                <CheckCircle2
+                  className="
+                    h-[14px]
+                    w-[14px]
+                    text-[#B12025]
+
+                    max-sm:h-[10px]
+                    max-sm:w-[10px]
+                  "
+                />
+
+                Colombo based
+              </span>
+
+              <span
+                className="
+                  flex
+                  items-center
+                  gap-[7px]
+
+                  max-sm:gap-[3px]
+                "
+              >
+                <CheckCircle2
+                  className="
+                    h-[14px]
+                    w-[14px]
+                    text-[#B12025]
+
+                    max-sm:h-[10px]
+                    max-sm:w-[10px]
+                  "
+                />
+
+                Built around your
+                workflow
+              </span>
+            </motion.div>
+          </motion.div>
+
+          {/* =================================================
+              RIGHT COLUMN: IMAGE COLLAGE
+              VISIBLE ON LG SCREENS AND UP (1024px+)
+              MOBILE / TABLET KEEP THE ORIGINAL LAYOUT
+          ================================================= */}
+
+          <motion.div
+            className="
+              relative
+              mx-auto
+              hidden
+              aspect-[1/1.05]
+              w-full
+              max-w-[560px]
+
+              lg:ml-auto
+              lg:block
             "
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <span
-              className="
-                flex
-                items-center
-                gap-[7px]
+            {/* BIG SOFT PILL BEHIND THE CENTER PHOTO */}
 
-                max-sm:gap-[3px]
-              "
+            <motion.div
+              aria-hidden="true"
+              variants={imageVariants}
+              className="absolute"
+              style={{
+                left: '30%',
+                top: '12%',
+                width: '46%',
+                height: '80%',
+                rotate: 45,
+              }}
             >
-              <CheckCircle2
-                className="
-                  h-[14px]
-                  w-[14px]
-                  text-[#B12025]
-
-                  max-sm:h-[10px]
-                  max-sm:w-[10px]
-                "
+              <div
+                className="h-full w-full rounded-full"
+                style={{ background: collageColors.sand }}
               />
+            </motion.div>
 
-              Trained support team
-            </span>
+            {/* COLOR PILLS */}
 
-            <span
-              className="
-                flex
-                items-center
-                gap-[7px]
+            {collagePills.map((pill) => (
+              <motion.div
+                key={pill.id}
+                aria-hidden="true"
+                variants={imageVariants}
+                className="absolute"
+                style={{
+                  ...pill.pos,
+                  rotate: pill.rotate,
+                }}
+              >
+                <div
+                  className="h-full w-full rounded-full"
+                  style={{ background: pill.color }}
+                />
+              </motion.div>
+            ))}
 
-                max-sm:gap-[3px]
-              "
+            {/* WIFI ARCS (ORANGE) */}
+
+            <motion.svg
+              aria-hidden="true"
+              viewBox="0 0 60 60"
+              fill="none"
+              variants={imageVariants}
+              className="absolute"
+              style={{
+                left: '0%',
+                top: '38%',
+                width: '12%',
+              }}
             >
-              <CheckCircle2
-                className="
-                  h-[14px]
-                  w-[14px]
-                  text-[#B12025]
-
-                  max-sm:h-[10px]
-                  max-sm:w-[10px]
-                "
+              <path
+                d="M34 52 A18 18 0 0 1 52 34"
+                stroke={collageColors.orange}
+                strokeWidth="7"
+                strokeLinecap="round"
               />
+              <path
+                d="M16 52 A36 36 0 0 1 52 16"
+                stroke={collageColors.orange}
+                strokeWidth="7"
+                strokeLinecap="round"
+              />
+            </motion.svg>
 
-              Colombo based
-            </span>
+            {/* BIG CENTER PHOTO */}
 
-            <span
-              className="
-                flex
-                items-center
-                gap-[7px]
-
-                max-sm:gap-[3px]
-              "
+            <motion.div
+              variants={imageVariants}
+              className="absolute z-10"
+              style={collageCenter.pos}
             >
-              <CheckCircle2
-                className="
-                  h-[14px]
-                  w-[14px]
-                  text-[#B12025]
+              <motion.div
+                className="h-full w-full"
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : { y: [0, -8, 0] }
+                }
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: 0.4,
+                }}
+              >
+                <div
+                  className={
+                    collageCenter.cutout
+                      ? 'h-full w-full'
+                      : 'h-full w-full overflow-hidden rounded-[36px] bg-[#F3F3F3] shadow-[0_30px_60px_-20px_rgba(23,25,28,0.35)]'
+                  }
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={collageCenter.src}
+                    alt={collageCenter.alt}
+                    loading="eager"
+                    draggable={false}
+                    className={
+                      collageCenter.cutout
+                        ? 'h-full w-full object-contain object-bottom'
+                        : 'h-full w-full object-cover'
+                    }
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
 
-                  max-sm:h-[10px]
-                  max-sm:w-[10px]
-                "
-              />
+            {/* 3 COLOR CARDS */}
 
-              Built around your
-              workflow
-            </span>
-          </div>
+            {collageCards.map((card) => (
+              <motion.div
+                key={card.id}
+                variants={imageVariants}
+                className="absolute z-20"
+                style={card.pos}
+              >
+                <motion.div
+                  className="h-full w-full"
+                  animate={
+                    reduceMotion
+                      ? undefined
+                      : { y: [0, -10, 0] }
+                  }
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: card.delay,
+                  }}
+                >
+                  <div
+                    className="relative h-full w-full overflow-hidden rounded-[22px] shadow-[0_22px_45px_-18px_rgba(23,25,28,0.35)]"
+                    style={{ background: card.bg }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={card.src}
+                      alt={card.alt}
+                      loading="eager"
+                      draggable={false}
+                      className={
+                        card.cutout
+                          ? 'h-full w-full object-contain object-bottom'
+                          : 'h-full w-full object-cover'
+                      }
+                    />
+
+                    {/* COLOR TINT SO PHOTOS MATCH THE CARD COLOR */}
+
+                    
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
         {/* SCROLL INDICATOR */}

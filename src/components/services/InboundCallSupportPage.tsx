@@ -769,8 +769,7 @@ export default function InboundCallSupportPage() {
             </div>
 
             {/* LOCAL + COLOMBO CLOCKS */}
-            <div className="mt-7 grid max-w-[510px] grid-cols-2 gap-2 sm:mt-10 sm:gap-3">
-              <div className="rounded-xl border border-[#B12025]/10 bg-white p-3 sm:rounded-2xl sm:p-4">
+<div className="mt-7 hidden max-w-[510px] grid-cols-2 gap-2 sm:mt-10 sm:grid sm:gap-3">              <div className="rounded-xl border border-[#B12025]/10 bg-white p-3 sm:rounded-2xl sm:p-4">
                 <p className="text-[8px] text-[#17191C]/50 sm:text-[10px]">
                   Your local time
                 </p>

@@ -32,6 +32,7 @@ import {
   Target,
   Wrench,
   X,
+  PartyPopper,
 } from 'lucide-react';
 
 import { COPY, LOGOS } from './content';
@@ -205,10 +206,10 @@ const navigationLinks = [
     href: '/about',
     icon: HeartHandshake,
   },
-  {
+ {
   label: 'Culture',
   href: '/culture',
-  icon: HeartHandshake,
+  icon: PartyPopper,
 },
   {
     label: 'Work With Us',

@@ -432,6 +432,21 @@ type Category = "Festivals" | "Play" | "Team";
 
 const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=80`;
 
+const heroMosaicImages = [
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795783808/01.Chritmas.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782323/06.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782307/01.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795783805/04.Chritmas.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795783802/03.Chritmas.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795783801/02.Chritmas.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782396/09.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782391/10.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782384/07.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782318/05.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795782312/04.Sooriyudhanya.jpg",
+  "https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795783982/05.Chritmas.jpg",
+];
+
 const events: { title: string; subtitle: string; category: Category; image: string }[] = [
   { title: "Pongal", subtitle: "Gratitude & new beginnings", category: "Festivals", image: unsplash("photo-1604608672516-f1b9b1d37076") },
   { title: "Deepavali", subtitle: "Light & togetherness", category: "Festivals", image: unsplash("photo-1604423488919-1e8e0f4c4d45") },
@@ -482,11 +497,11 @@ export default function CulturePage() {
     [photos[0], photos[3], photos[6], photos[9], photos[12], photos[14], photos[4]],
     [photos[1], photos[2], photos[7], photos[10], photos[13], photos[5], photos[8]],
   ];
-  const mosaic = [
-    [photos[0], photos[3], photos[6], photos[9]],
-    [photos[1], photos[4], photos[7], photos[10]],
-    [photos[2], photos[5], photos[8], photos[11]],
-  ];
+const mosaic = [
+  heroMosaicImages.slice(0, 4),
+  heroMosaicImages.slice(4, 8),
+  heroMosaicImages.slice(8, 12),
+];
 
   const features = [
     { title: "Respect the person.", description: "Different backgrounds, beliefs and perspectives make the team stronger.", icon: Users },
@@ -837,11 +852,22 @@ const creators = [
               {mosaic.map((column, index) => (
                 <div className="daytake-mosaic-column" key={index}>
                   <div className="daytake-mosaic-track">{[0, 1].map(copy => (
-                    <div className="daytake-mosaic-set" key={copy}>{column.map(photo => (
-                      <img key={photo.id} src={photo.src} alt="" width="358" height="358" className="daytake-mosaic-tile"
-                        fetchPriority={index === 1 && copy === 0 ? "high" : "auto"}
-                        onError={e => { e.currentTarget.style.display = "none"; }} />
-                    ))}</div>
+                    <div className="daytake-mosaic-set" key={copy}>
+                     {column.map((image, imageIndex) => (
+  <img
+    key={`${index}-${imageIndex}`}
+    src={image}
+    alt=""
+    width="358"
+    height="358"
+    className="daytake-mosaic-tile"
+    fetchPriority={index === 1 && copy === 0 ? "high" : "auto"}
+    decoding="async"
+    onError={e => {
+      e.currentTarget.style.display = "none";
+    }}
+  />
+))}</div>
                   ))}</div>
                 </div>
               ))}

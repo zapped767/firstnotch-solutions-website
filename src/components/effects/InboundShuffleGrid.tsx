@@ -16,24 +16,26 @@ import { Flip } from 'gsap/Flip';
 
 gsap.registerPlugin(Flip);
 
+
 export const HERO_IMAGES: string[] = [
-  '/images/inbound-images/inbound-call-support/01.png',
-  '/images/inbound-images/inbound-call-support/02.jpg',
-  '/images/inbound-images/inbound-call-support/03.jpg',
-  '/images/inbound-images/inbound-call-support/04.jpg',
-  '/images/inbound-images/inbound-call-support/05.jpg',
-  '/images/inbound-images/inbound-call-support/06.jpg',
-  '/images/inbound-images/inbound-call-support/07.jpg',
-  '/images/inbound-images/inbound-call-support/08.jpg',
-  '/images/inbound-images/inbound-call-support/09.jpg',
-  '/images/inbound-images/inbound-call-support/10.jpg',
-  '/images/inbound-images/inbound-call-support/11.jpg',
-  '/images/inbound-images/inbound-call-support/12.jpg',
-  '/images/inbound-images/inbound-call-support/13.jpg',
-  '/images/inbound-images/inbound-call-support/14.jpg',
-  '/images/inbound-images/inbound-call-support/15.jpg',
-  '/images/inbound-images/inbound-call-support/16.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774336/01.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774338/02.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774340/03.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774342/04.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774344/05.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774346/06.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774361/07.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774349/08.Inbound.png',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774351/09.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774353/10.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774355/11.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774357/12.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774359/13.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774334/14.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774363/15.Inbound.jpg',
+  'https://res.cloudinary.com/firstnotchsolutions/image/upload/f_auto,q_auto:good,w_600,c_limit/v1795774335/16.Inbound.jpg',
 ];
+
 
 const SLOTS = 16;
 const SHUFFLE_EVERY_MS = 3200;

@@ -64,32 +64,42 @@ about:
 } as const;
 
 export const STATS = [
-  ['70+', 'people on our team in Colombo'],
-  ['85%', 'of our clients stay with us'],
-  ['98%', 'accuracy rate'],
+  ['70+', 'Professionals'],
+  ['98%', 'Quality Accuracy'],
+  ['24/7', 'Support Available'],
   ['4', 'languages: English, Sinhala, Tamil and Hindi'],
 ] as const;
 
 export const ADVANTAGES = [
   [
     '01',
-    'Skilled & Professional Teams',
-    'Access trained professionals with strong English communication skills and the expertise to represent your business with confidence.',
+    'COST-EFFECTIVE TALENT',
+    'Access skilled Sri Lankan professionals without the cost of building and maintaining a large in-house operation.',
   ],
   [
     '02',
-    'Flexible & Scalable Support',
-    'From a single specialist to a dedicated team, we build flexible solutions around your business hours, workload and growth.',
+    'DEDICATED TEAMS',
+    'Your team works specifically around your business, processes, systems and KPIs.',
   ],
   [
     '03',
-    'Reduce Costs. Increase Efficiency.',
-    'Get high-quality outsourcing support from Sri Lanka while reducing the cost of maintaining a large in-house operation.',
+    'SCALABLE OPERATIONS',
+    'Start with one specialist or build an entire dedicated department as your business grows.',
   ],
   [
     '04',
-    'Quality You Can Rely On',
-    'Our focus is simple: consistent quality, clear communication, accountability and measurable results.',
+    'QUALITY & ACCOUNTABILITY',
+    'Clear KPIs, quality monitoring, regular reporting and dedicated management keep performance visible.',
+  ],
+  [
+    '05',
+    'GLOBAL WORKING HOURS',
+    'Flexible coverage designed around your customers and operating hours.',
+  ],
+  [
+    '06',
+    'DATA CONFIDENTIALITY',
+    'Structured access controls, confidentiality procedures and secure handling of client information.',
   ],
 ] as const;
 

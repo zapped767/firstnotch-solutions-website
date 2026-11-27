@@ -351,8 +351,9 @@ export function About() {
   className="
     hidden
     md:grid
-    md:grid-cols-2
-    md:gap-5
+    md:grid-cols-3
+    md:gap-4
+    lg:gap-5
   "
 >
   {ADVANTAGES.map(([number, title, body]) => (
@@ -361,7 +362,7 @@ export function About() {
   className="
         group
         relative
-        min-h-[245px]
+       min-h-[220px]
         overflow-hidden
         rounded-[22px]
         border
@@ -378,7 +379,7 @@ export function About() {
         hover:border-[#B12025]/25
         hover:shadow-[0_24px_70px_rgba(177,32,37,0.10)]
 
-        lg:min-h-[260px]
+      lg:min-h-[240px]
         lg:p-8
       "
     >
